@@ -5,7 +5,7 @@ public class HelloWorld {
 		// TODO Auto-generated method stub
 		System.out.println("Hello world!");
 		System.out.println("I am student of FFSE1702!");
-		System.out.println("I am very happy to join Sementer II");
+		System.out.println("This is my first Java application with Eclipse IDE & Github");
 	}
 
 }
