@@ -1,1 +1,2 @@
-# FFSE1702A.JavaCore 01_Assignments
+# Readme - Root Folder
+# KHÔNG SỬA FILE NÀY CỦA THẦY NHA!!!
