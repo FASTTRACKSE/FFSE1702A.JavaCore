@@ -1,10 +1,12 @@
-package tung.com;
+package tung;
+
 import java.util.Scanner;
-public class Tung {
-	 public static void main(String[] args) {
+
+public class Bangcuuchuong {
+	public static void main(String[] args) {
 		 Scanner myInput=new Scanner(System.in);
-	       System.out.println("Bạn chưa thuộc Bảng cửu chương nào");
-	        System.out.println("nhập vào 1 số:");
+	       System.out.print("Bạn chưa thuộc Bảng cửu chương nào");
+	        System.out.print(" nhập vào 1 số:");
 	        int i=myInput.nextInt();
 	       int num=1;
 	        while(num<=10) {
@@ -18,6 +20,3 @@ public class Tung {
 	    }
 	 }
 }
-
-	 
-
