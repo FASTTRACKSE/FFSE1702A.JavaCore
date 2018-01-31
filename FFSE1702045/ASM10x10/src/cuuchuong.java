@@ -1,0 +1,14 @@
+import java.util.Scanner;
+public class cuuchuong {
+	
+	public static void main(String[] args) {
+		 Scanner bien = new Scanner(System.in);
+		 System.out.println("Nhap vao 1 so : ");
+		 
+	       int i = bien.nextInt();
+	            for ( int j = 1; j<= 10 ; j ++) {
+	                System.out.println(i  + " x " + j + " = " + i * j + "\t");
+	            }
+     
+	}
+}
