@@ -2,10 +2,10 @@
 public class MyCalc {
 
 	public static void main(String[] args) {
-		int a = 2;
+		double a = 2.334;
 		int b = 3;
-		int c = a + b;
-		System.out.printf("Tổng %d + %d = %d\n", a, b, c);
+		double c = a + b;
+		System.out.printf("Tổng %.2f + %d = %.2f\n", a, b, c);
 	}
 
 }
