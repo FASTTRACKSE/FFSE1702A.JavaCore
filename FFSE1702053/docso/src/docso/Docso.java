@@ -6,7 +6,7 @@ public class Docso {
 	public static void main(String[] args) {
 		 int a,b,n;
 		 Scanner myInput = new Scanner(System.in);
-		 System.out.print("nhập 1 số : ");	
+		 System.out.print("nhập 2 số : ");	
 		 n = myInput.nextInt();
 	     a = Math.round(n/10);
             switch(a){
@@ -23,7 +23,7 @@ public class Docso {
   
   b = n-(a*10);
              switch(b){
-                                        case 1:if(a==1) { System.out.print(" một"); break;}else {System.out.print(" mốt"); break;}
+                                        case 1:if(a<=1) { System.out.print(" một"); break;}else {System.out.print(" mốt"); break;}
                                         case 2: System.out.print(" hai");break;
                                         case 3: System.out.print(" ba ");break;
                                         case 4: System.out.print (" bốn");break;
