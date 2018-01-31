@@ -5,12 +5,8 @@ import java.util.Scanner;
 public class Bachin {
     public static void main(String args[]) {
          Scanner myinput = new Scanner(System.in);
-         System.out.println("Nhập Y để tiếp tục");
-         String a = myinput.nextLine();
-
-         for(int b =0; b<a.length(); b++) {
-             while(a.charAt(b) == 'Y') {
-
+                  String text = "Yes";
+                  while(text == "Yes") {
                  System.out.println("\n"+"Nhap vao 1 so");
                  int i=myinput.nextInt();
                  int hn   = (i/1000)%10; 
@@ -34,10 +30,20 @@ public class Bachin {
                  if(hdv !=0) {
                      System.out.print(hdv1[hdv-1]);
                   }
-       
-             }
-         }
-         }
+                 System.out.println("\n"+"Bạn có muốn tiếp tục không?");
+                 Scanner myinput1 = new Scanner(System.in);
+                text = myinput1.nextLine();
+                 for(int b=0; b<text.length();b++) {
+                     if(text.charAt(b) == 'N') {
+                         text = "No";
+                         System.out.println("\n"+"Xin cám ơn!!");
+                     }
+                     if(text.charAt(b) == 'Y') {
+                         text = "Yes";
+                     }
+                 }
+                  }
+          }
       
          } 
 
