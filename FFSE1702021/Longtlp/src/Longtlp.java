@@ -8,8 +8,8 @@ public static void main(String[] args) {
     int i=1;
        while(i<=10) {
     	for(int x=1;x<=so1;x++) {
-    	System.out.printf(x+"*%d=%d",i,(x*i));
-    	System.out.print("    ");
+    	System.out.printf(" %10d*%2d=%2d",x,i,(x*i));
+    	
     	 };
     	i++;
     	System.out.println();
