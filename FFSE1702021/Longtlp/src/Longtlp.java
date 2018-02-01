@@ -30,7 +30,7 @@ public static void main(String[] args) {
      case 8:System.out.print("Tam nghìn ");break;
      case 9:System.out.print("Chin nghìn ");break;
  }
-    switch(tr) {
+       switch(tr) {
     case 0: if ( ng != 0) {System.out.print(" khong trăm ");}break;
      case 1:System.out.print("Một trăm ");break;
      case 2:System.out.print("Hai trăm ");break;
