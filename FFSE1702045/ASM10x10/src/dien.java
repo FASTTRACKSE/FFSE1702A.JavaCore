@@ -4,40 +4,41 @@ public class dien {
 		System.out.println("Nhap 1 so");
 		Scanner s = new Scanner(System.in);
 		int n = s.nextInt();
-		int tt=0;
-		String[]  mucgia = new String[10] ;
-		mucgia[1] ="50			2,615	130750";
-		mucgia[2] ="50			2,340	117000";
-		mucgia[3] ="50			1,858	 92900";
-		mucgia[4] ="50			1,600	 80000";
-		mucgia[5] ="50			1,549	 77460";
 		System.out.println(n);
-		if(n-400>0)
-			{ 
-			tt=5;
-		     for ( int j = 1; j<= tt ; j ++) {
-			System.out.print(n-400 + "" + (n-400)*2701);
-			System.out.println("		");
-			System.out.println(mucgia[j]);
-		     }
-			}
-			if(n-400<0)
-				{ 
-				tt=4;
-				System.out.print(n-300 + "			" + (n-300)*2615);
-				}
-				if(n-300<0)
-					{ tt=4;
-					}
-					if(n-200<0)
-						{ tt=3;
-						}
-						if(n-100<0)
-							{ tt=2;
-							}
-							if(n-50<0)
-								{ tt=1;
-								}
-							}	
-						}
+		if(n<50) {
+			System.out.println(n+"			1,549	 77460");
+		}
+		else if(n>50) {
+			System.out.println("50			1,549	 77460");	
+		}
+		if(n>50 && n<100) {
+			System.out.println(n-50+"			1,600	"+(n-50)*1600);	
+		}
+		else if(n>100) {
+			System.out.println("50			1,600	 80000");	
+		}
+
+		if(n>100 && n<200) {
+			System.out.println(n-100+"			1,858	"+(n-100)*1858);	
+		}
+		else if(n>200) {
+			System.out.println("50			1,858	  92900");	
+		}
+		if(n>200 && n<300) {
+			System.out.println(n-200+"			2,340	"+(n-200)*2340);	
+		}
+		else if(n>300) {
+			System.out.println("50			2,340	  92900");	
+		}
+		if(n>300 && n<400) {
+			System.out.println(n-300+"			2,615	"+(n-300)*2615);	
+		}
+		else if(n>300) {
+			System.out.println("50			2,615	  130750");	
+		}
+		if(n>400) {
+			System.out.println(n-400+"			2,701	"+(n-400)*2701);	
+		}
+	}
+	}
 
