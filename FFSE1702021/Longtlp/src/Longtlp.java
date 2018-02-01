@@ -12,7 +12,6 @@ public static void main(String[] args) {
     int ch=((n%1000)%100)/10;
     int dv= n%10;
    
-	
     if ( n < 1 || n > 9999)
     {
     	System.out.print("Vui lòng nhập số từ 1 đến 9999:\n ");
