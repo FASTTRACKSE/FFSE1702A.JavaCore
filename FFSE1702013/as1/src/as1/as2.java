@@ -83,10 +83,7 @@ public class as2 {
     }
 
     public static void main(String[] args) {
-        // BT số 1
-        // menu();
-
-        // BT số 2
+        
         bt2();
     }
 }
