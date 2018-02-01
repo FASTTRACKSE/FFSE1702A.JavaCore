@@ -1,0 +1,1 @@
+INDEX VERSION 1.130+C:\Users\tranhiep\Documents\GitHub\FFSE1702A.JavaCore\FFSE1701003\.metadata\.plugins\org.eclipse.jdt.core
