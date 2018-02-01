@@ -1,2 +1,1 @@
-# Readme - Root Folder
-# KHÔNG SỬA FILE NÀY CỦA THẦY NHA!!!
+# Bài tập thực hành và assignment môn Java của FFSE1702A
