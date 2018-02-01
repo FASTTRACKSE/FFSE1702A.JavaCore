@@ -4,13 +4,13 @@ public class Maytinhcanhan {
 	public static void main(String[] args)
 	{
 	for(int i=1; i>=i++; i++) {
+		System.out.println("");
 		System.out.println(">> MÁY TÍNH CÁ NHÂN <<");
 		System.out.println("+--------------------+");
 		System.out.println("+|    1. Cộng       |+");
 		System.out.println("+|    2. Trừ        |+");
 		System.out.println("+|    3. Kết thúc   |+");
 		System.out.println("+--------------------+");
-		System.out.println("");
 		System.out.println("+>> Chọn chức năng <<+");
 	
 	Scanner myInput = new Scanner(System.in);
