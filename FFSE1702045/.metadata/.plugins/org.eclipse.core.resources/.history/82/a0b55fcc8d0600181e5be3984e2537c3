@@ -1,0 +1,30 @@
+import java.util.Scanner;
+import java.util.Arrays;
+public class nhapsoco2chuaso {
+public static void main(String[] args) {
+String[] aryString = new String(null, 5, 0) ;
+aryString[0] = "this";
+aryString[1] = "this";
+aryString[2] = "this";
+aryString[3] = "this";
+aryString[4] = "this";
+
+Scanner bien = new Scanner(System.in);
+System.out.println("Nhap vao 1 so : ");
+int n = bien.nextInt();
+int x = n/10;
+int y = n-x*10;
+System.out.println(x + y);
+
+char[] kyTu = new char[] {'a', 'b', 'c', 'd', 'e'};
+
+}
+}
+public class nhapso {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+
+	}
+
+}

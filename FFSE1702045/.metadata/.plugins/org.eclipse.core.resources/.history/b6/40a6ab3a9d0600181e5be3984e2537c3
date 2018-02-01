@@ -1,0 +1,30 @@
+import java.util.Scanner;
+public class cuuchuong {
+	
+	public static void main(String[] args) {
+		String ln = "return";
+		while (ln == "return") {
+		 Scanner bien = new Scanner(System.in);
+		 System.out.println("Nhập vào 1 số : ");
+	       int n = bien.nextInt();
+	       
+	       for ( int j = 2; j<= 9 ; j ++) {
+	            for ( int i = 1; i<= n ; i ++) {
+	                System.out.print(i  + " x " + j + " = " + i * j + "\t");
+	            }
+	            System.out.println("			"); 
+	  
+	       }
+	       Scanner lenh = new Scanner(System.in);
+			System.out.println("		");
+			System.out.println("Nhấn phím bất kì để lặp lại nhấn phím S để dừng chương trình  ");
+			ln = lenh.nextLine();
+			if (ln.equalsIgnoreCase("S") || ln.equalsIgnoreCase("Stop")) {
+				ln = "Stop";
+			} else {
+				ln = "return";
+			}
+	}
+		
+	}
+}
