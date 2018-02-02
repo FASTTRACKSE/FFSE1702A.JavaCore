@@ -14,6 +14,7 @@ public class Bangcuuchuong {
 	           System.out.print("		");
 	       	}
 	           System.out.println();
+	           
 	   	        }
 	        System.out.print("Bạn không muốn típ tục thì nhấn N ");
 			String check = myInput.nextLine();

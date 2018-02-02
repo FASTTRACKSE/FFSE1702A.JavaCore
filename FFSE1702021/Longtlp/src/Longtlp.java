@@ -1,7 +1,7 @@
 import java.util.Scanner;
 public class Longtlp {
 public static void main(String[] args) {
-	String kt = "yes";
+	String kt = "yes";  
 	
 	while( kt == "yes") {
 	Scanner myInput = new Scanner(System.in);

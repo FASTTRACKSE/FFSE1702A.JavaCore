@@ -17,7 +17,7 @@ public class phuongtrinhbac2 {
 		Scanner Soc=new Scanner(System.in);
 		int c = Soc.nextInt();
 		int denta = b*b - 4*a*c;
-		if( a==0) {
+		if( a==0) { 
 			System.out.print("Sai đề: a khác 0\n");
 			kt = "yes";
 			
