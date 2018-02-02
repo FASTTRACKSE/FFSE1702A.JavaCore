@@ -1,7 +1,7 @@
 import java.util.Scanner;
 public class Longtlp {
 public static void main(String[] args) {
-	String kt = "yes";
+	String kt = "yes";  
 	
 	while( kt == "yes") {
 	Scanner myInput = new Scanner(System.in);
@@ -56,9 +56,11 @@ public static void main(String[] args) {
               switch(dv) {
 
             case 1:
-            	if (ch == 1||ch==0) {
+            	if (ch == 1) {
 				 System.out.println("một ");break;
-			    } else {
+			    }
+            	else if(ch == 0) {System.out.println(" lẽ một ");break;}
+            	else {
 				System.out.println("mốt ");break;
 			    }
             case 2:System.out.print("hai \n ");break;
@@ -70,9 +72,17 @@ public static void main(String[] args) {
             case 8:System.out.print("tám \n ");break;
             case 9:System.out.print("chín\n");break;
         }
+              Scanner myInput2 = new Scanner(System.in);
+				System.out.println("Bạn có muốn tiếp tục không  ");
+				kt = myInput2.nextLine();
+				if (kt.equalsIgnoreCase("N") || kt.equalsIgnoreCase("No")) {
+					break;
+				} else {
+					kt = "yes";
+				}
               
 				
-    }      
-    }           
- }
+      }      
+     }           
+   }
 }
