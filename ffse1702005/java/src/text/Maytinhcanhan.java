@@ -23,6 +23,7 @@ public class Maytinhcanhan {
 		System.out.print("Nhập b =");
 		int b = myInput.nextInt();
 		c = a + b;
+		System.out.println("");
 		System.out.println(">> Kết quả phép cộng: " + a + " + " + b + " = " + c + " <<");
 	}
 	
@@ -33,6 +34,7 @@ public class Maytinhcanhan {
 		System.out.print("Nhập b =");
 		int b = myInput.nextInt();
 		c = a - b;
+		System.out.println("");
 		System.out.println(">> Kết quả phép trừ: " + a + " - " + b + " = " + c + " <<");
 	}
 	
@@ -45,8 +47,7 @@ public class Maytinhcanhan {
 	}
 	}
 	catch (Exception e) {
-        System.out.println("+>> Error! Vui lòng nhập lại <<+");
-    }
+        System.out.println("+>> Error! Vui lòng nhập lại <<+");}
 	}
 	}
 }
