@@ -49,6 +49,9 @@ public class phuongtrinh {
 	if(st==0) { 
 	stt=0;
 	}
+	else {
+		continue;
+	}		
 	}
 	   
 	        catch(ArithmeticException e){
