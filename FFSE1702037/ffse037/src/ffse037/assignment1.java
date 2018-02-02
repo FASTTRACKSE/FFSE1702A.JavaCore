@@ -3,7 +3,7 @@ import java.util.Scanner;
 public class assignment1 {
 	public static void main(String[] args) {
 		Scanner myInput = new Scanner(System.in);
-		for(int k=1; k<1000; k++) {
+		for(;;) {
 		System.out.print("nhập vào 1 số : ");
 		int so1 = myInput.nextInt();
 		
@@ -15,10 +15,12 @@ public class assignment1 {
 			  System.out.println();	 
 			 
 	      }
-		  System.out.println("bạn có muốn chạy lại chương trình không");
+		  System.out.println("nhập N để dừng chương trình");
+		  System.out.println("nhập phím bất kỳ để tiếp tục chương trình");
 		  Scanner myInput1 = new Scanner(System.in);
 		  String nhapchu = myInput1.nextLine();
 		  String chu = "N";
+		  
 		  if(nhapchu.equals(chu)) {
 			 break;
 			  }
