@@ -1,8 +1,8 @@
-package Hello_World;
+package assigment020118;
 
 import java.util.Scanner;
 
-public class bangcuuchuong {
+public class Bangcuuchuong {
 	public static void main(String[] args) {
 		Scanner scanner = new Scanner(System.in);
 		System.out.println("Hay nhap so: ");
