@@ -35,6 +35,12 @@ public class nhapsoco2chuaso {
 						if(z==1 && k==0) {
 							System.out.println("mười" );	 
 						}
+						else if(z>1 && k==5) {
+							System.out.println( docso[z]+" "+"mươi lăm" );
+						}
+						else if(z==1 && k==5) {
+							System.out.println(docso[z]+" "+"mười lăm" );
+						}
 						else if(z>1 && k==1) {
 							System.out.println( docso[z] +" "+"mươi mốt" );	
 						}
@@ -56,7 +62,12 @@ public class nhapsoco2chuaso {
 							if(z==0 && k==0) {
 								System.out.println( docso[y] +" "+"trăm");
 							}
-
+							else if(z>1 && k==5) {
+								System.out.println( docso[y] +" "+"trăm" + " " + docso[z]+" "+"mươi lăm" );
+							}
+							else if(z==1 && k==5) {
+								System.out.println( docso[y] +" "+"trăm" + " " + docso[z]+" "+"mười lăm" );
+							}
 							else if(z==1 && k==0) {
 								System.out.println( docso[y] +" "+"trăm mười");
 							}
@@ -85,6 +96,12 @@ public class nhapsoco2chuaso {
 						else {
 							if(y==0 && z==0 && k==0) {
 								System.out.println( docso[x] +" "+"nghìn");
+							}
+							else if(z>1 && k==5) {
+								System.out.println( docso[x] +" "+"nghìn" + " " + docso[y] +" "+"trăm" + " " + docso[z]+" "+"mươi lăm" );
+							}
+							else if(z==1 && k==5) {
+								System.out.println( docso[x] +" "+"nghìn" + " " + docso[y] +" "+"trăm" + " " + docso[z]+" "+"mười lăm" );
 							}
 							else if(z==1 && k==0) {
 								System.out.println( docso[x] +" "+"nghìn" + " " +docso[y] +" "+"trăm mười");
@@ -131,4 +148,4 @@ public class nhapsoco2chuaso {
 			}
 		}
 	}
-}
+}	

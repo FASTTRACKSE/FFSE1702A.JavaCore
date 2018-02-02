@@ -3,6 +3,8 @@ import java.util.Scanner;
 public class Bang_cuu_chuong {
     public static void main(String args[ ]) {
         Scanner myinput = new Scanner(System.in);
+        String text = "Yes";
+        while(text == "Yes") {
          System.out.println(" Nhap vao 1 so");
          int i=myinput.nextInt();
          int num=1;
@@ -17,5 +19,18 @@ public class Bang_cuu_chuong {
          num++;
          System.out.println();
          }
+         System.out.println("\n" + "Bạn có muốn tiếp tục không?");
+         Scanner myinput1 = new Scanner(System.in);
+         text = myinput1.nextLine();
+         for(int b=0; b<text.length(); b++) {
+             if(text.charAt(b) == 'Y') {
+                 text = "Yes";
+             }
+             if(text.charAt(b) == 'N') {
+                 text = "No";
+                 System.out.println("Xin cám ơn!!");
+             }
+         }
+    }
     }
 }

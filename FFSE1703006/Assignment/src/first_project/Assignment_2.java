@@ -24,6 +24,9 @@ public class Assignment_2 {
 					result = read[num_read];
 				}
 				if (i == 2) {
+					if (result == "nam") {
+						result = "lam";
+					}
 					if (result == "khong" && num_read == 1) {
 						result = "muoi";
 					} else if (result == "khong" && num_read == 0) {
