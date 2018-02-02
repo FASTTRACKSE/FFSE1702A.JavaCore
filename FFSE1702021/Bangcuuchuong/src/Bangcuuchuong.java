@@ -1,21 +1,29 @@
-
-
 import java.util.Scanner;
+
 public class Bangcuuchuong {
 	public static void main(String[] args) {
-		Scanner myInput = new Scanner(System.in);
-		
-		System.out.print("nhập vào 1 số : ");
-		int so1 = myInput.nextInt();
-		
-		  for (int i = 1; i < 11; i++ ) {
-			  for (int j = 1; j <= so1; j++ ) {
-				  int kq=j * i;
-				  System.out.printf("%5d x %2d = %2d",j, i,kq );  
-		      }
-			  System.out.println();	 
-			 
-	      }
-		 
-		}
-	}
+		 Scanner myInput=new Scanner(System.in);
+		 do {
+	       System.out.print("Bạn chưa thuộc Bảng cửu chương nào");
+	        System.out.print(" nhập vào 1 số:");
+	        int i=myInput.nextInt();
+	        myInput.nextLine();
+	        for(int num=1;num<=10;num++) {
+	           for(int j=1;j<=i;j++) {
+	           System.out.print(j + " x " + num + " = " + (num*j));
+	           System.out.print("		");
+	       	}
+	           System.out.println();
+	   	        }
+	        System.out.print("Bạn không muốn típ tục thì nhấn N ");
+			String check = myInput.nextLine();
+
+			if ("N".equals(check)) {
+				System.out.println("Bye Bye!");
+				break;
+			}
+			System.out.println("");
+	} while (true);
+
+		 }
+}
