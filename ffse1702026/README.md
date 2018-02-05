@@ -4,3 +4,4 @@ Assignment 2:https://github.com/FASTTRACKSE/FFSE1702A.JavaCore/blob/master/ffse1
 Assignment 3:https://github.com/FASTTRACKSE/FFSE1702A.JavaCore/blob/master/ffse1702026/assignment3/src/assignment3/Phuongtrinhbac2.java
 Assignment 4:https://github.com/FASTTRACKSE/FFSE1702A.JavaCore/blob/master/ffse1702026/assignment4/src/assignment4/Nhapmangsonguyen.java
 Assignment 5:https://github.com/FASTTRACKSE/FFSE1702A.JavaCore/blob/master/ffse1702026/assigment5/src/assigment5/TinhTienDien.java
+Assignment 6:https://github.com/FASTTRACKSE/FFSE1702A.JavaCore/blob/master/ffse1702026/assignment6/src/assignment6/assigment6.java
