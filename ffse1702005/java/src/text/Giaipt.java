@@ -15,12 +15,13 @@ public class Giaipt {
      * @param args
      */
     public static void main(String[] args) {
+    	System.out.println("Nhập PT: ax2 + bx + c");
         System.out.print("Nhập hệ số bậc 2, a = ");
         float a = Giaipt.scanner.nextFloat();
         System.out.print("Nhập hệ số bậc 1, b = ");
         float b = Giaipt.scanner.nextFloat();
         System.out.print("Nhập hằng số tự do, c = ");
-        float c = scanner.nextFloat();
+        float c = Giaipt.scanner.nextFloat();
         Giaipt.giaiPTBac2(a, b, c);
     }
      
