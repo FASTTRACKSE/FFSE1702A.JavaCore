@@ -18,9 +18,9 @@ public class Sapxepso {
 			// khởi tạo arr
 			int[] arr = new int[n];
 			System.out.print("Nhập các phần tử của mảng: \n");
-			for (int j = 0; j < n; j++) {
-				System.out.printf("a[%d] = ", j);
-				arr[j] = scanner.nextInt();
+			for (int i = 0; i < n; i++) {
+				System.out.printf("a[%d] = ", i);
+				arr[i] = scanner.nextInt();
 			}
 
 			for (;;) {
