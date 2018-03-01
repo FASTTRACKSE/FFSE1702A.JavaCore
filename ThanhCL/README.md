@@ -44,18 +44,12 @@ if (isAwesome){
 > - Captain Janeway
 
 4. Image (My avatar)
-![THANHCL](https://scontent.fdad1-1.fna.fbcdn.net/v/t1.0-9/545626_10150944706480330_1642635704_n.jpg?oh=161f7bb31b74d3fece961edd9da8cdb6&oe=5B159F59)
 
-![Image of Yaktocat](https://octodex.github.com/images/yaktocat.png)
+![THANHCL](https://scontent.fdad1-1.fna.fbcdn.net/v/t1.0-9/545626_10150944706480330_1642635704_n.jpg?oh=161f7bb31b74d3fece961edd9da8cdb6&oe=5B159F59)
 
 5. Table
 
-ID | ACCOUNT | YOB
--- | ------- | ---
+ID | Profs. | YOB
+-- | ------ | ---
 001 | ThanhCL | 1977
 002 | ThoNH | 1978
-
-First Header | Second Header
------------- | -------------
-Content from cell 1 | Content from cell 2
-Content in the first column | Content in the second column
