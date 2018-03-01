@@ -28,15 +28,17 @@ _You **can** combine them_
 
 ### Others ###
 1. Link
+
 [Markdown Guidline](https://guides.github.com/features/mastering-markdown/#examples)
 
-1. Code
+2. Code
+
 ```java
 if (isAwesome){
   return true;
 }
 ```
 
-1. Quote
+3. Quote
 > Coffee. The finest organic suspension ever devised... I beat the Borg with it.
 > - Captain Janeway
