@@ -2,15 +2,15 @@
 
 ## Format ##
 ### Italic ###
-* This text will be italic *
-_ This will also be italic _
+* This text will be italic
+_ This will also be italic
 
 ### Bold ###
-** This text will be bold **
-__ This will also be bold __
+** This text will be bold
+__ This will also be bold
 
 ### Combination ###
-_ You ** can ** combine them _
+_ You ** can ** combine them
 
 ## Lists ##
 ### UnOrdered ###
