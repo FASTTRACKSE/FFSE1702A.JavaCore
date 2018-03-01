@@ -1,25 +1,25 @@
-#README file của THANHCL#
+# README file của THANHCL #
 
-##Format##
-###Italic###
-*This text will be italic*
-_This will also be italic_
+## Format ##
+### Italic ###
+* This text will be italic *
+_ This will also be italic _
 
-###Bold###
-**This text will be bold**
-__This will also be bold__
+### Bold ###
+** This text will be bold **
+__ This will also be bold __
 
-###Combination###
-_You **can** combine them_
+### Combination ###
+_ You ** can ** combine them _
 
-##Lists##
-###UnOrdered###
+## Lists ##
+### UnOrdered ###
 * Item 1
 * Item 2
   * Item 2.1
   * Item 2.2
 
-###Ordered###
+### Ordered ###
 1. Item 1
 1. Item 2
 1. Item 3
