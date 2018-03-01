@@ -44,11 +44,12 @@ if (isAwesome){
 > - Captain Janeway
 
 4. Image (My avatar)
+
 ![THANHCL]
 (http://www.fasttrack.edu.vn/wp-content/uploads/2017/08/cao-le-thanh-fpt-01-200x200.jpg)
 
 5. Table
-Col 1| Col 2 | Col 3
------|----------|------
-001|ThanhCL|1977
-002|ThoNH|1978
+Col 1 | Col 2 | Col 3
+------|-------|-------
+001 | ThanhCL | 1977
+002 | ThoNH | 1978
