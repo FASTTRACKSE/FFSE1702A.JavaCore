@@ -192,9 +192,19 @@ public class sinhvien1 {
 				}
 
 				else if (answer == 4) {
-					
+					for (int i = 0; i < index; i++) {
+						for (int j = i + 1; j < index; j++) {
+							int a = dsSV[i].getName().compareTo(dsSV[j].getName());
+							if (a>0) {
+							sinhvien1 bien = dsSV[i];
+								dsSV[i] = dsSV[j];
+								dsSV[j] = bien;
+								
+							}
+						}
+					}
 				}
-				
+
 				else if (answer == 5) {
 					for (int i = 0; i < index; i++) {
 						dsSV[i].display();
