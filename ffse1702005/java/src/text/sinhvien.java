@@ -149,7 +149,7 @@ public class sinhvien {
 
 			}
 		if(n == 5) {
-			for(int i = 0; i < m; i++) {
+			for(int i = 0; i < dsSV.length; i++) {
 			dsSV[i].display();
 		}
 		}
