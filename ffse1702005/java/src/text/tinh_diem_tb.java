@@ -14,23 +14,23 @@ public class tinh_diem_tb {
 		String[] arr2 = new String[n];
 		for (int i = 0; i < n; i++) {
 			scanner.nextLine();
-			System.out.println("Nhập họ tên của học sinh thứ " + (i + 1));
+			System.out.print("Nhập họ tên của học sinh thứ " + (i + 1) + ": ");
 			String name = scanner.nextLine();
 			arr2[i] = name;
 
-			System.out.println("Nhập ngày sinh của học sinh thứ " + (i + 1));
+			System.out.print("Nhập ngày sinh của học sinh thứ " + (i + 1) + ": ");
 			int date = scanner.nextInt();
 
-			System.out.println("Nhập tháng sinh của học sinh thứ " + (i + 1));
+			System.out.print("Nhập tháng sinh của học sinh thứ " + (i + 1) + ": ");
 			int month = scanner.nextInt();
 
-			System.out.println("Nhập năm sinh của học sinh thứ " + (i + 1));
+			System.out.print("Nhập năm sinh của học sinh thứ " + (i + 1) + ": ");
 			int year = scanner.nextInt();
 
-			System.out.println("Nhập điểm 1 của học sinh thứ " + (i + 1));
+			System.out.print("Nhập điểm 1 của học sinh thứ " + (i + 1) + ": ");
 			Double point1 = scanner.nextDouble();
 
-			System.out.println("Nhập điểm 2 của học sinh thứ " + (i + 1));
+			System.out.print("Nhập điểm 2 của học sinh thứ " + (i + 1) + ": ");
 			Double point2 = scanner.nextDouble();
 
 			System.out.println("STT: " + (i + 1));
@@ -70,7 +70,11 @@ public class tinh_diem_tb {
 
 				if (answer == 1) {
 					// sắp xếp dãy số theo thứ tự tăng dần
+					System.out.println("Nhập sinh viên");
+					String name = myInput.nextLine();
 
+					System.out.println("Nhập mã sinh viên");
+					int id = myInput.nextInt();
 				}
 
 				else if (answer == 2) {
