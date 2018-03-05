@@ -7,3 +7,4 @@
 - [Assignment 6: Quản lý sinh viên](https://github.com/FASTTRACKSE/FFSE1702A.JavaCore/blob/master/FFSE1703006/Assignment/src/first_project/Assignment_6.java)
 - [Assignment 7: Quản lý sinh viên (OOP part 1)](https://github.com/FASTTRACKSE/FFSE1702A.JavaCore/tree/master/FFSE1703006/Assignment/src/assignment_7)
 - [Assignment 8: Quản lý tiền điện (OOP part 2)](https://github.com/FASTTRACKSE/FFSE1702A.JavaCore/tree/master/FFSE1703006/Assignment/src/assignment_8)
+- [Assignment 9: Quản lý cán bộ (Assignment 5)](https://github.com/FASTTRACKSE/FFSE1702A.JavaCore/tree/master/FFSE1703006/Assignment/src/assignment_9)
