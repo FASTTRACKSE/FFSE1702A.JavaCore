@@ -70,7 +70,11 @@ public class tinh_diem_tb {
 
 				if (answer == 1) {
 					// sắp xếp dãy số theo thứ tự tăng dần
+					System.out.println("Nhập sinh viên");
+					String name = myInput.nextLine();
 
+					System.out.println("Nhập mã sinh viên");
+					int id = myInput.nextInt();
 				}
 
 				else if (answer == 2) {
