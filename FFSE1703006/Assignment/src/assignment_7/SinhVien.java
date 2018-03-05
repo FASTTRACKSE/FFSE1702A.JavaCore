@@ -87,7 +87,7 @@ public class SinhVien {
 		System.out.print("Nhập địa chỉ sinh viên\t: ");
 		address = scanner.nextLine();
 		System.out.print("Nhập điểm trung bình\t: ");
-		gpa = scanner.nextDouble();
+		gpa = Double.parseDouble(scanner.nextLine());
 		System.out.println("--------------------------------------------");
 	}
 
