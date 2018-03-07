@@ -1,9 +1,6 @@
 package assignment_9;
 
-import java.util.Scanner;
-
 public class Main {
-	private static Scanner scanner;
 
 	public static void showMenu() {
 		System.out.print("+--------------------------------------------------------------------+\n");
@@ -18,14 +15,12 @@ public class Main {
 	}
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		scanner = new Scanner(System.in);
 		Menu menu = new Menu();
 		menu.giaTriMacDinh();
 		showMenu();
 		do {
 			System.out.print("\nChọn chức năng (nhấn 5 để hiện lại menu): ");
-			int choose = scanner.nextInt();
+			int choose = CanBo.checkInt();
 			System.out.println("--------------------------------------------");
 			switch (choose) {
 			case 1:

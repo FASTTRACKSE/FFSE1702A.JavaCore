@@ -5,12 +5,21 @@ import java.util.Collections;
 import java.util.Scanner;
 
 public class Menu {
-	ArrayList<CanBo> arrCanBo = new ArrayList<>();
+	static ArrayList<CanBo> arrCanBo = new ArrayList<>();
 	private Scanner scanner;
 	CanBo canBo;
 
 	public Menu() {
 		super();
+	}
+
+	static boolean existHoTen(String n) {
+		for (CanBo cb : arrCanBo) {
+			if (cb.getHoTen().equals(n)) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	public void giaTriMacDinh() {
@@ -28,12 +37,12 @@ public class Menu {
 		int n, choose;
 		scanner = new Scanner(System.in);
 		System.out.print("Nhập số cán bộ: ");
-		n = Integer.parseInt(scanner.nextLine());
+		n = CanBo.checkInt();
 		for (int i = 0; i < n; i++) {
 			System.out.println("Nhập thông tin cán bộ thứ " + (i + 1));
 			do {
 				System.out.print("Chọn loại cán bộ (1 - Giảng viên, 2 - Nhân viên): ");
-				choose = Integer.parseInt(scanner.nextLine());
+				choose = CanBo.checkInt();
 				switch (choose) {
 				case 1:
 					canBo = new GiangVien();
@@ -46,7 +55,7 @@ public class Menu {
 					arrCanBo.add(canBo);
 					break;
 				default:
-					System.out.println("Chọn không đúng!");
+					System.out.println(" * Vui lòng nhập số từ 1-2!");
 					break;
 				}
 			} while (choose < 1 || choose > 2);

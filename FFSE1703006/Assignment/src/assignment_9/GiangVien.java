@@ -64,7 +64,7 @@ public class GiangVien extends CanBo {
 		this.setWhere(khoa);
 		do {
 			System.out.print("Chọn trình độ (1 - Cử nhân, 2 - Thạc sĩ, 3 - Tiến sĩ): ");
-			choose = Integer.parseInt(scanner.nextLine());
+			choose = checkInt();
 			switch (choose) {
 			case 1:
 				trinhDo = "Cử nhân";
@@ -79,12 +79,12 @@ public class GiangVien extends CanBo {
 				this.setPhuCap(1000);
 				break;
 			default:
-				System.out.println("Chọn không đúng!");
+				System.out.println(" * Vui lòng nhập số từ 1-3!");
 				break;
 			}
-		} while (choose < 1 || choose > 3);
+		} while (choose > 3);
 		System.out.print("Nhập số tiết dạy: ");
-		soTiet = Integer.parseInt(scanner.nextLine());
+		soTiet = checkInt();
 		this.setLuong(tinhLuong());
 	}
 
