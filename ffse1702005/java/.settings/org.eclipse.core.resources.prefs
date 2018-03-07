@@ -1,6 +1,12 @@
 eclipse.preferences.version=1
+encoding//src/text/BienLai.java=UTF-8
 encoding//src/text/Giaipt.java=UTF-8
+encoding//src/text/KhachHang.java=UTF-8
 encoding//src/text/Maytinhcanhan.java=UTF-8
+encoding//src/text/Sanpham.java=UTF-8
 encoding//src/text/Sapxepso.java=UTF-8
 encoding//src/text/readnumber.java=UTF-8
+encoding//src/text/sinhvien.java=UTF-8
+encoding//src/text/sinhvien1.java=UTF-8
 encoding//src/text/text.java=UTF-8
+encoding//src/text/tinh_diem_tb.java=UTF-8
