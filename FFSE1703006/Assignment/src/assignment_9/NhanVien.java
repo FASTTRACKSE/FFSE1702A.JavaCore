@@ -64,7 +64,7 @@ public class NhanVien extends CanBo {
 		this.setWhere(phongBan);
 		do {
 			System.out.print("Chọn chức vụ (1 - Trưởng phòng, 2 - Phó phòng, 3 - Nhân viên): ");
-			choose = Integer.parseInt(scanner.nextLine());
+			choose = checkInt();
 			switch (choose) {
 			case 1:
 				chucVu = "Trưởng phòng";
@@ -79,12 +79,12 @@ public class NhanVien extends CanBo {
 				this.setPhuCap(500);
 				break;
 			default:
-				System.out.println("Chọn không đúng!");
+				System.out.println(" * Vui lòng nhập số từ 1-3!");
 				break;
 			}
-		} while (choose < 1 || choose > 3);
+		} while (choose > 3);
 		System.out.print("Nhập số ngày công: ");
-		soNgayCong = Integer.parseInt(scanner.nextLine());
+		soNgayCong = checkInt();
 		this.setLuong(tinhLuong());
 	}
 

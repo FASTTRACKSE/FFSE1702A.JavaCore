@@ -63,9 +63,51 @@ public class CanBo {
 	public void nhap() {
 		scanner = new Scanner(System.in);
 		System.out.print("Nhập họ tên: ");
-		hoTen = scanner.nextLine();
+		hoTen = checkHoTen();
 		System.out.print("Nhập hệ số lương: ");
-		heSoLuong = Double.parseDouble(scanner.nextLine());
+		heSoLuong = checkDouble();
+	}
+
+	String checkHoTen() {
+		do {
+			hoTen = scanner.nextLine();
+			if (hoTen.length() == 0 || hoTen.length() > 40)
+				System.out.print(
+						" * Họ tên không hợp lệ! (Họ tên không được rỗng và có độ dài không quá 40 ký tự) \n Nhập lại: ");
+			else if (Menu.existHoTen(hoTen))
+				System.out.print(" * Họ tên đã tồn tại! \n Nhập lại: ");
+			else
+				return hoTen;
+		} while (true);
+	}
+
+	double checkDouble() {
+		do {
+			try {
+				double n = Double.parseDouble(scanner.nextLine());
+				if (n > 0)
+					return n;
+				else
+					System.out.print(" * Vui lòng nhập số thực dương! \n Nhập lại: ");
+			} catch (Exception e) {
+				System.out.print(" * Vui lòng nhập định dạng số thực! \n Nhập lại: ");
+			}
+		} while (true);
+	}
+
+	static int checkInt() {
+		Scanner sc = new Scanner(System.in);
+		do {
+			try {
+				int n = Integer.parseInt(sc.nextLine());
+				if (n > 0)
+					return n;
+				else
+					System.out.print(" * Vui lòng nhập số nguyên dương! \n Nhập lại: ");
+			} catch (Exception e) {
+				System.out.print(" * Vui lòng nhập định dạng số nguyên! \n Nhập lại: ");
+			}
+		} while (true);
 	}
 
 	public void xuat() {
