@@ -33,8 +33,8 @@ public class Sanpham {
 
 	public void xuat() {
 		System.out.print("Tên sản phẩm là: " + this.tensp + "\n");
-		System.out.print("Thuế nhập khẩu: " + thue() + "%" + "\n");
-		System.out.print("Giảm giá: " + this.giamgia + "\n");
+		System.out.print("Thuế nhập khẩu: " + thue() + "đ" + "\n");
+		System.out.print("Giảm giá: " + this.giamgia + "%" + "\n");
 		System.out.print("Đơn giá: " + (this.dongia - (this.dongia/100 * this.giamgia) + thue()) + " đồng"+ "\n");
 		System.out.println("");
 	}
