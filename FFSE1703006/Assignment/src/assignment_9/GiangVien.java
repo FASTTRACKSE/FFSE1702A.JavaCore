@@ -8,17 +8,9 @@ public class GiangVien extends CanBo {
 		super();
 	}
 
-	public GiangVien(String khoa, String trinhDo, int soTiet) {
-		super();
-		this.khoa = khoa;
-		this.trinhDo = trinhDo;
-		this.soTiet = soTiet;
-	}
-
 	public GiangVien(String hoTen, String khoa, String trinhDo, int soTiet, double heSoLuong) {
 		super();
 		this.setHoTen(hoTen);
-		this.setWhere(khoa);
 		this.khoa = khoa;
 		this.trinhDo = trinhDo;
 		this.soTiet = soTiet;
@@ -61,10 +53,9 @@ public class GiangVien extends CanBo {
 		super.nhap();
 		System.out.print("Nhập khoa: ");
 		khoa = scanner.nextLine();
-		this.setWhere(khoa);
+		System.out.print("Chọn trình độ (1 - Cử nhân, 2 - Thạc sĩ, 3 - Tiến sĩ): ");
 		do {
-			System.out.print("Chọn trình độ (1 - Cử nhân, 2 - Thạc sĩ, 3 - Tiến sĩ): ");
-			choose = checkInt();
+			choose = Main.myFunction.loopCheckInt();
 			switch (choose) {
 			case 1:
 				trinhDo = "Cử nhân";
@@ -79,12 +70,12 @@ public class GiangVien extends CanBo {
 				this.setPhuCap(1000);
 				break;
 			default:
-				System.out.println(" * Vui lòng nhập số từ 1-3!");
+				System.err.print(" * Vui lòng nhập số từ 1-3!\n Nhập lại: ");
 				break;
 			}
 		} while (choose > 3);
 		System.out.print("Nhập số tiết dạy: ");
-		soTiet = checkInt();
+		soTiet = Main.myFunction.loopCheckInt();
 		this.setLuong(tinhLuong());
 	}
 

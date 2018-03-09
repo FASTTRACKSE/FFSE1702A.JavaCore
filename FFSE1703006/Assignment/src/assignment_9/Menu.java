@@ -13,15 +13,6 @@ public class Menu {
 		super();
 	}
 
-	static boolean existHoTen(String n) {
-		for (CanBo cb : arrCanBo) {
-			if (cb.getHoTen().equals(n)) {
-				return true;
-			}
-		}
-		return false;
-	}
-
 	public void giaTriMacDinh() {
 		arrCanBo.add(new NhanVien("Nguyễn Văn A", "Phòng Đào tạo", "Trưởng phòng", 5, 3.3));
 		arrCanBo.add(new NhanVien("Bành Thị B", "Phòng Đào tạo", "Phó phòng", 10, 2.2));
@@ -34,15 +25,15 @@ public class Menu {
 	}
 
 	public void themCanBo() {
-		int n, choose;
+		int soCanBo, choose;
 		scanner = new Scanner(System.in);
 		System.out.print("Nhập số cán bộ: ");
-		n = CanBo.checkInt();
-		for (int i = 0; i < n; i++) {
+		soCanBo = Main.myFunction.loopCheckInt();
+		for (int i = 0; i < soCanBo; i++) {
 			System.out.println("Nhập thông tin cán bộ thứ " + (i + 1));
+			System.out.print("Chọn loại cán bộ (1 - Giảng viên, 2 - Nhân viên): ");
 			do {
-				System.out.print("Chọn loại cán bộ (1 - Giảng viên, 2 - Nhân viên): ");
-				choose = CanBo.checkInt();
+				choose = Main.myFunction.loopCheckInt();
 				switch (choose) {
 				case 1:
 					canBo = new GiangVien();
@@ -55,12 +46,12 @@ public class Menu {
 					arrCanBo.add(canBo);
 					break;
 				default:
-					System.out.println(" * Vui lòng nhập số từ 1-2!");
+					System.err.print(" * Vui lòng nhập số từ 1-2!\n Nhập lại: ");
 					break;
 				}
-			} while (choose < 1 || choose > 2);
+			} while (choose > 2);
 		}
-		System.out.print("\nThêm thành công " + n + " cán bộ!\n");
+		System.out.print("\nThêm thành công " + soCanBo + " cán bộ!\n");
 	}
 
 	public void xuatCanBo() {
@@ -69,14 +60,29 @@ public class Menu {
 		System.out.print("Nhập tên khoa hoặc phòng ban: ");
 		String ten = scanner.nextLine();
 		for (CanBo cb : arrCanBo) {
-			if (cb.getWhere().equals(ten)) {
-				i += 1;
-				if (i == 1) {
-					System.out.println("\nDanh sách cán bộ");
-					System.out.println(
-							"+----------------------+----------------------------+-----------------------+------------------+------------------+---------------+-----------------+");
+			if (cb instanceof GiangVien) {
+				GiangVien gv = (GiangVien) cb;
+				if (gv.getKhoa().equals(ten)) {
+					i += 1;
+					if (i == 1) {
+						System.out.println("\nDanh sách giảng viên thuộc khoa " + ten);
+						System.out.println(
+								"+----------------------+----------------------------+-----------------------+------------------+------------------+---------------+-----------------+");
+					}
+					gv.xuat();
 				}
-				cb.xuat();
+			}
+			if (cb instanceof NhanVien) {
+				NhanVien nv = (NhanVien) cb;
+				if (nv.getPhongBan().equals(ten)) {
+					i += 1;
+					if (i == 1) {
+						System.out.println("\nDanh sách giảng viên thuộc " + ten);
+						System.out.println(
+								"+----------------------+----------------------------+-----------------------+------------------+------------------+---------------+-----------------+");
+					}
+					nv.xuat();
+				}
 			}
 		}
 		if (i == 0) {

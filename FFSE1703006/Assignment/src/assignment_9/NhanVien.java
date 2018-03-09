@@ -8,17 +8,9 @@ public class NhanVien extends CanBo {
 		super();
 	}
 
-	public NhanVien(String phongBan, String chucVu, int soNgayCong) {
-		super();
-		this.phongBan = phongBan;
-		this.chucVu = chucVu;
-		this.soNgayCong = soNgayCong;
-	}
-
 	public NhanVien(String hoTen, String phongBan, String chucVu, int soNgayCong, double heSoLuong) {
 		super();
 		this.setHoTen(hoTen);
-		this.setWhere(phongBan);
 		this.phongBan = phongBan;
 		this.chucVu = chucVu;
 		this.soNgayCong = soNgayCong;
@@ -61,10 +53,9 @@ public class NhanVien extends CanBo {
 		super.nhap();
 		System.out.print("Nhập phòng ban: ");
 		phongBan = scanner.nextLine();
-		this.setWhere(phongBan);
+		System.out.print("Chọn chức vụ (1 - Trưởng phòng, 2 - Phó phòng, 3 - Nhân viên): ");
 		do {
-			System.out.print("Chọn chức vụ (1 - Trưởng phòng, 2 - Phó phòng, 3 - Nhân viên): ");
-			choose = checkInt();
+			choose = Main.myFunction.loopCheckInt();
 			switch (choose) {
 			case 1:
 				chucVu = "Trưởng phòng";
@@ -79,12 +70,12 @@ public class NhanVien extends CanBo {
 				this.setPhuCap(500);
 				break;
 			default:
-				System.out.println(" * Vui lòng nhập số từ 1-3!");
+				System.err.print(" * Vui lòng nhập số từ 1-3!\n Nhập lại: ");
 				break;
 			}
 		} while (choose > 3);
 		System.out.print("Nhập số ngày công: ");
-		soNgayCong = checkInt();
+		soNgayCong = Main.myFunction.loopCheckInt();
 		this.setLuong(tinhLuong());
 	}
 
