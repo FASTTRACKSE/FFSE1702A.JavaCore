@@ -1,0 +1,22 @@
+package QuanLySinhVien;
+
+import java.util.ArrayList;
+
+public class QuanLySV {
+	public void dockingSV(ArrayList<SinhVien>arrSV) {
+		for(int i=0; i<arrSV.size()	;i++) {
+			for(int j=0; j<arrSV.size();j++) {
+				if(arrSV.get(i).getAvgSV()<arrSV.get(j).getAvgSV()) {
+					SinhVien sv = new SinhVien;
+					SinhVien sv= arrSV.get(i);
+				}
+			}
+		}
+	}
+
+public static void main(String[] args) {
+SinhVien sv = new SinhVien();
+sv.inputinfSV();
+sv.outputinfSV();
+}
+}
