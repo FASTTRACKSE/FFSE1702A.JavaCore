@@ -8,14 +8,31 @@ import java.util.Collections;
 import java.util.Comparator;
 public class Main {
     public static Scanner myinput = new Scanner(System.in);
-    ArrayList<Giangvien> gv = new ArrayList<>();
-    ArrayList<Nhanvien> nv = new ArrayList<>();
+    static ArrayList<Giangvien> gv = new ArrayList<>();
+    static ArrayList<Nhanvien> nv = new ArrayList<>();
     private Object phongban;
-    
+    Giangvien giangvien;
+    Nhanvien nhanvien;
     public Main() {
         super();
         // TODO Auto-generated constructor stub
     }
+    static boolean checkexistHoten(String n) {
+        for(Giangvien gv : gv ) {
+            if (gv.getHoten().equals(n)) {
+                return true;
+            }
+        }
+        
+        for( Nhanvien nv: nv) 
+        {
+            if(nv.getHoten().equals(n)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public void nhanviendefault() {
         //nhan vien:  hoten, phongban, songaycong, phucap, chucvu, hesoluong);
         nv.add(new Nhanvien("Nguyễn Văn A", "Phòng ql", 20 , 2000, "Trưởng phòng", 1.8, 3768));
