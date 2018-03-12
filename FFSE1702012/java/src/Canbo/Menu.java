@@ -7,6 +7,8 @@ public class Menu {
         System.out.print("|                   MENU                   ");
         System.out.printf("\n| %-40s ", "1. Thêm Giảng viên.");
         System.out.printf("\n| %-40s ", "2. Thêm nhân viên.");
+        
+        
         System.out.printf("\n| %-40s ", "3. Xuất danh sách giảng viên theo khoa");
         System.out.printf("\n| %-40s ", "4. Xuất danh sách nhân viên theo phòng ban");
         System.out.printf("\n| %-40s ", "5. Tổng lương các nhân viên.");
