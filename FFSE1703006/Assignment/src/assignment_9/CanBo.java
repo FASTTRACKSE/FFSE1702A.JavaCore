@@ -5,9 +5,6 @@ import java.util.Comparator;
 import java.util.Scanner;
 
 public class CanBo implements Serializable {
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	private String hoTen;
 	private int phuCap;

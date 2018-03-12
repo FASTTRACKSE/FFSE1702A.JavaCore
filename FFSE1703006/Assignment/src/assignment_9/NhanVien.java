@@ -3,9 +3,6 @@ package assignment_9;
 import java.util.Scanner;
 
 public class NhanVien extends CanBo {
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	private String phongBan, chucVu;
 	private int soNgayCong, choose;
