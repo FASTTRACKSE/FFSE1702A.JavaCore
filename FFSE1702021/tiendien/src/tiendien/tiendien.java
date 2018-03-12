@@ -17,22 +17,28 @@ public class tiendien {
 		int e = 100*2615;
 		
 		if(chudien <= 50) {
-			System.out.print("Tiền điện :"+ (chudien*1549));
+			double thue = (chudien*1549)/10;
+			System.out.print("Tiền điện :"+ ((chudien*1549)+ thue));
 		}
 		else if(chudien <= 100 ) {
-			System.out.print("Tiền điện :"+ (a + ((chudien-50)*1600)));
+			double thue = (a + ((chudien-50)*1600))/10;
+			System.out.print("Tiền điện :"+ ((a + ((chudien-50)*1600))+ thue ));
 		}
 		else if(chudien <= 200 ) {
-			System.out.print("Tiền điện :"+ (a + b + ((chudien-100)*1858)));
+			double thue = (a + b + ((chudien-100)*1858))/10;
+			System.out.print("Tiền điện :"+ ((a + b + ((chudien-100)*1858))+thue));
 		}
 		else if(chudien <= 300 ) {
-			System.out.print("Tiền điện :"+ (a + b + c + ((chudien-200)*2340)));
+			double thue = (a + b + c + ((chudien-200)*2340))/10;
+			System.out.print("Tiền điện :"+ ((a + b + c + ((chudien-200)*2340))+ thue));
 		}
 		else if(chudien <= 400 ) {
-			System.out.print("Tiền điện :"+ (a + b + c + d + ((chudien-300)*2615)));
+			double thue = (a + b + c + d + ((chudien-200)*2615))/10;
+			System.out.print("Tiền điện :"+ ((a + b + c + d + ((chudien-300)*2615))+ thue));
 		}
 		else if(chudien > 400) {
-			System.out.print("Tiền điện :"+ (a + b + c + d + e + (chudien*2701)));
+			double thue = (a + b + c + d + e + ((chudien-200)*2701))/10;
+			System.out.print("Tiền điện :"+ ((a + b + c + d + e + (chudien*2701))+ thue));
 		 }
 			} catch(Exception ex) {
 				System.out.print("\n vui lòng nhập số");
