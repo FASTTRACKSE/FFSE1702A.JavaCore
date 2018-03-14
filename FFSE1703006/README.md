@@ -9,4 +9,4 @@
 #### Assignment OOP
 - [Assignment 3: Quản lý sinh viên (OOP part 1)](https://github.com/FASTTRACKSE/FFSE1702A.JavaCore/tree/master/FFSE1703006/Assignment/src/assignment_7)
 - [Assignment 4: Quản lý tiền điện (OOP part 2)](https://github.com/FASTTRACKSE/FFSE1702A.JavaCore/tree/master/FFSE1703006/Assignment/src/assignment_8)
-- [Assignment 5 + 6: Quản lý cán bộ (Exception)](https://github.com/FASTTRACKSE/FFSE1702A.JavaCore/tree/master/FFSE1703006/Assignment/src/assignment_9)
+- [Assignment 5 + 6 + 7: Quản lý cán bộ (Exception + Text File I/O)](https://github.com/FASTTRACKSE/FFSE1702A.JavaCore/tree/master/FFSE1703006/Assignment/src/assignment_9)
