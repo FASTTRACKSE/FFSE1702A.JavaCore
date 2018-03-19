@@ -78,6 +78,11 @@ public class Giangvien extends Canbo {
         return super.toString() + ", khoa: " + this.khoa + ", trình độ: " + this.trinhDo + 
             ", số tiết dạy: " + this.soTietDay;
     }
+
+	public void xuat() {
+		// TODO Auto-generated method stub
+		
+	}
      
      
 }

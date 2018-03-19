@@ -79,5 +79,10 @@ public class Nhanvien  extends Canbo {
         return super.toString() + ", phòng ban: " + this.phongBan + ", chức vụ: " + this.chucVu + 
             ", số ngày công: " + this.soNgayCong;
     }
+
+	public void xuat() {
+		// TODO Auto-generated method stub
+		
+	}
      
 }

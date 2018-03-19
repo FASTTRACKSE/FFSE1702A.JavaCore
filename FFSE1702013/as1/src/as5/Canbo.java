@@ -3,7 +3,7 @@ package as5;
 import java.util.Scanner;
 
 public class Canbo {
-	private String hoTen, loaiCanBo;
+	private String hoTen, maCanBo;
     private double heSoLuong;
     private int phuCap;
     protected int choose;
@@ -14,10 +14,10 @@ public class Canbo {
         super();
     }
  
-    public Canbo(String hoTen, String loaiCanBo, double heSoLuong, int phuCap) {
+    public Canbo(String hoTen, String maCanBo, double heSoLuong, int phuCap) {
         super();
         this.hoTen = hoTen;
-        this.loaiCanBo = loaiCanBo;
+        this.maCanBo = maCanBo;
         this.heSoLuong = heSoLuong;
         this.phuCap = phuCap;
     }
@@ -30,12 +30,12 @@ public class Canbo {
         this.hoTen = hoTen;
     }
  
-    public String getLoaiCanBo() {
-        return loaiCanBo;
+    public String getMaCanBo() {
+        return maCanBo;
     }
  
-    public void setLoaiCanBo(String loaiCanBo) {
-        this.loaiCanBo = loaiCanBo;
+    public void setMaCanBo(String maCanBo) {
+        this.maCanBo = maCanBo;
     }
  
     public double getHeSoLuong() {
@@ -55,8 +55,22 @@ public class Canbo {
     }
      
     public void nhap() {
-        System.out.print("Nhập họ tên: ");
-        hoTen = scanner.nextLine();
+    	for(;;) {
+    		
+    		System.out.println("nhap ho ten:");
+    		
+			String hoTen = scanner.nextLine();
+    		try {
+    			CanboException.chkHoTen(hoTen);
+    			setHoTen(hoTen);
+    			break;
+    		}
+    		catch(CanboException e){
+    		    System.out.println(e);
+    		    
+    		     }
+    		
+    		}
         System.out.print("Nhập hệ số lương: ");
         heSoLuong = Double.parseDouble(scanner.nextLine());
     }
@@ -70,4 +84,9 @@ public class Canbo {
         return "Tên: " + this.hoTen + ", hệ số lương: " + this.heSoLuong + ", phụ cấp: " + 
                 phuCap + ", lương: " + this.tinhLuong();
     }
+
+	public int getLuong() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 }
