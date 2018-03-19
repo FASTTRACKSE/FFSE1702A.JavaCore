@@ -21,10 +21,11 @@ public class Main {
 		System.out.print("\nChọn chức năng (nhấn 5 để hiện lại menu): ");
 	}
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws Exception {
 		int choose;
 		Menu menu = new Menu();
 		menu.giaTriMacDinh();
+		menu.dataRead();
 		showMenu();
 		System.out.print("\nChọn chức năng (nhấn 5 để hiện lại menu): ");
 		do {
@@ -51,6 +52,7 @@ public class Main {
 				showChoose();
 				break;
 			case 6:
+				menu.dataWrite();
 				System.out.println("Kết thúc chương trình");
 				System.exit(0);
 				break;

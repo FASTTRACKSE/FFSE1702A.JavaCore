@@ -1,6 +1,9 @@
 package assignment_9;
 
+import java.util.Scanner;
+
 public class GiangVien extends CanBo {
+	private static final long serialVersionUID = 1L;
 	private String khoa, trinhDo;
 	private int soTiet, choose;
 
@@ -50,6 +53,7 @@ public class GiangVien extends CanBo {
 	}
 
 	public void nhap() {
+		Scanner scanner = new Scanner(System.in);
 		super.nhap();
 		System.out.print("Nhập khoa: ");
 		khoa = scanner.nextLine();
@@ -83,8 +87,9 @@ public class GiangVien extends CanBo {
 		return (double) (this.getHeSoLuong() * 730 + this.getPhuCap() + soTiet * 45);
 	}
 
-	public void xuat() {
-		System.out.printf(
+	@Override
+	public String toString() {
+		return String.format(
 				"| %-20s | Khoa     : %-15s | Trình độ: %-11s | Số tiết     : %2s | Hệ số lương: %3s | Phụ cấp: %4s | Lương: %8s |\n",
 				this.getHoTen(), khoa, trinhDo, soTiet, this.getHeSoLuong(), this.getPhuCap(), this.getLuong());
 	}

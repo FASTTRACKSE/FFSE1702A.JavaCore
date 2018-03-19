@@ -1,9 +1,6 @@
 package assignment_9;
 
 public class MyException extends Exception {
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 3036003619876834868L;
 	String error;
 
