@@ -76,6 +76,7 @@ public class CanBo {
 	}
 
 	public void nhapmcb() {
+		System.out.print("Mã cán bộ: ");
 		maCanBo = scanner.nextLine();
 	}
 
