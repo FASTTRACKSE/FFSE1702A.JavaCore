@@ -41,24 +41,47 @@ public class NhanVien extends CanBo {
 	public void setChucvu(String chucvu) {
 		this.chucvu = chucvu;
 	}
+
 	public double tinhluong() {
-		double luong = getHeSoLuong()*750+getPhuCap()+ getSongaycong()*30;
-				return luong;
+		double luong = getHeSoLuong() * 750 + getPhuCap() + getSongaycong() * 30;
+		return luong;
 	}
+
 	public void nhap() {
 		super.nhap();
 		Scanner scn = new Scanner(System.in);
 		System.out.println("nhap phòng ban:");
 		String phongban = scn.nextLine();
 		setPhongban(phongban);
+		for (;;) {
+			setSongaycong(songaycong);
+			System.out.println("nhập số ngày công :");
+			int songaycong = scn.nextInt();
+			try {
+				Qll.chkSoThuc(songaycong);
+				this.setSongaycong(songaycong);
+				break;
+			} catch (Qll e) {
+				System.out.println(e);
 
-		System.out.println("nhập số ngày công :");
-		int songaycong = scn.nextInt();
-		setSongaycong(songaycong);
+			}
+		}
+
 		scn.nextLine();
-		System.out.println("nhập chức vụ :");
-		String chucvu = scn.nextLine();
-		setChucvu(chucvu);
+		for (;;) {
+			System.out.println("nhập chức vụ :");
+			String chucvu = scn.nextLine();
+
+			try {
+				Qll.chkChucVu(chucvu);
+				this.setChucvu(chucvu);
+				break;
+			} catch (Qll e) {
+				System.out.println(e);
+			}
+			setChucvu(chucvu);
+
+		}
 
 	}
 

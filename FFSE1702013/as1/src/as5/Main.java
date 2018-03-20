@@ -1,4 +1,4 @@
-package Assignment5;
+package as5;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -7,20 +7,20 @@ import java.util.Scanner;
 
 public class Main {
 	public static void main(String[] args) {
-		ArrayList<CanBo> arrCanBo = new ArrayList<>();
+		ArrayList<Canbo> arrCanBo = new ArrayList<>();
 		int soCanBo;
 		double tongluong = 0, luong;
-		CanBo canBo;
+		Canbo canBo;
 		Scanner scn = new Scanner(System.in);
 		int menu;
 		do {
-			System.out.print("\n*************************************************\n");
-			System.out.print("* số 1 : nhập thông tin cán bộ               *\n");
-			System.out.print("* số 2 : xem thông tin                 *\n");
-			System.out.print("* số 3 : tổng tiền lương phải trả               *\n");
-			System.out.print("* số 4 : Sắp xếp cán bộ theo lương, nếu lương bằng thì sắp xếp theo tên*\n");
-			System.out.print("*************************************************\n ");
-			System.out.print("\n chọn chức năng bạn muốn : ");
+			
+			System.out.print("  số 1 : nhập thông tin cán bộ     \n");
+			System.out.print("  số 2 : xem thông tin             \n");
+			System.out.print("  số 3 : tổng tiền lương phải trả  \n");
+			System.out.print("  số 4 : Sắp xếp cán bộ theo lương \n");
+			
+			System.out.print("\n chọn chức năng bạn: ");
 			Scanner scn1 = new Scanner(System.in);
 			menu = Integer.parseInt(scn1.nextLine());
 			if (menu == 1) {
@@ -35,16 +35,16 @@ public class Main {
 
 					if (cb == 1) {
 						
-						canBo = new GiangVien();
+						canBo = new Giangvien();
 						
 						for(;;) {
 						System.out.print("nhap ma can bo");
 						String maCanBo=scn.next();
 					    	try {
-					    		CanBoException.chkMaCanBo(maCanBo, arrCanBo);
+					    		CanboException.chkMaCanBo(maCanBo, arrCanBo);
 					    		canBo.setMaCanBo(maCanBo);
 					    		break;
-					    	}catch(CanBoException e) {
+					    	}catch(CanboException e) {
 					    		System.out.print(e);
 					    }
 						
@@ -53,16 +53,16 @@ public class Main {
 						arrCanBo.add(canBo);
 
 					} else if (cb == 2) {
-						canBo = new NhanVien();
+						canBo = new Nhanvien();
 						canBo.nhap();
 						for(;;) {
 						System.out.print("nhap ma can bo");
 						String maCanBo=scn.next();
 					    	try {
-					    		CanBoException.chkMaCanBo(maCanBo, arrCanBo);
+					    		CanboException.chkMaCanBo(maCanBo, arrCanBo);
 					    		canBo.setMaCanBo(maCanBo);
 					    		break;
-					    	}catch(CanBoException e) {
+					    	}catch(CanboException e) {
 					    		System.out.print(e);
 					    }
 						arrCanBo.add(canBo);
@@ -79,9 +79,9 @@ public class Main {
 					String tenKhoa = scn.next();
 
 					for (int j = 0; j < arrCanBo.size(); j++) {
-						CanBo cb = arrCanBo.get(j);
-						if (cb instanceof GiangVien) {
-							GiangVien gv = (GiangVien) cb;
+						Canbo cb = arrCanBo.get(j);
+						if (cb instanceof Giangvien) {
+							Giangvien gv = (Giangvien) cb;
 							if (gv.getKhoa().equals(tenKhoa)) {
 								gv.xuat();
 							}
@@ -92,9 +92,9 @@ public class Main {
 					String tenPhong = scn.next();
 
 					for (int j = 0; j < arrCanBo.size(); j++) {
-						CanBo cb = arrCanBo.get(j);
-						if (cb instanceof NhanVien) {
-							NhanVien nv = (NhanVien) cb;
+						Canbo cb = arrCanBo.get(j);
+						if (cb instanceof Nhanvien) {
+							Nhanvien nv = (Nhanvien) cb;
 							if (nv.getPhongBan().equals(tenPhong)) {
 								nv.xuat();
 							}
@@ -102,16 +102,16 @@ public class Main {
 					}
 				}
 			} else if (menu == 3) {
-				for (CanBo cb : arrCanBo) {
+				for (Canbo cb : arrCanBo) {
 					luong = cb.tinhLuong();
 					tongluong += luong;
 				}
 				System.out.println("Tổng lương phải trả cho cán bộ trong trường = " + tongluong);
 			} else if (menu == 4) {
 				System.out.println("sap xep theo luong va ten");
-				Collections.sort(arrCanBo, new Comparator<CanBo>() {
+				Collections.sort(arrCanBo, new Comparator<Canbo>() {
 					@Override
-					public int compare(CanBo cb1, CanBo cb2) {
+					public int compare(Canbo cb1, Canbo cb2) {
 						if (cb1.getLuong() > cb2.getLuong()) {
 							return 1;
 						} else {
