@@ -1547,3 +1547,40 @@ user global configuration and to define the default location to store repositori
 not correct please set the HOME environment variable and restart Eclipse. Otherwise Git for Windows and
 EGit might behave differently since they see different configuration options.
 This warning can be switched off on the Team > Git > Confirmations and Warnings preference page.
+
+!ENTRY org.eclipse.core.resources 2 2 2018-03-20 11:20:13.205
+!MESSAGE Save operation warnings.
+!SUBENTRY 1 org.eclipse.core.resources 2 234 2018-03-20 11:20:13.205
+!MESSAGE The project description file (.project) for 'java' was missing.  This file contains important information about the project.  A new project description file has been created, but some information about the project may have been lost.
+
+!ENTRY org.eclipse.core.resources 4 4 2018-03-20 11:20:15.217
+!MESSAGE Exception occurred while saving project preferences: /java/.settings/org.eclipse.core.resources.prefs.
+!STACK 1
+org.eclipse.core.internal.resources.ResourceException: Resource is out of sync with the file system: '/java/.settings/org.eclipse.core.resources.prefs'.
+	at org.eclipse.core.internal.localstore.FileSystemResourceManager.write(FileSystemResourceManager.java:1122)
+	at org.eclipse.core.internal.resources.File.internalSetContents(File.java:303)
+	at org.eclipse.core.internal.resources.File.setContents(File.java:339)
+	at org.eclipse.core.internal.resources.ProjectPreferences$1.run(ProjectPreferences.java:627)
+	at org.eclipse.core.internal.resources.ProjectPreferences.save(ProjectPreferences.java:655)
+	at org.eclipse.core.internal.preferences.EclipsePreferences.internalFlush(EclipsePreferences.java:431)
+	at org.eclipse.core.internal.resources.ProjectPreferences.flush(ProjectPreferences.java:365)
+	at org.eclipse.core.internal.resources.ProjectPreferences.flush(ProjectPreferences.java:368)
+	at org.eclipse.core.internal.resources.CharsetManager.flushPreferences(CharsetManager.java:257)
+	at org.eclipse.core.internal.resources.CharsetManager$CharsetManagerJob.run(CharsetManager.java:86)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:56)
+!SUBENTRY 1 org.eclipse.core.resources 4 274 2018-03-20 11:20:15.220
+!MESSAGE Resource is out of sync with the file system: '/java/.settings/org.eclipse.core.resources.prefs'.
+
+!ENTRY org.eclipse.core.resources 4 382 2018-03-20 11:20:15.396
+!MESSAGE Problems encountered while updating encoding settings.
+!SUBENTRY 1 org.eclipse.core.resources 4 382 2018-03-20 11:20:15.396
+!MESSAGE Could not save encoding settings.
+!STACK 0
+org.osgi.service.prefs.BackingStoreException: Exception occurred while saving project preferences: /java/.settings/org.eclipse.core.resources.prefs.
+	at org.eclipse.core.internal.resources.ProjectPreferences.save(ProjectPreferences.java:670)
+	at org.eclipse.core.internal.preferences.EclipsePreferences.internalFlush(EclipsePreferences.java:431)
+	at org.eclipse.core.internal.resources.ProjectPreferences.flush(ProjectPreferences.java:365)
+	at org.eclipse.core.internal.resources.ProjectPreferences.flush(ProjectPreferences.java:368)
+	at org.eclipse.core.internal.resources.CharsetManager.flushPreferences(CharsetManager.java:257)
+	at org.eclipse.core.internal.resources.CharsetManager$CharsetManagerJob.run(CharsetManager.java:86)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:56)
