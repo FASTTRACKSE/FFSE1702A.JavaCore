@@ -1,0 +1,28 @@
+package Assignment5;
+
+
+public class CanBoException extends Exception {
+String errHoTen;
+	
+	public CanBoException() {
+		
+	}
+
+	public CanBoException(String errHoTen) {
+		super();
+		this.errHoTen = errHoTen;
+	}
+	@Override
+	public String toString() {
+		return this.errHoTen;
+	}	
+	public static void chkHoTen(String hoTen) throws CanBoException {
+		if(hoTen == null) {
+			throws new CanBoException("Ten rong");
+		}
+		if(hoTen.length()>8) {
+			throws new CanBoException("Ten qua dai");
+		}
+	}
+
+}

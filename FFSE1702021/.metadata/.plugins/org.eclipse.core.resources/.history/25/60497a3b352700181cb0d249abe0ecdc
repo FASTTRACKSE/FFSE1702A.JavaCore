@@ -1,0 +1,16 @@
+package unit7;
+
+public class CanBoException extends Exception {
+	String errHoTen;
+	
+	public CanBoException() {
+		
+	}
+
+	public CanBoException(String errHoTen) {
+		super();
+		this.errHoTen = errHoTen;
+	}
+	
+
+}
