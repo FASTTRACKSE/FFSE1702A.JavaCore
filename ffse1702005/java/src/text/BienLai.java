@@ -1,4 +1,4 @@
-package text;
+package src.text;
 
 import java.util.Scanner;
 
