@@ -32,15 +32,22 @@ public class Main {
 			System.out.println("mời bạn chọn danh mục:");
 			int a = Integer.parseInt(myinput.nextLine());
 			if (a == 1) {
+
 				System.out.println("nhấn 1 để nhập nhân viên , nhấn 2 để nhập giảng viên:");
 				int b = Integer.parseInt(myinput.nextLine());
+
 				if (b == 1) {
+
 					NhanVien nv = new NhanVien();
+					nv.macanbo(nv, list);
 					nv.nhap();
 					list.add(nv);
 				}
 				if (b == 2) {
+
 					GiangVien gv = new GiangVien();
+					gv.macanbo(gv, list);
+
 					gv.nhap();
 					list.add(gv);
 				}

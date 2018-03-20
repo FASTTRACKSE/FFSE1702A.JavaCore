@@ -1,8 +1,19 @@
 package assignment5;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class CanBo {
+	private String maCanBo;
+
+	public String getMaCanBo() {
+		return maCanBo;
+	}
+
+	public void setMaCanBo(String maCanBo) {
+		this.maCanBo = maCanBo;
+	}
+
 	private String hoTen;
 	private int phuCap;
 	private float heSoLuong;
@@ -58,14 +69,54 @@ public class CanBo {
 
 	public void nhap() {
 		Scanner scn = new Scanner(System.in);
-		System.out.println("nhap ho ten:");
-		String hoTen = scn.nextLine();
+		for (;;) {
+
+			setHoTen(hoTen);
+			System.out.println("nhap ho ten:");
+			String hoTen = scn.nextLine();
+			try {
+				Qll.chkHoTen(hoTen);
+				this.setHoTen(hoTen);
+				break;
+			} catch (Qll e) {
+				System.out.println(e);
+
+			}
+		}
 		setHoTen(hoTen);
+		for (;;) {
 
-		System.out.println("nhap he so luong:");
-		float heSoLuong = scn.nextFloat();
-		setHeSoLuong(heSoLuong);
+			setHeSoLuong(heSoLuong);
+			System.out.println("nhap he so luong:");
+			float heSoLuong = scn.nextFloat();
+			try {
+				Qll.chkHeSoLuong(heSoLuong);
+				this.setHeSoLuong(heSoLuong);
+				break;
+			} catch (Qll e) {
+				System.out.println(e);
 
+			}
+		}
+
+	}
+
+	public void macanbo(CanBo cb, ArrayList<CanBo> list) {
+		Scanner scn = new Scanner(System.in);
+
+		for (;;) {
+			System.out.println("nhap ma can bo:");
+			String maCanBo = scn.nextLine();
+
+			try {
+				Qll.chkMaCanBo(maCanBo, list);
+				cb.setMaCanBo(maCanBo);
+				break;
+			} catch (Qll e) {
+				System.out.println(e);
+
+			}
+		}
 	}
 
 	public void xuat() {

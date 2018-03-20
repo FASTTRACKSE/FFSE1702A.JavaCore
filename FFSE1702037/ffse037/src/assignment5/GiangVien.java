@@ -59,16 +59,34 @@ public class GiangVien extends CanBo {
 		System.out.println("nhap khoa:");
 		String khoa = scn.nextLine();
 		setKhoa(khoa);
+		for (;;) {
+			setSotietday(sotietday);
+			System.out.println("nhập số tiết dạy :");
+			int sotietday = scn.nextInt();
+			try {
+				Qll.chkSoThuc(sotietday);
+				this.setSotietday(sotietday);
+				break;
+			} catch (Qll e) {
+				System.out.println(e);
 
-		System.out.println("nhập số tiết dạy :");
-		int sotietday = scn.nextInt();
-		setSotietday(sotietday);
+			}
+		}
+
 		scn.nextLine();
-		System.out.println("nhập trình độ :");
-		String trinhdo = scn.nextLine();
+		for (;;) {
+			System.out.println("nhập trình độ :");
+			String trinhdo = scn.nextLine();
+			try {
+				Qll.chkTrinhDo(trinhdo);
+				this.setTrinhdo(trinhdo);
+				break;
+			} catch (Qll e) {
+				System.out.println(e);
+			}
+			setTrinhdo(trinhdo);
 
-		setTrinhdo(trinhdo);
-
+		}
 	}
 
 	public void xuat() {
