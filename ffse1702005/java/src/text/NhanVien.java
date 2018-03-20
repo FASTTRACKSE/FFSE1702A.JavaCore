@@ -1,5 +1,7 @@
 package text;
- 
+
+import java.util.Scanner;
+
 public class NhanVien extends CanBo {
     private String phongBan, chucVu;
     private int soNgayCong, choose;
@@ -67,6 +69,7 @@ public class NhanVien extends CanBo {
         } while (choose < 1 || choose > 3);
         System.out.print("Nhập số ngày công: ");
         soNgayCong = scanner.nextInt();
+        System.out.print("Mã cán bộ: ");
     }
  
     @Override
@@ -77,7 +80,7 @@ public class NhanVien extends CanBo {
     @Override
     public String toString() {
         return super.toString() + ", phòng ban: " + this.phongBan + ", chức vụ: " + this.chucVu + 
-            ", số ngày công: " + this.soNgayCong;
+            ", số ngày công: " + this.soNgayCong + ", mã cán bộ: " + this.getMaCanBo();
     }
      
 }
