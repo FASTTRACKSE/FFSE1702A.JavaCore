@@ -1,0 +1,34 @@
+package Hello_World;
+
+import java.util.Scanner;
+
+public class bai2 {
+	public static void main(String[] args) {
+		Scanner scanner = new Scanner(System.in);
+		System.out.println("Hãy nhập số: ");
+		int number = scanner.nextInt();
+		if (number <= 9 && number >= 0) {
+			String[] spelling = { "không", "một", "hai", "ba", "bốn", "năm", "sáu", "bảy", "tám", "chín" };
+			System.out.println(spelling[number]);
+		}
+		if (number >= 10 && number <= 99) {
+			if (number >= 10 && number <= 19) {
+				int number1 = number % 10;
+				String[] spelling = { "mười", "mười một", "mười hai", "mười ba", "mười bốn", "mười lăm", "mười sáu",
+						"mười bảy", "mười tám", "mười chín" };
+				System.out.println(spelling[number1]);
+			}
+			if (number >= 20 && number <= 99) {
+				int number1 = number % 10;
+				int number2 = number / 10;
+				String[] spelling = { "", "mốt", "hai", "ba", "bốn", "lăm", "sáu", "bảy", "tám", "chín" };
+				System.out.println(spelling[number2] + " mươi " + spelling[number1]);
+			}
+		}
+		if (number >= 100 && number <= 999) {
+			int number1 = number % 10;
+			int number2 = number % 100;
+			int number3 = number / 100;
+		}
+	}
+}

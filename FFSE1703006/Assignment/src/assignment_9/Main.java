@@ -1,9 +1,8 @@
 package assignment_9;
 
-import java.util.Scanner;
-
 public class Main {
-	private static Scanner scanner;
+
+	static MyFunction myFunction = new MyFunction();
 
 	public static void showMenu() {
 		System.out.print("+--------------------------------------------------------------------+\n");
@@ -13,42 +12,52 @@ public class Main {
 		System.out.printf("\n| %-66s |", "3. Tổng số lương trường phải trả cho cán bộ.");
 		System.out.printf("\n| %-66s |", "4. Sắp xếp cán bộ theo lương.");
 		System.out.printf("\n| %-66s |", "5. Hiển thị lại menu.");
-		System.out.printf("\n| %-66s |\n", "0. Kết thúc chương trình.", "|");
+		System.out.printf("\n| %-66s |\n", "6. Kết thúc chương trình.", "|");
 		System.out.println("+--------------------------------------------------------------------+");
 	}
 
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		scanner = new Scanner(System.in);
+	public static void showChoose() {
+		System.out.println("--------------------------------------------");
+		System.out.print("\nChọn chức năng (nhấn 5 để hiện lại menu): ");
+	}
+
+	public static void main(String[] args) throws Exception {
+		int choose;
 		Menu menu = new Menu();
 		menu.giaTriMacDinh();
+		menu.dataRead();
 		showMenu();
+		System.out.print("\nChọn chức năng (nhấn 5 để hiện lại menu): ");
 		do {
-			System.out.print("\nChọn chức năng (nhấn 5 để hiện lại menu): ");
-			int choose = scanner.nextInt();
-			System.out.println("--------------------------------------------");
+			choose = Main.myFunction.loopCheckInt();
 			switch (choose) {
 			case 1:
 				menu.themCanBo();
+				showChoose();
 				break;
 			case 2:
 				menu.xuatCanBo();
+				showChoose();
 				break;
 			case 3:
 				menu.tongLuong();
+				showChoose();
 				break;
 			case 4:
 				menu.sortByLuong();
+				showChoose();
 				break;
 			case 5:
 				showMenu();
+				showChoose();
 				break;
-			case 0:
+			case 6:
+				menu.dataWrite();
 				System.out.println("Kết thúc chương trình");
 				System.exit(0);
 				break;
 			default:
-				System.out.println("Vui lòng nhập số từ 0-5\n");
+				System.err.print(" * Vui lòng nhập số từ 1-6!\n Nhập lại: ");
 				break;
 			}
 		} while (true);

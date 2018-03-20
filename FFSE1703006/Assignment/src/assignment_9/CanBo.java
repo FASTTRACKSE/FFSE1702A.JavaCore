@@ -1,13 +1,15 @@
 package assignment_9;
 
+import java.io.Serializable;
 import java.util.Comparator;
 import java.util.Scanner;
 
-public class CanBo {
-	private String hoTen, where;
+public class CanBo implements Serializable {
+	private static final long serialVersionUID = 1L;
+	private String hoTen;
 	private int phuCap;
 	private double heSoLuong, luong;
-	Scanner scanner;
+	// Scanner scanner;
 
 	public CanBo() {
 		super();
@@ -26,14 +28,6 @@ public class CanBo {
 
 	public void setHoTen(String hoTen) {
 		this.hoTen = hoTen;
-	}
-
-	public String getWhere() {
-		return where;
-	}
-
-	public void setWhere(String where) {
-		this.where = where;
 	}
 
 	public int getPhuCap() {
@@ -61,14 +55,19 @@ public class CanBo {
 	}
 
 	public void nhap() {
-		scanner = new Scanner(System.in);
+		Scanner scanner = new Scanner(System.in);
 		System.out.print("Nhập họ tên: ");
-		hoTen = scanner.nextLine();
+		do {
+			try {
+				hoTen = scanner.nextLine();
+				MyException.checkHoTen(hoTen);
+				break;
+			} catch (MyException e) {
+				System.err.print(e);
+			}
+		} while (true);
 		System.out.print("Nhập hệ số lương: ");
-		heSoLuong = Double.parseDouble(scanner.nextLine());
-	}
-
-	public void xuat() {
+		heSoLuong = Main.myFunction.loopCheckDouble();
 	}
 
 	public static Comparator<CanBo> sortByLuong = new Comparator<CanBo>() {

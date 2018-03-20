@@ -1,0 +1,47 @@
+package assigment5;
+
+import java.util.ArrayList;
+import java.util.Scanner;
+
+public class Main {
+	public static void main(String args[]) {
+		ArrayList<CanBo> list = new ArrayList<CanBo>();
+		int control = 5;
+		while (control != 0) {
+			System.out.println("1.Nhập thông tin danh sách cán bộ trong trường.\r\n"
+					+ "2.Xuất danh sách giảng viên khoa x, hoặc nhân viên phòng ban y nào đó.\r\n"
+					+ "3.Tổng số lương trường phải trả cho cán bộ.\r\n"
+					+ "4.Sắp xếp cán bộ theo lương, nếu lương bằng thì sắp xếp theo tên. ");
+
+			Scanner scan = new Scanner(System.in);
+			control = Integer.parseInt(scan.nextLine());
+
+			if (control == 1) {
+				System.out.println("1. Nhập giảng viên");
+				System.out.println("2. Nhập nhân viên");
+				int control2 = Integer.parseInt(scan.nextLine());
+				if (control2 == 1) {
+					System.out.println("Nhập số lượng giảng viên cần nhập");
+					int soluonggiangvien = Integer.parseInt(scan.nextLine());
+					for (int i = 0; i <= soluonggiangvien; i++) {
+						Giangvien gv = new Giangvien();
+						gv.nhap();
+						list.add(gv);
+					}
+
+				}else if (control2 == 2) {
+					System.out.println("Nhập số lượng nhân viên cần nhập");
+					int soluongnhanvien = Integer.parseInt(scan.nextLine());
+					for (int i = 0; i <= soluongnhanvien; i++) {
+						Nhanvien nv = new Nhanvien();
+						nv.nhap();
+						list.add(nv);
+					}
+
+				}
+
+			}
+
+		}
+	}
+}

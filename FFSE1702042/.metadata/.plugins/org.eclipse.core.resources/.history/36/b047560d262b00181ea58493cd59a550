@@ -1,0 +1,46 @@
+package Quanlycanbo;
+import java.util.ArrayList;
+public class CanBoException extends Exception {
+	String err;
+	public CanBoException() {
+		super();
+	}
+	public CanBoException() {
+		super();
+		this.err	=	err;
+	}
+	@Override
+	public String toString() {
+		return this.err;
+	}
+	public static void chkHoTen(String hoTen)
+	throw CanBoException{
+		if(hoTen.equal("")) {
+			throw CanBoException("Ten rong");
+		}
+		if (hoTen.length()>3) {
+			throw new CanBoException("Ten qua dai");
+		}
+	}
+	public static void chktrinhDo(String trinhDo)
+	throw CanBoException{
+		if((!trinhDo.equals("Cu nhan"))||(!trinhDo.equals("Thac si"))||(!trinhDo.equals("Tien si"))) {
+			
+		}else {
+			throw new CanBoException("Nhap sai trinh do");
+		}
+	}
+	public static void chk SoNguyen(int n )throws CanBoException{
+		if(n<0) throw new CanBoException(" So am khong hop le");
+	}
+	public static void chk SoThuc(float n) throws CanBoException{
+		if(n<0) throw new CanBoException("So am khong hop le");
+	}
+	public static void chk MaCanBo(String maCanBo, ArrayList<CanBo>arr) throws CanBoException{
+		for(int i=0;i<=arr.size();i++) {
+			if(arr.get(i).getMaCanBo().equals(maCanBo)) {
+				throw new CanBoException("Ma can bo da ton tai");
+			}
+		}
+	}
+}

@@ -1,0 +1,15 @@
+
+public class nhapsoco2chuaso {
+
+	public static void main(String[] args) {
+		char[] ch={'a','b','c'};  
+		
+	   char j=ch[1];
+		 String a = "DevPro";
+			String b = "Java";
+			String c = "DevPro";
+	
+       System.out.println(j); 
+	}
+
+}

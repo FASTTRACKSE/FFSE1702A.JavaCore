@@ -1,0 +1,85 @@
+package assigment5;
+
+import java.awt.List;
+import java.util.Scanner;
+
+public class Nhanvien extends CanBo {
+	String phongban;
+	int songaycong;
+	String chucvu;
+
+	public Nhanvien() {
+		super();
+	}
+
+	public Nhanvien(String phongban, int songaycong, String chucvu) {
+		super();
+		this.phongban = phongban;
+		this.songaycong = songaycong;
+		this.chucvu = chucvu;
+	}
+
+	public Nhanvien(String hoTen, int phuCap, float luong, float heSoLuong) {
+		super(hoTen, phuCap, luong, heSoLuong);
+		// TODO Auto-generated constructor stub
+	}
+	
+	
+
+	public String getPhongban() {
+		return phongban;
+	}
+
+	public void setPhongban(String phongban) {
+		this.phongban = phongban;
+	}
+
+	public int getSongaycong() {
+		return songaycong;
+	}
+
+	public void setSongaycong(int songaycong) {
+		this.songaycong = songaycong;
+	}
+
+	public String getChucvu() {
+		return chucvu;
+	}
+
+	public void setChucvu(String chucvu) {
+		this.chucvu = chucvu;
+	}
+
+	public void nhap() {
+		super.nhapHoTen();
+		
+		Scanner scan = new Scanner(System.in);
+		System.out.println("Nhập tên phòng ban");
+		String phongban = scan.nextLine();
+
+		System.out.println("Nhập chức vụ");
+		String chucvu = scan.nextLine();
+		
+		System.out.println("Nhập số ngày công");
+		int songaycong = Integer.parseInt(scan.nextLine());
+
+		super.nhapHeSoLuong();
+		
+		int phucap = 1;
+
+		if (chucvu.equals("nhân viên")) {
+			this.setPhuCap(500);
+		} else if (chucvu.equals("phó phòng")) {
+			this.setPhuCap(1000);
+		} else if (chucvu.equals("trưởng phòng")) {
+			this.setPhuCap(2000);
+		}
+
+		
+
+	}
+
+	public float tinhluong() {
+		 return this.getHeSoLuong()*730+this.getPhuCap()+this.getSongaycong()*30;
+	 }
+}

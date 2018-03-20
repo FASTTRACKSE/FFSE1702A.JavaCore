@@ -1,0 +1,15 @@
+package Hello_World;
+
+import java.util.Scanner;
+
+public class bai2 {
+	public static void main(String[] args) {
+		Scanner scanner = new Scanner(System.in);
+		System.out.println("Hãy nhập số: ");
+		int number = scanner.nextInt();
+		if(number < 9) {
+			String[] spelling = {"không","một","hai","ba","bốn","năm","sáu","bảy","tám","chín"};
+			System.out.println(spelling[number]);
+		}
+	}
+}

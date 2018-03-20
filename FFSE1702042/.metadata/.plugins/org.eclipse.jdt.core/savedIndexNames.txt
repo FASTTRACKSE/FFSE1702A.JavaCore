@@ -1,0 +1,10 @@
+INDEX VERSION 1.130+C:\Users\trntu\Documents\GitHub\FFSE1702A.JavaCore\FFSE1702042\.metadata\.plugins\org.eclipse.jdt.core
+3398255536.index
+556906556.index
+2519274039.index
+615769021.index
+2887022535.index
+2536919926.index
+3588398124.index
+569577627.index
+3134682654.index

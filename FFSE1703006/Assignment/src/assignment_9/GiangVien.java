@@ -1,6 +1,9 @@
 package assignment_9;
 
+import java.util.Scanner;
+
 public class GiangVien extends CanBo {
+	private static final long serialVersionUID = 1L;
 	private String khoa, trinhDo;
 	private int soTiet, choose;
 
@@ -8,17 +11,9 @@ public class GiangVien extends CanBo {
 		super();
 	}
 
-	public GiangVien(String khoa, String trinhDo, int soTiet) {
-		super();
-		this.khoa = khoa;
-		this.trinhDo = trinhDo;
-		this.soTiet = soTiet;
-	}
-
 	public GiangVien(String hoTen, String khoa, String trinhDo, int soTiet, double heSoLuong) {
 		super();
 		this.setHoTen(hoTen);
-		this.setWhere(khoa);
 		this.khoa = khoa;
 		this.trinhDo = trinhDo;
 		this.soTiet = soTiet;
@@ -58,13 +53,13 @@ public class GiangVien extends CanBo {
 	}
 
 	public void nhap() {
+		Scanner scanner = new Scanner(System.in);
 		super.nhap();
 		System.out.print("Nhập khoa: ");
 		khoa = scanner.nextLine();
-		this.setWhere(khoa);
+		System.out.print("Chọn trình độ (1 - Cử nhân, 2 - Thạc sĩ, 3 - Tiến sĩ): ");
 		do {
-			System.out.print("Chọn trình độ (1 - Cử nhân, 2 - Thạc sĩ, 3 - Tiến sĩ): ");
-			choose = Integer.parseInt(scanner.nextLine());
+			choose = Main.myFunction.loopCheckInt();
 			switch (choose) {
 			case 1:
 				trinhDo = "Cử nhân";
@@ -79,12 +74,12 @@ public class GiangVien extends CanBo {
 				this.setPhuCap(1000);
 				break;
 			default:
-				System.out.println("Chọn không đúng!");
+				System.err.print(" * Vui lòng nhập số từ 1-3!\n Nhập lại: ");
 				break;
 			}
-		} while (choose < 1 || choose > 3);
+		} while (choose > 3);
 		System.out.print("Nhập số tiết dạy: ");
-		soTiet = Integer.parseInt(scanner.nextLine());
+		soTiet = Main.myFunction.loopCheckInt();
 		this.setLuong(tinhLuong());
 	}
 
@@ -92,8 +87,9 @@ public class GiangVien extends CanBo {
 		return (double) (this.getHeSoLuong() * 730 + this.getPhuCap() + soTiet * 45);
 	}
 
-	public void xuat() {
-		System.out.printf(
+	@Override
+	public String toString() {
+		return String.format(
 				"| %-20s | Khoa     : %-15s | Trình độ: %-11s | Số tiết     : %2s | Hệ số lương: %3s | Phụ cấp: %4s | Lương: %8s |\n",
 				this.getHoTen(), khoa, trinhDo, soTiet, this.getHeSoLuong(), this.getPhuCap(), this.getLuong());
 	}
