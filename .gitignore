@@ -2,3 +2,4 @@
 /.recommenders/
 ffse1702004/test/.classpath
 *.java
+.DS_Store
