@@ -1,8 +1,9 @@
 package QLcanbo;
  
+import java.io.Serializable;
 import java.util.Scanner;
  
-public class canboinfo {
+public class canboinfo implements Serializable {
     private String hoTen, loai;
     private double hsl;
     private int phuCap;
@@ -17,9 +18,11 @@ public class canboinfo {
     public canboinfo(String hoTen, String loai, double hsl, int phuCap) {
         super();
         this.hoTen = hoTen;
+       
         this.loai = loai;
         this.hsl = hsl;
         this.phuCap = phuCap;
+	
     }
  
     public String getHoTen() {
@@ -55,10 +58,21 @@ public class canboinfo {
     }
      
     public void nhap() {
-        System.out.print("Nhập họ tên: ");
+     for(;;) {
+    	System.out.print("Nhập họ tên: ");
         hoTen = scanner.nextLine();
+     
+        	try {
+				canboinfoexception.chkHoten(hoTen);
+				break;
+        	} catch (canboinfoexception e) {
+				System.out.println(e);
+			}
+     }
+      
         System.out.print("Nhập hệ số lương: ");
         hsl = Double.parseDouble(scanner.nextLine());
+        
     }
      
     public long tinhLuong() {
@@ -70,4 +84,5 @@ public class canboinfo {
         return "Tên: " + this.hoTen + ", hệ số lương: " + this.hsl + ", phụ cấp: " + 
                 phuCap + ", lương: " + this.tinhLuong();
     }
+ 
 }

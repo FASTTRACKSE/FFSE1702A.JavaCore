@@ -1,8 +1,0 @@
-package QuanLySinhVien;
-
-public class QuanLySV {
-public static void main(String[] args) {
-SinhVien sv = new SinhVien();
-sv.inputinfSV();
-}
-}

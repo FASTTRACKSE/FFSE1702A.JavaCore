@@ -1,6 +1,8 @@
 package QLcanbo;
- 
-public class NhanVien extends canboinfo {
+
+import java.io.Serializable;
+
+public class NhanVien extends canboinfo implements Serializable {
     private String phongBan, chucVu;
     private int soNgayCong, choose;
      

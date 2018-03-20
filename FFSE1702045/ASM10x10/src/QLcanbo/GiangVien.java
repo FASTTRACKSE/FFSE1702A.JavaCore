@@ -1,6 +1,8 @@
 package QLcanbo;
- 
-public class GiangVien extends canboinfo {
+
+import java.io.Serializable;
+
+public class GiangVien   extends canboinfo implements Serializable {
     private String khoa, trinhDo;
     private int soTietDay, choose;
      
@@ -42,8 +44,16 @@ public class GiangVien extends canboinfo {
     @Override
     public void nhap() {
         super.nhap();
+        for(;;) {
         System.out.print("Nhập khoa: ");
         khoa = scanner.nextLine();
+        try {
+			canboinfoexception.chkValue(khoa);
+			break;
+    	} catch (canboinfoexception e) {
+			System.out.println(e);
+		}
+        }
         do {
             System.out.print("Nhập trình độ (1 - cử nhân, 2 - thạc sĩ, 3 -tiến sĩ): ");
             choose = scanner.nextInt();
@@ -63,7 +73,7 @@ public class GiangVien extends canboinfo {
                     System.out.println("Chọn không đúng!");
                     break;
             }
-        } while (choose < 1 || choose > 3);
+        } while (choose < 1 || choose > 4);
         System.out.print("Số tiết dạy: ");
         soTietDay = scanner.nextInt();
     }
