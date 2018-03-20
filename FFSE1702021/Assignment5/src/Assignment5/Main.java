@@ -4,8 +4,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Scanner;
+import java.io.*;
 
 public class Main {
+
 	public static void main(String[] args) {
 		ArrayList<CanBo> arrCanBo = new ArrayList<>();
 		int soCanBo;
@@ -13,12 +15,15 @@ public class Main {
 		CanBo canBo;
 		Scanner scn = new Scanner(System.in);
 		int menu;
+		
 		do {
+			
 			System.out.print("\n*************************************************\n");
 			System.out.print("* số 1 : nhập thông tin cán bộ               *\n");
 			System.out.print("* số 2 : xem thông tin                 *\n");
 			System.out.print("* số 3 : tổng tiền lương phải trả               *\n");
 			System.out.print("* số 4 : Sắp xếp cán bộ theo lương, nếu lương bằng thì sắp xếp theo tên*\n");
+			System.out.print("* số 5 : Kết thúc chương trình*\n");
 			System.out.print("*************************************************\n ");
 			System.out.print("\n chọn chức năng bạn muốn : ");
 			Scanner scn1 = new Scanner(System.in);
@@ -34,43 +39,43 @@ public class Main {
 					cb = scn.nextInt();
 
 					if (cb == 1) {
-						
+
 						canBo = new GiangVien();
-						
-						for(;;) {
-						System.out.print("nhap ma can bo");
-						String maCanBo=scn.next();
-					    	try {
-					    		CanBoException.chkMaCanBo(maCanBo, arrCanBo);
-					    		canBo.setMaCanBo(maCanBo);
-					    		break;
-					    	}catch(CanBoException e) {
-					    		System.out.print(e);
-					    }
-						
+
+						for (;;) {
+							System.out.print("nhap ma can bo");
+							String maCanBo = scn.next();
+							try {
+								CanBoException.chkMaCanBo(maCanBo, arrCanBo);
+								canBo.setMaCanBo(maCanBo);
+								break;
+							} catch (CanBoException e) {
+								System.out.print(e);
+							}
+
 						}
 						canBo.nhap();
 						arrCanBo.add(canBo);
-
 					} else if (cb == 2) {
 						canBo = new NhanVien();
 						canBo.nhap();
-						for(;;) {
-						System.out.print("nhap ma can bo");
-						String maCanBo=scn.next();
-					    	try {
-					    		CanBoException.chkMaCanBo(maCanBo, arrCanBo);
-					    		canBo.setMaCanBo(maCanBo);
-					    		break;
-					    	}catch(CanBoException e) {
-					    		System.out.print(e);
-					    }
-						arrCanBo.add(canBo);
+						for (;;) {
+							System.out.print("nhap ma can bo");
+							String maCanBo = scn.next();
+							try {
+								CanBoException.chkMaCanBo(maCanBo, arrCanBo);
+								canBo.setMaCanBo(maCanBo);
+								break;
+							} catch (CanBoException e) {
+								System.out.print(e);
+							}
+							arrCanBo.add(canBo);
 						}
 
 					}
 
 				}
+				
 			} else if (menu == 2) {
 				System.out.println("Xuất danh sách giảng viên khoa x(chọn 1), hoặc nhân viên phòng ban y(chọn 2): ");
 				int i = Integer.parseInt(scn1.nextLine());
@@ -127,9 +132,28 @@ public class Main {
 				for (int i = 0; i < arrCanBo.size(); i++) {
 					System.out.println("Tên: " + arrCanBo.get(i).getHoTen() + " Lương: " + arrCanBo.get(i).tinhLuong());
 				}
+			} else if (menu == 5) {
+
+				System.out.println("kết thúc chương trình ");
+				System.exit(0);
 			}
 		} while (menu != 0);
+		try {
+			   //Bước 1: Tạo đối tượng luồng và liên kết nguồn dữ liệu
+			   FileOutputStream fos = new FileOutputStream("CanBo.txt");
+			   ObjectOutputStream oos = new  ObjectOutputStream(fos);
+
+			   //Bước 2: Ghi dữ liệu
+			   oos.writeObject(arrCanBo);
+			  
+
+			   //Bước 3: Đóng luồng
+			   fos.close();
+			   oos.close();
+			   
+			  } catch (IOException ex) {
+			    ex.printStackTrace();
+			  } 
 	}
 
-	
 }
