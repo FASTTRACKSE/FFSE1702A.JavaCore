@@ -1,0 +1,54 @@
+
+package baitap18;
+
+import java.util.Scanner;
+
+class Sinhvien{
+         public String hoten;
+         public String lop;
+         public float diemtb;
+}
+
+public class baitap18 {
+ 
+ public static Sinhvien nhapttsv(){
+         Sinhvien a = new Sinhvien();
+         Scanner nhap = new Scanner(System.in);
+         System.out.println("Nhap ho ten sinh vien");
+         a.hoten = nhap.nextLine();
+         System.out.println("Nhap lop");
+         a.lop = nhap.nextLine();
+         System.out.println("Nhap diem trung binh");
+         a.diemtb = nhap.nextFloat();
+         while(a.diemtb<0 || a.diemtb>10)
+         {
+               System.out.println("Nhap sai. Diem trung binh phai lon hon 0 va nho hon 10.Nhap lai");
+               a.diemtb = nhap.nextFloat();
+         }
+         return a;
+ }
+ 
+ public static void ttsinhvien(Sinhvien a)
+ {
+        System.out.println("Ho ten: "+a.hoten);
+        System.out.println("Lop: "+a.lop);
+        System.out.println("Diem TB: "+a.diemtb);
+ }
+ public static void sosanh(Sinhvien a, Sinhvien b){
+       if(a.diemtb<b.diemtb)
+            ttsinhvien(b);
+       else if(a.diemtb>b.diemtb)
+            ttsinhvien(a);
+       else
+            System.out.println("Hai sinh vien bang diem TB")  
+ }
+
+ public static void main(String[] args) {
+       Sinhvien a = new Sinhvien();
+       a = nhapttsv();
+       Sinhvien b = new Sinhvien();
+       b = nhapttsv();
+       System.out.println("Sinh vien co diem TB cao hon la");
+       sosanh(a,b);
+ } 
+}

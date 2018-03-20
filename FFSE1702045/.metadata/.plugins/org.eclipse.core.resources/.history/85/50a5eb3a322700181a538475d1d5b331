@@ -1,0 +1,17 @@
+package QuanLySinhVien;
+
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+
+public class ObjectPtrint {
+
+    public static void main(String[] args) throws IOException, ClassNotFoundException {
+    	 FileOutputStream fos = new FileOutputStream("fileobject.dat");
+    	 ObjectOutputStream oos = new ObjectOutputStream(fos);
+    	 Stock[] Stocks = {new Stock (1001, "CD ROM", 100.00, 20),
+    			 
+    			 }
+    	
+    }
+}

@@ -1,0 +1,4 @@
+INDEX VERSION 1.130+C:\Users\ASUS\Documents\GitHub\FFSE1702A.JavaCore\FFSE1702045\.metadata\.plugins\org.eclipse.jdt.core
+4219279280.index
+1654278932.index
+3384513373.index
