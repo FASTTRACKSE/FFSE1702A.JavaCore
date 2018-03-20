@@ -28,15 +28,7 @@
 <a href="https://github.com/FASTTRACKSE/FFSE1702A.JavaCore/blob/master/ffse1702004/assignment_java/src/assignment_java/Sanpham.java">San pham</a><br />
 
 <h2>assignment 5 ,6 </h2>
-<a href="https://github.com/FASTTRACKSE/FFSE1702A.JavaCore/blob/master/ffse1702004/Assignment_5_quanlycanbo/CanBo.java">cán bộ  </a><br />
-<a href="https://github.com/FASTTRACKSE/FFSE1702A.JavaCore/blob/master/ffse1702004/Assignment_5_quanlycanbo/CanBoException.java
-">CanBoException </a><br />
-<a href="https://github.com/FASTTRACKSE/FFSE1702A.JavaCore/blob/master/ffse1702004/Assignment_5_quanlycanbo/GiangVien.java
-">Giảng viên </a><br />
-<a href="https://github.com/FASTTRACKSE/FFSE1702A.JavaCore/blob/master/ffse1702004/Assignment_5_quanlycanbo/Main.java
-">Main</a><br />
-<a href="https://github.com/FASTTRACKSE/FFSE1702A.JavaCore/blob/master/ffse1702004/Assignment_5_quanlycanbo/NhanVien.java
-">Nhân Viên </a><br />
+<a href="https://github.com/FASTTRACKSE/FFSE1702A.JavaCore/tree/master/ffse1702004/Assignment_5_quanlycanbo">Assignment 5, 6 </a><br />
 </body>
   
 </html>
