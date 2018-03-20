@@ -1,0 +1,11 @@
+package text;
+
+public class TTCanBo {
+	String HoTen;
+	String PhongBan;
+	int NgayCong;
+	int HeSoLuong;
+	String PhuCap;
+	String ChucVu;
+
+}

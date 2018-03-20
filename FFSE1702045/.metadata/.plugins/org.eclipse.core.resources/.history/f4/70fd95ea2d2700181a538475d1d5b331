@@ -1,0 +1,56 @@
+package QLcanbo;
+ 
+import java.util.ArrayList;
+import java.util.Scanner;
+ 
+public class Main {
+ 
+    public static void main(String[] args) {
+        ArrayList<canboinfo> arrcanbo = new ArrayList<>();
+        int choose, soCanBo;
+        long tongLuong = 0, luongThapNhat, luong;
+        canboinfo canboinfo = null;
+        Scanner scanner = new Scanner(System.in);
+         
+        System.out.print("Nhập số lượng cán bộ trong trường: ");
+        soCanBo = scanner.nextInt();
+    	scanner.nextLine();
+        for (int i = 0; i < soCanBo; i++) {
+            System.out.println("Nhập thông tin cán bộ thứ " + (i + 1) + ":");
+            do {
+              
+                	 System.out.print("Chọn loại cán bộ (1 - giảng viên, 2 - nhân viên): ");
+                     choose = scanner.nextInt();
+                  
+               
+                switch (choose) {
+                    case 1:
+                    	canboinfo = new GiangVien();
+                    	canboinfo.nhap();
+                        arrcanbo.add(canboinfo);
+                        break;
+                    case 2:
+                    	canboinfo = new NhanVien();
+                    	canboinfo.nhap();
+                        arrcanbo.add(canboinfo);
+                        break;
+                    default:
+                        System.out.println("Chọn không hợp lệ.");
+                        break;
+                    }
+            } while (choose > 3);
+        }
+         
+        System.out.println("Hiển thị danh sách cán cán bộ trong trường: ");
+        for (canboinfo cb : arrcanbo) {
+            System.out.println(cb.toString());
+        }
+         
+        for (canboinfo cb : arrcanbo) {
+            luong = cb.tinhLuong();
+            tongLuong += luong;
+        }
+        System.out.println("Tổng lương phải trả cho cán bộ trong trường = " + tongLuong);
+    }
+ 
+}

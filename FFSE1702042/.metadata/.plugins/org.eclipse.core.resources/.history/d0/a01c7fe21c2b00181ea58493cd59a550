@@ -1,0 +1,6 @@
+package canBo;
+
+public class Main {
+	static MyFunction myFunction = new MyFunction;
+
+}
