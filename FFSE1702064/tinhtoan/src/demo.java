@@ -7,7 +7,7 @@ public class demo {
         int so2 = nc.nextInt();
         
         int i=1;
-        
+        System.out.println("Bảng cửu chương từ 1 đến số vừa nhập:");
         while(i<=so2) {int j=1;
         while(j<=10) {
         	
