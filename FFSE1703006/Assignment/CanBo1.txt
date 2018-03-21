@@ -1,0 +1,8 @@
+| Nguyễn Văn A         | Phòng ban: Phòng Đào tạo   | Chức vụ: Trưởng phòng | Số ngày công:  5 | Hệ số lương: 3.3 | Phụ cấp: 2000 | Lương:   4559.0 |
+| Bành Thị B           | Phòng ban: Phòng Đào tạo   | Chức vụ: Phó phòng    | Số ngày công: 10 | Hệ số lương: 2.2 | Phụ cấp: 1000 | Lương:   2906.0 |
+| Trương Văn C         | Phòng ban: Phòng Đào tạo   | Chức vụ: Nhân viên    | Số ngày công: 15 | Hệ số lương: 1.1 | Phụ cấp:  500 | Lương:   1753.0 |
+| Dương Thị D          | Khoa     : IT              | Trình độ: Cử nhân     | Số tiết     :  5 | Hệ số lương: 1.1 | Phụ cấp:  300 | Lương:   1328.0 |
+| Trần Văn E           | Khoa     : IT              | Trình độ: Thạc sĩ     | Số tiết     : 10 | Hệ số lương: 2.2 | Phụ cấp:  500 | Lương:   2556.0 |
+| Cao Văn F            | Khoa     : IT              | Trình độ: Tiến sĩ     | Số tiết     : 15 | Hệ số lương: 3.3 | Phụ cấp: 1000 | Lương:   4084.0 |
+| Huỳnh Thị G          | Khoa     : IT              | Trình độ: Tiến sĩ     | Số tiết     : 15 | Hệ số lương: 3.3 | Phụ cấp: 1000 | Lương:   4084.0 |
+| Phạm Văn H           | Khoa     : IT              | Trình độ: Tiến sĩ     | Số tiết     : 15 | Hệ số lương: 3.3 | Phụ cấp: 1000 | Lương:   4084.0 |
