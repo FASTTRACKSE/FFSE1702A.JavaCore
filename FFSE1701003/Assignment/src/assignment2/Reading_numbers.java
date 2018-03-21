@@ -1,6 +1,13 @@
+package assignment2;
+
 import java.util.Scanner;
 
-public class reading_numbers {
+public class Reading_numbers {
+
+	public Reading_numbers() {
+		// TODO Auto-generated constructor stub
+	}
+	
 	public static void main(String[] strs) {
 		Scanner scanner = new Scanner(System.in);
 		int a = scanner.nextInt();
@@ -48,7 +55,7 @@ public class reading_numbers {
 	public void add_number_array(int a) {
 		String ss[];
 		String str = Integer.toString(a);
-		int[] j = Integer.toString(a).split('');
+		int[] j = Integer.toString(a).split();
 		
 //		int length = str.length();
 		
