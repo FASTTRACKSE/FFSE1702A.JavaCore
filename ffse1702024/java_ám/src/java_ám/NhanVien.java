@@ -1,12 +1,12 @@
-package java_asm;
+package java_ám;
 
 public class NhanVien extends CanBo {
     private String phongBan, chucVu;
     private int soNgayCong, choose;
      
-	public NhanVien() {
-		super();
-	}
+    public NhanVien() {
+        super();
+    }
  
     public NhanVien(String phongBan, String chucVu, int soNgayCong) {
         super();
@@ -61,21 +61,13 @@ public class NhanVien extends CanBo {
                     this.setPhuCap(500);
                     break;
                 default:
-                    System.out.println("Chọn không đúng!Mời chọn lại ");
+                    System.out.println("Chọn không đúng!");
                     break;
             }
         } while (choose < 1 || choose > 3);
-        for (;;) {
         System.out.print("Nhập số ngày công: ");
         soNgayCong = scanner.nextInt();
-        try {
-        	CanBoException.chkSoNguyen(soNgayCong);
-        }
-        catch(CanBoException e) {
-       	 System.out.println(e);
-       	
-       }
-    }}
+    }
  
     @Override
     public long tinhLuong() {
@@ -84,8 +76,8 @@ public class NhanVien extends CanBo {
  
     @Override
     public String toString() {
-        return super.toString() + "| phòng ban: " + this.phongBan + "| chức vụ: " + this.chucVu + 
-            "| số ngày công: " + this.soNgayCong;
+        return super.toString() + ", phòng ban: " + this.phongBan + ", chức vụ: " + this.chucVu + 
+            ", số ngày công: " + this.soNgayCong;
     }
      
 }
