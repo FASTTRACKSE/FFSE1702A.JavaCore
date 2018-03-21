@@ -3,7 +3,7 @@ package text;
 import java.util.Scanner;
 
 public class GiangVien extends CanBo {
-	private String khoa, trinhDo;
+	private String khoa, trinhDo, maCanBo;
 	private int soTietDay, choose;
 
 	public GiangVien() {
@@ -15,6 +15,19 @@ public class GiangVien extends CanBo {
 		this.khoa = khoa;
 		this.trinhDo = trinhDo;
 		this.soTietDay = soTietDay;
+	}
+
+	public GiangVien(String maCanBo) {
+		super();
+		this.maCanBo = maCanBo;
+	}
+
+	public String getMaCanBo() {
+		return maCanBo;
+	}
+
+	public void setMaCanBo(String maCanBo) {
+		this.maCanBo = maCanBo;
 	}
 
 	public String getKhoa() {
@@ -69,7 +82,6 @@ public class GiangVien extends CanBo {
 		} while (choose < 1 || choose > 3);
 		System.out.print("Số tiết dạy: ");
 		soTietDay = scanner.nextInt();
-		nhapmcb();
 
 	}
 
@@ -81,8 +93,7 @@ public class GiangVien extends CanBo {
 	@Override
 	public String toString() {
 		return super.toString() + "|| khoa: " + this.khoa + "|| trình độ: " + this.trinhDo + "|| số tiết dạy: "
-				+ this.soTietDay + "|| mã cán bộ: " + this.getMaCanBo();
+				+ this.soTietDay + "|| mã cán bộ: " + this.maCanBo;
 	}
 
 }
-

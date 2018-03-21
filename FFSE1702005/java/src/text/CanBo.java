@@ -1,5 +1,6 @@
 package text;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class CanBo {
@@ -74,11 +75,12 @@ public class CanBo {
 		System.out.print("Nhập hệ số lương: ");
 		heSoLuong = Double.parseDouble(scanner.nextLine());
 	}
-
-	public void nhapmcb() {
-		System.out.print("Mã cán bộ: ");
+	
+	public void nhapmcb() throws CanBoException {
+		System.out.print("Nhập mã cán bộ: ");
 		Scanner mcb = new Scanner(System.in);
 		maCanBo = mcb.nextLine();
+
 	}
 
 	public long tinhLuong() {

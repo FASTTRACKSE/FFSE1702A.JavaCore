@@ -13,12 +13,14 @@ public class Main {
 
 		for (;;) {
 			try {
-				System.out.println("+>>       Menu       <<+");
-				System.out.println("+|  1. Nhập cán bộ    |+");
-				System.out.println("+|  2. List cán bộ    |+");
-				System.out.println("+|  3. Lương phải trả |+");
-				System.out.println("+|  4. Kết thúc       |+");
-				System.out.println("+>>  Chọn chức năng  <<+");
+				System.out.println(" ____________________________________ ");
+				System.out.println("|                Menu                |");
+				System.out.println("|          1. Nhập cán bộ            |");
+				System.out.println("|          2. List cán bộ            |");
+				System.out.println("|          3. Lương phải trả         |");
+				System.out.println("|          4. Kết thúc               |");
+				System.out.println("|------------------------------------|");
+				System.out.print("[          Chọn chức năng            ]");
 				Scanner myInput = new Scanner(System.in);
 				int answer = myInput.nextInt();
 				if (answer == 1) {
@@ -33,18 +35,60 @@ public class Main {
 							choose = scanner.nextInt();
 							switch (choose) {
 							case 1:
-								canBo = new GiangVien();
-								canBo.nhap();
+								for (;;) {
+									try {
+										canBo = new GiangVien();
+										canBo.nhap();
+										break;
+									} catch (Exception e) {
+										System.out.println("!! Tên không được rỗng hoặc quá 40 kí tự. !!");
+									}
+								}
+								for (;;) {
+									try {
+										System.out.print("Mã cán bộ: ");
+										String maCanBo;
+										Scanner mcb = new Scanner(System.in);
+										maCanBo = mcb.nextLine();
+										CanBoException.chekMCB(maCanBo, arrCanBo);
+										canBo.setMaCanBo(maCanBo);
+										break;
+									} catch (Exception e) {
+										System.out.println("!! Mã cán bộ đã tồn tại hoặc rỗng. !!");
+									}
+								}
 								arrCanBo.add(canBo);
 								break;
 							case 2:
-								canBo = new NhanVien();
-								canBo.nhap();
+								for (;;) {
+									try {
+										canBo = new NhanVien();
+										canBo.nhap();
+										break;
+									} catch (Exception e) {
+										System.out.println("!! Tên không được rỗng hoặc quá 40 kí tự. !!");
+									}
+								}
+								for (;;) {
+									try {
+										System.out.print("Nhập mã cán bộ: ");
+										String maCanBo;
+										Scanner mcb = new Scanner(System.in);
+										maCanBo = mcb.nextLine();
+										CanBoException.chekMCB(maCanBo, arrCanBo);
+										canBo.setMaCanBo(maCanBo);
+										break;
+									} catch (Exception e) {
+										System.out.println("!! Mã cán bộ đã tồn tại hoặc rỗng. !!");
+									}
+								}
 								arrCanBo.add(canBo);
 								break;
+
 							default:
-								System.out.println("Chọn không hợp lệ.");
+								System.out.println("!! Chọn không hợp lệ. !!");
 								break;
+
 							}
 						} while (choose < 1 || choose > 3);
 					}
@@ -62,9 +106,11 @@ public class Main {
 					System.out.println("Tổng lương phải trả cho cán bộ trong trường = " + tongLuong);
 				} else if (answer == 4) {
 					System.exit(0);
+				} else {
+					System.out.println("!! Error! Vui lòng nhập lại theo số trong menu !!");
 				}
 			} catch (Exception e) {
-				System.out.println("+>> Error! Vui lòng nhập lại <<+");
+				System.out.println("!! Error! Vui lòng nhập lại theo số trong menu !!");
 			}
 		}
 	}
