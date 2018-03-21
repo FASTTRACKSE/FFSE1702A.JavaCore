@@ -20,8 +20,8 @@ public class Vuong extends Chunhat {
 	 int rong=scan.nextInt();
 	 
 	 Chunhat cn = new Chunhat();
-	 cn.setDai(dai);
-	 cn.setRong(rong);
+	 cn.setDai(8);
+	 cn.setRong(4);
 	 
 	 Chunhat cn2 = new Chunhat(5,7);
 	 
