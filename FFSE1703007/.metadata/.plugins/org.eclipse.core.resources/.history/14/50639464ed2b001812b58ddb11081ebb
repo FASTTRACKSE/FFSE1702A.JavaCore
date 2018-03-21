@@ -1,0 +1,27 @@
+package assigment5;
+
+public class HotenException extends Exception {
+	String errHoTen;
+
+	public HotenException() {
+
+	}
+
+	public HotenException(String errHoTen) {
+		this.errHoTen = errHoTen;
+	}
+
+	@Override
+	public String toString() {
+		return this.errHoTen;
+	}
+
+	static void chkHoTen(String hoTen) throws HotenException {
+		if (hoTen.equals("")) {
+			throw new HotenException("Họ tên không được để trống");
+		}
+		if (hoTen.length() > 20 ) {
+			throw new HotenException("Họ tên không được có độ dài quá 20 kí tự");
+		}
+	}
+}

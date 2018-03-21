@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename type &apos;assigment5.HotenException&apos; to &apos;MyException&apos;&#x0D;&#x0A;- Original project: &apos;Assigment&apos;&#x0D;&#x0A;- Original element: &apos;assigment5.HotenException&apos;&#x0D;&#x0A;- Renamed element: &apos;assigment5.MyException&apos;&#x0D;&#x0A;- Update references to refactored element&#x0D;&#x0A;- Update textual occurrences in comments and strings" description="Rename type &apos;HotenException&apos;" flags="589830" id="org.eclipse.jdt.ui.rename.type" input="/src&lt;assigment5{HotenException.java[HotenException" matchStrategy="1" name="MyException" qualified="false" references="true" similarDeclarations="false" stamp="1521517217401" textual="false" version="1.0"/>
+</session>

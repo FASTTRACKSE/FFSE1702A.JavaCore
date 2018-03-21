@@ -1,0 +1,14 @@
+package Hello_World;
+
+import java.util.Scanner;
+
+public class bai2 {
+	public static void main(String[] args) {
+		Scanner scanner = new Scanner(System.in);
+		System.out.println("Hay nhap so: ");
+		int number = scanner.nextInt();
+		int x = number / 10;
+		int y = number % 10;
+		
+	}
+}
