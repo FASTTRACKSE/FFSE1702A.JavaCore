@@ -95,65 +95,62 @@ public class Main {
 	}
 	
 	public static String checkHoTen() {
-		String s;
 		do {
 			try {
-				s = input.nextLine();
+				String s = input.nextLine();
 				MyException.chkHoTen(s, arrCanBo);
-				break;
+				return s;
 			} catch (MyException e) {
 				System.out.print(e);
 			}
 		} while(true);
-		return s;
 	}
 	
 	public static double checkHeSoLuong() {
-		double d;
 		do {
 			try {
 				String s = input.nextLine();
 				MyException.chkDouble(s);
-				d = Double.parseDouble(s);
-				break;
+				return Double.parseDouble(s);
 			} catch (MyException e) {
 				System.out.print(e);
 			}
 		} while (true);
-		return d;
 	}
 	
 	public static int checkInt() {
-		int i;
 		do {
 			try {
 				String s = input.nextLine();
 				MyException.chkDouble(s);
-				i = Integer.parseInt(s);
-				break;
+				return Integer.parseInt(s);
 			} catch (MyException e) {
 				System.out.print(e);
 			}
 		} while (true);
-		return i;
 	}
 	
-/*	public static void ghiDuLieu() throws IOException, ClassNotFoundException {
-		FileOutputStream fos = new FileOutputStream("Dulieu.txt");
-		ObjectOutputStream oos = new ObjectOutputStream(fos);
-		oos.writeObject(arrCanBo);
-		oos.close();
-	}*/
-	public static void ghiDuLieu() throws IOException {
-		FileWriter fw = new FileWriter("Dulieu.txt");
-		BufferedWriter bw = new BufferedWriter(fw);
-		for (CanBo cb : arrCanBo) {
-			bw.write(cb.toString());
+	public static void ghiDuLieu() throws IOException, ClassNotFoundException {
+		try {
+			FileOutputStream fos = new FileOutputStream("Dulieu.txt");
+			ObjectOutputStream oos = new ObjectOutputStream(fos);
+			oos.writeObject(arrCanBo);
+			oos.close();fos.close();
+		} catch (IOException e) {
+			System.out.println("File chưa được ghi");
+			System.out.println(e);
 		}
-		bw.flush();bw.close();
 	}
+//	public static void ghiDuLieu() throws IOException {
+//		FileWriter fw = new FileWriter("Dulieu.txt");
+//		BufferedWriter bw = new BufferedWriter(fw);
+//		for (CanBo cb : arrCanBo) {
+//			bw.write(cb.toString());
+//		}
+//		bw.flush();bw.close();
+//	}
 	
-/*	@SuppressWarnings("unchecked")
+	@SuppressWarnings("unchecked")
 	public static void docDuLieu() {
 		try {
 			FileInputStream fis = new FileInputStream("Dulieu.txt");
@@ -166,21 +163,22 @@ public class Main {
 		} catch (Exception e) {
 			System.out.println(e);
 		}
-	}*/
-	
-	public static void docDuLieu() throws IOException {
-		FileReader fr = new FileReader("Dulieu.txt");
-		BufferedReader br = new BufferedReader(fr);
-		String text;
-		while((text = br.readLine()) != null){
-			System.out.println(text);
-		}
-		br.close();
 	}
+	
+//	public static void docDuLieu() throws IOException {
+//		FileReader fr = new FileReader("Dulieu.txt");
+//		BufferedReader br = new BufferedReader(fr);
+//		String text;
+//		while((text = br.readLine()) != null){
+//			System.out.println(text);
+//		}
+//		br.close();
+//	}
 
 	public static void main(String[] args) throws ClassNotFoundException, IOException {
-		inMenu();
+		System.out.println("In file:");
 		docDuLieu();
+		inMenu();
 		do {
 			System.out.print("Nhập 0-4 để chọn chức năng, 5 để hiển thị menu: ");
 			input = new Scanner(System.in);
