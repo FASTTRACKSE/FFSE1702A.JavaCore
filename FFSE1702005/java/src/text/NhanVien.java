@@ -83,7 +83,6 @@ public class NhanVien extends CanBo {
 		} while (choose < 1 || choose > 3);
 		System.out.print("Nhập số ngày công: ");
 		soNgayCong = scanner.nextInt();
-
 	}
 
 	@Override

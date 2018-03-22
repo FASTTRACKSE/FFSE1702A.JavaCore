@@ -69,18 +69,26 @@ public class CanBo {
 	}
 
 	public void nhap() throws CanBoException {
-		System.out.print("Nhập họ tên: ");
-		hoTen = scanner.nextLine();
-		CanBoException.chekHoten(hoTen);
-		System.out.print("Nhập hệ số lương: ");
-		heSoLuong = Double.parseDouble(scanner.nextLine());
-	}
-	
-	public void nhapmcb() throws CanBoException {
-		System.out.print("Nhập mã cán bộ: ");
-		Scanner mcb = new Scanner(System.in);
-		maCanBo = mcb.nextLine();
-
+		for (;;) {
+			try {
+				System.out.print("Nhập họ tên: ");
+				hoTen = scanner.nextLine();
+				CanBoException.chekHoten(hoTen);
+				break;
+			} catch (Exception e) {
+				System.out.println("!! Tên không được rỗng hoặc quá 40 kí tự. !!");
+			}
+		}
+		
+		for (;;) {
+			try {
+				System.out.print("Nhập hệ số lương: ");
+				heSoLuong = Double.parseDouble(scanner.nextLine());
+				break;
+			} catch (Exception e) {
+				System.out.println("!! Hệ số lương chỉ được nhập số thực. !!");
+			}
+		}
 	}
 
 	public long tinhLuong() {

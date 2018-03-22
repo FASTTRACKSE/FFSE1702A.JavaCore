@@ -60,11 +60,11 @@ public class BienLai extends KhachHang {
 		super.nhap();
 
 		Scanner congto = new Scanner(System.in);
-		System.out.print("Nhập số công tơ mới: ");
+		System.out.print("Nháº­p sá»‘ cÃ´ng tÆ¡ má»›i: ");
 		int chiSoMoi = congto.nextInt();
 		this.setChiSoMoi(chiSoMoi);
 
-		System.out.print("Nhập số công tơ cũ: ");
+		System.out.print("Nháº­p sá»‘ cÃ´ng tÆ¡ cÅ©: ");
 		int chiSoCu = congto.nextInt();
 		this.setChiSoCu(chiSoCu);
 
@@ -74,7 +74,8 @@ public class BienLai extends KhachHang {
 
 	public void xuatbienlai() {
 		super.xuat();
-		System.out.println("Số công tơ cũ: " + this.getChiSoCu() + "\n" + "Số công tơ mới: " + this.getChiSoMoi() + "\n" + "Số tiền phải trả: " + this.getSoTienPhaiTra() + "đ");
+		System.out.println("Sá»‘ cÃ´ng tÆ¡ cÅ©: " + this.getChiSoCu() + "\n" + "Sá»‘ cÃ´ng tÆ¡ má»›i: "
+				+ this.getChiSoMoi() + "\n" + "Sá»‘ tiá»�n pháº£i tráº£: " + this.getSoTienPhaiTra() + "Ä‘");
 	}
 
 	public static void main(String[] args) {
@@ -85,25 +86,25 @@ public class BienLai extends KhachHang {
 			try {
 				System.out.print("");
 				System.out.println("+>>      Menu      <<+");
-				System.out.println("+|    1. Thêm KH    |+");
+				System.out.println("+|    1. ThÃªm KH    |+");
 				System.out.println("+|    2. Update KH  |+");
-				System.out.println("+|    3. Xóa KH     |+");
-				System.out.println("+|    4. Sắp xếp KH |+");
+				System.out.println("+|    3. XÃ³a KH     |+");
+				System.out.println("+|    4. Sáº¯p xáº¿p KH |+");
 				System.out.println("+|    5. List KH    |+");
-				System.out.println("+>> Chọn chức năng <<+");
+				System.out.println("+>> Chá»�n chá»©c nÄƒng <<+");
 
 				Scanner myInput = new Scanner(System.in);
 				int answer = myInput.nextInt();
 
 				if (answer == 1) {
-					System.out.print("Số hộ gia đình cần nhập: ");
+					System.out.print("Sá»‘ há»™ gia Ä‘Ã¬nh cáº§n nháº­p: ");
 					int m = scanner.nextInt();
 
 					for (int i = 0; i < m; i++) {
 						BienLai bl = new BienLai();
-						System.out.println("Nhập thông tin biên lai của hộ gia đình: ");
+						System.out.println("Nháº­p thÃ´ng tin biÃªn lai cá»§a há»™ gia Ä‘Ã¬nh: ");
 						bl.nhapbienlai();
-						System.out.println("Thông tin biên lai của các hộ gia đình: ");
+						System.out.println("ThÃ´ng tin biÃªn lai cá»§a cÃ¡c há»™ gia Ä‘Ã¬nh: ");
 						bl.xuatbienlai();
 						dsKH[index] = bl;
 						index++;
@@ -112,48 +113,36 @@ public class BienLai extends KhachHang {
 				}
 
 				else if (answer == 2) {
-					/*System.out.print("Nhập ID của sinh viên cần thay đổi: ");
-					Scanner update = new Scanner(System.in);
-					String id = update.nextLine();
-
-					for (int i = 0; i < index; i++) {
-						if (dsSV[i].getId().equals(id)) {
-							System.out.print("Nhập tên sinh viên: ");
-							Scanner tenSV = new Scanner(System.in);
-							String name = tenSV.nextLine();
-							dsSV[i].setName(name);
-						}
-					}*/
+					/*
+					 * System.out.print("Nháº­p ID cá»§a sinh viÃªn cáº§n thay Ä‘á»•i: "); Scanner
+					 * update = new Scanner(System.in); String id = update.nextLine();
+					 * 
+					 * for (int i = 0; i < index; i++) { if (dsSV[i].getId().equals(id)) {
+					 * System.out.print("Nháº­p tÃªn sinh viÃªn: "); Scanner tenSV = new
+					 * Scanner(System.in); String name = tenSV.nextLine(); dsSV[i].setName(name); }
+					 * }
+					 */
 				}
 
 				else if (answer == 3) {
-					/*System.out.print("Nhập ID của sinh viên cần xóa: ");
-					Scanner update = new Scanner(System.in);
-					String id = update.nextLine();
-
-					for (int i = 0; i < index; i++) {
-						if (dsSV[i].getId().equals(id)) {
-							for (int j = i + 1; j < index; j++) {
-								dsSV[i] = dsSV[j];
-							}
-						}
-					}
-					dsSV[index - 1] = null;
-					index--;*/
+					/*
+					 * System.out.print("Nháº­p ID cá»§a sinh viÃªn cáº§n xÃ³a: "); Scanner update =
+					 * new Scanner(System.in); String id = update.nextLine();
+					 * 
+					 * for (int i = 0; i < index; i++) { if (dsSV[i].getId().equals(id)) { for (int
+					 * j = i + 1; j < index; j++) { dsSV[i] = dsSV[j]; } } } dsSV[index - 1] = null;
+					 * index--;
+					 */
 				}
 
 				else if (answer == 4) {
-					/*for (int i = 0; i < index; i++) {
-						for (int j = i + 1; j < index; j++) {
-							int a = dsSV[i].getName().compareTo(dsSV[j].getName());
-							if (a>0) {
-							sinhvien1 bien = dsSV[i];
-								dsSV[i] = dsSV[j];
-								dsSV[j] = bien;
-								
-							}
-						}
-					}*/
+					/*
+					 * for (int i = 0; i < index; i++) { for (int j = i + 1; j < index; j++) { int a
+					 * = dsSV[i].getName().compareTo(dsSV[j].getName()); if (a>0) { sinhvien1 bien =
+					 * dsSV[i]; dsSV[i] = dsSV[j]; dsSV[j] = bien;
+					 * 
+					 * } } }
+					 */
 				}
 
 				else if (answer == 5) {
@@ -163,14 +152,13 @@ public class BienLai extends KhachHang {
 				}
 
 				else {
-					System.out
-							.println("+>> Nhập sai chức năng vui lòng nhập lại chức năng trong khoảng từ 1 đến 4 <<+");
+					System.out.println(
+							"+>> Nháº­p sai chá»©c nÄƒng vui lÃ²ng nháº­p láº¡i chá»©c nÄƒng trong khoáº£ng tá»« 1 Ä‘áº¿n 4 <<+");
 				}
 			} catch (Exception e) {
-				System.out.println("+>> Error! Vui lòng nhập lại <<+");
+				System.out.println("+>> Error! Vui lÃ²ng nháº­p láº¡i <<+");
 			}
 		}
-		
 
 	}
 }

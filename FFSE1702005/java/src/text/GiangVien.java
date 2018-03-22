@@ -60,29 +60,28 @@ public class GiangVien extends CanBo {
 		System.out.print("Nhập khoa: ");
 		khoa = scanner.nextLine();
 		do {
-			System.out.print("Nhập trình độ (1 - cử nhân, 2 - thạc sĩ, 3 - tiến sĩ): ");
-			choose = scanner.nextInt();
-			switch (choose) {
-			case 1:
-				trinhDo = "cử nhân";
-				this.setPhuCap(300);
-				break;
-			case 2:
-				trinhDo = "thạc sĩ";
-				this.setPhuCap(500);
-				break;
-			case 3:
-				trinhDo = "tiến sĩ";
-				this.setPhuCap(1000);
-				break;
-			default:
-				System.out.println("Chọn không đúng!");
-				break;
-			}
+				System.out.print("Nhập trình độ (1 - cử nhân, 2 - thạc sĩ, 3 - tiến sĩ): ");
+				choose = scanner.nextInt();
+				switch (choose) {
+				case 1:
+					trinhDo = "cử nhân";
+					this.setPhuCap(300);
+					break;
+				case 2:
+					trinhDo = "thạc sĩ";
+					this.setPhuCap(500);
+					break;
+				case 3:
+					trinhDo = "tiến sĩ";
+					this.setPhuCap(1000);
+					break;
+				default:
+					System.out.println("!! Chỉ nhập số từ 1 đến 3. !!");
+					break;
+				}	
 		} while (choose < 1 || choose > 3);
-		System.out.print("Số tiết dạy: ");
-		soTietDay = scanner.nextInt();
-
+			System.out.print("Số tiết dạy: ");
+			soTietDay = scanner.nextInt();	
 	}
 
 	@Override
