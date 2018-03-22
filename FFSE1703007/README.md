@@ -3,3 +3,4 @@ asm1: https://github.com/FASTTRACKSE/FFSE1702A.JavaCore/blob/master/FFSE1703007/
 asm2: https://github.com/FASTTRACKSE/FFSE1702A.JavaCore/blob/master/FFSE1703007/Assigment/src/assigment020118/Asm2.java
 asm3: https://github.com/FASTTRACKSE/FFSE1702A.JavaCore/blob/master/FFSE1703007/Assigment/src/assigment020118/Asm3.java
 asm4: https://github.com/FASTTRACKSE/FFSE1702A.JavaCore/blob/master/FFSE1703007/Assigment/src/assigment020118/Asm4.java
+asm5,6,7: https://github.com/FASTTRACKSE/FFSE1702A.JavaCore/tree/master/FFSE1703007/Assigment/src/assigment5
