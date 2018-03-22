@@ -34,7 +34,7 @@ public class MyException extends Exception {
 	}
 	
 	static void chkTrinhDo(String trinhDo) throws MyException{
-		if (!trinhDo.equals("cử nhân")||trinhDo.equals("thạc sĩ")||trinhDo.equals("tiến sĩ")) {
+		if (!(trinhDo.equals("cử nhân")||trinhDo.equals("thạc sĩ")||trinhDo.equals("tiến sĩ"))) {
 			throw new MyException("Nhập cử nhân hoặc thạc sĩ hoặc tiến sĩ, vui lòng nhập lại");
 		}
 	}
@@ -66,7 +66,7 @@ public class MyException extends Exception {
 	}
 	
 	static void chkChucVu(String chucVu) throws MyException{
-		if (!chucVu.equals("trưởng phòng")||chucVu.equals("phó phòng")||chucVu.equals("nhân viên")) {
+		if (!(chucVu.equals("trưởng phòng")||chucVu.equals("phó phòng")||chucVu.equals("nhân viên"))) {
 			throw new MyException("Chỉ được nhập trưởng phòng, phó phòng, nhân viên, vui lòng nhập lại");
 		}
 	}

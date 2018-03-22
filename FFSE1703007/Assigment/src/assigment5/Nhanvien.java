@@ -50,10 +50,12 @@ public class Nhanvien extends CanBo {
 
 	@Override
 	public String toString() {
-		return "Nhanvien [phongban=" + phongban + ", songaycong=" + songaycong + ", chucvu=" + chucvu + "]";
+		return "Nhanvien [phongban=" + phongban + ", songaycong=" + songaycong + ", chucvu=" + chucvu + "] \r\n";
 	}
 
 	public void nhap() {
+		String chucvu;
+		String input;
 		super.nhapHoTen();
 
 		Scanner scan = new Scanner(System.in);
@@ -63,8 +65,9 @@ public class Nhanvien extends CanBo {
 		System.out.println("Nhập chức vụ");
 		while (true) {
 			try {
-				String chucvu = scan.nextLine();
-				MyException.chkTrinhDo(chucvu);
+				input = scan.nextLine();
+				MyException.chkChucVu(input);
+				chucvu=input;
 				break;
 			} catch (MyException e) {
 				// TODO: handle exception

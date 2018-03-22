@@ -1,1 +1,2 @@
-Giangvien [khoa=a, trinhDo=cử nhân, soTiet=2]
+﻿Giangvien [khoa=a, trinhDo=tiến sĩ, soTiet=2] 
+Nhanvien [phongban=x, songaycong=3, chucvu=nhân viên] 

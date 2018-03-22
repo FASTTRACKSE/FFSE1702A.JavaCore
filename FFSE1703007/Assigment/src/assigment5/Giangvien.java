@@ -49,7 +49,7 @@ public class Giangvien extends CanBo {
 
 	@Override
 	public String toString() {
-		return "Giangvien [khoa=" + khoa + ", trinhDo=" + trinhDo + ", soTiet=" + soTiet + "]";
+		return "Giangvien [khoa=" + khoa + ", trinhDo=" + trinhDo + ", soTiet=" + soTiet + "] \r\n";
 	}
 
 	public void nhap() {
