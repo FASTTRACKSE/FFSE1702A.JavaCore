@@ -6,7 +6,7 @@
   <h2> assignment 1 : </h2>
   <a href="https://github.com/FASTTRACKSE/FFSE1702A.JavaCore/blob/master/ffse1702004/assignment%201/src/Calculator.java">calculator</a><br />
   <a href="https://github.com/FASTTRACKSE/FFSE1702A.JavaCore/blob/master/ffse1702004/assignment%201/src/Bangcuuchuong.java">bang cuu chuong</a><br />
-  <a href="">doc chu</a><br />
+  <a href="https://github.com/FASTTRACKSE/FFSE1702A.JavaCore/blob/master/ffse1702004/assignment%201/src/Docchu.java">doc chu</a><br />
   
   <h2> assignment 2 : </h2>
   <a href="https://github.com/FASTTRACKSE/FFSE1702A.JavaCore/blob/master/ffse1702004/assignment%202/src/Giaiphuongtrinh.java"> giai phuong trinh</a><br />
