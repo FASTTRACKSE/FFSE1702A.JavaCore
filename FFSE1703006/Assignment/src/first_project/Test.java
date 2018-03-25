@@ -1,19 +1,46 @@
 package first_project;
 
-import java.text.DecimalFormat;
+import java.awt.event.*;
+import javax.swing.*;
+import java.awt.*;
 
-public class Test {
-	static String[] ten = { "Nguyễn Văn A", "Trần Thị B", "Trương Văn C", "Dương Thị D", "Trần Văn E" };
+public class Test extends JFrame {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
-	public static void main(String[] args) {
-		// float rate = (float) 10.3546645;
-		// System.out.println(rate);
-		// System.out.println((float) Math.floor(rate * 100) / 100);
-		float rate1 = (float) (13456 * 1.0 / 1000);
-		System.out.println(rate1);
-		// System.out.println(Math.floor(13456 / 1000));
-		DecimalFormat df = new DecimalFormat("#.0");
-		System.out.println(df.format(rate1));
+	public Test() {
+		super("Table example, Wines from Bordeaux");
+
+		Object[][] tabledata = { { "Chateau Meyney, St. Estephe", "$18.75", "$18.75" },
+				{ "Chateau Montrose, St. Estephe", "$18.75", "$54.25" },
+				{ "Chateau Gloria, St. Julien", "$18.75", "$22.99" },
+				{ "Chateau Beychevelle, St. Julien", "$18.75", "$61.63" },
+				{ "Chateau La Tour de Mons, Margeaux", "$18.75", "$57.03" },
+				{ "Chateau Brane-Cantenac, Margeaux", "$18.75", "$49.92" }, };
+
+		String columnheaders[] = { "Wine", "Vintage", "Price" };
+
+		JTable table = new JTable(tabledata, columnheaders);
+		table.setPreferredScrollableViewportSize(new Dimension(500, 70));
+		JScrollPane scrollPane = new JScrollPane(table);
+
+		table.setIntercellSpacing(new Dimension(10, 20));
+
+		getContentPane().add(scrollPane);
+
+		addWindowListener(new WindowAdapter() {
+			public void windowClosing(WindowEvent we) {
+				System.exit(0);
+			}
+		});
+
+		pack();
 	}
 
+	public static void main(String[] args) {
+		Test main = new Test();
+		main.show();
+	}
 }
