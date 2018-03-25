@@ -20,14 +20,11 @@ public class Menu {
 		ObjectOutputStream oos = new ObjectOutputStream(fos);
 		oos.writeObject(arrCanBo);
 		oos.close();
-		// // Luồng charater
-		// FileWriter fw = new FileWriter("CanBo1.txt");
-		// BufferedWriter bw = new BufferedWriter(fw);
-		// for (CanBo cb : arrCanBo) {
-		// bw.write(cb.toString());
-		// }
-		// bw.flush();
-		// bw.close();
+		/*
+		 * // Luồng charater FileWriter fw = new FileWriter("CanBo1.txt");
+		 * BufferedWriter bw = new BufferedWriter(fw); for (CanBo cb : arrCanBo) {
+		 * bw.write(cb.toString()); } bw.flush(); bw.close();
+		 */
 	}
 
 	@SuppressWarnings("unchecked")
@@ -39,22 +36,19 @@ public class Menu {
 			fis = new FileInputStream("CanBo.txt");
 			ois = new ObjectInputStream(fis);
 			arrCanBo = (ArrayList<CanBo>) ois.readObject();
-			// for (CanBo cb : arrCanBo) {
-			// System.out.print(cb);
-			// }
+			/*
+			 * for (CanBo cb : arrCanBo) { System.out.print(cb); }
+			 */
 			ois.close();
 			fis.close();
 		} catch (Exception e) {
 			System.out.println("Có lỗi: " + e);
 		}
-		// // Luồng charater
-		// FileReader frr = new FileReader("CanBo1.txt");
-		// BufferedReader br = new BufferedReader(frr);
-		// String text;
-		// while ((text = br.readLine()) != null) {
-		// System.out.println(text);
-		// }
-		// br.close();
+		/*
+		 * // Luồng charater FileReader frr = new FileReader("CanBo1.txt");
+		 * BufferedReader br = new BufferedReader(frr); String text; while ((text =
+		 * br.readLine()) != null) { System.out.println(text); } br.close();
+		 */
 	}
 
 	public void giaTriMacDinh() throws IOException {
