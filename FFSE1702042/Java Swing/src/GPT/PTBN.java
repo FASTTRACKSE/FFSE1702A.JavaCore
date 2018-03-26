@@ -48,8 +48,8 @@ System.exit(0);
 }
 public static void main(String[]args)
 {
-PTBN tam=new PTBN("Giải phương trình ax+b=0");
-tam.setSize(350,150);
-tam.show();
+PTBN gpt=new PTBN("Giải phương trình ax+b=0");
+gpt.setSize(350,150);
+gpt.show();
 }	
 }
