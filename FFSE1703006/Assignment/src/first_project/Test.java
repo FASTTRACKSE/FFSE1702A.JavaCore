@@ -1,46 +1,60 @@
 package first_project;
 
-import java.awt.event.*;
 import javax.swing.*;
-import java.awt.*;
+import java.awt.event.*;
+import java.io.*;
 
-public class Test extends JFrame {
+public class Test extends JFrame implements ActionListener {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	JMenuBar mb;
+	JMenu file;
+	JMenuItem open;
+	JTextArea ta;
 
-	public Test() {
-		super("Table example, Wines from Bordeaux");
+	Test() {
+		open = new JMenuItem("Open File");
+		open.addActionListener(this);
+		file = new JMenu("File");
+		file.add(open);
+		mb = new JMenuBar();
+		mb.setBounds(0, 0, 800, 20);
+		mb.add(file);
+		ta = new JTextArea(800, 800);
+		ta.setBounds(0, 20, 800, 800);
+		add(mb);
+		add(ta);
+	}
 
-		Object[][] tabledata = { { "Chateau Meyney, St. Estephe", "$18.75", "$18.75" },
-				{ "Chateau Montrose, St. Estephe", "$18.75", "$54.25" },
-				{ "Chateau Gloria, St. Julien", "$18.75", "$22.99" },
-				{ "Chateau Beychevelle, St. Julien", "$18.75", "$61.63" },
-				{ "Chateau La Tour de Mons, Margeaux", "$18.75", "$57.03" },
-				{ "Chateau Brane-Cantenac, Margeaux", "$18.75", "$49.92" }, };
-
-		String columnheaders[] = { "Wine", "Vintage", "Price" };
-
-		JTable table = new JTable(tabledata, columnheaders);
-		table.setPreferredScrollableViewportSize(new Dimension(500, 70));
-		JScrollPane scrollPane = new JScrollPane(table);
-
-		table.setIntercellSpacing(new Dimension(10, 20));
-
-		getContentPane().add(scrollPane);
-
-		addWindowListener(new WindowAdapter() {
-			public void windowClosing(WindowEvent we) {
-				System.exit(0);
+	public void actionPerformed(ActionEvent e) {
+		if (e.getSource() == open) {
+			JFileChooser fc = new JFileChooser();
+			int i = fc.showOpenDialog(this);
+			if (i == JFileChooser.APPROVE_OPTION) {
+				File f = fc.getSelectedFile();
+				String filepath = f.getPath();
+				try {
+					BufferedReader br = new BufferedReader(new FileReader(filepath));
+					String s1 = "", s2 = "";
+					while ((s1 = br.readLine()) != null) {
+						s2 += s1 + "\n";
+					}
+					ta.setText(s2);
+					br.close();
+				} catch (Exception ex) {
+					ex.printStackTrace();
+				}
 			}
-		});
-
-		pack();
+		}
 	}
 
 	public static void main(String[] args) {
-		Test main = new Test();
-		main.show();
+		Test om = new Test();
+		om.setSize(500, 500);
+		om.setLayout(null);
+		om.setVisible(true);
+		om.setDefaultCloseOperation(EXIT_ON_CLOSE);
 	}
 }
