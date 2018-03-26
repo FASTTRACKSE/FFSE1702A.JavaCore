@@ -1,7 +1,7 @@
 package Quanlycanbo;
-
+import java.io.Serializable;
 import java.util.*;
-public class CanBo {
+public class CanBo implements Serializable  {
 	private String maCanBo;
 	public String getMaCanBo() {
 		return maCanBo;
@@ -13,6 +13,23 @@ public class CanBo {
 
 	private String hoTen;
 	private float heSoLuong;
+	private double luong;
+	public double getLuong() {
+		return luong;
+	}
+
+	public void setLuong(double luong) {
+		this.luong = luong;
+	}
+
+	public Scanner getMyInput() {
+		return myInput;
+	}
+
+	public void setMyInput(Scanner myInput) {
+		this.myInput = myInput;
+	}
+
 	Scanner myInput = new Scanner(System.in);
 	
 	public CanBo() {
@@ -61,5 +78,8 @@ public class CanBo {
 		System.out.print("Nhap he so luong: ");
 		float heSoLuong = Float.parseFloat(myInput.nextLine());
 		this.setHeSoLuong(heSoLuong);
+	}
+	public double tinhLuong() {
+		return 0;
 	}
 }

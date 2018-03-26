@@ -1,16 +1,25 @@
 package Quanlycanbo;
-
+import java.io.*;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Scanner;
 
 public class Main {
-	public static void main(String[] args) {
-		Scanner chucNang = new Scanner(System.in);
+	
+	public static void main(String[] args) throws IOException, ClassNotFoundException  {
 		ArrayList<CanBo> list = new ArrayList<CanBo>();
-		for(;;) {
+		Scanner chucNang = new Scanner(System.in);
+		try {
+			FileInputStream fos = new FileInputStream("CanBo.doc");
+			ObjectInputStream oos = new ObjectInputStream(fos);
+			list = (ArrayList<CanBo>) oos.readObject();
+			oos.close();
+			fos.close();
+		} catch (IOException e) {
+			System.out.println("Co loi" + e);
+		}
+			for(;;) {
 			System.out.println("1. Nhap thong tin danh sach");
 			System.out.println("2. Hien thi danh sach");
 			System.out.println("3. Tinh tong so luong");
@@ -31,6 +40,9 @@ public class Main {
 					int dem = 1;
 					for(int i = 0; i < sl; i++) {
 						GiangVien gv = new GiangVien();
+						gv.nhapTen();
+						gv.nhapGiangVien();
+						gv.nhapHeSoLuong();
 						System.out.println("Giang vien " + dem);
 						for(;;) {
 							System.out.println("nhap ma can bo");
@@ -42,24 +54,53 @@ public class Main {
 							}catch(CanBoException e) {
 								System.out.println(e);
 							}
+						
+							
 						}
-						gv.nhapTen();
-						gv.nhapGiangVien();
-						gv.nhapHeSoLuong();
+						
 						list.add(gv);
+						try {
+							FileOutputStream fos = new FileOutputStream("CanBo.doc");
+							ObjectOutputStream oos = new ObjectOutputStream(fos);
+
+							oos.writeObject(list);
+
+							oos.close();
+							fos.close();
+
+						} catch (IOException e) {
+							System.out.println(e);
+						}
 						dem++;
 					}
 				} else if(ds == 2) {
-					System.out.print("So luong nhap: ");
+				System.out.print("So luong nhap: ");
 					int sl = Integer.parseInt(chucNang.next());
 					int dem = 1;
+					NhanVien nv = new NhanVien();
+					nv.nhapTen();
+					nv.nhapNhanVien();
+					nv.nhapHeSoLuong();
 					for(int i = 0; i < sl; i++) {
-						NhanVien nv = new NhanVien();
+						
 						System.out.println("Nhan vien " + dem);
-						nv.nhapTen();
-						nv.nhapNhanVien();
-						nv.nhapHeSoLuong();
-						list.add(nv);
+					
+						
+						
+						
+					}
+					list.add(nv);
+					try {
+						FileOutputStream fos = new FileOutputStream("CanBo.doc");
+						ObjectOutputStream oos = new ObjectOutputStream(fos);
+
+						oos.writeObject(list);
+
+						oos.close();
+						fos.close();
+
+					} catch (IOException e) {
+						System.out.println(e);
 					}
 				}
 			} else if(cn == 2) {
@@ -123,6 +164,38 @@ public class Main {
 					
 				});
 			}
+			}
 		}
+			public void ghiFile() throws IOException {
+				FileOutputStream fos	=	new FileOutputStream("CanBo.pdf",true);
+				PrintWriter pw	=	new PrintWriter(fos);
+				pw.println("Danh sach giang vien");
+////				for(int i = 0; i < list.size(); i++) {
+////					if(list.get(i) instanceof GiangVien) {
+////						GiangVien gv = (GiangVien)list.get(i);
+////						gv.xuatGiangVien();
+////					} 
+////				}
+//				pw.println("Danh sach nhan vien");
+////				for(int i = 0; i < list.size(); i++) {
+////					if(list.get(i) instanceof NhanVien) {
+////						NhanVien nv = (NhanVien)list.get(i);
+////						nv.xuatNhanVien();
+////					}
+////				}
+//				pw.close();
+				fos.flush();
+				fos.close();
 	}
+			public void docFile() throws IOException {
+				FileReader fr	=	new FileReader("CanBo.pdf");
+				BufferedReader br	=	new BufferedReader(fr);
+				String line	=	" ";
+				while((line=br.readLine())!=null) {
+					System.out.println(line);
+				}
+				br.close();
+				fr.close();
+			}
+	
 }
