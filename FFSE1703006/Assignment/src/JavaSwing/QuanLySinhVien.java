@@ -18,12 +18,20 @@ import javax.swing.table.JTableHeader;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.JTextField;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JTable;
 import javax.swing.border.LineBorder;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.ActionListener;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.awt.event.ActionEvent;
 //import javax.swing.event.ListSelectionEvent;
 //import javax.swing.event.ListSelectionListener;
@@ -42,12 +50,13 @@ public class QuanLySinhVien extends JPanel {
 	private JTextField TuoiSV;
 	private JTable table;
 	private String[] columnNames = new String[] { "Mã", "Tên", "Tuổi" };
-	private Object[][] data = new Object[][] { { "SV1", "Nguyễn Văn A", 19 }, { "SV2", "Nguyễn Văn B", 18 },
+	private Object[][] data;
+	/*= new Object[][] { { "SV1", "Nguyễn Văn A", 19 }, { "SV2", "Nguyễn Văn B", 18 },
 			{ "SV3", "Nguyễn Văn C", 20 }, { "SV4", "Nguyễn Văn D", 22 }, { "SV5", "Nguyễn Văn E", 19 },
 			{ "SV6", "Nguyễn Văn F", 21 }, { "SV7", "Nguyễn Văn G", 20 }, { "SV8", "Nguyễn Văn H", 17 },
 			{ "SV9", "Nguyễn Văn I", 20 }, { "SV10", "Nguyễn Văn J", 22 }, { "SV11", "Nguyễn Văn K", 18 },
 			{ "SV12", "Nguyễn Văn L", 21 }, { "SV13", "Nguyễn Văn M", 17 }, { "SV14", "Nguyễn Văn N", 22 },
-			{ "SV15", "Nguyễn Văn O", 19 }, };
+			{ "SV15", "Nguyễn Văn O", 19 }, };*/
 	private DefaultTableModel model = new DefaultTableModel(data, columnNames);
 
 	/**
@@ -83,7 +92,7 @@ public class QuanLySinhVien extends JPanel {
 	 */
 	private void initialize() {
 		frame = new JFrame("Quản lý sinh viên - JunBjn");
-		frame.setBounds(100, 100, 450, 450);
+		frame.setBounds(100, 100, 450, 500);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		JLabel title = new JLabel("Chương trình quản lí sinh viên");
@@ -126,29 +135,39 @@ public class QuanLySinhVien extends JPanel {
 		panel.setBorder(new TitledBorder(new LineBorder(new Color(255, 0, 0)), "Danh s\u00E1ch", TitledBorder.LEADING,
 				TitledBorder.TOP, null, null));
 
+		JButton btnImport = new JButton("Import");
+		btnImport.addActionListener(new ImportListener());
+
+		JButton btnExport = new JButton("Export");
+		btnExport.addActionListener(new ExportListener());
+
 		GroupLayout groupLayout = new GroupLayout(frame.getContentPane());
 		groupLayout.setHorizontalGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 				.addGroup(groupLayout.createSequentialGroup().addGap(117)
-						.addComponent(title, GroupLayout.DEFAULT_SIZE, 504, Short.MAX_VALUE).addGap(114))
+						.addComponent(title, GroupLayout.DEFAULT_SIZE, 203, Short.MAX_VALUE).addGap(114))
 				.addGroup(groupLayout.createSequentialGroup().addGap(76)
 						.addGroup(groupLayout.createParallelGroup(Alignment.LEADING).addComponent(lblTenSV)
 								.addComponent(lblMaSV).addComponent(lblTuoiSV))
 						.addPreferredGap(ComponentPlacement.UNRELATED)
 						.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-								.addComponent(TuoiSV, GroupLayout.DEFAULT_SIZE, 496, Short.MAX_VALUE)
-								.addComponent(TenSV, GroupLayout.DEFAULT_SIZE, 496, Short.MAX_VALUE)
-								.addComponent(MaSV, GroupLayout.DEFAULT_SIZE, 496, Short.MAX_VALUE))
+								.addComponent(TuoiSV, GroupLayout.DEFAULT_SIZE, 195, Short.MAX_VALUE)
+								.addComponent(TenSV, GroupLayout.DEFAULT_SIZE, 195, Short.MAX_VALUE)
+								.addComponent(MaSV, GroupLayout.DEFAULT_SIZE, 195, Short.MAX_VALUE))
 						.addGap(86))
 				.addGroup(groupLayout.createSequentialGroup().addGap(20)
-						.addComponent(panel, GroupLayout.DEFAULT_SIZE, 690, Short.MAX_VALUE).addGap(25))
+						.addComponent(panel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+						.addGap(25))
 				.addGroup(groupLayout.createSequentialGroup().addGap(92)
-						.addComponent(btnAdd, GroupLayout.DEFAULT_SIZE, 134, Short.MAX_VALUE)
+						.addComponent(btnAdd, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 						.addPreferredGap(ComponentPlacement.RELATED)
-						.addComponent(btnEdit, GroupLayout.DEFAULT_SIZE, 126, Short.MAX_VALUE)
+						.addComponent(btnEdit, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 						.addPreferredGap(ComponentPlacement.RELATED)
-						.addComponent(btnDel, GroupLayout.DEFAULT_SIZE, 126, Short.MAX_VALUE)
+						.addComponent(btnDel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 						.addPreferredGap(ComponentPlacement.RELATED)
-						.addComponent(btnExit, GroupLayout.DEFAULT_SIZE, 136, Short.MAX_VALUE).addGap(102)));
+						.addComponent(btnExit, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+						.addGap(102))
+				.addGroup(groupLayout.createSequentialGroup().addGap(142).addComponent(btnImport).addGap(18)
+						.addComponent(btnExport, GroupLayout.PREFERRED_SIZE, 41, Short.MAX_VALUE).addGap(144)));
 		groupLayout.setVerticalGroup(groupLayout.createParallelGroup(Alignment.LEADING).addGroup(groupLayout
 				.createSequentialGroup().addContainerGap()
 				.addComponent(title, GroupLayout.PREFERRED_SIZE, 33, GroupLayout.PREFERRED_SIZE)
@@ -172,7 +191,9 @@ public class QuanLySinhVien extends JPanel {
 						.addComponent(btnExit).addComponent(btnAdd))
 				.addGap(18)
 				.addComponent(panel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-				.addContainerGap(27, Short.MAX_VALUE)));
+				.addGap(18).addGroup(groupLayout.createParallelGroup(Alignment.BASELINE).addComponent(btnExport)
+						.addComponent(btnImport))
+				.addContainerGap(36, Short.MAX_VALUE)));
 
 		JScrollPane scrollPane = new JScrollPane();
 		panel.add(scrollPane);
@@ -268,6 +289,59 @@ public class QuanLySinhVien extends JPanel {
 			int row = table.getSelectedRow();
 			if (row != -1) {
 				model.removeRow(row);
+			}
+		}
+	}
+
+	private class ExportListener implements ActionListener {
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			JFileChooser fc = new JFileChooser();
+			int i = fc.showSaveDialog((Component) e.getSource());
+			if (i == JFileChooser.APPROVE_OPTION) {
+				File f = fc.getSelectedFile();
+				String filepath = f.getPath();
+				try {
+					BufferedWriter bw = new BufferedWriter(new FileWriter(filepath));
+					for (int k = 0; k < table.getRowCount(); k++) {
+						for (int j = 0; j < table.getColumnCount(); j++) {
+							bw.write(table.getValueAt(k, j).toString() + ", ");
+						}
+						bw.newLine();
+					}
+					bw.flush();
+					bw.close();
+				} catch (IOException ex) {
+					System.err.println(ex);
+				}
+			}
+		}
+	}
+
+	private class ImportListener implements ActionListener {
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			JFileChooser fc = new JFileChooser();
+			int i = fc.showOpenDialog((Component) e.getSource());
+			if (i == JFileChooser.APPROVE_OPTION) {
+				File f = fc.getSelectedFile();
+				String filepath = f.getPath();
+				try {
+					BufferedReader br = new BufferedReader(new FileReader(filepath));
+
+					Object[] lines = br.lines().toArray();
+
+					for (int j = 0; j < lines.length; j++) {
+						String[] row = lines[j].toString().split(", ");
+						model.addRow(row);
+					}
+					br.close();
+
+				} catch (FileNotFoundException ex) {
+					System.err.println(ex);
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
 			}
 		}
 	}
