@@ -19,7 +19,7 @@
 <p><a href="https://github.com/FASTTRACKSE/FFSE1702A.JavaCore/blob/master/FFSE1702005/java/src/text/GiangVien.java">Giảng viên (tham khảo)</a></p>
 <p><a href="https://github.com/FASTTRACKSE/FFSE1702A.JavaCore/blob/master/FFSE1702005/java/src/text/Main.java">Main</a></p>
 <p><a href="https://github.com/FASTTRACKSE/FFSE1702A.JavaCore/blob/master/FFSE1702005/java/src/text/CanBoException.java">CanBoException</a></p>
-------------------------------------------------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------------------------------------------------
 <h2>JavaDesktop</h2>
     <p>Assignment 1:</p>
 <p><a href="https://github.com/FASTTRACKSE/FFSE1702A.JavaCore/blob/master/FFSE1702005/JavaDesktop/src/test/GiaiPT.java">Phương trình bậc 1</a></p>
