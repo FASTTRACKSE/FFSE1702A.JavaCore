@@ -4,6 +4,8 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Scanner;
+import com.google.gson.*;
+import com.google.gson.reflect.TypeToken;
 
 public class Menu {
 	static ArrayList<CanBo> arrCanBo = new ArrayList<>();
@@ -15,27 +17,61 @@ public class Menu {
 	}
 
 	public void dataWrite() throws IOException {
-		FileOutputStream fos = new FileOutputStream("CanBo.txt");
-		ObjectOutputStream oos = new ObjectOutputStream(fos);
-		oos.writeObject(arrCanBo);
-		oos.close();
+		/*
+		 * // Luồng byte FileOutputStream fos = new FileOutputStream("CanBo.txt");
+		 * ObjectOutputStream oos = new ObjectOutputStream(fos);
+		 * oos.writeObject(arrCanBo); oos.close();
+		 */
+
+		// Luồng charater
+		FileWriter fw = new FileWriter("CanBo1.txt");
+		BufferedWriter bw = new BufferedWriter(fw);
+		String pre = "", json;
+		for (CanBo cb : arrCanBo) {
+			if (cb instanceof GiangVien)
+				pre = "GiangVien|[";
+			else if (cb instanceof NhanVien)
+				pre = "NhanVien|[";
+			json = pre + new Gson().toJson(cb) + "]\n";
+			bw.write(json);
+		}
+		bw.flush();
+		bw.close();
+
 	}
 
-	public void dataRead() {
-		FileInputStream fis = null;
-		ObjectInputStream ois = null;
-		try {
-			fis = new FileInputStream("CanBo.txt");
-			ois = new ObjectInputStream(fis);
-			arrCanBo = (ArrayList<CanBo>) ois.readObject();
-			// for (CanBo cb : arrCanBo) {
-			// System.out.print(cb);
-			// }
-			ois.close();
-			fis.close();
-		} catch (Exception e) {
-			System.out.println("Có lỗi: " + e);
+	public void dataRead() throws IOException, ClassNotFoundException {
+		/*
+		 * // Luồng byte FileInputStream fis = null; ObjectInputStream ois = null; try {
+		 * fis = new FileInputStream("CanBo.txt"); ois = new ObjectInputStream(fis);
+		 * arrCanBo = (ArrayList<CanBo>) ois.readObject();
+		 * 
+		 * for (CanBo cb : arrCanBo) { System.out.print(cb); }
+		 * 
+		 * ois.close(); fis.close(); } catch (Exception e) {
+		 * System.out.println("Có lỗi: " + e); }
+		 */
+
+		// Luồng charater
+		FileReader frr = new FileReader("CanBo1.txt");
+		BufferedReader br = new BufferedReader(frr);
+		String text;
+		Gson gson = new Gson();
+		while ((text = br.readLine()) != null) {
+			String[] arrOfStr = text.split("\\|", 2);
+			if (arrOfStr[0].equals("NhanVien")) {
+				TypeToken<ArrayList<NhanVien>> token = new TypeToken<ArrayList<NhanVien>>() {
+				};
+				ArrayList<CanBo> obj = gson.fromJson(arrOfStr[1], token.getType());
+				arrCanBo.add(obj.get(0));
+			} else if (arrOfStr[0].equals("GiangVien")) {
+				TypeToken<ArrayList<GiangVien>> token = new TypeToken<ArrayList<GiangVien>>() {
+				};
+				ArrayList<CanBo> obj = gson.fromJson(arrOfStr[1], token.getType());
+				arrCanBo.add(obj.get(0));
+			}
 		}
+		br.close();
 	}
 
 	public void giaTriMacDinh() throws IOException {
@@ -48,7 +84,7 @@ public class Menu {
 		arrCanBo.add(new GiangVien("Huỳnh Thị G", "IT", "Tiến sĩ", 15, 3.3));
 		arrCanBo.add(new GiangVien("Phạm Văn H", "IT", "Tiến sĩ", 15, 3.3));
 		// dataRead();
-		// dataWrite();
+		dataWrite();
 	}
 
 	public void themCanBo() {

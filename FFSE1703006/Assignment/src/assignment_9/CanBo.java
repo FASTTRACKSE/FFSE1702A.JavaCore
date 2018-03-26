@@ -55,12 +55,13 @@ public class CanBo implements Serializable {
 	}
 
 	public void nhap() {
+		@SuppressWarnings("resource")
 		Scanner scanner = new Scanner(System.in);
 		System.out.print("Nhập họ tên: ");
 		do {
 			try {
 				hoTen = scanner.nextLine();
-				MyException.checkHoTen(hoTen);
+				MyException.checkHoTen(hoTen, Menu.arrCanBo);
 				break;
 			} catch (MyException e) {
 				System.err.print(e);
