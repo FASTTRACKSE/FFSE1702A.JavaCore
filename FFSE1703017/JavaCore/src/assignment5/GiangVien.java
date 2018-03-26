@@ -7,7 +7,6 @@ public class GiangVien extends CanBo {
 	private static final long serialVersionUID = 1L;
 	private String khoa, trinhDo;
 	private int soTiet;
-	private Scanner input;
 	
 	public String getKhoa() {
 		return khoa;
@@ -33,7 +32,7 @@ public class GiangVien extends CanBo {
 		int[] pc = {500,1000,2000};
 		String[] td = {"Cử nhân", "Thạc sĩ", "Tiến sĩ"};
 		super.nhap();
-		input = new Scanner(System.in);
+		Scanner input = new Scanner(System.in);
 		System.out.print("Nhập khoa: ");
 		khoa = input.nextLine();
 		do {

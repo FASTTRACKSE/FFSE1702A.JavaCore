@@ -7,7 +7,6 @@ public class NhanVien extends CanBo {
 	private static final long serialVersionUID = 1L;
 	private String phongBan, chucVu;
 	private int soNgayCong;
-	private Scanner input;
 	
 	public String getPhongBan() {
 		return phongBan;
@@ -33,7 +32,7 @@ public class NhanVien extends CanBo {
 		int[] pc = {2000,1000,500};
 		String[] cv = {"Trưởng phòng", "Phó phòng", "Nhân viên"};
 		super.nhap();
-		input = new Scanner(System.in);
+		Scanner input = new Scanner(System.in);
 		System.out.print("Nhập phòng ban: ");
 		phongBan = input.nextLine();
 		do {

@@ -24,7 +24,7 @@ public class Main {
 	public static void main(String[] args) throws Exception {
 		int choose;
 		Menu menu = new Menu();
-		menu.giaTriMacDinh();
+		// menu.giaTriMacDinh();
 		menu.dataRead();
 		showMenu();
 		System.out.print("\nChọn chức năng (nhấn 5 để hiện lại menu): ");
