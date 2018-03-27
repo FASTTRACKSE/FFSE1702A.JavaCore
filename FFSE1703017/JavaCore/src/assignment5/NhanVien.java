@@ -28,19 +28,20 @@ public class NhanVien extends CanBo {
 	}
 	@Override
 	public void nhap() {
-		int chon;
+		int i;
 		int[] pc = {2000,1000,500};
 		String[] cv = {"Trưởng phòng", "Phó phòng", "Nhân viên"};
 		super.nhap();
+		@SuppressWarnings("resource")
 		Scanner input = new Scanner(System.in);
 		System.out.print("Nhập phòng ban: ");
 		phongBan = input.nextLine();
 		do {
 			System.out.print("Nhập chức vụ (1 - Trưởng phòng, 2- Phó phòng, 3 - Nhân viên): ");
-			chon = Main.checkInt();
-		} while (chon > 3 || chon == 0);
-		chucVu = cv[(chon - 1)];
-		this.setPhuCap(pc[(chon - 1)]);
+			i = Main.checkInt();
+		} while (i > 3 || i == 0);
+		chucVu = cv[(i - 1)];
+		this.setPhuCap(pc[(i - 1)]);
 		System.out.print("Nhập số ngày công: ");
 		soNgayCong = Main.checkInt();
 		this.setLuong(getHeSoLuong() * 730 + getPhuCap() + soNgayCong * 30);

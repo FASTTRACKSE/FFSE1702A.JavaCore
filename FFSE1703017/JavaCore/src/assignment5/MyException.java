@@ -7,7 +7,6 @@ public class MyException extends Exception {
 
 	private static final long serialVersionUID = 1L;
 	private String msg;
-//	private static Scanner sc;
 	
 	public MyException(String msg) {
 		this.msg = msg;
@@ -41,7 +40,7 @@ public class MyException extends Exception {
 	public static void chkInt(String s) throws MyException {
 		try {
 			Integer.parseInt(s);
-		} catch (Exception e) {
+		} catch (NumberFormatException e) {
 			throw new MyException("Vui lòng nhập đúng định dạng, hãy nhập lại: ");
 		}
 		if (Integer.parseInt(s) < 0) throw new MyException("Vui lòng nhập số dương, hãy nhập lại: ");
