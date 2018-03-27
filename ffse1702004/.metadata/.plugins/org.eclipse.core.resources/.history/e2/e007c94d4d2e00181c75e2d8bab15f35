@@ -1,0 +1,75 @@
+package java_desktop;
+
+import javax.swing.*;
+import java.awt.*;
+
+
+class MyFrame extends JFrame
+{	
+	JLabel lbbookcode=new JLabel("Book Code");
+	JLabel lbbookname=new JLabel("Book Name");
+	JLabel lbbookauthor=new JLabel("Book Author");
+	JLabel lbbookprice=new JLabel("Book Price");
+	JTextField tfBCode=new JTextField(20);
+	JTextField tfBName=new JTextField(20);
+	JTextField tfBAuthor=new JTextField(20);
+	JTextField tfBprice=new JTextField(20);
+	JButton btfirst=new JButton("First");
+	JButton btPrevious=new JButton("Previous");
+	JButton btnext=new JButton("Next");
+	JButton btlast=new JButton("Last");
+	JButton btadd=new JButton("Add");
+	JButton btupdate=new JButton("Update");
+	JButton btdelete=new JButton("Delete");
+	
+	
+	public MyFrame(String title)
+	{
+		super(title);
+		intcom();
+		
+		
+	}
+	private void intcom()
+	{
+		JPanel pwest=new JPanel();
+		pwest.setLayout(new GridLayout(4,1));
+		pwest.add(lbbookcode);
+		pwest.add(lbbookname);
+		pwest.add(lbbookauthor);
+		pwest.add(lbbookprice);
+		
+		JPanel pcenter=new JPanel();
+		pcenter.setLayout(new GridLayout(4,1));
+		pcenter.add(tfBCode);
+		pcenter.add(tfBName);
+		pcenter.add(tfBAuthor);
+		pcenter.add(tfBprice);
+		
+		JPanel psouth=new JPanel();
+	    psouth.setLayout(new FlowLayout());
+		psouth.add(btfirst);
+		psouth.add(btadd);
+		psouth.add(btdelete);
+		psouth.add(btlast);
+		psouth.add(btnext);
+		psouth.add(btPrevious);
+		psouth.add(btupdate);
+		
+		this.setLayout(new BorderLayout());
+		this.getContentPane().add(pwest,BorderLayout.WEST);
+		this.getContentPane().add(pcenter,BorderLayout.CENTER);
+		this.getContentPane().add(psouth,BorderLayout.SOUTH);
+	}
+	
+	
+}
+class mainclass{
+	public static void main(String[] args)
+	{
+		MyFrame mf=new MyFrame("Hello");
+		mf.setSize(300,200);
+		mf.setVisible(true);
+		
+	}
+}
