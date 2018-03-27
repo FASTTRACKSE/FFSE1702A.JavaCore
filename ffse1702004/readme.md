@@ -35,6 +35,9 @@
 <h1>JavaDesktop</h1>
 <h2>Assignment 1</h2>
 <a href="https://github.com/FASTTRACKSE/FFSE1702A.JavaCore/blob/master/ffse1702004/JavaDesktop_assignment%201/src/PhuongTrinh.java">giai phuong trinh </a><br />
+<h2>Assignment 2</h2>
+<a href="https://github.com/FASTTRACKSE/FFSE1702A.JavaCore/blob/master/ffse1702004/JavaDesktop_assignment%202/src/SinhVien.java">Danh Sach Sinh Vien </a><br />
+
 </body>
   
 </html>
