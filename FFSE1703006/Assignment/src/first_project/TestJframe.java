@@ -1,4 +1,4 @@
-package JavaSwing;
+package first_project;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -38,7 +38,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableCellRenderer;
 
-public class QuanLySinhVien extends JFrame {
+public class TestJframe extends JFrame {
 
 	/**
 	 * 
@@ -65,7 +65,7 @@ public class QuanLySinhVien extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					new QuanLySinhVien("Quản lý sinh viên - JunBjn").showWindow();
+					new TestJframe("Quản lý sinh viên - JunBjn").showWindow();
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -80,7 +80,7 @@ public class QuanLySinhVien extends JFrame {
 		this.setVisible(true);
 	}
 
-	public QuanLySinhVien(String tieude) {
+	public TestJframe(String tieude) {
 		super(tieude);
 		addControls();
 	}
@@ -291,7 +291,7 @@ public class QuanLySinhVien extends JFrame {
 					BufferedWriter bw = new BufferedWriter(new FileWriter(filepath));
 					for (int k = 0; k < table.getRowCount(); k++) {
 						for (int j = 0; j < table.getColumnCount(); j++) {
-							bw.write(table.getValueAt(k, j).toString() + ",");
+							bw.write(table.getValueAt(k, j).toString() + ", ");
 						}
 						bw.newLine();
 					}
@@ -318,7 +318,7 @@ public class QuanLySinhVien extends JFrame {
 					Object[] lines = br.lines().toArray();
 
 					for (int j = 0; j < lines.length; j++) {
-						String[] row = lines[j].toString().split(",");
+						String[] row = lines[j].toString().split(", ");
 						model.addRow(row);
 					}
 					br.close();
