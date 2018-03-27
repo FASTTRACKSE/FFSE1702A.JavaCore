@@ -1,48 +1,31 @@
 package Canbo;
 
-import java.util.Comparator;
 import java.util.Scanner;
 
-public class Giangvien {
-    public static Scanner myinput = new Scanner(System.in);
+public class GiangVien extends CanBo {
+    private static final long serialVersionUID = 1L;
+    private String khoa, trinhDo;
+    private int soTiet, choose;
 
-    private String hoten;
-
-    private String khoa;
-
-    private String trinhdo;
-
-    private double phucap;
-
-    private int sotiet;
-
-    private double hesoluong;
-
-    private double luong;
-
-    public Giangvien() {
+    public GiangVien() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
-    public Giangvien(String hoten, String khoa, String trinhdo, double phucap,
-            int sotiet, double hesoluong, double luong) {
+    public GiangVien(String hoTen, String khoa, String trinhDo, int soTiet, double heSoLuong) {
         super();
-        this.hoten = hoten;
+        this.setHoTen(hoTen);
         this.khoa = khoa;
-        this.trinhdo = trinhdo;
-        this.phucap = phucap;
-        this.sotiet = sotiet;
-        this.hesoluong = hesoluong;
-        this.luong = luong;
-    }
-
-    public String getHoten() {
-        return hoten;
-    }
-
-    public void setHoten(String hoten) {
-        this.hoten = hoten;
+        this.trinhDo = trinhDo;
+        this.soTiet = soTiet;
+        this.setHeSoLuong(heSoLuong);
+        if (trinhDo == "Cử nhân") {
+            this.setPhuCap(300);
+        } else if (trinhDo == "Thạc sĩ") {
+            this.setPhuCap(500);
+        } else if (trinhDo == "Tiến sĩ") {
+            this.setPhuCap(1000);
+        }
+        this.setLuong(tinhLuong());
     }
 
     public String getKhoa() {
@@ -53,154 +36,61 @@ public class Giangvien {
         this.khoa = khoa;
     }
 
-    public String getTrinhdo() {
-        return trinhdo;
+    public String getTrinhDo() {
+        return trinhDo;
     }
 
-    public void setTrinhdo(String trinhdo) {
-        this.trinhdo = trinhdo;
+    public void setTrinhDo(String trinhDo) {
+        this.trinhDo = trinhDo;
     }
 
-    public double getPhucap() {
-        return phucap;
+    public int getSoTiet() {
+        return soTiet;
     }
 
-    public void setPhucap(double phucap) {
-        this.phucap = phucap;
-    }
-
-    public int getSotiet() {
-        return sotiet;
-    }
-
-    public void setSotiet(int sotiet) {
-        this.sotiet = sotiet;
-    }
-
-    public double getHesoluong() {
-        return hesoluong;
-    }
-
-    public void setHesoluong(double hesoluong) {
-        this.hesoluong = hesoluong;
+    public void setSoTiet(int soTiet) {
+        this.soTiet = soTiet;
     }
 
     public void nhap() {
-
-        hoten = checkHoten();
-        System.out.println("Khoa giang dạy cua giang viên");
-        khoa = myinput.nextLine();
-        // ----------------------------------------------
-        System.out.println("Trình độ cua giang viên");
-        trinhdo = checkTrinhdo();
-
-        if (this.trinhdo.equals("Cử nhân")) {
-            phucap = 300;
-            hesoluong = 1.8;
-        } else if (this.trinhdo.equals("Thạc Sí")) {
-            phucap = 500;
-            hesoluong = 1.5;
-        } else if (this.trinhdo.equals("Tiến Sí")) {
-            phucap = 1000;
-            hesoluong = 1.3;
-        }
-
-        sotiet = checkSotiet();
-    }
-
-    public void xuat() {
-        System.out.printf("| %-6s | %-20s | %-3s | %-20s | %4s | %4s |%4s |\n",
-                hoten, khoa, trinhdo, phucap, sotiet, hesoluong,
-                this.getLuong());
-    }
-
-    public double getLuong() {
-        luong = hesoluong * 730 + phucap + sotiet * 45;
-        return luong;
-    }
-
-    public static Comparator<Giangvien> sortByluong = new Comparator<Giangvien>() {
-        public int compare(Giangvien gv1, Giangvien gv2) {
-            return Double.compare(gv1.luong, gv2.luong);
-        }
-    };
-
-    String checkHoten() {
+        Scanner scanner = new Scanner(System.in);
+        super.nhap();
+        System.out.print("Nhập khoa: ");
+        khoa = scanner.nextLine();
+        System.out.print("Chọn trình độ (1 - Cử nhân, 2 - Thạc sĩ, 3 - Tiến sĩ): ");
         do {
-            System.out.println("Nhập họ tên giang viên");
-            Main main = new Main();
-            try {
-                hoten = myinput.nextLine();
-                int a = hoten.length();
-                if (a == 0 || a >= 40) {
-                    throw new myexception(a);
-                } else if (main.checkexistHoten(hoten)) {
-                    System.out.print(" * Họ tên đã tồn tại! \n Nhập lại: ");
-                } else
-                    return hoten;
-            } catch (myexception e) {
-                System.out.println(
-                        " * Họ tên không hợp lệ! (Họ tên không được rỗng và có độ dài không quá 40 ký tự) \\n Nhập lại: ");
+            choose = Main.myFunction.loopCheckInt();
+            switch (choose) {
+            case 1:
+                trinhDo = "Cử nhân";
+                this.setPhuCap(300);
+                break;
+            case 2:
+                trinhDo = "Thạc sĩ";
+                this.setPhuCap(500);
+                break;
+            case 3:
+                trinhDo = "Tiến sĩ";
+                this.setPhuCap(1000);
+                break;
+            default:
+                System.err.print(" * Vui lòng nhập số từ 1-3!\n Nhập lại: ");
+                break;
             }
-
-        } while (true);
+        } while (choose > 3);
+        System.out.print("Nhập số tiết dạy: ");
+        soTiet = Main.myFunction.loopCheckInt();
+        this.setLuong(tinhLuong());
     }
 
-    String checkTrinhdo() {
-        do {
-            try {
-                System.out.println("Xin mời bạn chọn trình độ");
-                System.out.println("1 : Cử nhân ");
-                System.out.println("2 : Thạc sĩ ");
-                System.out.println("3 : Tiến sĩ");
-                int choose = Integer.parseInt(myinput.nextLine());
-                switch (choose) {
-                case 1:
-                    trinhdo = "Cử nhân";
-                    break;
-                case 2:
-                    trinhdo = "Thạc Sí";
-                    break;
-                case 3:
-                    trinhdo = "Tiến Sí";
-                    break;
-                }
-                System.out.println("Trình độ :" + trinhdo);
-                if (choose != 1 && choose != 2 && choose != 3) {
-                    int a = choose;
-                    throw new myexception(a);
-                } else
-                    return trinhdo;
-            } catch (myexception e) {
-                System.out.println("Xin mời chọn đúng trình độ");
-            }
-        } while (true);
-    }
-    int checkSotiet() {
-        do {
-            try {
-            System.out.println("Số tiết cua giang viên");
-            sotiet = myinput.nextInt();
-            int a = sotiet;
-            if(a <0) {
-                throw new myexception(a);
-            }
-            else return sotiet;
-            }catch(myexception e) {
-                System.out.println("Xin mời nhập lại số tiết (Yêu cầu lớn hơn 0)");
-            }
-        }while(true);
+    public double tinhLuong() {
+        return (double) (this.getHeSoLuong() * 730 + this.getPhuCap() + soTiet * 45);
     }
 
-    class myexception extends Exception {
-        private int message;
-
-        myexception(int a) {
-            message = a;
-        }
-
-        public String toString() {
-            return "MyException " + message;
-        }
+    @Override
+    public String toString() {
+        return String.format(
+                "| %-20s | Khoa     : %-15s | Trình độ: %-11s | Số tiết     : %2s | Hệ số lương: %3s | Phụ cấp: %4s | Lương: %8s |\n",
+                this.getHoTen(), khoa, trinhDo, soTiet, this.getHeSoLuong(), this.getPhuCap(), this.getLuong());
     }
 }

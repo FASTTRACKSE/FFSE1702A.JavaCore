@@ -1,0 +1,25 @@
+package QLcanbo;
+
+public class canboinfoexception extends Exception {
+	String err;
+
+	public canboinfoexception(String err) {
+		super();
+		
+	}
+
+	public String toString() {
+		return "Loi "+this.err;
+	}
+	static void chkHoten(String hoTen) throws canboinfoexception {
+		if(hoTen.equals("")) {
+			throw new  canboinfoexception("Ten rong");
+		}
+		if(hoTen.length()>8) {
+			throw new  canboinfoexception("Ten qua dai");
+		}
+	}
+	
+	
+
+}
