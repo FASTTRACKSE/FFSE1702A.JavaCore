@@ -1,0 +1,22 @@
+import java.util.Scanner;
+
+public class dien {
+
+	public static void main(String[] args) {
+		System.out.println("Nhap 1 so");
+		Scanner s = new Scanner(System.in);
+		int n = s.nextInt();
+		int tt;
+		System.out.println(n);
+	    
+		if(n-400>0)
+		{ tt=6;
+for ( int m = 1; m<= tt ; m ++) { 
+			
+			System.out.println(m);
+	}
+		
+		}	
+	}
+
+}

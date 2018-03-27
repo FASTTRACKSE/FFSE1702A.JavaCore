@@ -47,6 +47,9 @@ public class Giangvien extends CanBo {
 		this.soTiet = soTiet;
 	}
 
+<<<<<<< HEAD
+	public void nhap() {
+=======
 	@Override
 	public String toString() {
 		return "Giangvien [khoa=" + khoa + ", trinhDo=" + trinhDo + ", soTiet=" + soTiet + "] \r\n";
@@ -57,6 +60,7 @@ public class Giangvien extends CanBo {
 		int sotietdaytrongthang = 0;
 		String input;
 
+>>>>>>> 86f8770633e2f4f086edb7cfd8c7be3439e672b5
 		super.nhapHoTen();
 
 		Scanner scan = new Scanner(System.in);
@@ -66,8 +70,23 @@ public class Giangvien extends CanBo {
 		System.out.println("Nhập trình độ");
 		while (true) {
 			try {
+<<<<<<< HEAD
+				String trinhdo = scan.nextLine();
+				MyException.chkTrinhDo(trinhdo);
+				this.setTrinhDo(trinhdo);
+
+				if (trinhdo.equals("cử nhân")) {
+					this.setPhuCap(300);
+				} else if (trinhdo.equals("thạc sĩ")) {
+					this.setPhuCap(500);
+				} else if (trinhdo.equals("tiến sĩ")) {
+					this.setPhuCap(1000);
+				}
+
+=======
 				trinhdo = scan.nextLine();
 				MyException.chkTrinhDo(trinhdo);
+>>>>>>> 86f8770633e2f4f086edb7cfd8c7be3439e672b5
 				break;
 			} catch (MyException e) {
 				// TODO: handle exception
@@ -75,6 +94,10 @@ public class Giangvien extends CanBo {
 			}
 		}
 
+<<<<<<< HEAD
+		System.out.println("Nhập số tiết dạy trong tháng");
+		int sotietdaytrongthang = Integer.parseInt(scan.nextLine());
+=======
 		this.setTrinhDo(trinhdo);
 
 		if (trinhdo.equals("cử nhân")) {
@@ -97,6 +120,7 @@ public class Giangvien extends CanBo {
 				System.err.println(e);
 			}
 		}
+>>>>>>> 86f8770633e2f4f086edb7cfd8c7be3439e672b5
 
 		super.nhapHeSoLuong();
 

@@ -1,4 +1,8 @@
 package Canbo;
+<<<<<<< HEAD
+
+=======
+>>>>>>> 86f8770633e2f4f086edb7cfd8c7be3439e672b5
 import java.util.Scanner;
 
 public class NhanVien extends CanBo {
@@ -10,12 +14,19 @@ public class NhanVien extends CanBo {
         super();
     }
 
+<<<<<<< HEAD
+    public NhanVien(String hoTen, String phongBan, String chucVu, int soNgayCong, double heSoLuong) {
+=======
     public NhanVien(String hoTen, String phongBan, String chucVu, int soNgayCong, double heSoLuong,String maCanBo) {
+>>>>>>> 86f8770633e2f4f086edb7cfd8c7be3439e672b5
         super();
         this.setHoTen(hoTen);
         this.phongBan = phongBan;
         this.chucVu = chucVu;
+<<<<<<< HEAD
+=======
         this.maCanBo=maCanBo;
+>>>>>>> 86f8770633e2f4f086edb7cfd8c7be3439e672b5
         this.soNgayCong = soNgayCong;
         this.setHeSoLuong(heSoLuong);
         if (chucVu == "Trưởng phòng") {
@@ -70,6 +81,10 @@ public class NhanVien extends CanBo {
                 this.setPhuCap(1000);
                 break;
             case 3:
+<<<<<<< HEAD
+                chucVu = "Nhân viên";
+=======
+>>>>>>> 86f8770633e2f4f086edb7cfd8c7be3439e672b5
                 this.setPhuCap(500);
                 break;
             default:

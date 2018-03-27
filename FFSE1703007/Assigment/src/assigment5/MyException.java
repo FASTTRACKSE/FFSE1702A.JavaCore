@@ -1,8 +1,11 @@
 package assigment5;
 
+<<<<<<< HEAD
+=======
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 
+>>>>>>> 86f8770633e2f4f086edb7cfd8c7be3439e672b5
 public class MyException extends Exception {
 	String erro;
 
@@ -19,6 +22,14 @@ public class MyException extends Exception {
 		return this.erro;
 	}
 
+<<<<<<< HEAD
+	static void chkHoTen(String hoTen) throws MyException {
+		if (hoTen.equals("")) {
+			throw new MyException("Họ tên không được để trống");
+		}
+		if (hoTen.length() > 40 ) {
+			throw new MyException("Họ tên không được có độ dài quá 40 kí tự");
+=======
 	static void chkHoTen(String hoTen, ArrayList<CanBo> list) throws MyException {
 		if (hoTen.equals("")) {
 			throw new MyException("Họ tên không được để trống, vui lòng nhập lại");
@@ -30,10 +41,15 @@ public class MyException extends Exception {
 			if (hoTen.equals(cb.getHoTen())) {
 				throw new MyException("Họ tên đã tồn tại, vui lòng nhập lại");
 			}
+>>>>>>> 86f8770633e2f4f086edb7cfd8c7be3439e672b5
 		}
 	}
 	
 	static void chkTrinhDo(String trinhDo) throws MyException{
+<<<<<<< HEAD
+		if (!trinhDo.equals("cử nhân")||trinhDo.equals("thạc sĩ")||trinhDo.equals("tiến sĩ")) {
+			throw new MyException("Nhập cử nhân hoặc thạc sĩ hoặc tiến sĩ");
+=======
 		if (!(trinhDo.equals("cử nhân")||trinhDo.equals("thạc sĩ")||trinhDo.equals("tiến sĩ"))) {
 			throw new MyException("Nhập cử nhân hoặc thạc sĩ hoặc tiến sĩ, vui lòng nhập lại");
 		}
@@ -68,6 +84,7 @@ public class MyException extends Exception {
 	static void chkChucVu(String chucVu) throws MyException{
 		if (!(chucVu.equals("trưởng phòng")||chucVu.equals("phó phòng")||chucVu.equals("nhân viên"))) {
 			throw new MyException("Chỉ được nhập trưởng phòng, phó phòng, nhân viên, vui lòng nhập lại");
+>>>>>>> 86f8770633e2f4f086edb7cfd8c7be3439e672b5
 		}
 	}
 }
