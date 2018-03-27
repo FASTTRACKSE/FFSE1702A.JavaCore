@@ -1,0 +1,33 @@
+import java.util.Scanner;
+
+public class dien {
+
+	public static void main(String[] args) {
+		System.out.println("Nhap 1 so");
+		Scanner s = new Scanner(System.in);
+		int n = s.nextInt();
+		int tt;
+		System.out.println(n);
+		if(n-400>0)
+			{ 
+			System.out.print(n-400 + "			" + (n-400)*2701);
+			}
+			if(n-400<0)
+				{ 
+				System.out.print(n-300 + "			" + (n-300)*2615);
+				}
+				if(n-300<0)
+					{ tt=4;
+					}
+					if(n-200<0)
+						{ tt=3;
+						}
+						if(n-100<0)
+							{ tt=2;
+							}
+							if(n-50<0)
+								{ tt=1;
+								}
+							}	
+						}
+

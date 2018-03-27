@@ -23,6 +23,11 @@ public class Nhanvien extends CanBo {
 		super(hoTen, phuCap, luong, heSoLuong);
 		// TODO Auto-generated constructor stub
 	}
+<<<<<<< HEAD
+	
+	
+=======
+>>>>>>> 86f8770633e2f4f086edb7cfd8c7be3439e672b5
 
 	public String getPhongban() {
 		return phongban;
@@ -48,6 +53,11 @@ public class Nhanvien extends CanBo {
 		this.chucvu = chucvu;
 	}
 
+<<<<<<< HEAD
+	public void nhap() {
+		super.nhapHoTen();
+		
+=======
 	@Override
 	public String toString() {
 		return "Nhanvien [phongban=" + phongban + ", songaycong=" + songaycong + ", chucvu=" + chucvu + "] \r\n";
@@ -58,11 +68,16 @@ public class Nhanvien extends CanBo {
 		String input;
 		super.nhapHoTen();
 
+>>>>>>> 86f8770633e2f4f086edb7cfd8c7be3439e672b5
 		Scanner scan = new Scanner(System.in);
 		System.out.println("Nhập tên phòng ban");
 		String phongban = scan.nextLine();
 
 		System.out.println("Nhập chức vụ");
+<<<<<<< HEAD
+		String chucvu = scan.nextLine();
+		
+=======
 		while (true) {
 			try {
 				input = scan.nextLine();
@@ -75,15 +90,24 @@ public class Nhanvien extends CanBo {
 			}
 		}
 
+>>>>>>> 86f8770633e2f4f086edb7cfd8c7be3439e672b5
 		System.out.println("Nhập số ngày công");
 		int songaycong = Integer.parseInt(scan.nextLine());
 
 		super.nhapHeSoLuong();
+<<<<<<< HEAD
+		
+		this.setChucvu(chucvu);
+		this.setPhongban(phongban);
+		this.setSongaycong(songaycong);
+		
+=======
 
 		this.setChucvu(chucvu);
 		this.setPhongban(phongban);
 		this.setSongaycong(songaycong);
 
+>>>>>>> 86f8770633e2f4f086edb7cfd8c7be3439e672b5
 		if (chucvu.equals("nhân viên")) {
 			this.setPhuCap(500);
 		} else if (chucvu.equals("phó phòng")) {
@@ -91,10 +115,17 @@ public class Nhanvien extends CanBo {
 		} else if (chucvu.equals("trưởng phòng")) {
 			this.setPhuCap(2000);
 		}
+<<<<<<< HEAD
+		
+		this.tinhluong();
+	}
+	
+=======
 
 		this.tinhluong();
 	}
 
+>>>>>>> 86f8770633e2f4f086edb7cfd8c7be3439e672b5
 	public void xuat() {
 		System.out.println("Tên giảng viên: " + this.getHoTen());
 		System.out.println("Phòng ban: " + this.getPhongban());
@@ -105,7 +136,13 @@ public class Nhanvien extends CanBo {
 	}
 
 	public void tinhluong() {
+<<<<<<< HEAD
+		 float luong = this.getHeSoLuong()*730+this.getPhuCap()+this.getSongaycong()*30;
+		 this.setLuong(luong);
+	 }
+=======
 		float luong = this.getHeSoLuong() * 730 + this.getPhuCap() + this.getSongaycong() * 30;
 		this.setLuong(luong);
 	}
+>>>>>>> 86f8770633e2f4f086edb7cfd8c7be3439e672b5
 }

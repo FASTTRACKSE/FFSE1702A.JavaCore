@@ -1,5 +1,5 @@
 package Quanlycanbo;
-
+import java.util.Scanner;
 import java.util.*;
 public class NhanVien extends CanBo {
 	private String phongBan;
@@ -85,9 +85,13 @@ public class NhanVien extends CanBo {
 				System.out.println("Chuc vu truong phong co phu cap la 2000");
 			}
 	}
-	
+	public double tinhLuong() {
+		double luong = getHeSoLuong() * 730 + getPhuCap() + getNgayCong() * 30;
+		return luong;
+	}
 	public void xuatNhanVien() {
 		System.out.println("Ten: " + this.getHoTen() + " || Phong ban: " + this.getPhongBan() + " || Chuc vu: " + this.getChucVu() + " || Phu cap: " + this.getPhuCap() + " || Ngay cong: " + this.getNgayCong() + " || He so luong: " + this.getHeSoLuong());
+		
 	}
 	
 }
