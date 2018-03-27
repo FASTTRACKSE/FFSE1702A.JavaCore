@@ -53,6 +53,7 @@ public class GiangVien extends CanBo {
 	}
 
 	public void nhap() {
+		@SuppressWarnings("resource")
 		Scanner scanner = new Scanner(System.in);
 		super.nhap();
 		System.out.print("Nhập khoa: ");

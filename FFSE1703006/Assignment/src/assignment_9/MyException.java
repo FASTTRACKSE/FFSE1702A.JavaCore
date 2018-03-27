@@ -1,5 +1,7 @@
 package assignment_9;
 
+import java.util.ArrayList;
+
 public class MyException extends Exception {
 	private static final long serialVersionUID = 3036003619876834868L;
 	String error;
@@ -17,12 +19,12 @@ public class MyException extends Exception {
 		return this.error;
 	}
 
-	static void checkHoTen(String hoTen) throws MyException {
+	static void checkHoTen(String hoTen, ArrayList<CanBo> arrCanBo) throws MyException {
 		if (hoTen.equals(""))
 			throw new MyException(" * Họ tên không được rỗng! \n Nhập lại: ");
 		if (hoTen.length() > 40)
 			throw new MyException(" * Họ tên có độ dài không quá 40 ký tự! \n Nhập lại: ");
-		for (CanBo cb : Menu.arrCanBo) {
+		for (CanBo cb : arrCanBo) {
 			if (cb.getHoTen().equals(hoTen)) {
 				throw new MyException(" * Họ tên đã tồn tại! \n Nhập lại: ");
 			}

@@ -1,17 +1,31 @@
 package Canbo;
+<<<<<<< HEAD
 
+=======
+>>>>>>> 86f8770633e2f4f086edb7cfd8c7be3439e672b5
 import java.util.Scanner;
-
 public class GiangVien extends CanBo {
     private static final long serialVersionUID = 1L;
     private String khoa, trinhDo;
     private int soTiet, choose;
 
+<<<<<<< HEAD
+public class GiangVien extends CanBo {
+    private static final long serialVersionUID = 1L;
+    private String khoa, trinhDo;
+    private int soTiet, choose;
+
+=======
+>>>>>>> 86f8770633e2f4f086edb7cfd8c7be3439e672b5
     public GiangVien() {
         super();
     }
 
+<<<<<<< HEAD
     public GiangVien(String hoTen, String khoa, String trinhDo, int soTiet, double heSoLuong) {
+=======
+    public GiangVien(String hoTen, String khoa, String trinhDo, int soTiet, double heSoLuong,String maCanBo) {
+>>>>>>> 86f8770633e2f4f086edb7cfd8c7be3439e672b5
         super();
         this.setHoTen(hoTen);
         this.khoa = khoa;
@@ -26,6 +40,10 @@ public class GiangVien extends CanBo {
             this.setPhuCap(1000);
         }
         this.setLuong(tinhLuong());
+<<<<<<< HEAD
+=======
+        this.maCanBo=maCanBo;
+>>>>>>> 86f8770633e2f4f086edb7cfd8c7be3439e672b5
     }
 
     public String getKhoa() {
@@ -38,6 +56,7 @@ public class GiangVien extends CanBo {
 
     public String getTrinhDo() {
         return trinhDo;
+<<<<<<< HEAD
     }
 
     public void setTrinhDo(String trinhDo) {
@@ -48,6 +67,18 @@ public class GiangVien extends CanBo {
         return soTiet;
     }
 
+=======
+    }
+
+    public void setTrinhDo(String trinhDo) {
+        this.trinhDo = trinhDo;
+    }
+
+    public int getSoTiet() {
+        return soTiet;
+    }
+
+>>>>>>> 86f8770633e2f4f086edb7cfd8c7be3439e672b5
     public void setSoTiet(int soTiet) {
         this.soTiet = soTiet;
     }
@@ -93,4 +124,9 @@ public class GiangVien extends CanBo {
                 "| %-20s | Khoa     : %-15s | Trình độ: %-11s | Số tiết     : %2s | Hệ số lương: %3s | Phụ cấp: %4s | Lương: %8s |\n",
                 this.getHoTen(), khoa, trinhDo, soTiet, this.getHeSoLuong(), this.getPhuCap(), this.getLuong());
     }
+<<<<<<< HEAD
 }
+=======
+}
+
+>>>>>>> 86f8770633e2f4f086edb7cfd8c7be3439e672b5

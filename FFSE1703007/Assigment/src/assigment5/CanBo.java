@@ -1,5 +1,9 @@
 package assigment5;
 
+<<<<<<< HEAD
+=======
+import java.util.ArrayList;
+>>>>>>> 86f8770633e2f4f086edb7cfd8c7be3439e672b5
 import java.util.Scanner;
 
 public class CanBo {
@@ -53,17 +57,26 @@ public class CanBo {
 	public void nhapHoTen() {
 		Scanner scn = new Scanner(System.in);
 		System.out.println("Nhập họ tên");
+<<<<<<< HEAD
 
 		while(true) {
 			try {
 				String hoTen = scn.nextLine();
 				MyException.chkHoTen(hoTen);
 				this.setHoTen(hoTen);
+=======
+		String hoTen;
+		while (true) {
+			try {
+				hoTen = scn.nextLine();
+				MyException.chkHoTen(hoTen, Main.list);
+>>>>>>> 86f8770633e2f4f086edb7cfd8c7be3439e672b5
 				break;
 			} catch (MyException e) {
 				System.err.println(e);
 			}
 		}
+<<<<<<< HEAD
 	}
 
 	public void nhapHeSoLuong() {
@@ -72,5 +85,26 @@ public class CanBo {
 		float heSoLuong = Float.parseFloat(scn.nextLine());
 		this.setHeSoLuong(heSoLuong);
 		;
+=======
+		this.setHoTen(hoTen);
+	}
+
+	public void nhapHeSoLuong() {
+		float heSoLuong = 0;
+		String input;
+		Scanner scn = new Scanner(System.in);
+		System.out.println("Nhập hệ số lương");
+		while (true) {
+			try {
+				input = scn.nextLine();
+				MyException.chkhesoluong(input);
+				heSoLuong = Float.parseFloat(input);
+				break;
+			} catch (MyException e) {
+				System.err.println(e);
+			}
+		}
+		this.setHeSoLuong(heSoLuong);
+>>>>>>> 86f8770633e2f4f086edb7cfd8c7be3439e672b5
 	}
 }

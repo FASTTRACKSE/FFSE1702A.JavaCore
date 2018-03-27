@@ -1,23 +1,57 @@
 package Assignment5;
 
+<<<<<<< HEAD
+=======
+//import java.io.FileNotFoundException;
+>>>>>>> 86f8770633e2f4f086edb7cfd8c7be3439e672b5
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Scanner;
+<<<<<<< HEAD
 import java.io.*;
 
 public class Main {
 
 	public static void main(String[] args) {
 		ArrayList<CanBo> arrCanBo = new ArrayList<>();
+=======
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.ObjectInputStream;
+
+public class Main {
+
+	public static void main(String[] args) throws IOException, ClassNotFoundException {
+		ArrayList<CanBo> arrCanBo = new ArrayList<>();
+		try {
+			FileInputStream fos = new FileInputStream("CanBo");
+			ObjectInputStream oos = new ObjectInputStream(fos);
+			arrCanBo = (ArrayList<CanBo>) oos.readObject();
+			oos.close();
+			fos.close();
+		} catch (IOException e) {
+			System.out.println("Co loi" + e);
+		}
+
+>>>>>>> 86f8770633e2f4f086edb7cfd8c7be3439e672b5
 		int soCanBo;
 		double tongluong = 0, luong;
 		CanBo canBo;
 		Scanner scn = new Scanner(System.in);
 		int menu;
+<<<<<<< HEAD
 		
 		do {
 			
+=======
+
+		do {
+
+>>>>>>> 86f8770633e2f4f086edb7cfd8c7be3439e672b5
 			System.out.print("\n*************************************************\n");
 			System.out.print("* số 1 : nhập thông tin cán bộ               *\n");
 			System.out.print("* số 2 : xem thông tin                 *\n");
@@ -41,6 +75,10 @@ public class Main {
 					if (cb == 1) {
 
 						canBo = new GiangVien();
+<<<<<<< HEAD
+=======
+						canBo.nhap();
+>>>>>>> 86f8770633e2f4f086edb7cfd8c7be3439e672b5
 
 						for (;;) {
 							System.out.print("nhap ma can bo");
@@ -54,8 +92,26 @@ public class Main {
 							}
 
 						}
+<<<<<<< HEAD
 						canBo.nhap();
 						arrCanBo.add(canBo);
+=======
+
+						arrCanBo.add(canBo);
+						try {
+							FileOutputStream fos = new FileOutputStream("CanBo");
+							ObjectOutputStream oos = new ObjectOutputStream(fos);
+
+							oos.writeObject(arrCanBo);
+
+							oos.close();
+							fos.close();
+
+						} catch (IOException e) {
+							System.out.println(e);
+						}
+
+>>>>>>> 86f8770633e2f4f086edb7cfd8c7be3439e672b5
 					} else if (cb == 2) {
 						canBo = new NhanVien();
 						canBo.nhap();
@@ -69,26 +125,60 @@ public class Main {
 							} catch (CanBoException e) {
 								System.out.print(e);
 							}
+<<<<<<< HEAD
 							arrCanBo.add(canBo);
+=======
+
+						}
+
+						arrCanBo.add(canBo);
+						try {
+
+							FileOutputStream fos = new FileOutputStream("CanBo");
+							ObjectOutputStream oos = new ObjectOutputStream(fos);
+
+							oos.writeObject(arrCanBo);
+
+							oos.close();
+							fos.close();
+
+						} catch (IOException e) {
+							System.out.println(e);
+>>>>>>> 86f8770633e2f4f086edb7cfd8c7be3439e672b5
 						}
 
 					}
 
 				}
+<<<<<<< HEAD
 				
+=======
+
+>>>>>>> 86f8770633e2f4f086edb7cfd8c7be3439e672b5
 			} else if (menu == 2) {
 				System.out.println("Xuất danh sách giảng viên khoa x(chọn 1), hoặc nhân viên phòng ban y(chọn 2): ");
 				int i = Integer.parseInt(scn1.nextLine());
 				if (i == 1) {
 					System.out.println("nhap khoa:");
 					String tenKhoa = scn.next();
+<<<<<<< HEAD
 
 					for (int j = 0; j < arrCanBo.size(); j++) {
+=======
+					for (int j = 0; j < arrCanBo.size(); j++) {
+
+>>>>>>> 86f8770633e2f4f086edb7cfd8c7be3439e672b5
 						CanBo cb = arrCanBo.get(j);
 						if (cb instanceof GiangVien) {
 							GiangVien gv = (GiangVien) cb;
 							if (gv.getKhoa().equals(tenKhoa)) {
+<<<<<<< HEAD
 								gv.xuat();
+=======
+
+								gv.xuat();
+
+>>>>>>> 86f8770633e2f4f086edb7cfd8c7be3439e672b5
 							}
 						}
 					}
@@ -101,6 +191,10 @@ public class Main {
 						if (cb instanceof NhanVien) {
 							NhanVien nv = (NhanVien) cb;
 							if (nv.getPhongBan().equals(tenPhong)) {
+<<<<<<< HEAD
+=======
+
+>>>>>>> 86f8770633e2f4f086edb7cfd8c7be3439e672b5
 								nv.xuat();
 							}
 						}
@@ -138,6 +232,7 @@ public class Main {
 				System.exit(0);
 			}
 		} while (menu != 0);
+<<<<<<< HEAD
 		try {
 			   //Bước 1: Tạo đối tượng luồng và liên kết nguồn dữ liệu
 			   FileOutputStream fos = new FileOutputStream("CanBo.txt");
@@ -156,4 +251,25 @@ public class Main {
 			  } 
 	}
 
+=======
+	}
+
+	// public static void dataWrite() throws IOException {
+	// ArrayList<CanBo> arrCanBo = new ArrayList<>();
+	// try {
+	//
+	// FileOutputStream fos = new FileOutputStream("CanBo");
+	// ObjectOutputStream oos = new ObjectOutputStream(fos);
+	//
+	// oos.writeObject(arrCanBo);
+	//
+	// oos.close();
+	// fos.close();
+	//
+	// } catch (IOException e) {
+	// System.out.println(e);
+	// }
+	// }
+
+>>>>>>> 86f8770633e2f4f086edb7cfd8c7be3439e672b5
 }
