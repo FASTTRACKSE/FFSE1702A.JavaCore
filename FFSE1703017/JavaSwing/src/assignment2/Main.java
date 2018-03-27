@@ -132,23 +132,30 @@ public class Main {
 		
 		btnUpdate.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				boolean isAge = Validation.chkInt(txtAge.getText());
-				if (isAge) {
-					lblMsg.setVisible(false);
+					boolean isAge = Validation.chkInt(txtAge.getText());
 					int i = tblStudent.getSelectedRow();
-					String id = txtID.getText();
-					String name = txtName.getText();
-					int age = Integer.parseInt(txtAge.getText());
-					Student stu = new Student(id, name, age);
-					arrStudent.set(i, stu);
-					studentModal = new DefaultTableModel(col, 0);
-					setTblStudent(studentModal);
-					tblStudent.setModel(studentModal);
-					sp.setViewportView(tblStudent);
-				} else {
-					lblMsg.setVisible(true);
+					if (isAge) {
+						lblMsg.setVisible(false);
+						try {
+						String id = txtID.getText();
+						String name = txtName.getText();
+						int age = Integer.parseInt(txtAge.getText());
+						Student st = new Student(id, name, age);
+						arrStudent.set(i, st);
+						studentModal = new DefaultTableModel(col, 0);
+						setTblStudent(studentModal);
+						tblStudent.setModel(studentModal);
+						sp.setViewportView(tblStudent);
+						txtID.setText("");
+						txtName.setText("");
+						txtAge.setText("");
+						} catch (Exception ex) {
+							JOptionPane.showMessageDialog(fr,"No row selected.","Alert",JOptionPane.WARNING_MESSAGE);
+						}
+					} else {
+						lblMsg.setVisible(true);
+					}
 				}
-			}
 		});
 		
 		btnNew.addActionListener(new ActionListener() {
@@ -165,6 +172,9 @@ public class Main {
 					setTblStudent(studentModal);
 					tblStudent.setModel(studentModal);
 					sp.setViewportView(tblStudent);
+					txtID.setText("");
+					txtName.setText("");
+					txtAge.setText("");
 				} else {
 					lblMsg.setVisible(true);
 				}
@@ -173,18 +183,24 @@ public class Main {
 		
 		btnDelete.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				int i = tblStudent.getSelectedRow();
-				arrStudent.remove(i);
-				studentModal = new DefaultTableModel(col, 0);
-				setTblStudent(studentModal);
-				tblStudent.setModel(studentModal);
-				sp.setViewportView(tblStudent);
+				try {
+					int i = tblStudent.getSelectedRow();
+					arrStudent.remove(i);
+					studentModal = new DefaultTableModel(col, 0);
+					setTblStudent(studentModal);
+					tblStudent.setModel(studentModal);
+					sp.setViewportView(tblStudent);
+					txtID.setText("");
+					txtName.setText("");
+					txtAge.setText("");
+				} catch(Exception ex) {
+					JOptionPane.showMessageDialog(fr,"No row selected.","Alert",JOptionPane.WARNING_MESSAGE);
+				}
 			}
 		});
 		
 		btnSave.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.out.println(arrStudent);
 				try {
 					FileOutputStream fos = new FileOutputStream("Data.txt");
 					ObjectOutputStream oos = new ObjectOutputStream(fos);
