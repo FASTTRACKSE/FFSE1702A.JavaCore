@@ -1,4 +1,4 @@
-package java_ám;
+package java_asm;
 
 public class NhanVien extends CanBo {
     private String phongBan, chucVu;
@@ -42,30 +42,30 @@ public class NhanVien extends CanBo {
     @Override
     public void nhap() {
         super.nhap();
-        System.out.print("Nhập phòng ban: ");
+        System.out.print("nhap phong ban: ");
         phongBan = scanner.nextLine();
         do {
-            System.out.print("Nhập chức vụ (1 - trưởng phòng, 2 - phó phòng, 3 - nhân viên): ");
+            System.out.print("nhap chuc vu (1 - truong phong, 2 - pho phong, 3 - nhan vien): ");
             choose = scanner.nextInt();
             switch (choose) {
                 case 1:
-                    chucVu = "trưởng phòng";
+                    chucVu = "truong phong";
                     this.setPhuCap(2000);
                     break;
                 case 2:
-                    chucVu = "phó phòng";
+                    chucVu = "pho phong";
                     this.setPhuCap(1000);
                     break;
                 case 3:
-                    chucVu = "nhân viên";
+                    chucVu = "nhan vien";
                     this.setPhuCap(500);
                     break;
                 default:
-                    System.out.println("Chọn không đúng!");
+                    System.out.println("chon khong dung!");
                     break;
             }
         } while (choose < 1 || choose > 3);
-        System.out.print("Nhập số ngày công: ");
+        System.out.print("nhap so ngay cong: ");
         soNgayCong = scanner.nextInt();
     }
  
@@ -76,8 +76,8 @@ public class NhanVien extends CanBo {
  
     @Override
     public String toString() {
-        return super.toString() + ", phòng ban: " + this.phongBan + ", chức vụ: " + this.chucVu + 
-            ", số ngày công: " + this.soNgayCong;
+        return super.toString() + ", phong ban: " + this.phongBan + ", chuc vu : " + this.chucVu + 
+            ", so ngay cong: " + this.soNgayCong;
     }
      
 }

@@ -1,4 +1,4 @@
-package java_ám;
+package java_asm;
 
 public class GiangVien extends CanBo {
     private String khoa, trinhDo;
@@ -45,7 +45,7 @@ public class GiangVien extends CanBo {
         System.out.print("Nhập khoa: ");
         khoa = scanner.nextLine();
         do {
-            System.out.print("Nhập trình độ (1 - cử nhân, 2 - thạc sĩ, 3 -tiến sĩ): ");
+            System.out.print("Nhập trình độ™ (1 - cử nhân, 2 - thạc sĩ, 3 -tiến sĩ): ");
             choose = scanner.nextInt();
             switch (choose) {
                 case 1:
@@ -59,10 +59,12 @@ public class GiangVien extends CanBo {
                 case 3:
                     trinhDo = "tiến sĩ";
                     this.setPhuCap(1000);
-               
+                default:
+                    System.out.println("Chọn sai!Mời chọn lại");
+                    break;
             }
         } while (choose < 1 || choose > 3);
-        System.out.print("Số tiết dạy: ");
+        System.out.print("số tiết dạy: ");
         soTietDay = scanner.nextInt();
     }
  
@@ -73,8 +75,8 @@ public class GiangVien extends CanBo {
  
     @Override
     public String toString() {
-        return super.toString() + ", khoa: " + this.khoa + ", trình độ: " + this.trinhDo + 
-            ", số tiết dạy: " + this.soTietDay;
+        return super.toString() + ", khoa: " + this.khoa + ", trinh do " + this.trinhDo + 
+            ", so tiet day: " + this.soTietDay;
     }
      
      
