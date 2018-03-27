@@ -101,8 +101,13 @@ public class GiangVien extends CanBo {
 		int soTiet = Integer.parseInt(myInput.nextLine());
 		this.setSoTiet(soTiet);
 	}
+	public double tinhLuong() {
+
+		double luong = getHeSoLuong() * 750 + getPhuCap() + getSoTiet() * 45;
+		return luong;
+	}
 	
 	public void xuatGiangVien() {
-		System.out.println("Ten: " + this.getHoTen() + " || Khoa: " + this.getKhoa() + " || Trinh do: " + this.getTrinhDo() + " || Phu cap: " + this.getPhuCap() + " || So tiet day: " + this.getSoTiet() + " || He so luong: " + this.getHeSoLuong());
+		System.out.println("Ma can bo: " + this.getMaCanBo()+ " Ten: " + this.getHoTen() + " || Khoa: " + this.getKhoa() + " || Trinh do: " + this.getTrinhDo() + " || Phu cap: " + this.getPhuCap() + " || So tiet day: " + this.getSoTiet() + " || He so luong: " + this.getHeSoLuong());
 	}
 }

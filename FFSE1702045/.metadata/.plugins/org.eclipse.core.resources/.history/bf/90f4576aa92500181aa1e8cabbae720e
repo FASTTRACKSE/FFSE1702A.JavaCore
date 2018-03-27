@@ -1,0 +1,8 @@
+package QLcanbo;
+
+public class canboinfoexception extends Exception {
+	String err;
+	
+	
+
+}

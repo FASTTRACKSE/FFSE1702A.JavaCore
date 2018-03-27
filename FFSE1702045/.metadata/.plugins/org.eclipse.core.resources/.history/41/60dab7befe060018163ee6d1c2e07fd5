@@ -1,0 +1,14 @@
+
+public class Maytinh {
+
+
+	int main() {
+	    char i='a';
+	    for(i='a'; i<='z'; i++)
+	        printf( i);
+	public static void main(String[] args) {
+		
+
+	}
+
+}

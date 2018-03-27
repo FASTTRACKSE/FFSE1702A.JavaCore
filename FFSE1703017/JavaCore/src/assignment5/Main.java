@@ -1,11 +1,7 @@
 package assignment5;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -21,15 +17,14 @@ public class Main {
 		System.out.println("/***********************************************/");
 		System.out.println("1. Nhập thông tin cán bộ trong trường");
 		System.out.println("2. Xuất danh sách cán bộ theo khoa hoặc phòng ban");
-		System.out.println("3.Tổng số lương trường phải trả cho cán bộ");
-		System.out.println("4.Sắp xếp cán bộ theo lương và tên");
+		System.out.println("3. Tổng số lương trường phải trả cho cán bộ");
+		System.out.println("4. Sắp xếp cán bộ theo lương và tên");
 		System.out.println("0. Kết thúc chương trình");
 		System.out.println("/***********************************************/");
 	}
 	
 	public static void themCanBo() {
 		int chon;
-		input = new Scanner(System.in);
 		System.out.print("Số lượng cán bộ sẽ nhập: ");
 		int n = checkInt();
 		for(int i = 0; i < n; i++) {
@@ -109,7 +104,7 @@ public class Main {
 	public static double checkHeSoLuong() {
 		do {
 			try {
-				String s = input.nextLine();
+				String s = input.nextLine().trim();
 				MyException.chkDouble(s);
 				return Double.parseDouble(s);
 			} catch (MyException e) {
@@ -121,7 +116,7 @@ public class Main {
 	public static int checkInt() {
 		do {
 			try {
-				String s = input.nextLine();
+				String s = input.nextLine().trim();
 				MyException.chkDouble(s);
 				return Integer.parseInt(s);
 			} catch (MyException e) {
@@ -135,9 +130,10 @@ public class Main {
 			FileOutputStream fos = new FileOutputStream("Dulieu.txt");
 			ObjectOutputStream oos = new ObjectOutputStream(fos);
 			oos.writeObject(arrCanBo);
+			System.out.println("Lưu dữ liệu thành công.");
 			oos.close();fos.close();
 		} catch (IOException e) {
-			System.out.println("File chưa được ghi");
+			System.out.println("Dữ liệu chưa được ghi");
 			System.out.println(e);
 		}
 	}
@@ -147,7 +143,7 @@ public class Main {
 //		for (CanBo cb : arrCanBo) {
 //			bw.write(cb.toString());
 //		}
-//		bw.flush();bw.close();
+//		bw.flush();bw.close();fw.close();
 //	}
 	
 	@SuppressWarnings("unchecked")
