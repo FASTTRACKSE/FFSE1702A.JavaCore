@@ -1,4 +1,4 @@
-package assignment2;
+package assignment2.main;
 
 public class Validation {
 	static boolean chkInt(String s) {

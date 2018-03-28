@@ -1,4 +1,4 @@
-package assignment2;
+package assignment2.main;
 
 import java.io.Serializable;
 
@@ -7,7 +7,7 @@ public class Student implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private String id;
 	private String name;
-	private int age;
+	private String age;
 	
 	public String getID() {
 		return id;
@@ -21,18 +21,16 @@ public class Student implements Serializable {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public int getAge() {
+	public String getAge() {
 		return age;
 	}
-	public void setAge(int age) {
+	public void setAge(String age) {
 		this.age = age;
 	}
 	
-	public Student(String id, String name, int age) {
+	public Student(String id, String name, String age) {
 		this.id = id;
 		this.name = name;
 		this.age = age;
 	}
-	
-	
 }
