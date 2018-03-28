@@ -1,7 +1,7 @@
 ## FFSE1703006 - Dang Van Nam
 #### Assignment JavaDesktop
 - [Assignment 1: Giải phương trình bậc 1](https://github.com/FASTTRACKSE/FFSE1702A.JavaCore/blob/master/FFSE1703006/Assignment/src/JavaSwing/GiaiPhuongTrinhBac1.java)
-- [Assignment 2: Quản lý sinh viên](https://github.com/FASTTRACKSE/FFSE1702A.JavaCore/blob/master/FFSE1703006/Assignment/src/JavaSwing/QuanLySinhVien.java)
+- [Assignment 2: Quản lý sinh viên](https://github.com/FASTTRACKSE/FFSE1702A.JavaCore/tree/master/FFSE1703006/Java%20Desktop%20-%20Assignment%202/src/namdv)
 -----------------------------------------------------
 #### Assignment OOP
 - [Assignment 3: Quản lý sinh viên (OOP part 1)](https://github.com/FASTTRACKSE/FFSE1702A.JavaCore/tree/master/FFSE1703006/Assignment/src/assignment_7)
