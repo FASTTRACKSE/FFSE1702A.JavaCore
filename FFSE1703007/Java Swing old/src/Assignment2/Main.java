@@ -16,11 +16,15 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.JScrollPane;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.Color;
+import javax.swing.UIManager;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class Main {
 
 	private JFrame frame;
-	private JTextField textField;
+	private JTextField textField_0;
 	private JTextField textField_1;
 	private JTextField textField_2;
 	private JTable table;
@@ -77,10 +81,10 @@ public class Main {
 		lblNewLabel_3.setBounds(87, 157, 46, 14);
 		frame.getContentPane().add(lblNewLabel_3);
 
-		textField = new JTextField();
-		textField.setBounds(184, 61, 142, 32);
-		frame.getContentPane().add(textField);
-		textField.setColumns(10);
+		textField_0 = new JTextField();
+		textField_0.setBounds(184, 61, 142, 32);
+		frame.getContentPane().add(textField_0);
+		textField_0.setColumns(10);
 
 		textField_1 = new JTextField();
 		textField_1.setBounds(184, 104, 142, 35);
@@ -92,26 +96,28 @@ public class Main {
 		frame.getContentPane().add(textField_2);
 		textField_2.setColumns(10);
 
-		JButton btnNewButton = new JButton("L\u01B0u");
+		JButton btnNewButton = new JButton("Th\u00EAm");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				String iD = textField.getText();
+				String iD = textField_0.getText();
 				String name = textField_1.getText();
 				String age = textField_2.getText();
 				DefaultTableModel model = (DefaultTableModel) table.getModel();
 				model.addRow(new Object[] { iD, name, age });
+				
+				textField_0.setText("");
+				textField_1.setText("");
+				textField_2.setText("");
 			}
 		});
 		btnNewButton.setFont(new Font("Tahoma", Font.BOLD, 13));
 		btnNewButton.setBounds(24, 193, 89, 23);
 		frame.getContentPane().add(btnNewButton);
 
-		JButton btnNewButton_1 = new JButton("M\u1EDBi");
+		JButton btnNewButton_1 = new JButton("S\u1EEDa");
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				textField.setText("");
-				textField_1.setText("");
-				textField_2.setText("");
+				
 			}
 		});
 		btnNewButton_1.setFont(new Font("Tahoma", Font.BOLD, 13));
@@ -142,10 +148,23 @@ public class Main {
 		frame.getContentPane().add(btnNewButton_3);
 
 		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setViewportBorder(null);
 		scrollPane.setBounds(48, 248, 338, 175);
 		frame.getContentPane().add(scrollPane);
 
 		table = new JTable();
+		table.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				DefaultTableModel model = (DefaultTableModel) table.getModel();
+				int indexOfSelectedColumn = table.getSelectedColumn();
+				int indexOfSelectedRow = table.getSelectedRow();
+				System.out.println(indexOfSelectedColumn);
+				System.out.println(indexOfSelectedRow);
+				String value = (model.getValueAt(indexOfSelectedRow, indexOfSelectedColumn)).toString();
+				
+			}
+		});
 		table.setModel(new DefaultTableModel(new Object[][] {}, new String[] { "M\u00E3", "T\u00EAn", "Tu\u1ED5i" }));
 		scrollPane.setViewportView(table);
 	}

@@ -11,7 +11,7 @@ import javax.swing.JLabel;
 import java.awt.Font;
 import javax.swing.JTextField;
 
-public class Main {
+public class Mainold {
 
 	private JFrame frame;
 	private JTextField textField;
@@ -25,7 +25,7 @@ public class Main {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Main window = new Main();
+					Mainold window = new Mainold();
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -37,7 +37,7 @@ public class Main {
 	/**
 	 * Create the application.
 	 */
-	public Main() {
+	public Mainold() {
 		initialize();
 	}
 
