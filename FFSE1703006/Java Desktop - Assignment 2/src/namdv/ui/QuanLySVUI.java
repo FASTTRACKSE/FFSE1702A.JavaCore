@@ -1,11 +1,10 @@
-package JavaSwing;
+package namdv.ui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
-import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -30,8 +29,6 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -39,7 +36,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableCellRenderer;
 
-public class QuanLySinhVien extends JFrame {
+public class QuanLySVUI extends JFrame {
 
 	/**
 	 * 
@@ -47,32 +44,12 @@ public class QuanLySinhVien extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JPanel panelInput;
 	private JTextField MaSV, TenSV, TuoiSV;
+	private JButton btnAdd, btnEdit, btnDel, btnExit, btnImport, btnExport;
 	private JScrollPane scrollPane;
 	private JTable table;
 	private String[] columnNames = new String[] { "Mã", "Tên", "Tuổi" };
 	private Object[][] data = null;
 	private DefaultTableModel model = new DefaultTableModel(data, columnNames);
-
-	/**
-	 * Launch the application.
-	 */
-
-	public static void main(String[] args) {
-		try {
-			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-		} catch (ClassNotFoundException | InstantiationException | IllegalAccessException
-				| UnsupportedLookAndFeelException e) {
-		}
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					new QuanLySinhVien("Quản lý sinh viên - JunBjn").showWindow();
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
 
 	public void showWindow() {
 		this.setSize(450, 390);
@@ -81,9 +58,10 @@ public class QuanLySinhVien extends JFrame {
 		this.setVisible(true);
 	}
 
-	public QuanLySinhVien(String tieude) {
+	public QuanLySVUI(String tieude) {
 		super(tieude);
 		addControls();
+		addEvents();
 	}
 
 	public void addControls() {
@@ -113,6 +91,17 @@ public class QuanLySinhVien extends JFrame {
 		panelCenter.add(scrollPane);
 
 		con.add(panel);
+	}
+
+	public void addEvents() {
+		btnAdd.addActionListener(new AddListener());
+		btnEdit.addActionListener(new EditListener());
+		btnDel.addActionListener(new DelListener());
+		btnExit.addActionListener(new ExitListener());
+		btnImport.addActionListener(new ImportListener());
+		btnExport.addActionListener(new ExportListener());
+
+		table.addMouseListener(new MouseClickRow());
 	}
 
 	private void addInput() {
@@ -151,23 +140,12 @@ public class QuanLySinhVien extends JFrame {
 	private void addButton() {
 		JPanel panelButton = new JPanel();
 
-		JButton btnAdd = new JButton("Thêm");
-		btnAdd.addActionListener(new AddListener());
-
-		JButton btnEdit = new JButton("Sửa");
-		btnEdit.addActionListener(new EditListener());
-
-		JButton btnDel = new JButton("Xóa");
-		btnDel.addActionListener(new DelListener());
-
-		JButton btnExit = new JButton("Thoát");
-		btnExit.addActionListener(new ExitListener());
-
-		JButton btnImport = new JButton("Nhập");
-		btnImport.addActionListener(new ImportListener());
-
-		JButton btnExport = new JButton("Xuất");
-		btnExport.addActionListener(new ExportListener());
+		btnAdd = new JButton("Thêm");
+		btnEdit = new JButton("Sửa");
+		btnDel = new JButton("Xóa");
+		btnExit = new JButton("Thoát");
+		btnImport = new JButton("Nhập");
+		btnExport = new JButton("Xuất");
 
 		panelButton.add(btnAdd);
 		panelButton.add(btnEdit);
@@ -196,7 +174,6 @@ public class QuanLySinhVien extends JFrame {
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		table.setBorder(new LineBorder(Color.LIGHT_GRAY));
 		table.setModel(model);
-		table.addMouseListener(new MouseClickRow());
 		scrollPane.setViewportView(table);
 	}
 
