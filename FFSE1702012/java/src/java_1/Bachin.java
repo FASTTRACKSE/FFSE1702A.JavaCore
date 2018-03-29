@@ -24,6 +24,12 @@ public class Bachin {
                  if(ht!=0) {
                      System.out.print(' ' + ht1[ht-1] + ' ');
                  }
+<<<<<<< HEAD
+=======
+                 if(ht==0) {
+                     System.out.print("Không trăm");
+                 }
+>>>>>>> f519ccdc26c546bd3f966d16137622b9d9099d44
                  if(hc!=0) {
                      System.out.print(' ' + hc1[hc-1] + ' ');
                  }
@@ -36,6 +42,10 @@ public class Bachin {
                  for(int b=0; b<text.length();b++) {
                      if(text.charAt(b) == 'N') {
                          text = "No";
+<<<<<<< HEAD
+=======
+          
+>>>>>>> f519ccdc26c546bd3f966d16137622b9d9099d44
                          System.out.println("\n"+"Xin cám ơn!!");
                      }
                      if(text.charAt(b) == 'Y') {

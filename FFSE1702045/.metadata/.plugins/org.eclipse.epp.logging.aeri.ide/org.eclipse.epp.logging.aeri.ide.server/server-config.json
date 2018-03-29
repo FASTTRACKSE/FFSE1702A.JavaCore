@@ -1,7 +1,15 @@
 {
   "version": "v1",
   "title": "Eclipse",
+<<<<<<< HEAD
   "timestamp": 1522228787799,
+=======
+<<<<<<< HEAD:FFSE1702045/.metadata/.plugins/org.eclipse.epp.logging.aeri.ide/org.eclipse.epp.logging.aeri.ide.server/server-config.json
+  "timestamp": 1520997915017,
+=======
+  "timestamp": 1517454617948,
+>>>>>>> 86f8770633e2f4f086edb7cfd8c7be3439e672b5:FFSE1701003/.metadata/.plugins/org.eclipse.epp.logging.aeri.ide/org.eclipse.epp.logging.aeri.ide.server/server-config.json
+>>>>>>> f519ccdc26c546bd3f966d16137622b9d9099d44
   "ttl": 10080,
   "helpUrl": "https://dev.eclipse.org/recommenders/community/aeri/v2/help/",
   "feedbackUrl": "https://www.codetrails.com/error-analytics/",

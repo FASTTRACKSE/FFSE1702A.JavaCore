@@ -1,8 +1,19 @@
 package Canbo;
+<<<<<<< HEAD
 
+<<<<<<< HEAD
 import java.util.Comparator;
+=======
+=======
+>>>>>>> 86f8770633e2f4f086edb7cfd8c7be3439e672b5
+>>>>>>> f519ccdc26c546bd3f966d16137622b9d9099d44
 import java.util.Scanner;
+public class GiangVien extends CanBo {
+    private static final long serialVersionUID = 1L;
+    private String khoa, trinhDo;
+    private int soTiet, choose;
 
+<<<<<<< HEAD
 public class Giangvien {
     public static Scanner myinput = new Scanner(System.in);
 
@@ -21,15 +32,35 @@ public class Giangvien {
     private double luong;
 
     public Giangvien() {
+=======
+<<<<<<< HEAD
+public class GiangVien extends CanBo {
+    private static final long serialVersionUID = 1L;
+    private String khoa, trinhDo;
+    private int soTiet, choose;
+
+=======
+>>>>>>> 86f8770633e2f4f086edb7cfd8c7be3439e672b5
+    public GiangVien() {
+>>>>>>> f519ccdc26c546bd3f966d16137622b9d9099d44
         super();
         // TODO Auto-generated constructor stub
     }
 
+<<<<<<< HEAD
     public Giangvien(String hoten, String khoa, String trinhdo, double phucap,
             int sotiet, double hesoluong, double luong) {
+=======
+<<<<<<< HEAD
+    public GiangVien(String hoTen, String khoa, String trinhDo, int soTiet, double heSoLuong) {
+=======
+    public GiangVien(String hoTen, String khoa, String trinhDo, int soTiet, double heSoLuong,String maCanBo) {
+>>>>>>> 86f8770633e2f4f086edb7cfd8c7be3439e672b5
+>>>>>>> f519ccdc26c546bd3f966d16137622b9d9099d44
         super();
         this.hoten = hoten;
         this.khoa = khoa;
+<<<<<<< HEAD
         this.trinhdo = trinhdo;
         this.phucap = phucap;
         this.sotiet = sotiet;
@@ -43,6 +74,23 @@ public class Giangvien {
 
     public void setHoten(String hoten) {
         this.hoten = hoten;
+=======
+        this.trinhDo = trinhDo;
+        this.soTiet = soTiet;
+        this.setHeSoLuong(heSoLuong);
+        if (trinhDo == "Cử nhân") {
+            this.setPhuCap(300);
+        } else if (trinhDo == "Thạc sĩ") {
+            this.setPhuCap(500);
+        } else if (trinhDo == "Tiến sĩ") {
+            this.setPhuCap(1000);
+        }
+        this.setLuong(tinhLuong());
+<<<<<<< HEAD
+=======
+        this.maCanBo=maCanBo;
+>>>>>>> 86f8770633e2f4f086edb7cfd8c7be3439e672b5
+>>>>>>> f519ccdc26c546bd3f966d16137622b9d9099d44
     }
 
     public String getKhoa() {
@@ -53,12 +101,18 @@ public class Giangvien {
         this.khoa = khoa;
     }
 
+<<<<<<< HEAD
     public String getTrinhdo() {
         return trinhdo;
     }
 
     public void setTrinhdo(String trinhdo) {
         this.trinhdo = trinhdo;
+=======
+    public String getTrinhDo() {
+        return trinhDo;
+<<<<<<< HEAD
+>>>>>>> f519ccdc26c546bd3f966d16137622b9d9099d44
     }
 
     public double getPhucap() {
@@ -69,6 +123,7 @@ public class Giangvien {
         this.phucap = phucap;
     }
 
+<<<<<<< HEAD
     public int getSotiet() {
         return sotiet;
     }
@@ -83,6 +138,22 @@ public class Giangvien {
 
     public void setHesoluong(double hesoluong) {
         this.hesoluong = hesoluong;
+=======
+=======
+    }
+
+    public void setTrinhDo(String trinhDo) {
+        this.trinhDo = trinhDo;
+    }
+
+    public int getSoTiet() {
+        return soTiet;
+    }
+
+>>>>>>> 86f8770633e2f4f086edb7cfd8c7be3439e672b5
+    public void setSoTiet(int soTiet) {
+        this.soTiet = soTiet;
+>>>>>>> f519ccdc26c546bd3f966d16137622b9d9099d44
     }
 
     public void nhap() {
@@ -203,4 +274,13 @@ public class Giangvien {
             return "MyException " + message;
         }
     }
+<<<<<<< HEAD
 }
+=======
+<<<<<<< HEAD
+}
+=======
+}
+
+>>>>>>> 86f8770633e2f4f086edb7cfd8c7be3439e672b5
+>>>>>>> f519ccdc26c546bd3f966d16137622b9d9099d44

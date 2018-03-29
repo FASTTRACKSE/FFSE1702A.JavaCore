@@ -1,6 +1,10 @@
 eclipse.preferences.version=1
 encoding//src/text/Giaipt.java=UTF-8
 encoding//src/text/Maytinhcanhan.java=UTF-8
+<<<<<<< HEAD
+=======
+encoding//src/text/NhanVien.java=UTF-8
+>>>>>>> f519ccdc26c546bd3f966d16137622b9d9099d44
 encoding//src/text/Sapxepso.java=UTF-8
 encoding//src/text/readnumber.java=UTF-8
 encoding//src/text/text.java=UTF-8

@@ -1,6 +1,12 @@
 package Canbo;
+<<<<<<< HEAD
 
+<<<<<<< HEAD
 import java.util.Comparator;
+=======
+=======
+>>>>>>> 86f8770633e2f4f086edb7cfd8c7be3439e672b5
+>>>>>>> f519ccdc26c546bd3f966d16137622b9d9099d44
 import java.util.Scanner;
 
 import Canbo.Giangvien.myexception;
@@ -28,6 +34,7 @@ public class Nhanvien {
         // TODO Auto-generated constructor stub
     }
 
+<<<<<<< HEAD
     public Nhanvien(String hoten, String phongban, int songaycong,
             double phucap, String chucvu, double hesoluong, double luong) {
         super();
@@ -70,6 +77,31 @@ public class Nhanvien {
 
     public void setSongaycong(int songaycong) {
         this.songaycong = songaycong;
+=======
+<<<<<<< HEAD
+    public NhanVien(String hoTen, String phongBan, String chucVu, int soNgayCong, double heSoLuong) {
+=======
+    public NhanVien(String hoTen, String phongBan, String chucVu, int soNgayCong, double heSoLuong,String maCanBo) {
+>>>>>>> 86f8770633e2f4f086edb7cfd8c7be3439e672b5
+        super();
+        this.setHoTen(hoTen);
+        this.phongBan = phongBan;
+        this.chucVu = chucVu;
+<<<<<<< HEAD
+=======
+        this.maCanBo=maCanBo;
+>>>>>>> 86f8770633e2f4f086edb7cfd8c7be3439e672b5
+        this.soNgayCong = soNgayCong;
+        this.setHeSoLuong(heSoLuong);
+        if (chucVu == "Trưởng phòng") {
+            this.setPhuCap(2000);
+        } else if (chucVu == "Phó phòng") {
+            this.setPhuCap(1000);
+        } else if (chucVu == "Nhân viên") {
+            this.setPhuCap(500);
+        }
+        this.setLuong(tinhLuong());
+>>>>>>> f519ccdc26c546bd3f966d16137622b9d9099d44
     }
 
     public double getPhucap() {
@@ -141,6 +173,7 @@ public class Nhanvien {
     // check ho ten;
     String checkHoten() {
         do {
+<<<<<<< HEAD
             Main main = new Main();
             System.out.println("Nhập họ tên nhân viên");
             hoten = myinput.nextLine();
@@ -155,6 +188,28 @@ public class Nhanvien {
             } catch (myexception e) {
                 System.out.println(
                         "* Họ tên không hợp lệ! (Họ tên không được rỗng và có độ dài không quá 40 ký tự) \\\\n Nhập lại:");
+=======
+            choose = Main.myFunction.loopCheckInt();
+            switch (choose) {
+            case 1:
+                chucVu = "Trưởng phòng";
+                this.setPhuCap(2000);
+                break;
+            case 2:
+                chucVu = "Phó phòng";
+                this.setPhuCap(1000);
+                break;
+            case 3:
+<<<<<<< HEAD
+                chucVu = "Nhân viên";
+=======
+>>>>>>> 86f8770633e2f4f086edb7cfd8c7be3439e672b5
+                this.setPhuCap(500);
+                break;
+            default:
+                System.err.print(" * Vui lòng nhập số từ 1-3!\n Nhập lại: ");
+                break;
+>>>>>>> f519ccdc26c546bd3f966d16137622b9d9099d44
             }
         } while (true);
     }
