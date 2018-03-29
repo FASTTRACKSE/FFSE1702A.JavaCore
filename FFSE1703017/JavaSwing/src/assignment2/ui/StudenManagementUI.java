@@ -261,7 +261,7 @@ public class StudenManagementUI extends JFrame {
 	
 	public static boolean chkInt(String s) {
 		try {
-			Double.parseDouble(s.trim());
+			Integer.parseInt(s.trim());
 			return true;
 		} catch (Exception e) {
 			return false;
