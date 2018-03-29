@@ -66,7 +66,6 @@ public class NhanVien extends CanBo {
 
 			}
 		}
-
 		scn.nextLine();
 		for (;;) {
 			System.out.println("nhập chức vụ :");

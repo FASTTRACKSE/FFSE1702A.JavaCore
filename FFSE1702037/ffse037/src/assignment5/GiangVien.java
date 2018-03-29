@@ -72,7 +72,6 @@ public class GiangVien extends CanBo {
 
 			}
 		}
-
 		scn.nextLine();
 		for (;;) {
 			System.out.println("nhập trình độ :");
