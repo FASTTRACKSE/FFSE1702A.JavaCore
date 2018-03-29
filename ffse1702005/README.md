@@ -1,3 +1,6 @@
+<<<<<<< HEAD
+#Dat
+=======
 <!DOCTYPE html>
 <html>
 <h1>Chu Thành Đạt</h1>
@@ -25,3 +28,4 @@
 <p><a href="https://github.com/FASTTRACKSE/FFSE1702A.JavaCore/blob/master/FFSE1702005/JavaDesktop/src/test/GiaiPT.java">Phương trình bậc 1</a></p>
     <p>Assignment 2:</p>
 </html>
+>>>>>>> f519ccdc26c546bd3f966d16137622b9d9099d44

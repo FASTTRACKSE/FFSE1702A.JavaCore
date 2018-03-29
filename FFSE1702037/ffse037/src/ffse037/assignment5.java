@@ -35,9 +35,13 @@ public class assignment5 {
     			sortDESC(arr);
     	        System.out.println("Dãy số được sắp xếp giảm dần: ");
     	        show(arr);
+<<<<<<< HEAD
     		}else if(answer==3) {
     			continue;
     		}		
+=======
+    		}	
+>>>>>>> f519ccdc26c546bd3f966d16137622b9d9099d44
     		else if(answer==4) {
     			System.exit(0);
     		}		

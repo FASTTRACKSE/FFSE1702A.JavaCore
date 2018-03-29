@@ -1,30 +1,16 @@
 package JavaSwing;
 
-import java.awt.EventQueue;
-import javax.swing.JFrame;
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import java.awt.Font;
-import javax.swing.LayoutStyle.ComponentPlacement;
-import javax.swing.SwingConstants;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
-import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.JTableHeader;
-import javax.swing.table.TableCellRenderer;
-import javax.swing.JTextField;
-import javax.swing.JButton;
-import javax.swing.JFileChooser;
-import javax.swing.JTable;
-import javax.swing.border.LineBorder;
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Container;
 import java.awt.Dimension;
+import java.awt.EventQueue;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -32,36 +18,45 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.awt.event.ActionEvent;
-//import javax.swing.event.ListSelectionEvent;
-//import javax.swing.event.ListSelectionListener;
-import javax.swing.ListSelectionModel;
-import javax.swing.border.TitledBorder;
 
-public class QuanLySinhVien extends JPanel {
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JFileChooser;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
+import javax.swing.SwingConstants;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.border.LineBorder;
+import javax.swing.border.TitledBorder;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
+import javax.swing.table.TableCellRenderer;
+
+public class QuanLySinhVien extends JFrame {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private JFrame frame;
-	private JTextField MaSV;
-	private JTextField TenSV;
-	private JTextField TuoiSV;
+	private JPanel panelInput;
+	private JTextField MaSV, TenSV, TuoiSV;
+	private JScrollPane scrollPane;
 	private JTable table;
 	private String[] columnNames = new String[] { "Mã", "Tên", "Tuổi" };
-	private Object[][] data;
-	/*= new Object[][] { { "SV1", "Nguyễn Văn A", 19 }, { "SV2", "Nguyễn Văn B", 18 },
-			{ "SV3", "Nguyễn Văn C", 20 }, { "SV4", "Nguyễn Văn D", 22 }, { "SV5", "Nguyễn Văn E", 19 },
-			{ "SV6", "Nguyễn Văn F", 21 }, { "SV7", "Nguyễn Văn G", 20 }, { "SV8", "Nguyễn Văn H", 17 },
-			{ "SV9", "Nguyễn Văn I", 20 }, { "SV10", "Nguyễn Văn J", 22 }, { "SV11", "Nguyễn Văn K", 18 },
-			{ "SV12", "Nguyễn Văn L", 21 }, { "SV13", "Nguyễn Văn M", 17 }, { "SV14", "Nguyễn Văn N", 22 },
-			{ "SV15", "Nguyễn Văn O", 19 }, };*/
+	private Object[][] data = null;
 	private DefaultTableModel model = new DefaultTableModel(data, columnNames);
 
 	/**
 	 * Launch the application.
 	 */
+
 	public static void main(String[] args) {
 		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -71,8 +66,7 @@ public class QuanLySinhVien extends JPanel {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					QuanLySinhVien window = new QuanLySinhVien();
-					window.frame.setVisible(true);
+					new QuanLySinhVien("Quản lý sinh viên - JunBjn").showWindow();
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -80,40 +74,82 @@ public class QuanLySinhVien extends JPanel {
 		});
 	}
 
-	/**
-	 * Create the application.
-	 */
-	public QuanLySinhVien() {
-		initialize();
+	public void showWindow() {
+		this.setSize(450, 390);
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setLocationRelativeTo(null);
+		this.setVisible(true);
 	}
 
-	/**
-	 * Initialize the contents of the frame.
-	 */
-	private void initialize() {
-		frame = new JFrame("Quản lý sinh viên - JunBjn");
-		frame.setBounds(100, 100, 450, 500);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	public QuanLySinhVien(String tieude) {
+		super(tieude);
+		addControls();
+	}
 
-		JLabel title = new JLabel("Chương trình quản lí sinh viên");
-		title.setHorizontalAlignment(SwingConstants.CENTER);
-		title.setFont(new Font("Tahoma", Font.BOLD, 12));
+	public void addControls() {
+		Container con = getContentPane();
+		JPanel panel = new JPanel();
+		panel.setLayout(new BorderLayout(0, 0));
 
+		JLabel header = new JLabel("Chương trình quản lí sinh viên");
+		header.setPreferredSize(new Dimension(100, 30));
+		header.setFont(new Font("Tahoma", Font.BOLD, 12));
+		header.setHorizontalAlignment(SwingConstants.CENTER);
+
+		JPanel panelCenter = new JPanel();
+		panelCenter.setLayout(new BoxLayout(panelCenter, BoxLayout.Y_AXIS));
+
+		panelInput = new JPanel();
+		panelInput.setLayout(new BoxLayout(panelInput, BoxLayout.Y_AXIS));
+
+		panel.add(header, BorderLayout.NORTH);
+		panel.add(panelCenter, BorderLayout.CENTER);
+
+		addInput();
+		addButton();
+		panelCenter.add(panelInput);
+
+		addTable();
+		panelCenter.add(scrollPane);
+
+		con.add(panel);
+	}
+
+	private void addInput() {
+		JPanel panelInput_MaSV = new JPanel();
 		JLabel lblMaSV = new JLabel("Mã sinh viên:");
-
-		JLabel lblTenSV = new JLabel("Tên sinh viên:");
-		lblTenSV.setHorizontalAlignment(SwingConstants.TRAILING);
-
-		JLabel lblTuoiSV = new JLabel("Tuổi:");
-
+		lblMaSV.setPreferredSize(new Dimension(80, 20));
 		MaSV = new JTextField();
-		MaSV.setColumns(10);
+		MaSV.setColumns(20);
 
+		panelInput_MaSV.add(lblMaSV);
+		panelInput_MaSV.add(MaSV);
+
+		JPanel panelInput_TenSV = new JPanel();
+		JLabel lblTenSV = new JLabel("Tên sinh viên:");
+		lblTenSV.setPreferredSize(new Dimension(80, 20));
 		TenSV = new JTextField();
-		TenSV.setColumns(10);
+		TenSV.setColumns(20);
 
+		panelInput_TenSV.add(lblTenSV);
+		panelInput_TenSV.add(TenSV);
+
+		JPanel panelInput_TuoiSV = new JPanel();
+		JLabel lblTuoiSV = new JLabel("Tuổi:");
+		lblTuoiSV.setPreferredSize(new Dimension(80, 20));
 		TuoiSV = new JTextField();
-		TuoiSV.setColumns(10);
+		TuoiSV.setColumns(20);
+
+		panelInput_TuoiSV.add(lblTuoiSV);
+		panelInput_TuoiSV.add(TuoiSV);
+
+		panelInput.add(panelInput_MaSV);
+		panelInput.add(panelInput_TenSV);
+		panelInput.add(panelInput_TuoiSV);
+	}
+
+	private void addButton() {
+		JPanel panelButton = new JPanel();
 
 		JButton btnAdd = new JButton("Thêm");
 		btnAdd.addActionListener(new AddListener());
@@ -125,94 +161,46 @@ public class QuanLySinhVien extends JPanel {
 		btnDel.addActionListener(new DelListener());
 
 		JButton btnExit = new JButton("Thoát");
-		btnExit.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				System.exit(0);
-			}
-		});
+		btnExit.addActionListener(new ExitListener());
 
-		JPanel panel = new JPanel();
-		panel.setBorder(new TitledBorder(new LineBorder(new Color(255, 0, 0)), "Danh s\u00E1ch", TitledBorder.LEADING,
-				TitledBorder.TOP, null, null));
-
-		JButton btnImport = new JButton("Import");
+		JButton btnImport = new JButton("Nhập");
 		btnImport.addActionListener(new ImportListener());
 
-		JButton btnExport = new JButton("Export");
+		JButton btnExport = new JButton("Xuất");
 		btnExport.addActionListener(new ExportListener());
 
-		GroupLayout groupLayout = new GroupLayout(frame.getContentPane());
-		groupLayout.setHorizontalGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-				.addGroup(groupLayout.createSequentialGroup().addGap(117)
-						.addComponent(title, GroupLayout.DEFAULT_SIZE, 203, Short.MAX_VALUE).addGap(114))
-				.addGroup(groupLayout.createSequentialGroup().addGap(76)
-						.addGroup(groupLayout.createParallelGroup(Alignment.LEADING).addComponent(lblTenSV)
-								.addComponent(lblMaSV).addComponent(lblTuoiSV))
-						.addPreferredGap(ComponentPlacement.UNRELATED)
-						.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-								.addComponent(TuoiSV, GroupLayout.DEFAULT_SIZE, 195, Short.MAX_VALUE)
-								.addComponent(TenSV, GroupLayout.DEFAULT_SIZE, 195, Short.MAX_VALUE)
-								.addComponent(MaSV, GroupLayout.DEFAULT_SIZE, 195, Short.MAX_VALUE))
-						.addGap(86))
-				.addGroup(groupLayout.createSequentialGroup().addGap(20)
-						.addComponent(panel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-						.addGap(25))
-				.addGroup(groupLayout.createSequentialGroup().addGap(92)
-						.addComponent(btnAdd, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-						.addPreferredGap(ComponentPlacement.RELATED)
-						.addComponent(btnEdit, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-						.addPreferredGap(ComponentPlacement.RELATED)
-						.addComponent(btnDel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-						.addPreferredGap(ComponentPlacement.RELATED)
-						.addComponent(btnExit, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-						.addGap(102))
-				.addGroup(groupLayout.createSequentialGroup().addGap(142).addComponent(btnImport).addGap(18)
-						.addComponent(btnExport, GroupLayout.PREFERRED_SIZE, 41, Short.MAX_VALUE).addGap(144)));
-		groupLayout.setVerticalGroup(groupLayout.createParallelGroup(Alignment.LEADING).addGroup(groupLayout
-				.createSequentialGroup().addContainerGap()
-				.addComponent(title, GroupLayout.PREFERRED_SIZE, 33, GroupLayout.PREFERRED_SIZE)
-				.addPreferredGap(ComponentPlacement.UNRELATED)
-				.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-						.addComponent(MaSV, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
-								GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblMaSV))
-				.addPreferredGap(ComponentPlacement.UNRELATED)
-				.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-						.addComponent(TenSV, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
-								GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblTenSV))
-				.addPreferredGap(ComponentPlacement.UNRELATED)
-				.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-						.addComponent(TuoiSV, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
-								GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblTuoiSV))
-				.addGap(20)
-				.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE).addComponent(btnDel).addComponent(btnEdit)
-						.addComponent(btnExit).addComponent(btnAdd))
-				.addGap(18)
-				.addComponent(panel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-				.addGap(18).addGroup(groupLayout.createParallelGroup(Alignment.BASELINE).addComponent(btnExport)
-						.addComponent(btnImport))
-				.addContainerGap(36, Short.MAX_VALUE)));
+		panelButton.add(btnAdd);
+		panelButton.add(btnEdit);
+		panelButton.add(btnDel);
+		panelButton.add(btnExit);
+		panelButton.add(btnImport);
+		panelButton.add(btnExport);
 
-		JScrollPane scrollPane = new JScrollPane();
-		panel.add(scrollPane);
+		panelInput.add(panelButton);
+	}
 
-		table = new JTable();
-		JTableHeader header = table.getTableHeader();
-		header.setDefaultRenderer(new HeaderRenderer(table));
+	@SuppressWarnings("serial")
+	private void addTable() {
+		scrollPane = new JScrollPane();
+		scrollPane.setBorder(new TitledBorder(new LineBorder(new Color(255, 0, 0)), "Danh sách", TitledBorder.LEADING,
+				TitledBorder.TOP, null, null));
+
+		table = new JTable() {
+			public boolean getScrollableTracksViewportWidth() {
+				return getPreferredSize().width < getParent().getWidth();
+			}
+		};
+		JTableHeader tableHeader = table.getTableHeader();
+		// Canh giữa cell header table
+		tableHeader.setDefaultRenderer(new HeaderRenderer(table));
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		table.setBorder(new LineBorder(Color.LIGHT_GRAY));
-		scrollPane.setViewportView(table);
-		table.setPreferredScrollableViewportSize(new Dimension(350, 128));
 		table.setModel(model);
-		// table.getSelectionModel().addListSelectionListener(new SelectRowListener());
-
-		frame.getContentPane().setLayout(groupLayout);
+		table.addMouseListener(new MouseClickRow());
+		scrollPane.setViewportView(table);
 	}
 
 	private static class HeaderRenderer implements TableCellRenderer {
-
 		DefaultTableCellRenderer renderer;
 
 		public HeaderRenderer(JTable table) {
@@ -246,10 +234,9 @@ public class QuanLySinhVien extends JPanel {
 		}
 	}
 
-	/*private class SelectRowListener implements ListSelectionListener {
+	private class MouseClickRow extends MouseAdapter {
 		@Override
-		public void valueChanged(ListSelectionEvent event) {
-			// TODO Auto-generated method stub
+		public void mouseClicked(MouseEvent e) {
 			int row = table.getSelectedRow();
 			String maSV = model.getValueAt(row, 0).toString();
 			String tenSV = model.getValueAt(row, 1).toString();
@@ -258,7 +245,7 @@ public class QuanLySinhVien extends JPanel {
 			TenSV.setText(tenSV);
 			TuoiSV.setText(tuoiSV);
 		}
-	}*/
+	}
 
 	private class EditListener implements ActionListener {
 		@Override
@@ -289,7 +276,15 @@ public class QuanLySinhVien extends JPanel {
 			int row = table.getSelectedRow();
 			if (row != -1) {
 				model.removeRow(row);
+				setText("", "", "");
 			}
+		}
+	}
+
+	private class ExitListener implements ActionListener {
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			System.exit(0);
 		}
 	}
 
@@ -305,7 +300,7 @@ public class QuanLySinhVien extends JPanel {
 					BufferedWriter bw = new BufferedWriter(new FileWriter(filepath));
 					for (int k = 0; k < table.getRowCount(); k++) {
 						for (int j = 0; j < table.getColumnCount(); j++) {
-							bw.write(table.getValueAt(k, j).toString() + ", ");
+							bw.write(table.getValueAt(k, j).toString() + ",");
 						}
 						bw.newLine();
 					}
@@ -332,7 +327,7 @@ public class QuanLySinhVien extends JPanel {
 					Object[] lines = br.lines().toArray();
 
 					for (int j = 0; j < lines.length; j++) {
-						String[] row = lines[j].toString().split(", ");
+						String[] row = lines[j].toString().split(",");
 						model.addRow(row);
 					}
 					br.close();

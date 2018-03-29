@@ -1,0 +1,127 @@
+package JavaSwing;
+ 
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
+ 
+public class Tee {
+    
+   private JFrame mainFrame;
+   private JLabel headerLabel;
+   private JLabel statusLabel;
+   private JPanel controlPanel;
+
+   public Tee(){
+      prepareGUI();
+   }
+
+   public static void main(String[] args){
+      Tee  swingControlDemo = new Tee();      
+      swingControlDemo.showTextFieldDemo();
+   }
+
+   private void prepareGUI(){
+      mainFrame = new JFrame("Vi du Java Swing");
+      mainFrame.setSize(500,400);
+      mainFrame.setLayout(new GridLayout(3, 1));
+      mainFrame.addWindowListener(new WindowAdapter() {
+         public void windowClosing(WindowEvent windowEvent){
+            System.exit(0);
+         }        
+      });    
+      headerLabel = new JLabel("", JLabel.CENTER);        
+      statusLabel = new JLabel("",JLabel.CENTER);    
+
+      statusLabel.setSize(350,100);
+
+      controlPanel = new JPanel();
+      controlPanel.setLayout(new FlowLayout());
+
+      mainFrame.add(headerLabel);
+      mainFrame.add(controlPanel);
+      mainFrame.add(statusLabel);
+      mainFrame.setVisible(true);  
+      
+   }
+
+   private void showTextFieldDemo(){
+      headerLabel.setText("Chuong trinh quan ly sinh vien"); 
+
+      
+     
+     
+  	    JFrame f = new JFrame();    
+  	    String data[][]={ {"101","Amit","670000"},    
+  	                          {"102","Jai","780000"},    
+  	                          {"101","Sachin","700000"}};    
+  	    String column[]={"ID","NAME","SALARY"};         
+  	    JTable jt=new JTable(data,column);    
+  	    jt.setBounds(200,40,200,300);          
+  	    JScrollPane sp=new JScrollPane(jt);    
+  	    f.add(sp);          
+  	    f.setSize(300,400);    
+  	    f.setVisible(true);  
+    	      
+      
+      
+      JLabel  SoALabel= new JLabel("Nhập số A: ", JLabel.RIGHT);
+      JLabel  soBLabel = new JLabel("Nhập số B: ", JLabel.RIGHT);
+      JLabel  soCLabel = new JLabel("Nhập số C: ", JLabel.RIGHT);
+      final JTextField a = new JTextField(20);
+      final JTextField b = new JTextField(20);
+      final JTextField c = new JTextField(20);
+ 
+     
+
+      JButton luu = new JButton("Luu");
+      luu.addActionListener(new ActionListener() {
+         public void actionPerformed(ActionEvent e) {     
+           
+            
+            }
+        
+      }); 
+
+      JButton moi = new JButton("Moi");
+      moi.addActionListener(new ActionListener() {
+         public void actionPerformed(ActionEvent e) {     
+          
+            
+            }
+        
+      }); 
+
+      
+      JButton xoa = new JButton("Xoa");
+      xoa.addActionListener(new ActionListener() {
+         public void actionPerformed(ActionEvent e) {     
+          
+           
+            
+            }
+        
+      }); 
+      
+      JButton thoat = new JButton("Thoat");
+      thoat.addActionListener(new ActionListener() {
+         public void actionPerformed(ActionEvent e) {     
+         
+            
+            }
+        
+      }); 
+      
+      
+      controlPanel.add(SoALabel);
+      controlPanel.add(a);
+      controlPanel.add(soBLabel);       
+      controlPanel.add(b);
+      controlPanel.add(soCLabel);
+      controlPanel.add(c);
+      controlPanel.add(luu);
+      controlPanel.add(moi);
+      controlPanel.add(thoat);
+      controlPanel.add(xoa);
+      mainFrame.setVisible(true);  
+   }
+}

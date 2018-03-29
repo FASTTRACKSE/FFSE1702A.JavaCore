@@ -1,0 +1,8 @@
+package JavaSwing;
+import javax.swing.JFrame;
+public class GiaoDien extends JFrame{
+	public GiaoDien() {
+		super("QLSV");
+	}
+
+}

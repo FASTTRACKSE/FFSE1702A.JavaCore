@@ -1,1 +1,36 @@
+<<<<<<< HEAD
+/.metadata/
+/.recommenders/
+=======
+*target*
+*.jar
+*.war
+*.ear
+*.class
 
+# eclipse specific git ignore
+*.pydevproject
+.project
+.metadata
+bin/**
+tmp/**
+tmp/**/*
+*.tmp
+*.bak
+*.swp
+*~.nib
+local.properties
+.classpath
+.settings/
+.loadpath
+.recommenders/
+
+# MacOS
+.DS_Store
+
+# External tool builders
+.externalToolBuilders/
+
+# Locally stored "Eclipse launch configurations"
+*.launch
+>>>>>>> f519ccdc26c546bd3f966d16137622b9d9099d44

@@ -1,32 +1,48 @@
 package assigment5;
 
+<<<<<<< HEAD
+=======
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+>>>>>>> 86f8770633e2f4f086edb7cfd8c7be3439e672b5
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Scanner;
 
 public class Main {
+<<<<<<< HEAD
+	public static void main(String args[]) {
+		ArrayList<CanBo> list = new ArrayList<CanBo>();
+		int control = 5;
+=======
 	static ArrayList<CanBo> list = new ArrayList<>();
 	public static void main(String args[]) throws IOException, ClassNotFoundException {
 		readFromFileText();
 		int control = 5;
 		String input;
+>>>>>>> 86f8770633e2f4f086edb7cfd8c7be3439e672b5
 		while (control != 0) {
 			System.out.println("1.Nhập thông tin danh sách cán bộ trong trường.\r\n"
 					+ "2.Xuất danh sách giảng viên khoa x, hoặc nhân viên phòng ban y nào đó.\r\n"
 					+ "3.Tổng số lương trường phải trả cho cán bộ.\r\n"
+<<<<<<< HEAD
+					+ "4.Sắp xếp cán bộ theo lương, nếu lương bằng thì sắp xếp theo tên. ");
+=======
 					+ "4.Sắp xếp cán bộ theo lương, nếu lương bằng thì sắp xếp theo tên. \r\n" + "5.Thoát.");
+>>>>>>> 86f8770633e2f4f086edb7cfd8c7be3439e672b5
 
 			Scanner scan = new Scanner(System.in);
 			control = Integer.parseInt(scan.nextLine());
 
 			if (control == 1) {
+<<<<<<< HEAD
+=======
 				int soluonggiangvien = 0;
+>>>>>>> 86f8770633e2f4f086edb7cfd8c7be3439e672b5
 				int control2 = 5;
 				while (control2 != 0) {
 					System.out.println("1. Nhập giảng viên");
@@ -35,6 +51,9 @@ public class Main {
 					control2 = Integer.parseInt(scan.nextLine());
 					if (control2 == 1) {
 						System.out.println("Nhập số lượng giảng viên cần nhập");
+<<<<<<< HEAD
+						int soluonggiangvien = Integer.parseInt(scan.nextLine());
+=======
 						while (true) {
 							try {
 								input = scan.nextLine();
@@ -46,6 +65,7 @@ public class Main {
 							}
 						}
 
+>>>>>>> 86f8770633e2f4f086edb7cfd8c7be3439e672b5
 						for (int i = 0; i < soluonggiangvien; i++) {
 							Giangvien gv = new Giangvien();
 							gv.nhap();
@@ -98,6 +118,12 @@ public class Main {
 							return -1;
 					}
 				});
+<<<<<<< HEAD
+			}
+
+		}
+	}
+=======
 			} else if (control == 5) {
 				writeToFileText(list);
 				System.exit(0);
@@ -129,4 +155,5 @@ public class Main {
 		br.close();
 	}
 
+>>>>>>> 86f8770633e2f4f086edb7cfd8c7be3439e672b5
 }
