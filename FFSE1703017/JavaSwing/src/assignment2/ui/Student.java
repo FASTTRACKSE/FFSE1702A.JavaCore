@@ -1,4 +1,4 @@
-package assignment2.main;
+package assignment2.ui;
 
 import java.io.Serializable;
 
