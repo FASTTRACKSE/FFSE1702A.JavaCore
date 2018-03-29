@@ -1,4 +1,8 @@
+<<<<<<< HEAD:ffse1702005/java/src/text/NhanVien.java
+package text;
+=======
 package ffse1702005;
+>>>>>>> f519ccdc26c546bd3f966d16137622b9d9099d44:ffse1702005/ffse1702005/src/ffse1702005/NhanVien.java
 
 import java.util.Scanner;
 
@@ -79,8 +83,13 @@ public class NhanVien extends CanBo {
  
     @Override
     public String toString() {
+<<<<<<< HEAD:ffse1702005/java/src/text/NhanVien.java
+        return super.toString() + "|| phòng ban: " + this.phongBan + "|| chức vụ: " + this.chucVu + 
+            "|| số ngày công: " + this.soNgayCong + "|| mã cán bộ: " + this.getMaCanBo();
+=======
         return super.toString() + ", phòng ban: " + this.phongBan + ", chức vụ: " + this.chucVu + 
             ", số ngày công: " + this.soNgayCong + ", mã cán bộ: " + this.getMaCanBo();
+>>>>>>> f519ccdc26c546bd3f966d16137622b9d9099d44:ffse1702005/ffse1702005/src/ffse1702005/NhanVien.java
     }
      
 }

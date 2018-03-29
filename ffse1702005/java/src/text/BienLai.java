@@ -152,8 +152,13 @@ public class BienLai extends KhachHang {
 				}
 
 				else {
+<<<<<<< HEAD
+					System.out
+							.println("+>> Nhập sai chức năng vui lòng nhập lại chức năng trong khoảng từ 1 đến 4 <<+");
+=======
 					System.out.println(
 							"+>> Nháº­p sai chá»©c nÄƒng vui lÃ²ng nháº­p láº¡i chá»©c nÄƒng trong khoáº£ng tá»« 1 Ä‘áº¿n 4 <<+");
+>>>>>>> f519ccdc26c546bd3f966d16137622b9d9099d44
 				}
 			} catch (Exception e) {
 				System.out.println("+>> Error! Vui lÃ²ng nháº­p láº¡i <<+");

@@ -6,7 +6,10 @@ import java.util.Scanner;
 
 public class Asm4 {
 	public static void main(String[] args) {
+<<<<<<< HEAD
+=======
 		
+>>>>>>> f519ccdc26c546bd3f966d16137622b9d9099d44
 		Scanner scanner = new Scanner(System.in);
 		System.out.println("Nhập số lượng phần tử");
 		int n = scanner.nextInt();
@@ -27,6 +30,8 @@ public class Asm4 {
 		if (answer == 4) {
 			System.exit(0);
 		}
+<<<<<<< HEAD
+=======
 		if (answer == 1) {
 			System.out.println("Dãy số được sắp xếp giảm dần");
 			for (int i = arr.length - 1; i >= 0; i--) {
@@ -36,6 +41,7 @@ public class Asm4 {
 
 	}
 	public void nhap() {
+>>>>>>> f519ccdc26c546bd3f966d16137622b9d9099d44
 		
 	}
 }

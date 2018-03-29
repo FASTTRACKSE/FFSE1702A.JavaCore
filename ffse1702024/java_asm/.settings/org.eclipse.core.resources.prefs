@@ -1,8 +1,12 @@
 eclipse.preferences.version=1
+<<<<<<< HEAD
+encoding//src/java_asm/KhachHang.java=UTF-8
+=======
 encoding//src/java_asm/CanBo.java=UTF-8
 encoding//src/java_asm/CanBoException.java=UTF-8
 encoding//src/java_asm/GiangVien.java=UTF-8
 encoding//src/java_asm/KhachHang.java=UTF-8
 encoding//src/java_asm/Main.java=UTF-8
 encoding//src/java_asm/NhanVien.java=UTF-8
+>>>>>>> f519ccdc26c546bd3f966d16137622b9d9099d44
 encoding//src/java_asm/TienDien.java=UTF-8

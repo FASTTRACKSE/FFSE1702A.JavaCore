@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+/.metadata/
+/.recommenders/
+=======
 *target*
 *.jar
 *.war
@@ -29,3 +33,4 @@ local.properties
 
 # Locally stored "Eclipse launch configurations"
 *.launch
+>>>>>>> f519ccdc26c546bd3f966d16137622b9d9099d44

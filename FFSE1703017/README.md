@@ -1,3 +1,6 @@
+<<<<<<< HEAD
+Ngọc LV
+=======
 ### Lê Vĩnh Ngọc FFSE1703017
 - #### JavaCore
   * [Assigment 3](https://github.com/FASTTRACKSE/FFSE1702A.JavaCore/tree/master/FFSE1703017/JavaCore/src/assignment3)
@@ -7,3 +10,4 @@
   * [Assigment 1](https://github.com/FASTTRACKSE/FFSE1702A.JavaCore/tree/master/FFSE1703017/JavaSwing/src/assignment1)
   * [Assigment 2](https://github.com/FASTTRACKSE/FFSE1702A.JavaCore/tree/master/FFSE1703017/JavaSwing/src/assignment2)
 
+>>>>>>> f519ccdc26c546bd3f966d16137622b9d9099d44
