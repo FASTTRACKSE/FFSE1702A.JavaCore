@@ -82,7 +82,7 @@ public class QuanLySinhVien extends JPanel {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		frame = new JFrame("Quản lý sinh viên - JunBjn");
+		frame = new JFrame("Quản lý sinh viên");
 		frame.setBounds(100, 100, 450, 450);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 

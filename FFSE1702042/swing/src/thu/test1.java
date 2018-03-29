@@ -1,21 +1,23 @@
 package thu;
-import java.awt.event.*;  
-import javax.swing.*;    
-public class test1 {  
-public static void main(String[] args) {  
-    JFrame f=new JFrame("Button Example");  
-    JTextField tf=new JTextField();  
-    tf.setBounds(200,50, 150,20);  
-    JButton b=new JButton("Click Here");  
-    b.setBounds(50,100,95,30);  
-    b.addActionListener(new ActionListener(){  
-public void actionPerformed(ActionEvent e){  
-            tf.setText("Ha ha");  
-        }  
-    });  
-    f.add(b);f.add(tf);  
-    f.setSize(400,400);  
-    f.setLayout(null);  
-    f.setVisible(true);   
-}  
-}  
+import javax.swing.*;
+import java.awt.*;
+public class test1 extends JFrame {
+	JFrame f;  
+	test1(){ 
+	    f=new JFrame("Combo ex");  
+	      
+	    String lop[]	= {"FFSE1701", "FFSE1702","FFSE1703", "FFSE1704"};	
+		JComboBox cb	= new 	JComboBox(lop);
+	    cb.setBounds(50, 50,90,20);  
+	    f.add(cb);  
+	      
+	    f.setLayout(null);  
+	    f.setSize(400,500);  
+	    f.setVisible(true);  
+	      
+	}  
+	public static void main(String[] args) {  
+	    new test1();  
+	      
+	}  
+	}  
