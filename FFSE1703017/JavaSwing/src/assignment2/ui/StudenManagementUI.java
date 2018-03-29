@@ -29,9 +29,6 @@ import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 
-import assignment2.main.Student;
-
-
 public class StudenManagementUI extends JFrame {
 
 	private static final long serialVersionUID = 1L;
@@ -68,31 +65,43 @@ public class StudenManagementUI extends JFrame {
 			String id = txtID.getText();
 			String name = txtName.getText();
 			String age = txtAge.getText();
-			Student st = new Student(id, name, age);
-			arrStudent.add(st);
-			String[] row = {id, name, age};
-			modelList.addRow(row);
-			txtID.setText("");txtName.setText("");txtAge.setText("");
-			JOptionPane.showMessageDialog(null,"Thêm sinh viên thành công.","Alert",JOptionPane.WARNING_MESSAGE);
+			if (Validation.isEmpty(id) || Validation.isEmpty(name) || Validation.isEmpty(age)) {
+				JOptionPane.showMessageDialog(null,"Input không được để trống.","Alert",JOptionPane.WARNING_MESSAGE);
+			} else if (!(Validation.chkInt(age))) {
+				JOptionPane.showMessageDialog(null,"Tuổi phải nhập số","Alert",JOptionPane.WARNING_MESSAGE);
+			} else {
+				Student st = new Student(id, name, age);
+				arrStudent.add(st);
+				String[] row = {id, name, age};
+				modelList.addRow(row);
+				txtID.setText("");txtName.setText("");txtAge.setText("");
+				JOptionPane.showMessageDialog(null,"Thêm sinh viên thành công.","Alert",JOptionPane.WARNING_MESSAGE);
+			}
 		}
 	};
 	ActionListener eventUpdate = new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
-			try {
-				int i = tblList.getSelectedRow();
-				String id = txtID.getText();
-				String name = txtName.getText();
-				String age = txtAge.getText();
-				Student st = new Student(id, name, age);
-				arrStudent.set(i, st);
-				String[] row = {id, name, age};
-				for (int j = 0; j < 3; j++) {
-					tblList.setValueAt(row[j], i, j);
+			String id = txtID.getText();
+			String name = txtName.getText();
+			String age = txtAge.getText();
+			if (Validation.isEmpty(id) || Validation.isEmpty(name) || Validation.isEmpty(age)) {
+				JOptionPane.showMessageDialog(null,"Input không được để trống.","Alert",JOptionPane.WARNING_MESSAGE);
+			} else if (!(Validation.chkInt(age))) {
+				JOptionPane.showMessageDialog(null,"Tuổi phải nhập số","Alert",JOptionPane.WARNING_MESSAGE);
+			} else {
+				try {
+					int i = tblList.getSelectedRow();
+					Student st = new Student(id, name, age);
+					arrStudent.set(i, st);
+					String[] row = {id, name, age};
+					for (int j = 0; j < 3; j++) {
+						tblList.setValueAt(row[j], i, j);
+					}
+					txtID.setText("");txtName.setText("");txtAge.setText("");
+					JOptionPane.showMessageDialog(null,"Update thành công.","Alert",JOptionPane.WARNING_MESSAGE);
+				} catch(Exception ex) {
+					JOptionPane.showMessageDialog(null,"Không dòng nào được chọn.","Alert",JOptionPane.WARNING_MESSAGE);
 				}
-				txtID.setText("");txtName.setText("");txtAge.setText("");
-				JOptionPane.showMessageDialog(null,"Update thành công.","Alert",JOptionPane.WARNING_MESSAGE);
-			} catch(Exception ex) {
-				JOptionPane.showMessageDialog(null,"Không dòng nào được chọn.","Alert",JOptionPane.WARNING_MESSAGE);
 			}
 		}
 	};
@@ -142,7 +151,7 @@ public class StudenManagementUI extends JFrame {
 
 			} catch (Exception ex) {
 				System.out.println(ex);
-				JOptionPane.showMessageDialog(null,"Load file unsuccessful.","Alert",JOptionPane.WARNING_MESSAGE);
+				JOptionPane.showMessageDialog(null,"Load file thất bại.","Alert",JOptionPane.WARNING_MESSAGE);
 			}
 		}
 	};

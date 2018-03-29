@@ -6,7 +6,7 @@ import java.util.Scanner;
 import lab3.Khachhang;
 import java.util.Collections;
 import java.util.Comparator;
-
+import java.io.*;
 public class Main {
 	public static Scanner myinput = new Scanner(System.in);
 
@@ -22,11 +22,20 @@ public class Main {
 		System.out.println(" ---------------------------------------------------------------- ");
 	}
 
-	public static void main(String args[]) {
+	public static void main(String args[]) throws ClassNotFoundException {
 
 		CanBo canBo;
 
 		ArrayList<CanBo> list = new ArrayList();
+		try {
+			FileInputStream fos = new FileInputStream("CanBo");
+			ObjectInputStream oos = new ObjectInputStream(fos);
+			list = (ArrayList<CanBo>) oos.readObject();
+			oos.close();
+			fos.close();
+		} catch (IOException e) {
+			System.out.println("Co loi" + e);
+		}
 		for (;;) {
 			showMenu();
 			System.out.println("mời bạn chọn danh mục:");
@@ -42,6 +51,18 @@ public class Main {
 					nv.macanbo(nv, list);
 					nv.nhap();
 					list.add(nv);
+					try {
+						FileOutputStream fos = new FileOutputStream("CanBo");
+						ObjectOutputStream oos = new ObjectOutputStream(fos);
+
+						oos.writeObject(list);
+
+						oos.close();
+						fos.close();
+
+					} catch (IOException e) {
+						System.out.println(e);
+					}
 				}
 				if (b == 2) {
 
@@ -50,6 +71,19 @@ public class Main {
 
 					gv.nhap();
 					list.add(gv);
+					
+				}
+				try {
+					FileOutputStream fos = new FileOutputStream("CanBo");
+					ObjectOutputStream oos = new ObjectOutputStream(fos);
+
+					oos.writeObject(list);
+
+					oos.close();
+					fos.close();
+
+				} catch (IOException e) {
+					System.out.println(e);
 				}
 			}
 			if (a == 2) {
