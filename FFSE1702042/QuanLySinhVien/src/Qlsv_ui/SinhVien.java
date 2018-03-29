@@ -1,7 +1,5 @@
 package Qlsv_ui;
-
 import java.io.Serializable;
-
 public class SinhVien implements Serializable {
 
 	private static final long serialVersionUID = 1L;

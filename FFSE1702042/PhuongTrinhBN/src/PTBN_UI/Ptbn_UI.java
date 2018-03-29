@@ -36,7 +36,6 @@ public class Ptbn_UI extends JFrame {
 				txtResult.setText("phương trình vô số nghiệm");
 			else
 				txtResult.setText("phương trình vô nghiệm");
-
 		}
 
 	}
