@@ -25,10 +25,9 @@ public class QuanLySV {
 		for (int i = 0; i <n; i++) {
 			System.out.println("Moi ban nhap Sinh Vien thu" + (i+1));
 			SinhVien sv=new SinhVien();
-			sv.inputinfSV(i);
+			sv.inputinfSV();
 		arrSV.add(sv);
 		}
-		
 	}
 	public void searchSV(ArrayList<SinhVien> arr,String name) {
 		int j=0;
@@ -43,7 +42,7 @@ public class QuanLySV {
 		}
 	}
 public static void main(String[] args) {
-	SinhVien q= new SinhVien();
+	QuanLySV q= new QuanLySV();	
 	Scanner input = new Scanner(System.in); 
 	int lc,i=0;
 	while (i==0) {
@@ -60,12 +59,12 @@ public static void main(String[] args) {
 	case 1:
 		System.out.println("Nhap so luong Sinh Vien co trong danh sach");
 		int n=input.nextInt();
-		q.inputinfSV(n);
-		
+		q.inputlistSV(n);
 		break;
 	case 2:
-	
+		q.showlistSV(q.arrSV);
 		break;
+		
 	case 3:
 		q.dockingSV(q.arrSV);
 		q.showlistSV(q.arrSV);
