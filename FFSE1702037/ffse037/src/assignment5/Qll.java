@@ -10,7 +10,6 @@ public class Qll extends Exception {
 		this.errHoTen = errHoTen;
 
 	}
-
 	public String toString() {
 		return this.errHoTen;
 	}

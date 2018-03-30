@@ -2,8 +2,8 @@ package assignment5;
 
 import java.util.ArrayList;
 import java.util.Scanner;
-
-public class CanBo {
+import java.io.Serializable;
+public class CanBo implements Serializable{
 	private String maCanBo;
 
 	public String getMaCanBo() {

@@ -19,6 +19,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -44,7 +45,7 @@ public class QuanLySinhVien extends JFrame {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private JPanel panel, panelInput, panelButton;
+	private JPanel panelInput;
 	private JTextField MaSV, TenSV, TuoiSV;
 	private JScrollPane scrollPane;
 	private JTable table;
@@ -87,7 +88,7 @@ public class QuanLySinhVien extends JFrame {
 
 	public void addControls() {
 		Container con = getContentPane();
-		panel = new JPanel();
+		JPanel panel = new JPanel();
 		panel.setLayout(new BorderLayout(0, 0));
 
 		JLabel header = new JLabel("Chương trình quản lí sinh viên");
@@ -96,21 +97,21 @@ public class QuanLySinhVien extends JFrame {
 		header.setHorizontalAlignment(SwingConstants.CENTER);
 
 		JPanel panelCenter = new JPanel();
-		panelCenter.setLayout(new BorderLayout(0, 0));
+		panelCenter.setLayout(new BoxLayout(panelCenter, BoxLayout.Y_AXIS));
 
 		panelInput = new JPanel();
-		panelButton = new JPanel();
+		panelInput.setLayout(new BoxLayout(panelInput, BoxLayout.Y_AXIS));
 
 		panel.add(header, BorderLayout.NORTH);
 		panel.add(panelCenter, BorderLayout.CENTER);
 
 		addInput();
-		panelCenter.add(panelInput, BorderLayout.CENTER);
 		addButton();
-		panelCenter.add(panelButton, BorderLayout.SOUTH);
-		addTable();
+		panelCenter.add(panelInput);
 
-		panel.add(scrollPane, BorderLayout.SOUTH);
+		addTable();
+		panelCenter.add(scrollPane);
+
 		con.add(panel);
 	}
 
@@ -148,6 +149,8 @@ public class QuanLySinhVien extends JFrame {
 	}
 
 	private void addButton() {
+		JPanel panelButton = new JPanel();
+
 		JButton btnAdd = new JButton("Thêm");
 		btnAdd.addActionListener(new AddListener());
 
@@ -172,20 +175,26 @@ public class QuanLySinhVien extends JFrame {
 		panelButton.add(btnExit);
 		panelButton.add(btnImport);
 		panelButton.add(btnExport);
+
+		panelInput.add(panelButton);
 	}
 
+	@SuppressWarnings("serial")
 	private void addTable() {
 		scrollPane = new JScrollPane();
 		scrollPane.setBorder(new TitledBorder(new LineBorder(new Color(255, 0, 0)), "Danh sách", TitledBorder.LEADING,
 				TitledBorder.TOP, null, null));
 
-		table = new JTable();
+		table = new JTable() {
+			public boolean getScrollableTracksViewportWidth() {
+				return getPreferredSize().width < getParent().getWidth();
+			}
+		};
 		JTableHeader tableHeader = table.getTableHeader();
 		// Canh giữa cell header table
 		tableHeader.setDefaultRenderer(new HeaderRenderer(table));
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		table.setBorder(new LineBorder(Color.LIGHT_GRAY));
-		table.setPreferredScrollableViewportSize(new Dimension(350, 128));
 		table.setModel(model);
 		table.addMouseListener(new MouseClickRow());
 		scrollPane.setViewportView(table);
