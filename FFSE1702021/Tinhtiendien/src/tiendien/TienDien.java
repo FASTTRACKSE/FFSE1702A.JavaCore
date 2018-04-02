@@ -1,4 +1,4 @@
-package src.tiendien;
+package tiendien;
 
 import java.util.Scanner;
 
@@ -18,29 +18,6 @@ public class TienDien {
 		
 		if(chudien <= 50) {
 			double thue = (chudien*1549)/10;
-<<<<<<< HEAD:FFSE1702021/tiendien/src/tiendien/tiendien.java
-			System.out.print("Ti�?n điện :"+ ((chudien*1549)+ thue));
-		}
-		else if(chudien <= 100 ) {
-			double thue = (a + ((chudien-50)*1600))/10;
-			System.out.print("Ti�?n điện :"+ ((a + ((chudien-50)*1600))+ thue ));
-		}
-		else if(chudien <= 200 ) {
-			double thue = (a + b + ((chudien-100)*1858))/10;
-			System.out.print("Ti�?n điện :"+ ((a + b + ((chudien-100)*1858))+thue));
-		}
-		else if(chudien <= 300 ) {
-			double thue = (a + b + c + ((chudien-200)*2340))/10;
-			System.out.print("Ti�?n điện :"+ ((a + b + c + ((chudien-200)*2340))+ thue));
-		}
-		else if(chudien <= 400 ) {
-			double thue = (a + b + c + d + ((chudien-200)*2615))/10;
-			System.out.print("Ti�?n điện :"+ ((a + b + c + d + ((chudien-300)*2615))+ thue));
-		}
-		else if(chudien > 400) {
-			double thue = (a + b + c + d + e + ((chudien-200)*2701))/10;
-			System.out.print("Ti�?n điện :"+ ((a + b + c + d + e + (chudien*2701))+ thue));
-=======
 			System.out.print("Tiền Điện :"+ ((chudien*1549)+ thue));
 		}
 		else if(chudien <= 100 ) {
@@ -62,7 +39,6 @@ public class TienDien {
 		else if(chudien > 400) {
 			double thue = (a + b + c + d + e + ((chudien-200)*2701))/10;
 			System.out.print("Tiền Điện :"+ ((a + b + c + d + e + (chudien*2701))+ thue));
->>>>>>> 86f8770633e2f4f086edb7cfd8c7be3439e672b5:FFSE1702021/TinhTienDien/src/tiendien/TienDien.java
 		 }
 			} catch(Exception ex) {
 				System.out.print("\n vui long nhập số");
