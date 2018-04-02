@@ -55,13 +55,20 @@ public class CanBo implements Serializable {
 	}
 
 	public void nhap() {
+<<<<<<< HEAD
 		@SuppressWarnings("resource")
+=======
+>>>>>>> parent of 7aeaedb... ASM 1 vs 2 JavaSwing
 		Scanner scanner = new Scanner(System.in);
 		System.out.print("Nhập họ tên: ");
 		do {
 			try {
 				hoTen = scanner.nextLine();
+<<<<<<< HEAD
 				MyException.checkHoTen(hoTen, Menu.arrCanBo);
+=======
+				MyException.checkHoTen(hoTen);
+>>>>>>> parent of 7aeaedb... ASM 1 vs 2 JavaSwing
 				break;
 			} catch (MyException e) {
 				System.err.print(e);

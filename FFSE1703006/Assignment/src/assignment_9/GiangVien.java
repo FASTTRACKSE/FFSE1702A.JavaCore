@@ -53,7 +53,10 @@ public class GiangVien extends CanBo {
 	}
 
 	public void nhap() {
+<<<<<<< HEAD
 		@SuppressWarnings("resource")
+=======
+>>>>>>> parent of 7aeaedb... ASM 1 vs 2 JavaSwing
 		Scanner scanner = new Scanner(System.in);
 		super.nhap();
 		System.out.print("Nhập khoa: ");

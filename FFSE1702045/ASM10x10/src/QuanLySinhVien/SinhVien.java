@@ -1,4 +1,5 @@
 package QuanLySinhVien;
+import java.awt.*;
 import java.util.Scanner;
 public class SinhVien {
 private int id;
