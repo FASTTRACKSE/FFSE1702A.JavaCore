@@ -52,7 +52,6 @@ public class StudenManagementUI extends JFrame {
     ActionListener eventSelectClass = new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
 			course = (String) cbClass.getSelectedItem();
-			System.out.println(course);
 			arrStudent = StudentModel.getByCourse(course);
 			modelList.setRowCount(0);
 			for (Student st : arrStudent) {
@@ -87,7 +86,7 @@ public class StudenManagementUI extends JFrame {
 			} else if (!(checkCode(code))) {
 				JOptionPane.showMessageDialog(null,"Mã sinh viên đã tồn tại.","Alert",JOptionPane.WARNING_MESSAGE);
 			} else {
-				Student st = new Student(code, course,name, age);
+				Student st = new Student(code, course, name, age);
 				int x = StudentModel.addStudent(st);
 				if (x > 0) {
 					JOptionPane.showMessageDialog(null,"Thêm sinh viên thành công.","Alert",JOptionPane.WARNING_MESSAGE);
@@ -110,8 +109,8 @@ public class StudenManagementUI extends JFrame {
 				JOptionPane.showMessageDialog(null,"Trường nhập không được để trống.","Alert",JOptionPane.WARNING_MESSAGE);
 			} else if (!(checkAge(age))) {
 				JOptionPane.showMessageDialog(null,"Tuổi phải nhập số.","Alert",JOptionPane.WARNING_MESSAGE);
-			} else if (!(checkCode(code))) {
-				JOptionPane.showMessageDialog(null,"Mã sinh viên đã tồn tại.","Alert",JOptionPane.WARNING_MESSAGE);
+//			} else if (!(checkCode(code))) {
+//				JOptionPane.showMessageDialog(null,"Mã sinh viên đã tồn tại.","Alert",JOptionPane.WARNING_MESSAGE);
 			} else {
 				try {
 					Student st = new Student(code, name, age);

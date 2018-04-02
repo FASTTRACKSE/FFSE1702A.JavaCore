@@ -14,7 +14,7 @@ public class StudentModel {
 		try {
 			Statement statement = (Statement) conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY);
 			String sql = "select * from ffse17 where course = " + "'" + course + "'";
-			ResultSet result= statement.executeQuery(sql);
+			ResultSet result = statement.executeQuery(sql);
 			while(result.next()) {
 				String code = result.getString("code");
 				String name = result.getString("name");
@@ -36,6 +36,7 @@ public class StudentModel {
 		try {
 			String sql = "insert into ffse17 (code, course, name, age) values( '" + code
 					+ "','" + course + "','" + name + "','"	+ age + "')";
+			System.out.println(sql);
 			Statement statement = (Statement) conn.createStatement();
 			return statement.executeUpdate(sql);
 		} catch (Exception ex) {
@@ -56,8 +57,8 @@ public class StudentModel {
 			}
 		}
 		try {
-			String sql = "update ffse17 set 'code' = '" + code 
-					+"' name='" + name + "',age = '"+ age + "' where id='"+ id +"'";
+			String sql = "update ffse17 set code = '" + code 
+					+"', name='" + name + "',age = '"+ age + "' where id='"+ id +"'";
 			Statement statement = (Statement) conn.createStatement();
 			return statement.executeUpdate(sql);
 		} catch (Exception ex) {
@@ -68,7 +69,7 @@ public class StudentModel {
 	
 	public static int deleteStudent(String code) {
 		try {
-			String sql = "delete from ffse17 where Ma='" + code +  "'";
+			String sql = "delete from ffse17 where code ='" + code +  "'";
 			Statement statement = (Statement) conn.createStatement();
 			return statement.executeUpdate(sql);
 		} catch (Exception ex) {
