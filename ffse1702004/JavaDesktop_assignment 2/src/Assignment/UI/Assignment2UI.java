@@ -6,6 +6,8 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -22,6 +24,7 @@ public class Assignment2UI extends JFrame {
 	JTextField text,text1,text2;
 	JButton b1,b2,b3,b4;
 	DefaultTableModel tb = new DefaultTableModel();
+	final JTable tbl = new JTable(tb);
 	
 	public Assignment2UI() {
 		super("Quản Lý Sinh Viên - Oracle ");
@@ -83,7 +86,7 @@ public class Assignment2UI extends JFrame {
 		tb.addColumn("ten");
 		tb.addColumn("tuoi");
 		
-		final JTable tbl = new JTable(tb);
+		
 		tb.addRow(new String [] {"1","nguyen van a" , " 19 "});
 		tb.addRow(new String [] {"1","nguyen van a" , " 19 "});
 		JScrollPane sc = new JScrollPane(tbl);
@@ -120,6 +123,7 @@ public class Assignment2UI extends JFrame {
 	 };
 	 ActionListener bt3  = new ActionListener() {
 	        public void actionPerformed(ActionEvent e) {
+	        	
 	               xoa();
 	        }
 	 };
@@ -138,7 +142,38 @@ public class Assignment2UI extends JFrame {
 		 text2.setText("");
 	 }
 	 public void xoa() {
-	        
+	        tbl.addMouseListener(new MouseListener() {
+				
+				@Override
+				public void mouseReleased(MouseEvent arg0) {
+					// TODO Auto-generated method stub
+					
+				}
+				
+				@Override
+				public void mousePressed(MouseEvent arg0) {
+					// TODO Auto-generated method stub
+					
+				}
+				
+				@Override
+				public void mouseExited(MouseEvent arg0) {
+					// TODO Auto-generated method stub
+					
+				}
+				
+				@Override
+				public void mouseEntered(MouseEvent arg0) {
+					// TODO Auto-generated method stub
+					
+				}
+				
+				@Override
+				public void mouseClicked(MouseEvent arg0) {
+					// TODO Auto-generated method stub
+					
+				}
+			});
 	 }
 	
 	private void addEvents() {
