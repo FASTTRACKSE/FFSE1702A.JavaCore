@@ -8,6 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -18,6 +19,7 @@ import java.util.ArrayList;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -32,22 +34,49 @@ import javax.swing.table.DefaultTableModel;
 public class StudenManagementUI extends JFrame {
 
 	private static final long serialVersionUID = 1L;
-	JButton btnNew = new JButton("New");
-    JButton btnUpdate = new JButton("Update");
-    JButton btnDel = new JButton("Delete");
-    JButton btnSave = new JButton("Save");
-    JButton btnLoad = new JButton("Load");
-    JButton btnExit = new JButton("Exit");
+	String[] items = {"FFSE1701", "FFSE1702", "FFSE1703", "FFSE1704"};
+	JComboBox<String> cbClass = new JComboBox<>(items);
+    int c;
+	JButton btnNew = new JButton("Thêm");
+    JButton btnUpdate = new JButton("Sửa");
+    JButton btnDel = new JButton("Xóa");
+    JButton btnSave = new JButton("Lưu");
+    JButton btnExit = new JButton("Thoát");
     JTextField txtID = new JTextField(15);
     JTextField txtName = new JTextField(15);
     JTextField txtAge = new JTextField(15);
+//    JTextField[] txt = new JTextField[] {txtID, txtName, txtAge};
     JScrollPane spList = new JScrollPane();
     JTable tblList = new JTable();
     String[] col = {"Mã","Tên","Tuổi"};
     DefaultTableModel modelList = new DefaultTableModel(col, 0);
     ArrayList<Student> arrStudent = new ArrayList<Student>();
+    File file = new File("FFSE1701.txt");
+    String[] filename = {"FFSE1701.txt", "FFSE1702.txt", "FFSE1703.txt", "FFSE1704.txt"};
     
-    MouseAdapter eventSelect = new MouseAdapter() {
+    ActionListener eventSelectClass = new ActionListener() {
+		@SuppressWarnings("unchecked")
+		public void actionPerformed(ActionEvent e) {
+			c = cbClass.getSelectedIndex();
+			file = new File(filename[c]);
+			try {
+				FileInputStream fis = new FileInputStream(file);
+				ObjectInputStream ois = new ObjectInputStream(fis);
+				arrStudent = (ArrayList<Student>) ois.readObject();
+				fis.close();ois.close();
+				modelList.setRowCount(0);
+				for (Student st : arrStudent) {
+					String[] row = {st.getID(), st.getName(), st.getAge()};
+					modelList.addRow(row);
+				}
+			} catch (Exception ex) {
+				System.out.println(ex);
+				JOptionPane.showMessageDialog(null,"Nạp tập tin thất bại.","Alert",JOptionPane.WARNING_MESSAGE);
+			}
+		}
+    };
+         
+    MouseAdapter eventSelectRow = new MouseAdapter() {
     	public void mouseClicked(MouseEvent e) {
     		int i = tblList.getSelectedRow();
     		String[] row = new String[3];
@@ -65,9 +94,9 @@ public class StudenManagementUI extends JFrame {
 			String id = txtID.getText();
 			String name = txtName.getText();
 			String age = txtAge.getText();
-			if (Validation.isEmpty(id) || Validation.isEmpty(name) || Validation.isEmpty(age)) {
-				JOptionPane.showMessageDialog(null,"Input không được để trống.","Alert",JOptionPane.WARNING_MESSAGE);
-			} else if (!(Validation.chkInt(age))) {
+			if (isEmpty(id) || isEmpty(name) || isEmpty(age)) {
+				JOptionPane.showMessageDialog(null,"Trường nhập không được để trống.","Alert",JOptionPane.WARNING_MESSAGE);
+			} else if (!(chkInt(age))) {
 				JOptionPane.showMessageDialog(null,"Tuổi phải nhập số","Alert",JOptionPane.WARNING_MESSAGE);
 			} else {
 				Student st = new Student(id, name, age);
@@ -81,16 +110,16 @@ public class StudenManagementUI extends JFrame {
 	};
 	ActionListener eventUpdate = new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
+			int i = tblList.getSelectedRow();
 			String id = txtID.getText();
 			String name = txtName.getText();
 			String age = txtAge.getText();
-			if (Validation.isEmpty(id) || Validation.isEmpty(name) || Validation.isEmpty(age)) {
-				JOptionPane.showMessageDialog(null,"Input không được để trống.","Alert",JOptionPane.WARNING_MESSAGE);
-			} else if (!(Validation.chkInt(age))) {
-				JOptionPane.showMessageDialog(null,"Tuổi phải nhập số","Alert",JOptionPane.WARNING_MESSAGE);
+			if (isEmpty(id) || isEmpty(name) || isEmpty(age)) {
+				JOptionPane.showMessageDialog(null,"Trường nhập không được để trống.","Alert",JOptionPane.WARNING_MESSAGE);
+			} else if (!(chkInt(age))) {
+				JOptionPane.showMessageDialog(null,"Tuổi phải nhập số.","Alert",JOptionPane.WARNING_MESSAGE);
 			} else {
 				try {
-					int i = tblList.getSelectedRow();
 					Student st = new Student(id, name, age);
 					arrStudent.set(i, st);
 					String[] row = {id, name, age};
@@ -98,7 +127,7 @@ public class StudenManagementUI extends JFrame {
 						tblList.setValueAt(row[j], i, j);
 					}
 					txtID.setText("");txtName.setText("");txtAge.setText("");
-					JOptionPane.showMessageDialog(null,"Update thành công.","Alert",JOptionPane.WARNING_MESSAGE);
+					JOptionPane.showMessageDialog(null,"Sửa thành công.","Alert",JOptionPane.WARNING_MESSAGE);
 				} catch(Exception ex) {
 					JOptionPane.showMessageDialog(null,"Không dòng nào được chọn.","Alert",JOptionPane.WARNING_MESSAGE);
 				}
@@ -123,35 +152,13 @@ public class StudenManagementUI extends JFrame {
 	ActionListener eventSave = new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
 			try {
-				FileOutputStream fos = new FileOutputStream("Data.txt");
+				FileOutputStream fos = new FileOutputStream(file);
 				ObjectOutputStream oos = new ObjectOutputStream(fos);
 				oos.writeObject(arrStudent);
 				oos.close();fos.close();
-				JOptionPane.showMessageDialog(null,"Ghi file thành công.","Alert",JOptionPane.WARNING_MESSAGE);
+				JOptionPane.showMessageDialog(null,"Lưu thành công.","Alert",JOptionPane.WARNING_MESSAGE);
 			} catch (IOException ex) {
-				JOptionPane.showMessageDialog(null,"Ghi file  thất bại.","Alert",JOptionPane.WARNING_MESSAGE); 
-			}
-		}
-	};
-	
-	ActionListener eventLoad = new ActionListener() {
-		@SuppressWarnings("unchecked")
-		public void actionPerformed(ActionEvent e) {
-			try {
-				FileInputStream fis = new FileInputStream("Data.txt");
-				ObjectInputStream ois = new ObjectInputStream(fis);
-				arrStudent = (ArrayList<Student>) ois.readObject();
-				fis.close();ois.close();
-				modelList.setRowCount(0);
-				for (Student st : arrStudent) {
-					String[] row = {st.getID(), st.getName(), st.getAge()};
-					modelList.addRow(row);
-				}
-				JOptionPane.showMessageDialog(null,"Load file thành công.","Alert",JOptionPane.WARNING_MESSAGE);
-
-			} catch (Exception ex) {
-				System.out.println(ex);
-				JOptionPane.showMessageDialog(null,"Load file thất bại.","Alert",JOptionPane.WARNING_MESSAGE);
+				JOptionPane.showMessageDialog(null,"Lưu  thất bại.","Alert",JOptionPane.WARNING_MESSAGE); 
 			}
 		}
 	};
@@ -179,7 +186,15 @@ public class StudenManagementUI extends JFrame {
         Font fontTitle = new Font("arial", Font.BOLD, 18);
         lblTitle.setFont(fontTitle);
         pnTitle.add(lblTitle);
-   
+        
+        JPanel pnClass = new JPanel();
+        JLabel lblClass = new JLabel("Chọn lớp: ");
+        JLabel lblSpace = new JLabel("");
+        lblSpace.setPreferredSize(new Dimension(100, 14));
+        pnClass.add(lblSpace);
+        pnClass.add(lblClass);
+        pnClass.add(cbClass);
+           
         JPanel pnInputID = new JPanel();
         JLabel lblID = new JLabel("Mã sinh viên:");
         lblID.setPreferredSize(new Dimension(80,14));
@@ -203,7 +218,6 @@ public class StudenManagementUI extends JFrame {
         pnAction.add(btnUpdate);
         pnAction.add(btnDel);
         pnAction.add(btnSave);
-        pnAction.add(btnLoad);
         pnAction.add(btnExit);
         
         Border border = BorderFactory.createLineBorder(Color.RED);
@@ -213,6 +227,7 @@ public class StudenManagementUI extends JFrame {
         spList.setViewportView(tblList);
         
         pnMain.add(pnTitle);
+        pnMain.add(pnClass);
         pnMain.add(pnInputID);
         pnMain.add(pnInputName);
         pnMain.add(pnInputAge);
@@ -224,12 +239,12 @@ public class StudenManagementUI extends JFrame {
 	}
 	
 	public void addEvents() {
-		tblList.addMouseListener(eventSelect);
+		cbClass.addActionListener(eventSelectClass);
+		tblList.addMouseListener(eventSelectRow);
 		btnNew.addActionListener(eventNew);
 		btnUpdate.addActionListener(eventUpdate);
 		btnDel.addActionListener(eventDel);
 		btnSave.addActionListener(eventSave);
-		btnLoad.addActionListener(eventLoad);
 		btnExit.addActionListener(eventExit);
 	}
 	
@@ -238,6 +253,19 @@ public class StudenManagementUI extends JFrame {
 	    this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 	    this.setLocationRelativeTo(null);
 	    this.setVisible(true);
+	}
+	
+	public static boolean isEmpty(String s) {
+		return s.trim().isEmpty();
+	}
+	
+	public static boolean chkInt(String s) {
+		try {
+			Integer.parseInt(s.trim());
+			return true;
+		} catch (Exception e) {
+			return false;
+		}
 	}
 
 }
