@@ -8,6 +8,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.sql.SQLException;
+import java.util.Properties;
 
 import javax.swing.BoxLayout;
 import javax.swing.DefaultComboBoxModel;
@@ -21,7 +23,13 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
+import org.gjt.mm.mysql.Driver;
+
+import com.mysql.jdbc.Connection;
+
 public class Asm2 extends JFrame {
+	String data[] = {"FFSE1701", "FFSE1702", "FFSE1703", "FFSE1704"};
+	JComboBox jComBo = new JComboBox(data);
 	 private String statusClass;
 	JTextField textMSSV, textName, textAge;
 	JButton btnAdd, btnEdit, btnDel, btnExit,btnSave;
@@ -61,6 +69,11 @@ public class Asm2 extends JFrame {
 		PanelInputAge.add(LabelInputAge);
 		PanelInputAge.add(textAge);
 		
+		JPanel PanelInputClass = new JPanel();
+		JLabel JLabelInputClass = new JLabel("Lớp");
+		PanelInputClass.add(JLabelInputClass);
+		PanelInputClass.add(jComBo);
+		
 		JPanel PanelAction = new JPanel();
 		btnAdd = new JButton("Add");
 		btnEdit = new JButton("Edit");
@@ -80,33 +93,16 @@ public class Asm2 extends JFrame {
         
 
 
-		final DefaultComboBoxModel Class = new DefaultComboBoxModel();
-		Class.addElement("FFSE1702A");
-		Class.addElement("FFSE1702");
-		Class.addElement("FFSE1703");
-		Class.addElement("FFSE1704");
-	
-		final JComboBox classCombo = new JComboBox(Class);    
-		classCombo.setSelectedIndex(0);
-
-		JScrollPane classScroll = new JScrollPane(classCombo);
-		String data = "";
-		 if (classCombo.getSelectedIndex() != -1) {                     
-             data = "" 
-                + classCombo.getItemAt
-                  (classCombo.getSelectedIndex());             
-          }              
-		 statusClass = data;
-		
 		
 		PanelMain.add(PanelTitle);
-		PanelMain.add(classCombo);
-		PanelMain.add(classScroll);
+		PanelMain.add(PanelInputClass);
 		PanelMain.add(PanelInputMSSV);
 		PanelMain.add(PanelInputName);
 		PanelMain.add(PanelInputAge);
 		PanelMain.add(PanelAction);
 		PanelMain.add(scrollPanel);
+
+		
 		
 		con.add(PanelMain);
 	}
@@ -127,7 +123,7 @@ public class Asm2 extends JFrame {
 	
 	
 	public void addInfo() {
-		String cls = statusClass;
+		String cls =(String) jComBo.getSelectedItem();
 		String mssv = textMSSV.getText();
 		String name = textName.getText();
 		String age = textAge.getText();
@@ -136,7 +132,7 @@ public class Asm2 extends JFrame {
 		textMSSV.setText("");
 		textName.setText("");
 		textAge.setText("");
-
+		jComBo.setSelectedItem(data[0]);
 	}
 	 	ActionListener eventDel = new ActionListener() {
 	 		@Override
@@ -161,14 +157,14 @@ public class Asm2 extends JFrame {
 };
 
 			public void getRow() {
-				JTextField Text[] = new JTextField[]{textMSSV, textName, textAge};
+				
 				DefaultTableModel model = (DefaultTableModel) Table.getModel();
 				int column = Table.getColumnCount();
 				int selectRow= Table.getSelectedRow();
-				for(int i=0;i<column;i++) {
-					String n = (model.getValueAt(selectRow, i)).toString();
-					Text[i].setText(n);
-				}
+
+				textMSSV.setText(model.getValueAt(selectRow, 1).toString());
+				textName.setText(model.getValueAt(selectRow, 2).toString());
+				textAge.setText(model.getValueAt(selectRow, 3).toString());
 			}
 			ActionListener eventEdit = new ActionListener() {
 
@@ -179,6 +175,7 @@ public class Asm2 extends JFrame {
 			};
 			
 			public void edit() {
+				JComboBox cb[] = new JComboBox[] {jComBo};
 				JTextField Text[] = new JTextField[]{textMSSV, textName, textAge};
 				DefaultTableModel model = (DefaultTableModel) Table.getModel();
 				int column = Table.getColumnCount();
@@ -198,7 +195,6 @@ public class Asm2 extends JFrame {
 
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						// TODO Auto-generated method stub
 						System.exit(0);
 					}
 				});
@@ -214,4 +210,25 @@ public class Asm2 extends JFrame {
 				Asm2 run = new Asm2("Chương trình Quản lí sinh viên");
 				run.showWindow();
 		}
+			public Connection getConnect(String strServer,String strDatabase,
+					String strUser,String strPwd)
+					{
+					java.sql.Connection conn=null;
+					String strConnect="jdbc:mysql://"+strServer+"/"+strDatabase;
+					Properties pro=new Properties();
+					pro.put("vuna", strUser);
+					pro.put("123456", strPwd);
+					try
+					{
+					com.mysql.jdbc.Driver driver=new Driver();
+					conn=driver.connect(strConnect, pro);
+					}
+					catch(SQLException ex)
+					{
+					ex.printStackTrace();
+					}
+					return (Connection) conn;
+					}
+			
+			
 }
