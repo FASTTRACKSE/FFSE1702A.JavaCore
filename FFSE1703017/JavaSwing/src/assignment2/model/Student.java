@@ -52,13 +52,4 @@ public class Student implements Serializable {
 		this.age = age;
 	}
 	
-	public Student(int id, String code, String course, String name, String age) {
-		this.id = id;
-		this.code = code;
-		this.course = course;
-		this.name = name;
-		this.age = age;
-	}
-	
-		
 }

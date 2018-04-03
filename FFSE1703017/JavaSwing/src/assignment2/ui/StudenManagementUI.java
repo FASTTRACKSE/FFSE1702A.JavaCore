@@ -101,20 +101,26 @@ public class StudenManagementUI extends JFrame {
 	};
 	ActionListener eventUpdate = new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
-			int i = tblList.getSelectedRow();
-			String code = txtCode.getText();
-			String name = txtName.getText();
-			String age = txtAge.getText();
-			if (isEmpty(code) || isEmpty(name) || isEmpty(age)) {
-				JOptionPane.showMessageDialog(null,"Trường nhập không được để trống.","Alert",JOptionPane.WARNING_MESSAGE);
-			} else if (!(checkAge(age))) {
-				JOptionPane.showMessageDialog(null,"Tuổi phải nhập số.","Alert",JOptionPane.WARNING_MESSAGE);
-//			} else if (!(checkCode(code))) {
-//				JOptionPane.showMessageDialog(null,"Mã sinh viên đã tồn tại.","Alert",JOptionPane.WARNING_MESSAGE);
-			} else {
-				try {
+			try {
+				int i = tblList.getSelectedRow();
+				String oldCode = (String) modelList.getValueAt(i, 0);
+				String code = txtCode.getText();
+				String name = txtName.getText();
+				String age = txtAge.getText();
+				boolean isCode = true;
+				if (!(oldCode.equals(code))) {
+					isCode = checkCode(code);
+				}
+				if (isEmpty(code) || isEmpty(name) || isEmpty(age)) {
+					JOptionPane.showMessageDialog(null,"Trường nhập không được để trống.","Alert",JOptionPane.WARNING_MESSAGE);
+				} else if (!(checkAge(age))) {
+					JOptionPane.showMessageDialog(null,"Tuổi phải nhập số.","Alert",JOptionPane.WARNING_MESSAGE);
+				} else if (!(isCode)) {
+					JOptionPane.showMessageDialog(null,"Mã sinh viên đã tồn tại.","Alert",JOptionPane.WARNING_MESSAGE);
+				} else {
+					
 					Student st = new Student(code, name, age);
-					int x = StudentModel.updateStudent(st);
+					int x = StudentModel.updateStudent(st, oldCode);
 					if (x > 0) {
 						String[] row = {code, name, age};
 						for (int j = 0; j < 3; j++) {
@@ -125,9 +131,9 @@ public class StudenManagementUI extends JFrame {
 					} else {
 						JOptionPane.showMessageDialog(null,"Sửa thất bại.","Alert",JOptionPane.WARNING_MESSAGE);
 					}
-				} catch(Exception ex) {
-					JOptionPane.showMessageDialog(null,"Không dòng nào được chọn.","Alert",JOptionPane.WARNING_MESSAGE);
 				}
+			} catch(Exception ex) {
+				JOptionPane.showMessageDialog(null,"Không dòng nào được chọn.","Alert",JOptionPane.WARNING_MESSAGE);
 			}
 		}
 	};
