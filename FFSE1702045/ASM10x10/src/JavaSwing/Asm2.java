@@ -8,7 +8,10 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Properties;
 
 import javax.swing.BoxLayout;
@@ -28,19 +31,92 @@ import org.gjt.mm.mysql.Driver;
 import com.mysql.jdbc.Connection;
 
 public class Asm2 extends JFrame {
+	private Connection connect = null;
+    private JTable jtable = new JTable();
+    private DefaultTableModel tableModel = new DefaultTableModel();
 	String data[] = {"FFSE1701", "FFSE1702", "FFSE1703", "FFSE1704"};
+	
 	JComboBox jComBo = new JComboBox(data);
 	 private String statusClass;
 	JTextField textMSSV, textName, textAge;
 	JButton btnAdd, btnEdit, btnDel, btnExit,btnSave;
 	JTable Table;
 	JComboBox textClass;
+	public Asm2() {
+		 String []colsName = {"Mã SV", "Họ Tên", "Tuổi", "Lớp"};
+		 tableModel.setColumnIdentifiers(colsName);  
+	     jtable.setModel(tableModel);  
+	     initComponent();    // Khởi tạo các components trên JFrame
+	        connectSQL();       // kết nối cơ sở dữ liệu
+	        updateData(view()); // gọi hàm view để truy suất dữ liệu sau đó truyền cho hàm updateData để đưa dữ liệu vào tableModel và hiện lên Jtable tro
+	}
 	public Asm2(String title) {
+		
 		super(title);
 		Controls();
 		Events();
 		
+		
 	}
+	 public void updateData(ResultSet result){
+	        String []colsName = {"Mã SV", "Họ Tên", "Tuổi", "Lớp"};
+	        tableModel.setColumnIdentifiers(colsName); // Đặt tiêu đề cho bảng theo các giá trị của mảng colsName
+	 
+	        try {
+	            while(result.next()){ // nếu còn đọc tiếp được một dòng dữ liệu
+	                String rows[] = new String[4];
+	                rows[0] = result.getString(1); 
+	                rows[1] = result.getString(2); 
+	                rows[2]	= result.getString(3);
+	                rows[3]	= result.getString(4);
+	                tableModel.addRow(rows); // đưa dòng dữ liệu vào tableModel để hiện thị lên jtable
+	                //mỗi lần có sự thay đổi dữ liệu ở tableModel thì Jtable sẽ tự động update lại trên frame
+	            }
+	        } catch (SQLException e) {
+	            e.printStackTrace();
+	        }
+	 
+	    }
+	     
+	    public void initComponent(){
+	        this.setSize(600, 400);
+	        this.setLocationRelativeTo(null);
+	        JScrollPane scroll = JTable.createScrollPaneForTable(jtable);   
+	        this.add(scroll); // Đưa thanh cuộn vào Frame (hiện thanh cuộn trên frame)
+	        this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+	        this.setVisible(true);
+	    }
+	     
+	    public void connectSQL(){
+	        try {
+	            Class.forName("com.mysql.jdbc.Driver");
+	            String url = new String("jdbc:mysql://localhost:3306/anhvu");
+	            try {
+	                connect = (Connection) DriverManager.getConnection(url, "anhvu", "abc123");
+	                
+	            } catch (SQLException e) {
+	                e.printStackTrace();
+	            }
+	        } catch (ClassNotFoundException e) {
+	            e.printStackTrace();
+	        }
+	         
+	    }
+	     
+	    public ResultSet view(){
+	        ResultSet result = null;
+	        String sql = "SELECT * FROM sinhvien";
+	        try {
+	            Statement statement = (Statement) connect.createStatement();
+	            return statement.executeQuery(sql);
+	        } catch (SQLException e) {
+	            e.printStackTrace();
+	        }
+	        return result;
+	    }
+
+
+
 	private void Controls() {
 		Container con = getContentPane();
 		JPanel PanelMain = new JPanel();
@@ -123,6 +199,16 @@ public class Asm2 extends JFrame {
 	
 	
 	public void addInfo() {
+		
+		
+		
+		
+		
+	
+		
+		
+		
+		
 		String cls =(String) jComBo.getSelectedItem();
 		String mssv = textMSSV.getText();
 		String name = textName.getText();
@@ -133,6 +219,7 @@ public class Asm2 extends JFrame {
 		textName.setText("");
 		textAge.setText("");
 		jComBo.setSelectedItem(data[0]);
+		
 	}
 	 	ActionListener eventDel = new ActionListener() {
 	 		@Override
