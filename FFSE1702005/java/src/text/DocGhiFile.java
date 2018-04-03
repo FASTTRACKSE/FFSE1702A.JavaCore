@@ -7,7 +7,7 @@ import java.io.IOException;
 
 public class DocGhiFile {
 	public static void main(String[] args) throws IOException {
-		File file = new File("main.txt");
+		File file = new File("text.txt");
 
 		if(!file.exists()) {
 			file.createNewFile();
