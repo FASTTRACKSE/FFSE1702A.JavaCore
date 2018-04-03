@@ -24,4 +24,5 @@
     <p>Assignment 1:</p>
 <p><a href="https://github.com/FASTTRACKSE/FFSE1702A.JavaCore/blob/master/FFSE1702005/JavaDesktop/src/test/GiaiPT.java">Phương trình bậc 1</a></p>
     <p>Assignment 2:</p>
+    <p><a href="https://github.com/FASTTRACKSE/FFSE1702A.JavaCore/blob/master/FFSE1702005/JavaDesktop/src/test/QuanLySV.java">Quản lý sinh viên</a></p>
 </html>

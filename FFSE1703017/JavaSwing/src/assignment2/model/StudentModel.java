@@ -36,7 +36,6 @@ public class StudentModel {
 		try {
 			String sql = "insert into ffse17 (code, course, name, age) values( '" + code
 					+ "','" + course + "','" + name + "','"	+ age + "')";
-			System.out.println(sql);
 			Statement statement = (Statement) conn.createStatement();
 			return statement.executeUpdate(sql);
 		} catch (Exception ex) {
@@ -45,20 +44,13 @@ public class StudentModel {
 		}
 	}
 	
-	public static int updateStudent(Student st) {
+	public static int updateStudent(Student st, String oldCode) {
 		String code = st.getCode();
 		String name = st.getName();
 		String age = st.getAge();
-		int id = 0;
-		ArrayList<Student> arr = getStudent();
-		for (Student student : arr) {
-			if(code.equals(st.getCode())) {
-				id = student.getId();
-			}
-		}
 		try {
 			String sql = "update ffse17 set code = '" + code 
-					+"', name='" + name + "',age = '"+ age + "' where id='"+ id +"'";
+					+"', name = '" + name + "',age = '"+ age + "' where code = '"+ oldCode +"'";
 			Statement statement = (Statement) conn.createStatement();
 			return statement.executeUpdate(sql);
 		} catch (Exception ex) {
@@ -85,12 +77,11 @@ public class StudentModel {
 			String sql = "select * from ffse17";
 			ResultSet result= statement.executeQuery(sql);
 			while(result.next()) {
-				int id = result.getInt("id");
 				String code = result.getString("code");
 				String course = result.getString("course");
 				String name = result.getString("name");
 				String age = result.getString("age");
-				Student st = new Student(id, code, course, name, age);
+				Student st = new Student(code, course, name, age);
 				arr.add(st);
 			}
 		} catch (Exception e) {
