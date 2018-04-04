@@ -1,0 +1,28 @@
+
+import java.util.Scanner;
+public class SinhVien {
+	private String id;
+	private String name;
+	private int age;
+	private String adress;
+	private float gpa;
+	
+	public static void main(String[] args) {
+		  Sinhvien a = new Sinhvien();
+	         Scanner nhap = new Scanner(System.in);
+	         System.out.println("Nhap ho ten sinh vien");
+	         a.hoten = nhap.nextLine();
+	         System.out.println("Nhap lop");
+	         a.lop = nhap.nextLine();
+	         System.out.println("Nhap diem trung binh");
+	         a.diemtb = nhap.nextFloat();
+	         while(a.diemtb<0 || a.diemtb>10)
+	         {
+	               System.out.println("Nhap sai. Diem trung binh phai lon hon 0 va nho hon 10.Nhap lai");
+	               a.diemtb = nhap.nextFloat();
+	         }
+	         return a;	
+
+	}
+
+}

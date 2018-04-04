@@ -1,0 +1,29 @@
+package QLcanbo;
+
+public class canboinfoexception extends Exception {
+
+	public canboinfoexception(String err) {
+
+	}
+	@Override
+
+	
+	static void chkHoten(String hoTen) throws canboinfoexception {
+		if(hoTen.equals("")) {
+			throw new  canboinfoexception("Ten rong");
+		}
+		if(hoTen.length()>8) {
+			throw new  canboinfoexception("Ten qua dai");
+		}
+	}
+	
+	public static void main(String arg[]) {
+		String str="";
+		try {
+			canboinfoexception.chkHoten(str);
+		} catch(canboinfoexception e) {
+			System.out.println(e);
+		}
+	
+
+}
