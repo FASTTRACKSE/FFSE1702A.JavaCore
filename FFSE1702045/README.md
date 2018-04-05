@@ -17,3 +17,8 @@ https://github.com/FASTTRACKSE/FFSE1702A.JavaCore/tree/master/FFSE1702045/ASM10x
 <h2>OPP </h2>
 <b>Assignment 5-6-7:</b>
 https://github.com/FASTTRACKSE/FFSE1702A.JavaCore/tree/master/FFSE1702045/ASM10x10/src/QLcanbo
+<h2>JAVA SWING </h2>
+<b>Assignment 1:</b>
+https://github.com/FASTTRACKSE/FFSE1702A.JavaCore/blob/master/FFSE1702045/ASM10x10/src/JavaSwing/SwingControlDemo.java
+<b>Assignment 2-3:</b>
+https://github.com/FASTTRACKSE/FFSE1702A.JavaCore/blob/master/FFSE1702045/ASM10x10/src/JavaSwing/Asm2.java
