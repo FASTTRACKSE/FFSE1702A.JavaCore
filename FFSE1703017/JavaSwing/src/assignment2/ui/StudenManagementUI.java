@@ -41,7 +41,7 @@ public class StudenManagementUI extends JFrame {
     JTextField txtCode = new JTextField(15);
     JTextField txtName = new JTextField(15);
     JTextField txtAge = new JTextField(15);
-//    JTextField[] txt = new JTextField[] {txtID, txtName, txtAge};
+//    JTextField[] txt = {txtCode, txtName, txtAge};
     JScrollPane spList = new JScrollPane();
     JTable tblList = new JTable();
     String[] col = {"Mã","Tên","Tuổi"};
@@ -127,9 +127,9 @@ public class StudenManagementUI extends JFrame {
 							tblList.setValueAt(row[j], i, j);
 						}
 						txtCode.setText("");txtName.setText("");txtAge.setText("");
-						JOptionPane.showMessageDialog(null,"Sửa thành công.","Alert",JOptionPane.WARNING_MESSAGE);
+						JOptionPane.showMessageDialog(null,"Sửa sinh viên thành công.","Alert",JOptionPane.WARNING_MESSAGE);
 					} else {
-						JOptionPane.showMessageDialog(null,"Sửa thất bại.","Alert",JOptionPane.WARNING_MESSAGE);
+						JOptionPane.showMessageDialog(null,"Sửa sinh viên thất bại.","Alert",JOptionPane.WARNING_MESSAGE);
 					}
 				}
 			} catch(Exception ex) {
@@ -212,7 +212,6 @@ public class StudenManagementUI extends JFrame {
         pnAction.add(btnNew);
         pnAction.add(btnUpdate);
         pnAction.add(btnDel);
-//        pnAction.add(btnSave);
         pnAction.add(btnExit);
         
         Border border = BorderFactory.createLineBorder(Color.RED);
@@ -227,7 +226,7 @@ public class StudenManagementUI extends JFrame {
         pnMain.add(pnInputName);
         pnMain.add(pnInputAge);
         pnMain.add(pnAction);
-        pnMain.add(spList);
+//        pnMain.add(spList);
         
         con.add(pnMain);
 
