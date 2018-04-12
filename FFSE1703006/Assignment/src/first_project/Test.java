@@ -1,60 +1,70 @@
 package first_project;
 
-import javax.swing.*;
-import java.awt.event.*;
-import java.io.*;
+import java.awt.GridLayout;
+import java.awt.Label;
 
-public class Test extends JFrame implements ActionListener {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	JMenuBar mb;
-	JMenu file;
-	JMenuItem open;
-	JTextArea ta;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JTabbedPane;
 
-	Test() {
-		open = new JMenuItem("Open File");
-		open.addActionListener(this);
-		file = new JMenu("File");
-		file.add(open);
-		mb = new JMenuBar();
-		mb.setBounds(0, 0, 800, 20);
-		mb.add(file);
-		ta = new JTextArea(800, 800);
-		ta.setBounds(0, 20, 800, 800);
-		add(mb);
-		add(ta);
+public class Test {
+
+	private static void createAndShowGUI() {
+
+		// Create and set up the window.
+		final JFrame frame = new JFrame("Tabbed Pane Example");
+
+		// Display the window.
+		frame.setSize(400, 400);
+		frame.setVisible(true);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+		// set grid layout for the frame
+		frame.getContentPane().setLayout(new GridLayout(1, 1));
+
+		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
+
+		tabbedPane.addTab("Tab1", makePanel("This is tab 1"));
+		tabbedPane.addTab("Tab2", makePanel("This is tab 2"));
+		tabbedPane.addTab("Tab3", makePanel("This is tab 3"));
+		tabbedPane.addTab("Tab4", makePanel("This is tab 4"));
+
+		frame.getContentPane().add(tabbedPane);
+
+		// get the currently selected index for this tabbedpane
+		int selectedIndex = tabbedPane.getSelectedIndex();
+		System.out.println("Default Index:" + selectedIndex);
+
+		// select the last tab
+		tabbedPane.setSelectedIndex(tabbedPane.getTabCount() - 1);
+
+		selectedIndex = tabbedPane.getSelectedIndex();
+		System.out.println("New Index:" + selectedIndex);
+
 	}
 
-	public void actionPerformed(ActionEvent e) {
-		if (e.getSource() == open) {
-			JFileChooser fc = new JFileChooser();
-			int i = fc.showOpenDialog(this);
-			if (i == JFileChooser.APPROVE_OPTION) {
-				File f = fc.getSelectedFile();
-				String filepath = f.getPath();
-				try {
-					BufferedReader br = new BufferedReader(new FileReader(filepath));
-					String s1 = "", s2 = "";
-					while ((s1 = br.readLine()) != null) {
-						s2 += s1 + "\n";
-					}
-					ta.setText(s2);
-					br.close();
-				} catch (Exception ex) {
-					ex.printStackTrace();
-				}
-			}
-		}
+	private static JPanel makePanel(String text) {
+		JPanel p = new JPanel();
+		p.add(new Label(text));
+		p.setLayout(new GridLayout(1, 1));
+		return p;
 	}
 
 	public static void main(String[] args) {
-		Test om = new Test();
-		om.setSize(500, 500);
-		om.setLayout(null);
-		om.setVisible(true);
-		om.setDefaultCloseOperation(EXIT_ON_CLOSE);
+
+		//Schedule a job for the event-dispatching thread:
+
+		//creating and showing this application's GUI.
+
+		javax.swing.SwingUtilities.invokeLater(new Runnable() {
+
+			public void run() {
+
+				createAndShowGUI();
+
+			}
+
+		});
 	}
+
 }
