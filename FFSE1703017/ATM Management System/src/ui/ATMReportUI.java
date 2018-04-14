@@ -6,6 +6,8 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -17,18 +19,20 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
+import model.ATMReport;
+import model.ATMReportDB;
 import model.AddressDB;
 import model.ComboItem;
 
-public class ATMReport extends JPanel {
+public class ATMReportUI extends JPanel {
 
 	private static final long serialVersionUID = 1L;
-	String[] col = {"Mã máy ATM","Số tiền trong máy"};
+	String[] col = {"Mã máy ATM","Quận","Phường","Đường","Số tiền trong máy"};
     DefaultTableModel mdlATMList = new DefaultTableModel(col, 0);
     JButton btnFilterByCode, btnFilterByAddress;
     JTextField txtSearch, txtStreet;
 	JComboBox<ComboItem> cbSelect, cbDistrict, cbWard;
-    CardLayout lyt;
+    CardLayout card;
     JPanel pnSelection;
     
     ActionListener evtFilterSelect = new ActionListener() {
@@ -36,9 +40,9 @@ public class ATMReport extends JPanel {
 		public void actionPerformed(ActionEvent e) {
 			int i = cbSelect.getSelectedIndex();
 			if (i == 1) {
-				lyt.show(pnSelection, "2");
+				card.show(pnSelection, "2");
 			} else {
-				lyt.show(pnSelection, "1");
+				card.show(pnSelection, "1");
 			}
 		}
 	};
@@ -47,6 +51,19 @@ public class ATMReport extends JPanel {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			
+			String code = txtSearch.getText();
+			ArrayList<ATMReport> arr = ATMReportDB.getATMsByCode(code);
+			mdlATMList.setRowCount(0);
+			for (ATMReport atm : arr) {
+				String[] row = {
+						atm.getCode(),
+						atm.getDistrict(),
+						atm.getWard(),
+						atm.getStreet(),
+						String.format("%,d", (long)atm.getAmount()) 
+						};
+				mdlATMList.addRow(row);
+			}
 		}
 	};
 	
@@ -54,10 +71,28 @@ public class ATMReport extends JPanel {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			
+			ComboItem itemD = (ComboItem) cbDistrict.getSelectedItem();
+			int districtID = itemD.getKey();
+			ComboItem itemW = (ComboItem) cbWard.getSelectedItem();
+			int wardID = itemW.getKey();
+			String street = txtStreet.getText();
+			ArrayList<ATMReport> arr = ATMReportDB.getATMsByAddress(districtID, wardID, street);
+			mdlATMList.setRowCount(0);
+			for (ATMReport atm : arr) {
+				String[] row = {
+						atm.getCode(),
+						atm.getDistrict(),
+						atm.getWard(),
+						atm.getStreet(),
+						String.format("%,d", (long)atm.getAmount()) 
+						};
+				mdlATMList.addRow(row);
+			}
+
 		}
 	};
 	
-	public ATMReport() {
+	public ATMReportUI() {
 		addPanel();
 		addEvent();
 	}
@@ -102,8 +137,8 @@ public class ATMReport extends JPanel {
 		pnFilter.add(pnSelection);
 		
 		/*Panel chính -> Action -> Filter -> Selecion*/
-		lyt = new CardLayout();
-		pnSelection.setLayout(lyt);
+		card = new CardLayout();
+		pnSelection.setLayout(card);
 		JPanel pnLocation = new JPanel();
 		JPanel pnSearch = new JPanel();
 		pnSelection.add(pnLocation, "1");

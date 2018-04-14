@@ -34,7 +34,7 @@ public class CustomerDB {
 		return ctm;
 	}
 	
-	public static ArrayList<Customer> getCustomesByName(String name) {
+	public static ArrayList<Customer> getCustomersByName(String name) {
 		ArrayList<Customer> arr = new ArrayList<>();
 		try {
 			name = name

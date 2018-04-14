@@ -27,22 +27,22 @@ import javax.swing.table.DefaultTableModel;
 
 import model.AddressDB;
 import model.ComboItem;
-import model.ATM;
-import model.ATMDB;
+import model.Customer;
+import model.CustomerDB;
 
-public class ATMAccess extends JPanel {
+public class CustomerAccessUI extends JPanel {
 
 	private static final long serialVersionUID = 1L;
-	String[] col = {"Mã máy ATM","Đường","Số tiền trong máy"};
-    DefaultTableModel mdlATMList = new DefaultTableModel(col, 0);
+	String[] col = {"Mã khách hàng","Họ tên","Số điện thoại", "Số tiền trong TK"};
+    DefaultTableModel mdlCustomerList = new DefaultTableModel(col, 0);
     JButton btnAdd, btnEdit, btnDelete, btnSearch;
-    JTextField txtStreet, txtCode, txtAmount, txtSearch;
+    JTextField txtName, txtPhone, txtEmail, txtStreet, txtCode, txtCardSN, txtAccSN, txtAmount, txtSearch;
     JComboBox<ComboItem> cbDistrict, cbWard;
-    JTable tblATMList;
+    JTable tblCustomerList;
     
     MouseAdapter evtRowSelected = new MouseAdapter() {
     	public void mouseClicked(MouseEvent e) {
-    		int i = tblATMList.getSelectedRow();
+    		int i = tblCustomerList.getSelectedRow();
     		if (i >= 0) {
     			setTextToInput(i);
     			btnEdit.setEnabled(true);
@@ -57,21 +57,26 @@ public class ATMAccess extends JPanel {
 	ActionListener evtAdd = new ActionListener() {
 		@Override
 		public void actionPerformed(ActionEvent e) {
+			String name = txtName.getText();
+			String phone = txtPhone.getText();
+			String email = txtEmail.getText();
 			ComboItem itemD = (ComboItem) cbDistrict.getSelectedItem();
 			int districtID = itemD.getKey();
 			ComboItem itemW = (ComboItem) cbWard.getSelectedItem();
 			int wardID = itemW.getKey();
 			String street = txtStreet.getText();
 			String code = txtCode.getText();
+			String cardSN = txtCardSN.getText();
+			String accSN = txtAccSN.getText();
 			double amount = Double.parseDouble(txtAmount.getText());
-			ATM atm = new ATM(code, amount, districtID, wardID, street);
-			int i = ATMDB.addATM(atm);
+			Customer ctm = new Customer(name, phone, email, districtID, wardID, street, code, cardSN, accSN, amount);
+			int i = CustomerDB.addCustomer(ctm);
 			if (i > 0) {
-				JOptionPane.showMessageDialog(null,"Thêm máy ATM thành công.",
+				JOptionPane.showMessageDialog(null,"Thêm khách hàng thành công.",
 						"Thông báo",JOptionPane.INFORMATION_MESSAGE);
-				loadATMList();
+				loadCustomerList();
 			} else {
-				JOptionPane.showMessageDialog(null,"Thêm máy ATM không thành công.",
+				JOptionPane.showMessageDialog(null,"Thêm khách hàng không thành công.",
 						"Lỗi",JOptionPane.WARNING_MESSAGE);
 			}
 		}
@@ -80,29 +85,34 @@ public class ATMAccess extends JPanel {
 	ActionListener evtEdit = new ActionListener() {
 		@Override
 		public void actionPerformed(ActionEvent e) {
+			String name = txtName.getText();
+			String phone = txtPhone.getText();
+			String email = txtEmail.getText();
 			ComboItem itemD = (ComboItem) cbDistrict.getSelectedItem();
 			int districtID = itemD.getKey();
 			ComboItem itemW = (ComboItem) cbWard.getSelectedItem();
 			int wardID = itemW.getKey();
 			String street = txtStreet.getText();
 			String code = txtCode.getText();
+			String cardSN = txtCardSN.getText();
+			String accSN = txtAccSN.getText();
 			double amount = Double.parseDouble(txtAmount.getText());
-			ATM atm = new ATM(code, amount, districtID, wardID, street);
-			int i = tblATMList.getSelectedRow();
+			Customer customer = new Customer(name, phone, email, districtID, wardID, street, code, cardSN, accSN, amount);
+			int i = tblCustomerList.getSelectedRow();
 			if (i >= 0) {
-				String oldcode = (String) mdlATMList.getValueAt(i, 0);
-				int x = ATMDB.setATM(atm , oldcode);
+				String oldcode = (String) mdlCustomerList.getValueAt(i, 0);
+				int x = CustomerDB.setCustomer(customer, oldcode);
 				if (x > 0) {
-					JOptionPane.showMessageDialog(null,"Sửa thông tin máy ATM thành công.",
+					JOptionPane.showMessageDialog(null,"Sửa thông tin khách hàng thành công.",
 							"Thông báo",JOptionPane.INFORMATION_MESSAGE);
 				} else {
-					JOptionPane.showMessageDialog(null,"Sửa thông tin máy ATM không thành công.",
+					JOptionPane.showMessageDialog(null,"Sửa thông tin khách hàng không thành công.",
 							"Lỗi",JOptionPane.WARNING_MESSAGE);
 				}
-				loadATMList();
+				loadCustomerList();
 		        resetInput();
 			} else {
-				JOptionPane.showMessageDialog(null,"Bạn chưa chọn máy ATM muốn sửa.",
+				JOptionPane.showMessageDialog(null,"Bạn chưa chọn khách hàng muốn sửa.",
 						"Lỗi",JOptionPane.WARNING_MESSAGE);
 			}
 		}
@@ -111,21 +121,21 @@ public class ATMAccess extends JPanel {
 	ActionListener evtDelete = new ActionListener() {
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			int i = tblATMList.getSelectedRow();
-			String code = (String) mdlATMList.getValueAt(i, 0);
+			int i = tblCustomerList.getSelectedRow();
+			String code = (String) mdlCustomerList.getValueAt(i, 0);
 			if (i >= 0) {
-				int x = ATMDB.delATM(code);
+				int x = CustomerDB.delCustomer(code);
 				if (x > 0) {
-					JOptionPane.showMessageDialog(null,"Xóa máy ATM thành công.",
+					JOptionPane.showMessageDialog(null,"Xóa khách hàng thành công.",
 							"Thông báo",JOptionPane.INFORMATION_MESSAGE);
 				} else {
-					JOptionPane.showMessageDialog(null,"Xóa máy ATM không thành công.",
+					JOptionPane.showMessageDialog(null,"Xóa khách hàng không thành công.",
 							"Lỗi",JOptionPane.WARNING_MESSAGE);
 				}
-				loadATMList();
+				loadCustomerList();
 		        resetInput();
 			} else {
-				JOptionPane.showMessageDialog(null,"Bạn chưa chọn máy ATM muốn xóa.",
+				JOptionPane.showMessageDialog(null,"Bạn chưa chọn khách hàng muốn xóa.",
 						"Lỗi",JOptionPane.WARNING_MESSAGE);
 			}
 		}
@@ -135,21 +145,21 @@ public class ATMAccess extends JPanel {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			String keySearch = txtSearch.getText();
-			ArrayList<ATM> arr = ATMDB.getATMsByName(keySearch);
-			mdlATMList.setRowCount(0);
+			ArrayList<Customer> arr = CustomerDB.getCustomersByName(keySearch);
+			mdlCustomerList.setRowCount(0);
 			if (arr.isEmpty()) {
-				JOptionPane.showMessageDialog(null,"Không tìm thấy máy ATM phù hợp.",
+				JOptionPane.showMessageDialog(null,"Không tìm thấy khách hàng phù hợp.",
 						"Thông báo",JOptionPane.INFORMATION_MESSAGE);
 			}
-			for (ATM atm : arr) {
-				String[] row = {atm.getCode(), atm.getStreet(), String.format("%,d", (long)atm.getAmount())};
-	        	mdlATMList.addRow(row);
+			for (Customer ctm : arr) {
+				String[] row = {ctm.getCode(), ctm.getName(), ctm.getPhone(), String.format("%,d", (long)ctm.getAmount())};
+	        	mdlCustomerList.addRow(row);
 			}
 			resetInput();
 		}
 	};
 	
-	public ATMAccess() {
+	public CustomerAccessUI() {
 		addPanel();
 		addEvent();
 	}
@@ -164,7 +174,7 @@ public class ATMAccess extends JPanel {
 		
 		/*Panel chính -> Tiêu đề*/
 		pnTitle.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 5));
-		JLabel lblTitle = new JLabel("QUẢN LÝ MÁY ATM");
+		JLabel lblTitle = new JLabel("QUẢN LÝ KHÁCH HÀNG");
 		pnTitle.add(lblTitle);
 		
 		/*Panel chính -> Action*/
@@ -179,46 +189,55 @@ public class ATMAccess extends JPanel {
 		pnLeft.setLayout(new BoxLayout(pnLeft, BoxLayout.Y_AXIS));
 		JPanel pnProfile = new JPanel();
 		JPanel pnAddress = new JPanel();
+		JPanel pnAccount = new JPanel();
 		JPanel pnButton = new JPanel();
 		
 		pnLeft.add(Box.createVerticalGlue());
 		pnLeft.add(pnProfile);
 		pnLeft.add(pnAddress);
+		pnLeft.add(pnAccount);
 		pnLeft.add(pnButton);
 		pnLeft.add(Box.createVerticalGlue());
 		
-		/*Panel chính -> Action -> Trái -> Thông tin máy ATM*/
+		/*Panel chính -> Action -> Trái -> Thông tin cá nhân*/
 		Border bdrProfile = BorderFactory.createLineBorder(Color.RED);
-		TitledBorder bttProfile = BorderFactory.createTitledBorder(bdrProfile, " Thông tin máy ATM ");
+		TitledBorder bttProfile = BorderFactory.createTitledBorder(bdrProfile, " Thông tin cá nhân ");
 		pnProfile.setBorder(bttProfile);
 		pnProfile.setLayout(new BoxLayout(pnProfile, BoxLayout.Y_AXIS));
-		JPanel pnCode = new JPanel();
-		JPanel pnAmount = new JPanel();
-		pnProfile.add(Box.createRigidArea(new Dimension(0, 30)));
-		pnProfile.add(pnCode);
-		pnProfile.add(pnAmount);
+		JPanel pnName = new JPanel();
+		JPanel pnPhone = new JPanel();
+		JPanel pnEmail = new JPanel();
+		pnProfile.add(pnName);
+		pnProfile.add(pnPhone);
+		pnProfile.add(pnEmail);
 		
-		JLabel lblCode = new JLabel("Mã máy ATM:");
-		lblCode.setPreferredSize(new Dimension(80,15));
-		txtCode = new JTextField(20);
-		pnCode.add(lblCode);
-		pnCode.add(txtCode);
 		
-		JLabel lblAmount = new JLabel("Tiền còn lại:");
-		lblAmount.setPreferredSize(new Dimension(80,15));
-		txtAmount = new JTextField(20);
-		pnAmount.add(lblAmount);
-		pnAmount.add(txtAmount);
+		JLabel lblName = new JLabel("Họ và tên:");
+		lblName.setPreferredSize(new Dimension(80,15));
+		txtName = new JTextField(20);
+		pnName.add(lblName);
+		pnName.add(txtName);
+		
+		JLabel lblPhone = new JLabel("Số điện thoại:");
+		lblPhone.setPreferredSize(new Dimension(80,15));
+		txtPhone = new JTextField(20);
+		pnPhone.add(lblPhone);
+		pnPhone.add(txtPhone);
+		
+		JLabel lblEmail = new JLabel("Email:");
+		lblEmail.setPreferredSize(new Dimension(80,15));
+		txtEmail = new JTextField(20);
+		pnEmail.add(lblEmail);
+		pnEmail.add(txtEmail);
 		
 		/*Panel chính -> Action -> Trái -> Địa chỉ*/
 		Border bdrAddress = BorderFactory.createLineBorder(Color.RED);
-		TitledBorder bttAddress = BorderFactory.createTitledBorder(bdrAddress, " Vị trí đặt máy ");
+		TitledBorder bttAddress = BorderFactory.createTitledBorder(bdrAddress, " Địa chỉ ");
 		pnAddress.setBorder(bttAddress);
 		pnAddress.setLayout(new BoxLayout(pnAddress, BoxLayout.Y_AXIS));
 		JPanel pnDistrict = new JPanel();
 		JPanel pnWard = new JPanel();
 		JPanel pnStreet = new JPanel();
-		pnAddress.add(Box.createRigidArea(new Dimension(0, 30)));
 		pnAddress.add(pnDistrict);
 		pnAddress.add(pnWard);
 		pnAddress.add(pnStreet);
@@ -240,11 +259,49 @@ public class ATMAccess extends JPanel {
 		pnWard.add(lblWard);
 		pnWard.add(cbWard);
 		
-		JLabel lblStreet = new JLabel("Đường phố:");
+		JLabel lblStreet = new JLabel("Địa chỉ nhà:");
 		lblStreet.setPreferredSize(new Dimension(80,15));
 		txtStreet = new JTextField(20);
 		pnStreet.add(lblStreet);
 		pnStreet.add(txtStreet);
+		
+		/*Panel chính -> Action -> Trái -> Thông tin tài khoản*/
+		Border bdrAccount = BorderFactory.createLineBorder(Color.RED);
+		TitledBorder bttAccount = BorderFactory.createTitledBorder(bdrAccount, " Thông tin tài khoản ");
+		pnAccount.setBorder(bttAccount);
+		pnAccount.setLayout(new BoxLayout(pnAccount, BoxLayout.Y_AXIS));
+		JPanel pnCode = new JPanel();
+		JPanel pnCardSN = new JPanel();
+		JPanel pnAccSN = new JPanel();
+		JPanel pnAmount = new JPanel();
+		pnAccount.add(pnCode);
+		pnAccount.add(pnCardSN);
+		pnAccount.add(pnAccSN);
+		pnAccount.add(pnAmount);
+		
+		JLabel lblCode = new JLabel("Mã khách hàng:");
+		lblCode.setPreferredSize(new Dimension(80,15));
+		txtCode = new JTextField(20);
+		pnCode.add(lblCode);
+		pnCode.add(txtCode);
+		
+		JLabel lblCardSN = new JLabel("Số thẻ ATM:");
+		lblCardSN.setPreferredSize(new Dimension(80,15));
+		txtCardSN = new JTextField(20);
+		pnCardSN.add(lblCardSN);
+		pnCardSN.add(txtCardSN);
+		
+		JLabel lblAccSN = new JLabel("Số tài khoản:");
+		lblAccSN.setPreferredSize(new Dimension(80,15));
+		txtAccSN = new JTextField(20);
+		pnAccSN.add(lblAccSN);
+		pnAccSN.add(txtAccSN);
+		
+		JLabel lblAmount = new JLabel("Tiền trong TK:");
+		lblAmount.setPreferredSize(new Dimension(80,15));
+		txtAmount = new JTextField(20);
+		pnAmount.add(lblAmount);
+		pnAmount.add(txtAmount);
 		
 		/*Panel chính -> Action -> Trái -> Button xử lý*/
 		btnAdd = new JButton("Thêm");
@@ -259,9 +316,9 @@ public class ATMAccess extends JPanel {
 		/*Panel chính -> Action -> Phải*/
 		pnRight.setLayout(new BoxLayout(pnRight, BoxLayout.Y_AXIS));
 		JPanel pnSearch = new JPanel();
-		JScrollPane spATMList = new JScrollPane();
+		JScrollPane spCustomerList = new JScrollPane();
 		pnRight.add(pnSearch);
-		pnRight.add(spATMList);
+		pnRight.add(spCustomerList);
 		pnRight.add(Box.createRigidArea(new Dimension(0, 5)));
 		
 		/*Panel chính -> Action -> Phải -> Tìm kiêm*/
@@ -271,15 +328,16 @@ public class ATMAccess extends JPanel {
 		pnSearch.add(txtSearch);
 		pnSearch.add(btnSearch);
 		
-		/*Panel chính -> Action -> Phải -> Danh sách máy ATM*/
-		tblATMList = new JTable();
-        tblATMList.setModel(mdlATMList);
-        spATMList.setViewportView(tblATMList);
-		loadATMList();
+		/*Panel chính -> Action -> Phải -> Danh sách khách hàng*/
+		tblCustomerList = new JTable();
+        tblCustomerList.setModel(mdlCustomerList);
+        spCustomerList.setViewportView(tblCustomerList);
+        loadCustomerList();
+		
 	}
 	
 	void addEvent() {
-		tblATMList.addMouseListener(evtRowSelected);
+		tblCustomerList.addMouseListener(evtRowSelected);
 		btnAdd.addActionListener(evtAdd);
 		btnEdit.addActionListener(evtEdit);
 		btnDelete.addActionListener(evtDelete);
@@ -288,13 +346,18 @@ public class ATMAccess extends JPanel {
 	}
 	
 	void setTextToInput(int i) {
-		String code = (String) tblATMList.getValueAt(i, 0);
-		ATM atm = ATMDB.getATMbyCode(code);
-		txtStreet.setText(atm.getStreet());
-		txtCode.setText(atm.getCode());
-		txtAmount.setText(String.format("%d",(long) atm.getAmount()));
+		String code = (String) tblCustomerList.getValueAt(i, 0);
+		Customer ctm = CustomerDB.getCustomerbyCode(code);
+		txtName.setText(ctm.getName());
+		txtPhone.setText(ctm.getPhone());
+		txtEmail.setText(ctm.getEmail());
+		txtStreet.setText(ctm.getStreet());
+		txtCode.setText(ctm.getCode());
+		txtCardSN.setText(ctm.getCardSN());
+		txtAccSN.setText(ctm.getAccSN());
+		txtAmount.setText(String.format("%d",(long) ctm.getAmount()));
 		/*Quận*/
-		int districtID = atm.getDistrictID();
+		int districtID = ctm.getDistrictID();
 		ArrayList<ComboItem> arrDistrict = AddressDB.getDistricts();
 		for (ComboItem itemD : arrDistrict) {
 			if(itemD.getKey() == districtID) {
@@ -304,7 +367,7 @@ public class ATMAccess extends JPanel {
 			}
 		}
 		/*Phường*/
-		int wardID = atm.getWardID();
+		int wardID = ctm.getWardID();
 		ArrayList<ComboItem> arrWard = AddressDB.getWards(districtID);
 		for (ComboItem itemW : arrWard) {
 			if(itemW.getKey() == wardID) {
@@ -316,20 +379,25 @@ public class ATMAccess extends JPanel {
 	}
 	
 	void resetInput() {
+		txtName.setText("");
+		txtPhone.setText("");
+		txtEmail.setText("");
 		txtStreet.setText("");
 		txtCode.setText("");
+		txtCardSN.setText("");
+		txtAccSN.setText("");
 		txtAmount.setText("");
 		cbDistrict.setSelectedIndex(0);
 		btnDelete.setEnabled(false);
 		btnEdit.setEnabled(false);
 	}
 	
-	void loadATMList() {
-		ArrayList<ATM> arr = ATMDB.getATMsList();
-		mdlATMList.setRowCount(0);
-        for (ATM atm : arr) {
-        	String[] row = {atm.getCode(), atm.getStreet(), String.format("%,d", (long)atm.getAmount())};
-        	mdlATMList.addRow(row);
+	void loadCustomerList() {
+		ArrayList<Customer> arr = CustomerDB.getCustomersList();
+		mdlCustomerList.setRowCount(0);
+        for (Customer ctm : arr) {
+        	String[] row = {ctm.getCode(), ctm.getName(), ctm.getPhone(), String.format("%,d", (long)ctm.getAmount())};
+        	mdlCustomerList.addRow(row);
         }
 	}
 

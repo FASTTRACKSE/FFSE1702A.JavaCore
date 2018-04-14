@@ -6,6 +6,12 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -20,21 +26,24 @@ import javax.swing.table.DefaultTableModel;
 
 import com.toedter.calendar.JDateChooser;
 
+import model.ATMReportDB;
 import model.AddressDB;
 import model.ComboItem;
+import model.Transaction;
 
-public class ATMWithdraw extends JPanel {
+public class ATMWithdrawUI extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	JScrollPane spATMWithdraw = new JScrollPane();
 	JTable tblATMWithdraw = new JTable();
-	String[] col = {"Mã máy ATM","Thời gian giao dịch","Số tiền đã rút"};
+	String[] col = {"Mã máy ATM", "Mã khách hàng","Mã giao dịch", "Thời gian giao dịch","Số tiền đã rút"};
     DefaultTableModel mdlATMWithdraw = new DefaultTableModel(col, 0);
     JDateChooser dateFrom, dateTo;
     JComboBox<ComboItem> cbSelect, cbDistrict, cbWard;
     JTextField txtCode, txtStreet;
     CardLayout lyt;
     JPanel pnChoice;
+    JButton btnFilter;
     
     ActionListener evtSelect = new ActionListener() {
 		@Override
@@ -48,7 +57,62 @@ public class ATMWithdraw extends JPanel {
 		}
 	};
 	
-	public ATMWithdraw() {
+	ActionListener evtFilter = new ActionListener() {
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			int i = cbSelect.getSelectedIndex();
+			boolean isDuration = Validation.checkDuration(dateFrom, dateTo);
+			if (isDuration) {
+				
+				/*Sử dung Calendar để tính toán với ngày*/
+				Calendar cldFrom = dateFrom.getCalendar();
+				Calendar cldTo = dateTo.getCalendar();
+				cldTo.add(Calendar.DATE, 1);
+				
+				ArrayList<Transaction> arr;
+				
+				if (i == 1 ) {
+					String code = txtCode.getText();
+					arr = ATMReportDB.getTransactionByCode(code, cldFrom, cldTo);
+					
+				} else {
+					ComboItem itemD = (ComboItem) cbDistrict.getSelectedItem();
+					int districtID = itemD.getKey();
+					ComboItem itemW = (ComboItem) cbWard.getSelectedItem();
+					int wardID = itemW.getKey();
+					String street = txtStreet.getText();
+					
+					arr = ATMReportDB.getTransactionByAddress(
+							districtID, wardID, street, cldFrom, cldTo);
+				}
+				
+				/*Định dạng ngày*/
+				DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+				Date date = new Date();
+				mdlATMWithdraw.setRowCount(0);
+				for (Transaction tran : arr) {
+					/*Chuyển Timestap sang String có định dạng*/
+					Timestamp ts = tran.getTime();
+					date.setTime(ts.getTime());
+					String time = dateFormat.format(date);
+					
+					String[] row = {
+							tran.getAtm_code(),
+							tran.getCard_sn(),
+							tran.getCode(),
+							time,
+							String.format("%,d", (long)tran.getAmount())
+					};
+					
+					mdlATMWithdraw.addRow(row);
+				}
+				
+			}
+
+		}
+	};
+	
+	public ATMWithdrawUI() {
 		addPanel();
 		addEvent();
 	}
@@ -77,7 +141,7 @@ public class ATMWithdraw extends JPanel {
 		/*Panel chính -> Action -> Filter*/
 		JPanel pnSelection = new JPanel();
 		JPanel pnDuration = new JPanel();
-		JButton btnFilter = new JButton("Xem");
+		btnFilter = new JButton("Xem");
 		pnFilter.setLayout(new FlowLayout(FlowLayout.LEADING));
 		pnFilter.add(pnSelection);
 		pnFilter.add(pnDuration);
@@ -149,6 +213,7 @@ public class ATMWithdraw extends JPanel {
 	}
 	
 	void addEvent() {
+		btnFilter.addActionListener(evtFilter);
 		cbSelect.addActionListener(evtSelect);
 		cbDistrict.addActionListener(new DistrictSelectEvent(cbDistrict, cbWard));
 	}

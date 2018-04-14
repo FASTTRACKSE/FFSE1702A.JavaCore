@@ -5,11 +5,14 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -17,11 +20,13 @@ import javax.swing.table.DefaultTableModel;
 
 import model.AddressDB;
 import model.ComboItem;
+import model.CustomerReport;
+import model.CustomerReportDB;
 
-public class CustomerReport extends JPanel {
+public class CustomerReportUI extends JPanel {
 
 	private static final long serialVersionUID = 1L;
-	String[] col = {"Mã khách hàng","Họ tên","Mã ATM", "Mã giao dịch","Thời gian giao dịch","Số tiền đã rút"};
+	String[] col = {"Mã khách hàng","Họ tên","Số điện thoại", "Số iền trong TK","Tổng tiền đã rút"};
     DefaultTableModel mdlCustomerList = new DefaultTableModel(col, 0);
     JButton btnFilter;
     JComboBox<ComboItem> cbDistrict, cbWard;
@@ -29,11 +34,33 @@ public class CustomerReport extends JPanel {
     ActionListener evtFilter = new ActionListener() {
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			
+			int i = cbDistrict.getSelectedIndex();
+			if (i > 0) {
+				ComboItem itemD = (ComboItem) cbDistrict.getSelectedItem();
+				int districtID = itemD.getKey();
+				ComboItem itemW = (ComboItem) cbWard.getSelectedItem();
+				int wardID = itemW.getKey();
+				ArrayList<CustomerReport> arr = CustomerReportDB.getCustomers(districtID, wardID);
+				mdlCustomerList.setRowCount(0);
+				for (CustomerReport cus : arr) {
+					String[] row = {
+							cus.getCustomer_code(), 
+							cus.getCustomer_name(), 
+							cus.getPhone(),
+							String.format("%,d", (long)cus.getCustomer_amount()),
+							String.format("%,d", (long)cus.getCustomer_withdraw())
+							};
+					mdlCustomerList.addRow(row);
+				}
+			} else {
+				mdlCustomerList.setRowCount(0);
+				JOptionPane.showMessageDialog(null,"Bạn chưa chọn quận.",
+						"Lỗi",JOptionPane.WARNING_MESSAGE);
+			}
 		}
 	};
 	
-	public CustomerReport() {
+	public CustomerReportUI() {
 		addPanel();
 		addEvent();
 	}

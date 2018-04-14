@@ -113,12 +113,12 @@ public class myUI extends JFrame {
 		layoutCenter = new CardLayout();
 		pnCenter.setLayout(layoutCenter);
 		
-		pnCustomerAccess = new CustomerAccess();
-		pnATMAccess = new ATMAccess();
-		pnCustomerReport = new CustomerReport();
-		pnCustomerWithdraw = new CustomerWithdraw();
-		pnATMReport = new ATMReport();
-		pnATMWithdraw = new ATMWithdraw();
+		pnCustomerAccess = new CustomerAccessUI();
+		pnATMAccess = new ATMAccessUI();
+		pnCustomerReport = new CustomerReportUI();
+		pnCustomerWithdraw = new CustomerWithdrawUI();
+		pnATMReport = new ATMReportUI();
+		pnATMWithdraw = new ATMWithdrawUI();
 		
 		pnCenter.add(pnCustomerAccess, "1");
 		pnCenter.add(pnATMAccess, "2");
