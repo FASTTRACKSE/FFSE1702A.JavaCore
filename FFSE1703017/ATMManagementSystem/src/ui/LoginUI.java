@@ -23,7 +23,7 @@ public class LoginUI extends JPanel {
 	private static final long serialVersionUID = 1L;
 	final JRadioButton rbnAdmin = new JRadioButton("Quản trị viên");
 	final JRadioButton rbnCustomer = new JRadioButton("Khách hàng");
-	JButton btnAdminLogin, btnCustomerLogin;
+	JButton btnAdminLogin, btnCustomerLogin, btnAdminExit, btnCustomerExit;
 	JPanel pnInput;
 	CardLayout lyt;
 
@@ -49,6 +49,13 @@ public class LoginUI extends JPanel {
 			if (aBtn.isSelected()) {
 				lyt.show(pnInput, "2");
 			}
+		}
+	};
+	
+	ActionListener evtExit = new ActionListener() {
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			System.exit(0);
 		}
 	};
 
@@ -103,6 +110,7 @@ public class LoginUI extends JPanel {
 		JPanel pnAdminPass = new JPanel();
 		JPanel pnAdminButton = new JPanel();
 		btnAdminLogin = new JButton("Đăng nhập");
+		btnAdminExit = new JButton("Thoát");
 		pnAdminInput.add(Box.createVerticalGlue());
 		pnAdminInput.add(pnAdminName);
 		pnAdminInput.add(pnAdminPass);
@@ -122,8 +130,10 @@ public class LoginUI extends JPanel {
 		pnAdminPass.add(txtAdminPass);
 
 		pnAdminButton.setLayout(new BoxLayout(pnAdminButton, BoxLayout.X_AXIS));
-		pnAdminButton.add(Box.createRigidArea(new Dimension(10, 0)));
+		pnAdminButton.add(Box.createRigidArea(new Dimension(85, 0)));
 		pnAdminButton.add(btnAdminLogin);
+		pnAdminButton.add(Box.createRigidArea(new Dimension(20, 0)));
+		pnAdminButton.add(btnAdminExit);
 
 		/* Main -> Bottom -> Input -> Customer */
 		pnCustomerInput.setLayout(new BoxLayout(pnCustomerInput, BoxLayout.Y_AXIS));
@@ -131,6 +141,7 @@ public class LoginUI extends JPanel {
 		JPanel pnCustomerPass = new JPanel();
 		JPanel pnCustomnerButton = new JPanel();
 		btnCustomerLogin = new JButton("Đăng nhập");
+		btnCustomerExit = new JButton("Thoát");
 		pnCustomerInput.add(Box.createVerticalGlue());
 		pnCustomerInput.add(pnCustomerName);
 		pnCustomerInput.add(pnCustomerPass);
@@ -150,14 +161,18 @@ public class LoginUI extends JPanel {
 		pnCustomerPass.add(txtCustomerPass);
 
 		pnCustomnerButton.setLayout(new BoxLayout(pnCustomnerButton, BoxLayout.X_AXIS));
-		pnCustomnerButton.add(Box.createRigidArea(new Dimension(10, 0)));
+		pnCustomnerButton.add(Box.createRigidArea(new Dimension(85, 0)));
 		pnCustomnerButton.add(btnCustomerLogin);
+		pnCustomnerButton.add(Box.createRigidArea(new Dimension(20, 0)));
+		pnCustomnerButton.add(btnCustomerExit);
 
 	}
 
 	void addEvents() {
 		rbnAdmin.addActionListener(showAdminInput);
 		rbnCustomer.addActionListener(showCustomerInput);
+		btnAdminExit.addActionListener(evtExit);
+		btnCustomerExit.addActionListener(evtExit);
 	}
 
 }

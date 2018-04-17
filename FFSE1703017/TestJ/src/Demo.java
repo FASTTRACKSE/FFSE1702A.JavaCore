@@ -1,13 +1,11 @@
-package ui;
+
 
 import java.awt.CardLayout;
 import java.awt.Container;
 import java.awt.Dimension;
-import java.awt.GridLayout;
-import java.awt.Image;
+import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import javax.swing.AbstractButton;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -20,9 +18,8 @@ import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
-import javax.swing.ImageIcon;
 
-public class LoginUI extends JFrame {
+public class Demo extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	final JRadioButton rbnAdmin = new JRadioButton("Quản trị viên");
@@ -52,7 +49,7 @@ public class LoginUI extends JFrame {
 		}
 	};
 	
-	public LoginUI(String title) {
+	public Demo(String title) {
 		super(title);
 		addPanels();
 		addEvents();
@@ -72,14 +69,18 @@ public class LoginUI extends JFrame {
 		pnMain.add(pnBottom);
 		
 		/*Main -> Top*/
-		pnTop.setLayout(new GridLayout(0, 1));
-		JLabel bg = new JLabel();
-		bg.setPreferredSize(new Dimension(600, 200));
-		pnTop.add(bg);
-		ImageIcon bgImage = new ImageIcon(getClass().getResource("/images/bg.png"));
-		bgImage.getImage().getScaledInstance(600, 200, Image.SCALE_SMOOTH);
-		bg.setIcon(bgImage);
-	
+		pnTop.setLayout(new FlowLayout());
+		pnTop.setPreferredSize(new Dimension(600, 200));
+//		TextFiledDemo txt = new TextFiledDemo();
+//		JFormattedTextField txtTest;
+//		NumberFormat nf = NumberFormat.getInstance();
+//		txtTest = new JFormattedTextField(nf);
+//		txtTest.setPreferredSize(new Dimension(100, 20));
+//		
+//		pnTop.add(txt);
+
+		
+		
 		/*Main -> Bottom*/
 		pnInput = new JPanel();
 		JPanel pnSelection = new JPanel();
@@ -178,10 +179,8 @@ public class LoginUI extends JFrame {
 		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		} 
-		catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException e) {
-			e.printStackTrace();
-		}
-		LoginUI ui = new LoginUI("Đăng nhập - TPBank");
+		catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException e) {}
+		Demo ui = new Demo("Đăng nhập - TPBank");
 		ui.showWindow();
 	}
 

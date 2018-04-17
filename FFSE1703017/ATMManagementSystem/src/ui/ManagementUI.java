@@ -15,7 +15,7 @@ import javax.swing.JButton;
 public class ManagementUI extends JPanel {
 
 	private static final long serialVersionUID = 1L;
-//	Container con;
+	
 	private JPanel pnSide, pnCenter, pnCustomerAccess, pnCustomerReport, 
 					pnCustomerWithdraw, pnATMAccess, pnATMReport,pnATMWithdraw;
 	private JButton btnCustomerAccess, btnCustomerReport, btnCustomerWithdraw, 
