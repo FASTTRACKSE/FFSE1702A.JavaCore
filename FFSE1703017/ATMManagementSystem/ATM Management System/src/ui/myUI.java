@@ -3,6 +3,7 @@ package ui;
 import java.awt.CardLayout;
 import java.awt.Container;
 import java.awt.Dimension;
+import java.awt.EventQueue;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -139,7 +140,7 @@ public class myUI extends JFrame {
 	}
 	
 	public void showWindow() {
-	    this.setSize(1200, 600);
+	    this.setSize(1200, 500);
 	    this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 	    this.setLocationRelativeTo(null);
 	    this.setVisible(true);
@@ -150,8 +151,20 @@ public class myUI extends JFrame {
 		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		} 
-		catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException e) {}
-		myUI ui = new myUI("Hệ thống quản lý ATM - TPBank");
-		ui.showWindow();
+		catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException e) {
+			e.printStackTrace();
+		}
+		
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					myUI ui = new myUI("Hệ thống quản lý ATM - TPBank");
+					ui.showWindow();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+		
 	}
 }

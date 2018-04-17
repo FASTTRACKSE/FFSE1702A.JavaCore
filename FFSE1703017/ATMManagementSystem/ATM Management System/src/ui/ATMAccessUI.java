@@ -8,13 +8,16 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.GroupLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -36,7 +39,10 @@ public class ATMAccessUI extends JPanel {
 	String[] col = {"Mã máy ATM","Đường","Số tiền trong máy"};
     DefaultTableModel mdlATMList = new DefaultTableModel(col, 0);
     JButton btnAdd, btnEdit, btnDelete, btnSearch;
-    JTextField txtStreet, txtCode, txtAmount, txtSearch;
+    JTextField txtStreet, txtCode, txtSearch;
+    /*Xử lý hiển thị số có dấu phẩy động*/
+    NumberFormat amountFormat;
+    JFormattedTextField txtAmount;
     JComboBox<ComboItem> cbDistrict, cbWard;
     JTable tblATMList;
     
@@ -63,16 +69,30 @@ public class ATMAccessUI extends JPanel {
 			int wardID = itemW.getKey();
 			String street = txtStreet.getText();
 			String code = txtCode.getText();
-			double amount = Double.parseDouble(txtAmount.getText());
-			ATM atm = new ATM(code, amount, districtID, wardID, street);
-			int i = ATMDB.addATM(atm);
-			if (i > 0) {
-				JOptionPane.showMessageDialog(null,"Thêm máy ATM thành công.",
-						"Thông báo",JOptionPane.INFORMATION_MESSAGE);
-				loadATMList();
-			} else {
-				JOptionPane.showMessageDialog(null,"Thêm máy ATM không thành công.",
-						"Lỗi",JOptionPane.WARNING_MESSAGE);
+			double amount = ((Number)txtAmount.getValue()).doubleValue();
+			
+			/*Check input validation*/
+			boolean isInput = checkInput(code, districtID, wardID, street);
+			if (isInput) {
+				/*Check exist code*/
+				boolean isValidCode = !(ATMDB.isExistCode(code));
+				if (isValidCode) {
+					ATM atm = new ATM(code, amount, districtID, wardID, street);
+					int i = ATMDB.addATM(atm);
+					if (i > 0) {
+						JOptionPane.showMessageDialog(null,"Thêm máy ATM thành công.",
+								"Thông báo",JOptionPane.INFORMATION_MESSAGE);
+						loadATMList();
+						resetInput();
+					} else {
+						JOptionPane.showMessageDialog(null,"Thêm máy ATM không thành công.",
+								"Lỗi",JOptionPane.WARNING_MESSAGE);
+					}
+				} else {
+					JOptionPane.showMessageDialog(null,"Mã ATM đã tồn tại.",
+							"Lỗi",JOptionPane.WARNING_MESSAGE);
+					txtCode.requestFocus();
+				}
 			}
 		}
 	};
@@ -86,21 +106,40 @@ public class ATMAccessUI extends JPanel {
 			int wardID = itemW.getKey();
 			String street = txtStreet.getText();
 			String code = txtCode.getText();
-			double amount = Double.parseDouble(txtAmount.getText());
+			double amount = ((Number)txtAmount.getValue()).doubleValue();
 			ATM atm = new ATM(code, amount, districtID, wardID, street);
 			int i = tblATMList.getSelectedRow();
+			/*Check row selected*/
 			if (i >= 0) {
-				String oldcode = (String) mdlATMList.getValueAt(i, 0);
-				int x = ATMDB.setATM(atm , oldcode);
-				if (x > 0) {
-					JOptionPane.showMessageDialog(null,"Sửa thông tin máy ATM thành công.",
-							"Thông báo",JOptionPane.INFORMATION_MESSAGE);
-				} else {
-					JOptionPane.showMessageDialog(null,"Sửa thông tin máy ATM không thành công.",
-							"Lỗi",JOptionPane.WARNING_MESSAGE);
+				/*Check input validation*/
+				boolean isInput = checkInput(code, districtID, wardID, street);
+					if (isInput) {
+					String oldcode = (String) mdlATMList.getValueAt(i, 0);
+					/*Check exist code*/
+					boolean isValidCode = true;
+					
+					if (code.equals(oldcode) == false) {
+						isValidCode = !(ATMDB.isExistCode(code));
+					}
+					
+					if (isValidCode) {
+						int x = ATMDB.setATM(atm , oldcode);
+						if (x > 0) {
+							JOptionPane.showMessageDialog(null,"Sửa thông tin máy ATM thành công.",
+									"Thông báo",JOptionPane.INFORMATION_MESSAGE);
+						} else {
+							JOptionPane.showMessageDialog(null,"Sửa thông tin máy ATM không thành công.",
+									"Lỗi",JOptionPane.WARNING_MESSAGE);
+						}
+						loadATMList();
+				        resetInput();
+					} else {
+						JOptionPane.showMessageDialog(null,"Mã ATM đã tồn tại.",
+								"Lỗi",JOptionPane.WARNING_MESSAGE);
+						txtCode.requestFocus();
+					}
 				}
-				loadATMList();
-		        resetInput();
+					
 			} else {
 				JOptionPane.showMessageDialog(null,"Bạn chưa chọn máy ATM muốn sửa.",
 						"Lỗi",JOptionPane.WARNING_MESSAGE);
@@ -150,6 +189,7 @@ public class ATMAccessUI extends JPanel {
 	};
 	
 	public ATMAccessUI() {
+		setupInput();
 		addPanel();
 		addEvent();
 	}
@@ -191,60 +231,83 @@ public class ATMAccessUI extends JPanel {
 		Border bdrProfile = BorderFactory.createLineBorder(Color.RED);
 		TitledBorder bttProfile = BorderFactory.createTitledBorder(bdrProfile, " Thông tin máy ATM ");
 		pnProfile.setBorder(bttProfile);
-		pnProfile.setLayout(new BoxLayout(pnProfile, BoxLayout.Y_AXIS));
-		JPanel pnCode = new JPanel();
-		JPanel pnAmount = new JPanel();
-		pnProfile.add(Box.createRigidArea(new Dimension(0, 30)));
-		pnProfile.add(pnCode);
-		pnProfile.add(pnAmount);
 		
 		JLabel lblCode = new JLabel("Mã máy ATM:");
-		lblCode.setPreferredSize(new Dimension(80,15));
-		txtCode = new JTextField(20);
-		pnCode.add(lblCode);
-		pnCode.add(txtCode);
-		
 		JLabel lblAmount = new JLabel("Tiền còn lại:");
-		lblAmount.setPreferredSize(new Dimension(80,15));
-		txtAmount = new JTextField(20);
-		pnAmount.add(lblAmount);
-		pnAmount.add(txtAmount);
+		
+		GroupLayout lytProfile = new GroupLayout(pnProfile);          
+		pnProfile.setLayout(lytProfile);
+        lytProfile.setAutoCreateGaps(true);
+        lytProfile.setAutoCreateContainerGaps(true);
+        lytProfile.setHorizontalGroup(lytProfile.createSequentialGroup()
+            .addGroup(lytProfile.createParallelGroup(GroupLayout.Alignment.LEADING)
+                .addComponent(lblCode)
+                .addComponent(lblAmount)
+        	)
+            .addGroup(lytProfile.createParallelGroup(GroupLayout.Alignment.LEADING)
+                .addComponent(txtCode)
+                .addComponent(txtAmount)
+        	)
+        );
+        lytProfile.setVerticalGroup(lytProfile.createSequentialGroup()
+            .addGroup(lytProfile.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                .addComponent(lblCode)
+                .addComponent(txtCode)
+            )
+            .addGroup(lytProfile.createParallelGroup(GroupLayout.Alignment.BASELINE)
+            	.addComponent(lblAmount)
+            	.addComponent(txtAmount)
+        	)
+            
+        );
 		
 		/*Panel chính -> Action -> Trái -> Địa chỉ*/
 		Border bdrAddress = BorderFactory.createLineBorder(Color.RED);
 		TitledBorder bttAddress = BorderFactory.createTitledBorder(bdrAddress, " Vị trí đặt máy ");
 		pnAddress.setBorder(bttAddress);
-		pnAddress.setLayout(new BoxLayout(pnAddress, BoxLayout.Y_AXIS));
-		JPanel pnDistrict = new JPanel();
-		JPanel pnWard = new JPanel();
-		JPanel pnStreet = new JPanel();
-		pnAddress.add(Box.createRigidArea(new Dimension(0, 30)));
-		pnAddress.add(pnDistrict);
-		pnAddress.add(pnWard);
-		pnAddress.add(pnStreet);
 		
 		JLabel lblDistrict = new JLabel("Quận:");
-		lblDistrict.setPreferredSize(new Dimension(80,15));
-		cbDistrict = new JComboBox<>();
-		cbDistrict.setPreferredSize(new Dimension(165, 20));
 		AddressDB.setDistricts(cbDistrict);
-		pnDistrict.add(lblDistrict);
-		pnDistrict.add(cbDistrict);
 		
 		JLabel lblWard = new JLabel("Phường:");
 		lblWard.setPreferredSize(new Dimension(80,15));
-		cbWard = new JComboBox<>();
 		cbWard.setPreferredSize(new Dimension(165, 20));
 		ComboItem itemWard = new ComboItem(0, "Chọn phường");
 		cbWard.addItem(itemWard);
-		pnWard.add(lblWard);
-		pnWard.add(cbWard);
 		
 		JLabel lblStreet = new JLabel("Đường phố:");
 		lblStreet.setPreferredSize(new Dimension(80,15));
-		txtStreet = new JTextField(20);
-		pnStreet.add(lblStreet);
-		pnStreet.add(txtStreet);
+		
+		GroupLayout lytAddress = new GroupLayout(pnAddress);          
+		pnAddress.setLayout(lytAddress);
+        lytAddress.setAutoCreateGaps(true);
+        lytAddress.setAutoCreateContainerGaps(true);
+        lytAddress.setHorizontalGroup(lytAddress.createSequentialGroup()
+    		.addGroup(lytAddress.createParallelGroup(GroupLayout.Alignment.LEADING)
+				.addComponent(lblDistrict)
+				.addComponent(lblWard)
+				.addComponent(lblStreet)
+			)
+    		.addGroup(lytAddress.createParallelGroup(GroupLayout.Alignment.LEADING)
+				.addComponent(cbDistrict)
+				.addComponent(cbWard)
+				.addComponent(txtStreet)
+			)
+		);
+        lytAddress.setVerticalGroup(lytAddress.createSequentialGroup()
+    		.addGroup(lytAddress.createParallelGroup(GroupLayout.Alignment.BASELINE)
+				.addComponent(lblDistrict)
+				.addComponent(cbDistrict)
+			)
+    		.addGroup(lytAddress.createParallelGroup(GroupLayout.Alignment.BASELINE)
+				.addComponent(lblWard)
+				.addComponent(cbWard)
+			)
+    		.addGroup(lytAddress.createParallelGroup(GroupLayout.Alignment.BASELINE)
+				.addComponent(lblStreet)
+				.addComponent(txtStreet)
+			)
+		);
 		
 		/*Panel chính -> Action -> Trái -> Button xử lý*/
 		btnAdd = new JButton("Thêm");
@@ -266,7 +329,6 @@ public class ATMAccessUI extends JPanel {
 		
 		/*Panel chính -> Action -> Phải -> Tìm kiêm*/
 		pnSearch.setLayout(new FlowLayout(FlowLayout.RIGHT));
-		txtSearch = new JTextField(30);
 		btnSearch = new JButton("Tìm kiếm");
 		pnSearch.add(txtSearch);
 		pnSearch.add(btnSearch);
@@ -287,12 +349,23 @@ public class ATMAccessUI extends JPanel {
 		cbDistrict.addActionListener(new DistrictSelectEvent(cbDistrict, cbWard));
 	}
 	
+	void setupInput() {
+		txtCode = new JTextField();
+		amountFormat = NumberFormat.getNumberInstance();
+		txtAmount = new JFormattedTextField(amountFormat);
+		txtAmount.setValue(new Double(0));
+		cbDistrict = new JComboBox<>();
+		cbWard = new JComboBox<>();
+		txtStreet = new JTextField();
+		txtSearch = new JTextField(30);
+	}
+	
 	void setTextToInput(int i) {
 		String code = (String) tblATMList.getValueAt(i, 0);
 		ATM atm = ATMDB.getATMbyCode(code);
 		txtStreet.setText(atm.getStreet());
 		txtCode.setText(atm.getCode());
-		txtAmount.setText(String.format("%d",(long) atm.getAmount()));
+		txtAmount.setValue(new Double(atm.getAmount()));
 		/*Quận*/
 		int districtID = atm.getDistrictID();
 		ArrayList<ComboItem> arrDistrict = AddressDB.getDistricts();
@@ -315,15 +388,50 @@ public class ATMAccessUI extends JPanel {
 		}
 	}
 	
+	
+	/*Reset input*/
 	void resetInput() {
 		txtStreet.setText("");
 		txtCode.setText("");
-		txtAmount.setText("");
+		txtAmount.setValue(new Double(0));
 		cbDistrict.setSelectedIndex(0);
 		btnDelete.setEnabled(false);
 		btnEdit.setEnabled(false);
 	}
 	
+	/*Validate input*/
+	boolean checkInput(String code, int districtID, int wardID, String street) {
+		if (code.isEmpty() ) {
+		
+			JOptionPane.showMessageDialog(null,"Bạn chưa nhập mã máy ATM.",
+					"Lỗi",JOptionPane.WARNING_MESSAGE);
+			txtCode.requestFocus();
+			return false;
+		} else if (districtID < 1) {
+			
+			JOptionPane.showMessageDialog(null,"Bạn chưa chọn quận.",
+					"Lỗi",JOptionPane.WARNING_MESSAGE);
+			cbDistrict.showPopup();
+			return false;
+		} else if (wardID < 1) {
+			
+			JOptionPane.showMessageDialog(null,"Bạn chưa chọn phường.",
+					"Lỗi",JOptionPane.WARNING_MESSAGE);
+			cbWard.showPopup();
+			return false;
+		} else if (street.isEmpty() ) {
+			
+			JOptionPane.showMessageDialog(null,"Bạn chưa nhập đường phố.",
+					"Lỗi",JOptionPane.WARNING_MESSAGE);
+			txtStreet.requestFocus();
+			return false;
+		} else {
+			
+			return true;
+		}
+	}
+	
+	/*Load table ATM list*/
 	void loadATMList() {
 		ArrayList<ATM> arr = ATMDB.getATMsList();
 		mdlATMList.setRowCount(0);
@@ -332,5 +440,6 @@ public class ATMAccessUI extends JPanel {
         	mdlATMList.addRow(row);
         }
 	}
+
 
 }

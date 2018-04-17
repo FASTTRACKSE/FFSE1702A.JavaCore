@@ -49,7 +49,7 @@ public class CustomerReportUI extends JPanel {
 							cus.getPhone(),
 							String.format("%,d", (long)cus.getCustomer_amount()),
 							String.format("%,d", (long)cus.getCustomer_withdraw())
-							};
+					};
 					mdlCustomerList.addRow(row);
 				}
 			} else {

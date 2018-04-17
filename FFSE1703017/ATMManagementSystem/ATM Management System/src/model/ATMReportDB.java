@@ -15,13 +15,6 @@ public class ATMReportDB {
 	
 	public static ArrayList<ATMReport> getATMsByAddress(int districtID, int wardID, String street) {
 		
-//		SELECT atm.code, dis.name, w.name, atm.street, atm.amount 
-//		FROM tbl_atm cus 
-//		INNER JOIN district dis 
-//		ON dis.districtid = cus.districtid
-//		INNER JOIN ward w ON w.wardid = cus.wardid
-//		WHERE cus.code LIKE "%%"
-		
 		ArrayList<ATMReport> arr = new ArrayList<>();
 		try {
 			
@@ -50,7 +43,7 @@ public class ATMReportDB {
 				atm.setAmount(rs.getDouble(5));
 				arr.add(atm);
 			}
-		} catch (SQLException e) {}
+		} catch (SQLException e) {e.printStackTrace();}
 		return arr;
 		
 	}
@@ -79,7 +72,7 @@ public class ATMReportDB {
 				atm.setAmount(rs.getDouble(5));
 				arr.add(atm);
 			}
-		} catch (SQLException e) {}
+		} catch (SQLException e) {e.printStackTrace();}
 		return arr;
 		
 	}
@@ -110,7 +103,7 @@ public class ATMReportDB {
 				tran.setAmount(rs.getDouble(5));
 				arr.add(tran);
 			}
-		} catch (SQLException e) {}
+		} catch (SQLException e) {e.printStackTrace();}
 		return arr;
 	}
 	
@@ -150,7 +143,7 @@ public class ATMReportDB {
 				tran.setAmount(rs.getDouble(5));
 				arr.add(tran);
 			}
-		} catch (SQLException e) {}
+		} catch (SQLException e) {e.printStackTrace();}
 		return arr;
 	}
 	

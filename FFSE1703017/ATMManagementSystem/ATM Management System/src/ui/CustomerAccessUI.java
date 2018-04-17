@@ -8,13 +8,16 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.GroupLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -36,7 +39,10 @@ public class CustomerAccessUI extends JPanel {
 	String[] col = {"Mã khách hàng","Họ tên","Số điện thoại", "Số tiền trong TK"};
     DefaultTableModel mdlCustomerList = new DefaultTableModel(col, 0);
     JButton btnAdd, btnEdit, btnDelete, btnSearch;
-    JTextField txtName, txtPhone, txtEmail, txtStreet, txtCode, txtCardSN, txtAccSN, txtAmount, txtSearch;
+    JTextField txtName, txtPhone, txtEmail, txtStreet, txtCode, txtCardSN, txtAccSN, txtSearch;
+    /*Xử lý hiển thị số có dấu phẩy động*/
+    NumberFormat amountFormat;
+    JFormattedTextField txtAmount;
     JComboBox<ComboItem> cbDistrict, cbWard;
     JTable tblCustomerList;
     
@@ -68,13 +74,14 @@ public class CustomerAccessUI extends JPanel {
 			String code = txtCode.getText();
 			String cardSN = txtCardSN.getText();
 			String accSN = txtAccSN.getText();
-			double amount = Double.parseDouble(txtAmount.getText());
+			double amount = ((Number)txtAmount.getValue()).doubleValue();
 			Customer ctm = new Customer(name, phone, email, districtID, wardID, street, code, cardSN, accSN, amount);
 			int i = CustomerDB.addCustomer(ctm);
 			if (i > 0) {
 				JOptionPane.showMessageDialog(null,"Thêm khách hàng thành công.",
 						"Thông báo",JOptionPane.INFORMATION_MESSAGE);
 				loadCustomerList();
+				resetInput();
 			} else {
 				JOptionPane.showMessageDialog(null,"Thêm khách hàng không thành công.",
 						"Lỗi",JOptionPane.WARNING_MESSAGE);
@@ -96,7 +103,7 @@ public class CustomerAccessUI extends JPanel {
 			String code = txtCode.getText();
 			String cardSN = txtCardSN.getText();
 			String accSN = txtAccSN.getText();
-			double amount = Double.parseDouble(txtAmount.getText());
+			double amount = ((Number)txtAmount.getValue()).doubleValue();
 			Customer customer = new Customer(name, phone, email, districtID, wardID, street, code, cardSN, accSN, amount);
 			int i = tblCustomerList.getSelectedRow();
 			if (i >= 0) {
@@ -160,6 +167,7 @@ public class CustomerAccessUI extends JPanel {
 	};
 	
 	public CustomerAccessUI() {
+		setupInput();
 		addPanel();
 		addEvent();
 	}
@@ -203,105 +211,135 @@ public class CustomerAccessUI extends JPanel {
 		Border bdrProfile = BorderFactory.createLineBorder(Color.RED);
 		TitledBorder bttProfile = BorderFactory.createTitledBorder(bdrProfile, " Thông tin cá nhân ");
 		pnProfile.setBorder(bttProfile);
-		pnProfile.setLayout(new BoxLayout(pnProfile, BoxLayout.Y_AXIS));
-		JPanel pnName = new JPanel();
-		JPanel pnPhone = new JPanel();
-		JPanel pnEmail = new JPanel();
-		pnProfile.add(pnName);
-		pnProfile.add(pnPhone);
-		pnProfile.add(pnEmail);
-		
 		
 		JLabel lblName = new JLabel("Họ và tên:");
-		lblName.setPreferredSize(new Dimension(80,15));
-		txtName = new JTextField(20);
-		pnName.add(lblName);
-		pnName.add(txtName);
-		
 		JLabel lblPhone = new JLabel("Số điện thoại:");
-		lblPhone.setPreferredSize(new Dimension(80,15));
-		txtPhone = new JTextField(20);
-		pnPhone.add(lblPhone);
-		pnPhone.add(txtPhone);
-		
 		JLabel lblEmail = new JLabel("Email:");
-		lblEmail.setPreferredSize(new Dimension(80,15));
-		txtEmail = new JTextField(20);
-		pnEmail.add(lblEmail);
-		pnEmail.add(txtEmail);
+		
+		GroupLayout lytProfile = new GroupLayout(pnProfile);
+		pnProfile.setLayout(lytProfile);
+		lytProfile.setAutoCreateGaps(true);
+		lytProfile.setAutoCreateContainerGaps(true);
+		lytProfile.setHorizontalGroup(lytProfile.createSequentialGroup()
+	            .addGroup(lytProfile.createParallelGroup(GroupLayout.Alignment.LEADING)
+	                .addComponent(lblName)
+	                .addComponent(lblPhone)
+	                .addComponent(lblEmail)
+                )
+	            .addGroup(lytProfile.createParallelGroup(GroupLayout.Alignment.LEADING)
+	                .addComponent(txtName)
+	                .addComponent(txtPhone)
+	                .addComponent(txtEmail)
+                )
+        );
+		
+		lytProfile.setVerticalGroup(lytProfile.createSequentialGroup()
+	            .addGroup(lytProfile.createParallelGroup(GroupLayout.Alignment.BASELINE)
+	                .addComponent(lblName)
+	                .addComponent(txtName)
+                )
+	            .addGroup(lytProfile.createParallelGroup(GroupLayout.Alignment.BASELINE)
+	                .addComponent(lblPhone)
+	                .addComponent(txtPhone)
+                )
+	            .addGroup(lytProfile.createParallelGroup(GroupLayout.Alignment.BASELINE)
+	                .addComponent(lblEmail)
+	                .addComponent(txtEmail)
+                )
+        );
 		
 		/*Panel chính -> Action -> Trái -> Địa chỉ*/
 		Border bdrAddress = BorderFactory.createLineBorder(Color.RED);
 		TitledBorder bttAddress = BorderFactory.createTitledBorder(bdrAddress, " Địa chỉ ");
 		pnAddress.setBorder(bttAddress);
-		pnAddress.setLayout(new BoxLayout(pnAddress, BoxLayout.Y_AXIS));
-		JPanel pnDistrict = new JPanel();
-		JPanel pnWard = new JPanel();
-		JPanel pnStreet = new JPanel();
-		pnAddress.add(pnDistrict);
-		pnAddress.add(pnWard);
-		pnAddress.add(pnStreet);
 		
 		JLabel lblDistrict = new JLabel("Quận:");
-		lblDistrict.setPreferredSize(new Dimension(80,15));
-		cbDistrict = new JComboBox<>();
-		cbDistrict.setPreferredSize(new Dimension(165, 20));
 		AddressDB.setDistricts(cbDistrict);
-		pnDistrict.add(lblDistrict);
-		pnDistrict.add(cbDistrict);
 		
 		JLabel lblWard = new JLabel("Phường:");
-		lblWard.setPreferredSize(new Dimension(80,15));
-		cbWard = new JComboBox<>();
-		cbWard.setPreferredSize(new Dimension(165, 20));
 		ComboItem itemWard = new ComboItem(0, "Chọn phường");
 		cbWard.addItem(itemWard);
-		pnWard.add(lblWard);
-		pnWard.add(cbWard);
 		
 		JLabel lblStreet = new JLabel("Địa chỉ nhà:");
-		lblStreet.setPreferredSize(new Dimension(80,15));
-		txtStreet = new JTextField(20);
-		pnStreet.add(lblStreet);
-		pnStreet.add(txtStreet);
+		
+		GroupLayout lytAddress = new GroupLayout(pnAddress);          
+		pnAddress.setLayout(lytAddress);
+        lytAddress.setAutoCreateGaps(true);
+        lytAddress.setAutoCreateContainerGaps(true);
+        lytAddress.setHorizontalGroup(lytAddress.createSequentialGroup()
+    		.addGroup(lytAddress.createParallelGroup(GroupLayout.Alignment.LEADING)
+				.addComponent(lblDistrict)
+				.addComponent(lblWard)
+				.addComponent(lblStreet)
+			)
+    		.addGroup(lytAddress.createParallelGroup(GroupLayout.Alignment.LEADING)
+				.addComponent(cbDistrict)
+				.addComponent(cbWard)
+				.addComponent(txtStreet)
+			)
+		);
+        lytAddress.setVerticalGroup(lytAddress.createSequentialGroup()
+    		.addGroup(lytAddress.createParallelGroup(GroupLayout.Alignment.BASELINE)
+				.addComponent(lblDistrict)
+				.addComponent(cbDistrict)
+			)
+    		.addGroup(lytAddress.createParallelGroup(GroupLayout.Alignment.BASELINE)
+				.addComponent(lblWard)
+				.addComponent(cbWard)
+			)
+    		.addGroup(lytAddress.createParallelGroup(GroupLayout.Alignment.BASELINE)
+				.addComponent(lblStreet)
+				.addComponent(txtStreet)
+			)
+		);
 		
 		/*Panel chính -> Action -> Trái -> Thông tin tài khoản*/
 		Border bdrAccount = BorderFactory.createLineBorder(Color.RED);
 		TitledBorder bttAccount = BorderFactory.createTitledBorder(bdrAccount, " Thông tin tài khoản ");
 		pnAccount.setBorder(bttAccount);
-		pnAccount.setLayout(new BoxLayout(pnAccount, BoxLayout.Y_AXIS));
-		JPanel pnCode = new JPanel();
-		JPanel pnCardSN = new JPanel();
-		JPanel pnAccSN = new JPanel();
-		JPanel pnAmount = new JPanel();
-		pnAccount.add(pnCode);
-		pnAccount.add(pnCardSN);
-		pnAccount.add(pnAccSN);
-		pnAccount.add(pnAmount);
 		
 		JLabel lblCode = new JLabel("Mã khách hàng:");
-		lblCode.setPreferredSize(new Dimension(80,15));
-		txtCode = new JTextField(20);
-		pnCode.add(lblCode);
-		pnCode.add(txtCode);
-		
 		JLabel lblCardSN = new JLabel("Số thẻ ATM:");
-		lblCardSN.setPreferredSize(new Dimension(80,15));
-		txtCardSN = new JTextField(20);
-		pnCardSN.add(lblCardSN);
-		pnCardSN.add(txtCardSN);
-		
 		JLabel lblAccSN = new JLabel("Số tài khoản:");
-		lblAccSN.setPreferredSize(new Dimension(80,15));
-		txtAccSN = new JTextField(20);
-		pnAccSN.add(lblAccSN);
-		pnAccSN.add(txtAccSN);
-		
 		JLabel lblAmount = new JLabel("Tiền trong TK:");
-		lblAmount.setPreferredSize(new Dimension(80,15));
-		txtAmount = new JTextField(20);
-		pnAmount.add(lblAmount);
-		pnAmount.add(txtAmount);
+		
+		GroupLayout lytAccount = new GroupLayout(pnAccount);          
+		pnAccount.setLayout(lytAccount);
+        lytAccount.setAutoCreateGaps(true);
+        lytAccount.setAutoCreateContainerGaps(true);
+        lytAccount.setHorizontalGroup(lytAccount.createSequentialGroup()
+            .addGroup(lytAccount.createParallelGroup(GroupLayout.Alignment.LEADING)
+                .addComponent(lblCode)
+                .addComponent(lblCardSN)
+                .addComponent(lblAccSN)
+            	.addComponent(lblAmount)
+        	)
+            .addGroup(lytAccount.createParallelGroup(GroupLayout.Alignment.LEADING)
+                .addComponent(txtCode)
+                .addComponent(txtCardSN)
+                .addComponent(txtAccSN)
+            	.addComponent(txtAmount)
+        	)
+        );
+        lytAccount.setVerticalGroup(lytAccount.createSequentialGroup()
+            .addGroup(lytAccount.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                .addComponent(lblCode)
+                .addComponent(txtCode)
+            )
+            .addGroup(lytAccount.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                .addComponent(lblCardSN)
+                .addComponent(txtCardSN)
+            )
+            .addGroup(lytAccount.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                .addComponent(lblAccSN)
+                .addComponent(txtAccSN)
+            )
+            .addGroup(lytAccount.createParallelGroup(GroupLayout.Alignment.BASELINE)
+            	.addComponent(lblAmount)
+            	.addComponent(txtAmount)
+        	)
+            
+        );
 		
 		/*Panel chính -> Action -> Trái -> Button xử lý*/
 		btnAdd = new JButton("Thêm");
@@ -323,7 +361,6 @@ public class CustomerAccessUI extends JPanel {
 		
 		/*Panel chính -> Action -> Phải -> Tìm kiêm*/
 		pnSearch.setLayout(new FlowLayout(FlowLayout.RIGHT));
-		txtSearch = new JTextField(30);
 		btnSearch = new JButton("Tìm kiếm");
 		pnSearch.add(txtSearch);
 		pnSearch.add(btnSearch);
@@ -345,6 +382,22 @@ public class CustomerAccessUI extends JPanel {
 		cbDistrict.addActionListener(new DistrictSelectEvent(cbDistrict, cbWard));
 	}
 	
+	void setupInput() {
+		txtName = new JTextField();
+		txtPhone = new JTextField();
+		txtEmail = new JTextField();
+		txtStreet = new JTextField();
+		txtCode = new JTextField();
+		txtCardSN = new JTextField();
+		txtAccSN = new JTextField();
+		txtSearch = new JTextField(30);
+		amountFormat = NumberFormat.getNumberInstance();
+		txtAmount = new JFormattedTextField(amountFormat);
+		txtAmount.setValue(new Double(0));
+		cbDistrict = new JComboBox<>();
+		cbWard = new JComboBox<>();
+	}
+	
 	void setTextToInput(int i) {
 		String code = (String) tblCustomerList.getValueAt(i, 0);
 		Customer ctm = CustomerDB.getCustomerbyCode(code);
@@ -355,7 +408,7 @@ public class CustomerAccessUI extends JPanel {
 		txtCode.setText(ctm.getCode());
 		txtCardSN.setText(ctm.getCardSN());
 		txtAccSN.setText(ctm.getAccSN());
-		txtAmount.setText(String.format("%d",(long) ctm.getAmount()));
+		txtAmount.setValue(new Double(ctm.getAmount()));
 		/*Quận*/
 		int districtID = ctm.getDistrictID();
 		ArrayList<ComboItem> arrDistrict = AddressDB.getDistricts();
@@ -386,7 +439,7 @@ public class CustomerAccessUI extends JPanel {
 		txtCode.setText("");
 		txtCardSN.setText("");
 		txtAccSN.setText("");
-		txtAmount.setText("");
+		txtAmount.setValue(new Double(0));
 		cbDistrict.setSelectedIndex(0);
 		btnDelete.setEnabled(false);
 		btnEdit.setEnabled(false);

@@ -10,6 +10,19 @@ import com.mysql.jdbc.Statement;
 
 public class ATMDB {
 private final static Connection conn = ConnectDB.getConnect();
+
+	public static boolean isExistCode(String code) {
+		try {
+			String sql = "SELECT * FROM tbl_atm WHERE code = ?"; 
+			PreparedStatement stm = conn.prepareStatement(sql);
+			stm.setString(1, code);
+			ResultSet rs = stm.executeQuery();
+			return rs.next();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
 	
 	public static ATM getATMbyCode(String code) {
 		ATM atm = new ATM();
@@ -25,7 +38,7 @@ private final static Connection conn = ConnectDB.getConnect();
 				atm.setCode(rs.getString("code"));
 				atm.setAmount(rs.getDouble("amount"));
 			}
-		} catch (SQLException e) {}
+		} catch (SQLException e) {e.printStackTrace();}
 		return atm;
 	}
 	
@@ -50,7 +63,7 @@ private final static Connection conn = ConnectDB.getConnect();
 				atm.setAmount(rs.getDouble("amount"));
 				arr.add(atm);
 			}
-		} catch (SQLException e) {}
+		} catch (SQLException e) {e.printStackTrace();}
 		return arr;
 	}
 	
@@ -69,7 +82,7 @@ private final static Connection conn = ConnectDB.getConnect();
 				atm.setAmount(rs.getDouble("amount"));
 				arr.add(atm);
 			}
-		} catch (SQLException e) {}
+		} catch (SQLException e) {e.printStackTrace();}
 		return arr;
 	}
 	
@@ -85,7 +98,8 @@ private final static Connection conn = ConnectDB.getConnect();
 			stm.setDouble(5, atm.getAmount());
 			stm.setString(6, oldcode);
 			return stm.executeUpdate();
-		} catch (Exception ex) {
+		} catch (Exception e) {
+			e.printStackTrace();
 			return -1;
 		}
 	}
@@ -101,7 +115,8 @@ private final static Connection conn = ConnectDB.getConnect();
 			stm.setString(4, atm.getCode());
 			stm.setDouble(5, atm.getAmount());
 			return stm.executeUpdate();
-		} catch (Exception ex) {
+		} catch (Exception e) {
+			e.printStackTrace();
 			return -1;
 		}
 	}
@@ -112,7 +127,8 @@ private final static Connection conn = ConnectDB.getConnect();
 			PreparedStatement stm = conn.prepareStatement(sql);
 			stm.setString(1, code);
 			return stm.executeUpdate();
-		} catch (Exception ex) {
+		} catch (Exception e) {
+			e.printStackTrace();
 			return -1;
 		}
 	}
