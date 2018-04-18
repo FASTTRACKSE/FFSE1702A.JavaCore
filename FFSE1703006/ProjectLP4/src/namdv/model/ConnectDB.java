@@ -24,7 +24,8 @@ public class ConnectDB {
 			com.mysql.jdbc.Driver driver = new Driver();
 			conn = (Connection) driver.connect(strConnect, pro);
 		} catch (SQLException ex) {
-			ex.printStackTrace();
+			System.err.println("Kết nối Database thất bại!");
+			// ex.printStackTrace();
 		}
 		return conn;
 	}

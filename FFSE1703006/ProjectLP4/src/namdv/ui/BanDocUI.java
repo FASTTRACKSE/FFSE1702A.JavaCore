@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -28,10 +29,15 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableCellRenderer;
+import javax.swing.table.TableColumnModel;
 
+import namdv.main.MyApp;
 import namdv.model.BanDoc;
 import namdv.model.BanDocModel;
+import namdv.model.CheckLogin;
 import namdv.model.ComboItem;
+import namdv.model.MyException;
+import namdv.model.PlaceholderTextField;
 
 public class BanDocUI extends JPanel {
 
@@ -40,258 +46,290 @@ public class BanDocUI extends JPanel {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private JTextField textFieldSearch;
-	private JTable tableResult;
-	private JTextField textFieldId;
-	private JTextField textFieldDiaChi;
-	private JTextField textFieldHoTen;
-	private JTextField textFieldEmail;
-	private JTextField textFieldDienThoai;
-	private JTable tableThongTinSachMuon;
+	private PlaceholderTextField txtFldSearch, txtFldHoTen, txtFldEmail, txtFldDienThoai, txtFldDiaChi;
+	private JTable tblResult;
+	private JTextField txtFldId;
+	private JTable tblThongTinSachMuon;
 	private JButton btnSearch, btnSua, btnXoa, btnThem, btnThoat;
+	private boolean clickTblResult = true;
 	@SuppressWarnings("rawtypes")
-	private JComboBox cbBoxSearch, cbBoxThanhPho, cbBoxQuan, cbBoxPhuong;
+	private JComboBox cbBxSearch, cbBxThanhPho, cbBxQuan, cbBxPhuong;
 
-	private DefaultTableModel tableResultModel = new DefaultTableModel(
+	private DefaultTableModel tblResultModel = new DefaultTableModel(
 			new String[] { "ID", "Tên", "Thành phố", "Email", "Điện thoại", "Số sách đang mượn" }, 0);
-	private DefaultTableModel tableThongTinSachMuonModel = new DefaultTableModel(
+	private DefaultTableModel tblThongTinSachMuonModel = new DefaultTableModel(
 			new Object[][] { { null, null, null, null, null, null, null }, { null, null, null, null, null, null, null },
 					{ null, null, null, null, null, null, null }, },
-			new String[] { "Mã sách", "Tên sách mượn", "Tác giả" });
+			new String[] { "Mã mượn", "Tên sách mượn", "Tác giả", "Ngày mượn" });
 	private BanDocModel banDocModel = new BanDocModel();
+	private MyException myEx = new MyException();
 
 	/**
-	 * Create the panel.
+	 * Create the pnl.
 	 */
 	public BanDocUI() {
 		addControls();
 		addEvents();
+
+		getRole();
 	}
 
 	private void addEvents() {
+		txtFldSearch.addActionListener(new EnterListener());
 		btnSearch.addActionListener(new SearchListener());
 		btnThem.addActionListener(new ThemListener());
 		btnSua.addActionListener(new SuaListener());
 		btnXoa.addActionListener(new XoaListener());
 		btnThoat.addActionListener(new ThoatListener());
 
-		tableResult.addMouseListener(new ClickTableResult());
+		tblResult.addMouseListener(new ClickTblResult());
 
-		cbBoxThanhPho.addActionListener(new SelectThanhPhoListener());
-		cbBoxQuan.addActionListener(new SelectQuanListener());
+		cbBxSearch.addActionListener(new SelectSearchListener());
+		cbBxThanhPho.addActionListener(new SelectThanhPhoListener());
+		cbBxQuan.addActionListener(new SelectQuanListener());
 	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public void addControls() {
+	private void addControls() {
 		// CENTER
-		JPanel panelCenter = new JPanel();
-		panelCenter.setBorder(new EmptyBorder(5, 5, 5, 5));
-		panelCenter.setLayout(new BoxLayout(panelCenter, BoxLayout.Y_AXIS));
+		JPanel pnlCenter = new JPanel();
+		pnlCenter.setBorder(new EmptyBorder(5, 5, 5, 5));
+		pnlCenter.setLayout(new BoxLayout(pnlCenter, BoxLayout.Y_AXIS));
 
 		// Search
-		JPanel panelSearch = new JPanel();
-		panelSearch.setPreferredSize(new Dimension(10, 75));
-		panelCenter.add(panelSearch);
+		JPanel pnlSearch = new JPanel();
+		pnlSearch.setPreferredSize(new Dimension(10, 75));
+		pnlCenter.add(pnlSearch);
 
-		cbBoxSearch = new JComboBox();
-		cbBoxSearch.setModel(new DefaultComboBoxModel(new String[] { "ID", "Tên" }));
-		panelSearch.add(cbBoxSearch);
+		cbBxSearch = new JComboBox();
+		cbBxSearch.setModel(new DefaultComboBoxModel(new String[] { "ID", "Tên" }));
+		pnlSearch.add(cbBxSearch);
 
-		textFieldSearch = new JTextField();
-		panelSearch.add(textFieldSearch);
-		textFieldSearch.setColumns(20);
+		txtFldSearch = new PlaceholderTextField();
+		txtFldSearch.setPreferredSize(new Dimension(175, 22));
+		txtFldSearch.setPlaceholder("e.g. 00001");
+		pnlSearch.add(txtFldSearch);
 
 		btnSearch = new JButton("Tìm");
-		panelSearch.add(btnSearch);
+		pnlSearch.add(btnSearch);
 
 		JScrollPane scrollPaneResult = new JScrollPane();
-		panelCenter.add(scrollPaneResult);
+		pnlCenter.add(scrollPaneResult);
 
-		tableResult = new JTable() {
+		tblResult = new JTable() {
 			private static final long serialVersionUID = 1L;
 
 			public boolean isCellEditable(int row, int column) {
 				return false;
 			};
 		};
-		// tableResult.setAutoCreateRowSorter(true);
+		// tblResult.setAutoCreateRowSorter(true);
 		// Canh giữa cell header table
-		JTableHeader tableHeader_1 = tableResult.getTableHeader();
-		tableHeader_1.setDefaultRenderer(new HeaderRenderer(tableResult));
-		tableResult.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		JTableHeader tableHeader_1 = tblResult.getTableHeader();
+		tableHeader_1.setDefaultRenderer(new HeaderRenderer(tblResult));
+		tblResult.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
-		tableResult.setModel(tableResultModel);
-		scrollPaneResult.setViewportView(tableResult);
+		tblResult.setModel(tblResultModel);
+		scrollPaneResult.setViewportView(tblResult);
 
-		JPanel panel = new JPanel();
-		panelCenter.add(panel);
+		JPanel pnl = new JPanel();
+		pnlCenter.add(pnl);
 
-		JPanel panelButton = new JPanel();
-		FlowLayout fl_panelButton = (FlowLayout) panelButton.getLayout();
-		fl_panelButton.setHgap(30);
-		panelButton.setPreferredSize(new Dimension(10, 75));
-		panelCenter.add(panelButton);
+		JPanel pnlButton = new JPanel();
+		FlowLayout fl_pnlButton = (FlowLayout) pnlButton.getLayout();
+		fl_pnlButton.setHgap(30);
+		pnlButton.setPreferredSize(new Dimension(10, 75));
+		pnlCenter.add(pnlButton);
 
 		btnThem = new JButton("Thêm");
-		panelButton.add(btnThem);
+		pnlButton.add(btnThem);
 
 		btnSua = new JButton("Sửa");
 		btnSua.setEnabled(false);
-		panelButton.add(btnSua);
+		pnlButton.add(btnSua);
 
 		btnXoa = new JButton("Xóa");
-		panelButton.add(btnXoa);
+		btnXoa.setEnabled(false);
+		pnlButton.add(btnXoa);
 
 		// Thông tin bạn đọc
-		JPanel panelThongTinBanDoc = new JPanel();
-		panelThongTinBanDoc.setBorder(
+		JPanel pnlThongTinBanDoc = new JPanel();
+		pnlThongTinBanDoc.setBorder(
 				new TitledBorder(null, "Thông tin bạn đọc", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		panelCenter.add(panelThongTinBanDoc);
-		panelThongTinBanDoc.setLayout(new BoxLayout(panelThongTinBanDoc, BoxLayout.Y_AXIS));
+		pnlCenter.add(pnlThongTinBanDoc);
+		pnlThongTinBanDoc.setLayout(new BoxLayout(pnlThongTinBanDoc, BoxLayout.Y_AXIS));
 
-		// Panel 1
-		JPanel panelSub_1 = new JPanel();
-		panelThongTinBanDoc.add(panelSub_1);
-		panelSub_1.setLayout(new BoxLayout(panelSub_1, BoxLayout.X_AXIS));
+		// pnl 1
+		JPanel pnlSub_1 = new JPanel();
+		pnlThongTinBanDoc.add(pnlSub_1);
+		pnlSub_1.setLayout(new BoxLayout(pnlSub_1, BoxLayout.X_AXIS));
 
-		JPanel panelId = new JPanel();
-		panelSub_1.add(panelId);
+		JPanel pnlId = new JPanel();
+		pnlSub_1.add(pnlId);
 
 		JLabel lblId = new JLabel("ID: ");
 		lblId.setPreferredSize(new Dimension(80, 22));
-		panelId.add(lblId);
+		pnlId.add(lblId);
 
-		textFieldId = new JTextField(20);
-		textFieldId.setEditable(false);
-		panelId.add(textFieldId);
+		txtFldId = new JTextField();
+		txtFldId.setPreferredSize(new Dimension(175, 22));
+		txtFldId.setEditable(false);
+		pnlId.add(txtFldId);
 
 		// set auto new id
 		try {
-			textFieldId.setText(banDocModel.getAutoId());
+			txtFldId.setText(banDocModel.getAutoId());
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 
-		JPanel panelDiaChi = new JPanel();
-		panelSub_1.add(panelDiaChi);
+		JPanel pnlDiaChi = new JPanel();
+		pnlSub_1.add(pnlDiaChi);
 
 		JLabel lblDiaChi = new JLabel("Địa chỉ: ");
-		panelDiaChi.add(lblDiaChi);
+		pnlDiaChi.add(lblDiaChi);
 		lblDiaChi.setPreferredSize(lblId.getPreferredSize());
 
-		textFieldDiaChi = new JTextField(20);
-		panelDiaChi.add(textFieldDiaChi);
+		txtFldDiaChi = new PlaceholderTextField();
+		txtFldDiaChi.setPreferredSize(txtFldId.getPreferredSize());
+		txtFldDiaChi.setPlaceholder("e.g. 121 Bạch Đằng");
+		pnlDiaChi.add(txtFldDiaChi);
 
-		// Panel 2
-		JPanel panelSub_2 = new JPanel();
-		panelThongTinBanDoc.add(panelSub_2);
-		panelSub_2.setLayout(new BoxLayout(panelSub_2, BoxLayout.X_AXIS));
+		// pnl 2
+		JPanel pnlSub_2 = new JPanel();
+		pnlThongTinBanDoc.add(pnlSub_2);
+		pnlSub_2.setLayout(new BoxLayout(pnlSub_2, BoxLayout.X_AXIS));
 
-		JPanel panelTen = new JPanel();
-		panelSub_2.add(panelTen);
+		JPanel pnlTen = new JPanel();
+		pnlSub_2.add(pnlTen);
 
 		JLabel lblTen = new JLabel("Tên: ");
 		lblTen.setPreferredSize(lblId.getPreferredSize());
-		panelTen.add(lblTen);
+		pnlTen.add(lblTen);
 
-		textFieldHoTen = new JTextField(20);
-		panelTen.add(textFieldHoTen);
+		txtFldHoTen = new PlaceholderTextField();
+		txtFldHoTen.setPreferredSize(txtFldId.getPreferredSize());
+		txtFldHoTen.setPlaceholder("e.g. Đặng Văn Nam");
+		pnlTen.add(txtFldHoTen);
 
-		JPanel panelThanhPho = new JPanel();
-		panelSub_2.add(panelThanhPho);
+		JPanel pnlThanhPho = new JPanel();
+		pnlSub_2.add(pnlThanhPho);
 
 		JLabel lblThanhPho = new JLabel("Thành phố: ");
 		lblThanhPho.setPreferredSize(lblId.getPreferredSize());
-		panelThanhPho.add(lblThanhPho);
+		pnlThanhPho.add(lblThanhPho);
 
-		cbBoxThanhPho = new JComboBox();
-		cbBoxThanhPho.setPreferredSize(new Dimension(165, 22));
-		panelThanhPho.add(cbBoxThanhPho);
+		cbBxThanhPho = new JComboBox();
+		cbBxThanhPho.setPreferredSize(txtFldId.getPreferredSize());
+		pnlThanhPho.add(cbBxThanhPho);
 		getThanhPho();
 
-		// Panel 3
-		JPanel panelSub_3 = new JPanel();
-		panelThongTinBanDoc.add(panelSub_3);
-		panelSub_3.setLayout(new BoxLayout(panelSub_3, BoxLayout.X_AXIS));
+		// pnl 3
+		JPanel pnlSub_3 = new JPanel();
+		pnlThongTinBanDoc.add(pnlSub_3);
+		pnlSub_3.setLayout(new BoxLayout(pnlSub_3, BoxLayout.X_AXIS));
 
-		JPanel panelEmail = new JPanel();
-		panelSub_3.add(panelEmail);
+		JPanel pnlEmail = new JPanel();
+		pnlSub_3.add(pnlEmail);
 
 		JLabel lblEmail = new JLabel("Email: ");
-		panelEmail.add(lblEmail);
+		pnlEmail.add(lblEmail);
 		lblEmail.setPreferredSize(lblId.getPreferredSize());
 
-		textFieldEmail = new JTextField(20);
-		panelEmail.add(textFieldEmail);
+		txtFldEmail = new PlaceholderTextField();
+		txtFldEmail.setPreferredSize(txtFldId.getPreferredSize());
+		txtFldEmail.setPlaceholder("e.g. dangvannam98@gmail.com");
+		pnlEmail.add(txtFldEmail);
 
-		JPanel panelQuan = new JPanel();
-		panelSub_3.add(panelQuan);
+		JPanel pnlQuan = new JPanel();
+		pnlSub_3.add(pnlQuan);
 
 		JLabel lblQuan = new JLabel("Quận: ");
-		panelQuan.add(lblQuan);
+		pnlQuan.add(lblQuan);
 		lblQuan.setPreferredSize(lblId.getPreferredSize());
 
-		cbBoxQuan = new JComboBox();
-		cbBoxQuan.setPreferredSize(new Dimension(165, 22));
-		panelQuan.add(cbBoxQuan);
+		cbBxQuan = new JComboBox();
+		cbBxQuan.setPreferredSize(txtFldId.getPreferredSize());
+		cbBxQuan.setEnabled(false);
+		pnlQuan.add(cbBxQuan);
 
-		// Panel 4
-		JPanel panelSub_4 = new JPanel();
-		panelThongTinBanDoc.add(panelSub_4);
-		panelSub_4.setLayout(new BoxLayout(panelSub_4, BoxLayout.X_AXIS));
+		// pnl 4
+		JPanel pnlSub_4 = new JPanel();
+		pnlThongTinBanDoc.add(pnlSub_4);
+		pnlSub_4.setLayout(new BoxLayout(pnlSub_4, BoxLayout.X_AXIS));
 
-		JPanel panelDienThoai = new JPanel();
-		panelSub_4.add(panelDienThoai);
+		JPanel pnlDienThoai = new JPanel();
+		pnlSub_4.add(pnlDienThoai);
 
 		JLabel lblDienThoai = new JLabel("Điện thoại: ");
-		panelDienThoai.add(lblDienThoai);
+		pnlDienThoai.add(lblDienThoai);
 		lblDienThoai.setPreferredSize(lblId.getPreferredSize());
 
-		textFieldDienThoai = new JTextField(20);
-		panelDienThoai.add(textFieldDienThoai);
+		txtFldDienThoai = new PlaceholderTextField();
+		txtFldDienThoai.setPreferredSize(txtFldId.getPreferredSize());
+		txtFldDienThoai.setPlaceholder("e.g. 01266676809");
+		pnlDienThoai.add(txtFldDienThoai);
 
-		JPanel panelPhuong = new JPanel();
-		panelSub_4.add(panelPhuong);
+		JPanel pnlPhuong = new JPanel();
+		pnlSub_4.add(pnlPhuong);
 
 		JLabel lblPhuong = new JLabel("Phường: ");
-		panelPhuong.add(lblPhuong);
+		pnlPhuong.add(lblPhuong);
 		lblPhuong.setPreferredSize(lblId.getPreferredSize());
 
-		cbBoxPhuong = new JComboBox();
-		cbBoxPhuong.setPreferredSize(new Dimension(165, 22));
-		panelPhuong.add(cbBoxPhuong);
+		cbBxPhuong = new JComboBox();
+		cbBxPhuong.setPreferredSize(txtFldId.getPreferredSize());
+		cbBxPhuong.setEnabled(false);
+		pnlPhuong.add(cbBxPhuong);
 
 		// Thông tin sách mượn
 		JLabel lblThongTinSachMuon = new JLabel("Thông tin sách mượn");
-		panelThongTinBanDoc.add(lblThongTinSachMuon);
+		pnlThongTinBanDoc.add(lblThongTinSachMuon);
 
 		JScrollPane scrollPaneThongTinSachMuon = new JScrollPane();
-		panelThongTinBanDoc.add(scrollPaneThongTinSachMuon);
+		pnlThongTinBanDoc.add(scrollPaneThongTinSachMuon);
 
-		tableThongTinSachMuon = new JTable() {
+		tblThongTinSachMuon = new JTable() {
 			private static final long serialVersionUID = 1L;
 
 			public boolean isCellEditable(int row, int column) {
 				return false;
 			};
-		};
-		// tableResult.setAutoCreateRowSorter(true);
-		// Canh giữa cell header table
-		JTableHeader tableHeader_2 = tableThongTinSachMuon.getTableHeader();
-		tableHeader_2.setDefaultRenderer(new HeaderRenderer(tableThongTinSachMuon));
-		tableThongTinSachMuon.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
-		tableThongTinSachMuon.setModel(tableThongTinSachMuonModel);
-		scrollPaneThongTinSachMuon.setViewportView(tableThongTinSachMuon);
+			/*@Override
+			public Component prepareRenderer(TableCellRenderer renderer, int row, int column) {
+				Component component = super.prepareRenderer(renderer, row, column);
+				int rendererWidth = component.getPreferredSize().width;
+				TableColumn tableColumn = getColumnModel().getColumn(column);
+				tableColumn.setPreferredWidth(
+						Math.max(rendererWidth + getIntercellSpacing().width, tableColumn.getPreferredWidth()));
+				return component;
+			}*/
+		};
+		// tblResult.setAutoCreateRowSorter(true);
+		// Canh giữa cell header table
+		JTableHeader tableHeader_2 = tblThongTinSachMuon.getTableHeader();
+		tableHeader_2.setDefaultRenderer(new HeaderRenderer(tblThongTinSachMuon));
+
+		tblThongTinSachMuon.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		tblThongTinSachMuon.setModel(tblThongTinSachMuonModel);
+
+		// tblThongTinSachMuon.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+		// ColumnsAutoSizer.sizeColumnsToFit(tblThongTinSachMuon);
+
+		TableColumnModel columnModel = tblThongTinSachMuon.getColumnModel();
+		columnModel.getColumn(1).setPreferredWidth(200);
+
+		scrollPaneThongTinSachMuon.setViewportView(tblThongTinSachMuon);
 
 		// FOOTER
 		JPanel footer = new JPanel();
 		btnThoat = new JButton("Thoát");
 		footer.add(btnThoat);
 
-		// ADD TO JPANEL
+		// ADD TO Jpnl
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-		this.add(panelCenter, BorderLayout.CENTER);
+		this.add(pnlCenter, BorderLayout.CENTER);
 		this.add(footer, BorderLayout.SOUTH);
 	}
 
@@ -310,129 +348,202 @@ public class BanDocUI extends JPanel {
 		}
 	}
 
-	private void setText(String hoTen, String thanhPho, String quan, String phuong, String diaChi, String email,
-			String dienThoai) {
-		textFieldHoTen.setText(hoTen);
+	private class EnterListener implements ActionListener {
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			btnSearch.doClick();
+			int end = txtFldSearch.getText().length();
+			txtFldSearch.setCaretPosition(end);
+		}
+	}
+
+	private class SelectSearchListener implements ActionListener {
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			if (cbBxSearch.getSelectedItem().equals("ID")) {
+				txtFldSearch.setPlaceholder("e.g. 00001");
+			} else {
+				txtFldSearch.setPlaceholder("e.g. Đặng Văn Nam");
+			}
+		}
+	}
+
+	private void removeErr() {
+		// remove error textfield
+		myEx.reset(txtFldSearch);
+		myEx.reset(txtFldHoTen);
+		myEx.reset(txtFldEmail);
+		myEx.reset(txtFldDienThoai);
+		myEx.reset(txtFldDiaChi);
+		myEx.reset(cbBxThanhPho);
+		myEx.reset(cbBxQuan);
+		myEx.reset(cbBxPhuong);
+	}
+
+	private void setText(String id, String hoTen, String thanhPho, String quan, String phuong, String diaChi,
+			String email, String dienThoai) {
+		if (id == null) {
+			try {
+				txtFldId.setText(banDocModel.getAutoId());
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		} else {
+			txtFldId.setText(id);
+		}
+		txtFldHoTen.setText(hoTen);
 		ComboItem item;
 
 		if (thanhPho == null) {
-			cbBoxThanhPho.setSelectedIndex(0);
+			cbBxThanhPho.setSelectedIndex(0);
 		} else {
-			for (int i = 1; i < cbBoxThanhPho.getItemCount(); i++) {
-				item = (ComboItem) cbBoxThanhPho.getItemAt(i);
+			for (int i = 1; i < cbBxThanhPho.getItemCount(); i++) {
+				item = (ComboItem) cbBxThanhPho.getItemAt(i);
 				if (item.getKey().equals(thanhPho)) {
-					cbBoxThanhPho.setSelectedIndex(i);
+					cbBxThanhPho.setSelectedIndex(i);
 					break;
 				}
 			}
 
-			for (int i = 1; i < cbBoxQuan.getItemCount(); i++) {
-				item = (ComboItem) cbBoxQuan.getItemAt(i);
+			for (int i = 1; i < cbBxQuan.getItemCount(); i++) {
+				item = (ComboItem) cbBxQuan.getItemAt(i);
 				if (item.getKey().equals(quan)) {
-					cbBoxQuan.setSelectedIndex(i);
+					cbBxQuan.setSelectedIndex(i);
 					break;
 				}
 			}
 
-			for (int i = 1; i < cbBoxPhuong.getItemCount(); i++) {
-				item = (ComboItem) cbBoxPhuong.getItemAt(i);
+			for (int i = 1; i < cbBxPhuong.getItemCount(); i++) {
+				item = (ComboItem) cbBxPhuong.getItemAt(i);
 				if (item.getKey().equals(phuong)) {
-					cbBoxPhuong.setSelectedIndex(i);
+					cbBxPhuong.setSelectedIndex(i);
 					break;
 				}
 			}
 		}
 
-		textFieldDiaChi.setText(diaChi);
-		textFieldEmail.setText(email);
-		textFieldDienThoai.setText(dienThoai);
-	}
-
-	private void addDataToTableResult(String[] where, String[] value) throws SQLException {
-		ResultSet rs = banDocModel.getBanDoc(where, value);
-		int row = 0;
-		while ((rs != null) && (rs.next())) {
-			tableResultModel.addRow(new Object[0]);
-			tableResultModel.setValueAt(rs.getString("id"), row, 0);
-			tableResultModel.setValueAt(rs.getString("ho_ten"), row, 1);
-			tableResultModel.setValueAt(rs.getString("gsovn_tinhthanhpho.name"), row, 2);
-			tableResultModel.setValueAt(rs.getString("email"), row, 3);
-			tableResultModel.setValueAt(rs.getString("dien_thoai"), row, 4);
-			tableResultModel.setValueAt(rs.getString("so_sach_dang_muon"), row, 5);
-			row++;
-		}
+		txtFldDiaChi.setText(diaChi);
+		txtFldEmail.setText(email);
+		txtFldDienThoai.setText(dienThoai);
 	}
 
 	private class SearchListener implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			try {
-				// reset table
-				tableResultModel.setRowCount(0);
 				String[] where = { null };
-				int search = cbBoxSearch.getSelectedIndex();
+				int search = cbBxSearch.getSelectedIndex();
+				boolean check = false;
 
 				if (search == 0) {
 					where[0] = "id";
+					check = myEx.checkNumber(txtFldSearch);
 				}
 				if (search == 1) {
 					where[0] = "ho_ten";
+					check = myEx.checkEmpty(txtFldSearch);
 				}
-
-				String[] value = { textFieldSearch.getText() };
-				addDataToTableResult(where, value);
-			} catch (SQLException ex) {
+				if (check) {
+					String[] value = { txtFldSearch.getText() };
+					ResultSet rs = banDocModel.getBanDoc(where, value);
+					// reset table
+					tblResultModel.setRowCount(0);
+					// insert new row
+					int row = 0;
+					while ((rs != null) && (rs.next())) {
+						tblResultModel.addRow(new Object[0]);
+						tblResultModel.setValueAt(rs.getString("id"), row, 0);
+						tblResultModel.setValueAt(rs.getString("ho_ten"), row, 1);
+						tblResultModel.setValueAt(rs.getString("gsovn_tinhthanhpho.name"), row, 2);
+						tblResultModel.setValueAt(rs.getString("email"), row, 3);
+						tblResultModel.setValueAt(rs.getString("dien_thoai"), row, 4);
+						tblResultModel.setValueAt(rs.getString("so_sach_dang_muon"), row, 5);
+						row++;
+					}
+				}
+			} catch (SQLException | MyException ex) {
 				ex.printStackTrace();
 			}
 		}
 	}
 
-	private class ClickTableResult extends MouseAdapter {
+	private class ClickTblResult extends MouseAdapter {
 		@Override
 		public void mouseClicked(MouseEvent e) {
-			try {
-				// Load data to textfield + combobox
+			if (clickTblResult) {
+				// Load data to JTextField + combobox
 				btnSua.setEnabled(true);
-				int row = tableResult.getSelectedRow();
-				String[] where = { "id" };
-				String[] value = { tableResultModel.getValueAt(row, 0).toString() };
-				ResultSet rs = banDocModel.getBanDoc(where, value);
-				rs.next();
-				textFieldId.setText(rs.getString("id"));
-				setText(rs.getString("ho_ten"), rs.getString("thanh_pho"), rs.getString("quan"), rs.getString("phuong"),
-						rs.getString("dia_chi"), rs.getString("email"), rs.getString("dien_thoai"));
-
-				// Load data to table
-				tableThongTinSachMuonModel.setRowCount(0);
-				rs = banDocModel.getDataSachChuaTra(value[0]);
-				row = 0;
-				while ((rs != null) && (rs.next())) {
-					tableThongTinSachMuonModel.addRow(new Object[0]);
-					tableThongTinSachMuonModel.setValueAt(rs.getString("id"), row, 0);
-					tableThongTinSachMuonModel.setValueAt(rs.getString("ten"), row, 1);
-					tableThongTinSachMuonModel.setValueAt(rs.getString("tac_gia"), row, 2);
-					row++;
-				}
-				while (row < 3) {
-					tableThongTinSachMuonModel.addRow(new Object[0]);
-					row++;
-				}
-			} catch (SQLException ex) {
-				ex.printStackTrace();
+				btnXoa.setEnabled(true);
+				int row = tblResult.getSelectedRow();
+				setDataByClick(row);
 			}
 		}
 	}
 
-	private BanDoc GetDataInput() {
-		String id = textFieldId.getText();
-		String hoTen = textFieldHoTen.getText();
-		String thanhPho = ((ComboItem) cbBoxThanhPho.getSelectedItem()).getKey();
-		String quan = ((ComboItem) cbBoxQuan.getSelectedItem()).getKey();
-		String phuong = ((ComboItem) cbBoxPhuong.getSelectedItem()).getKey();
-		String diaChi = textFieldDiaChi.getText();
-		String email = textFieldEmail.getText();
-		String dienThoai = textFieldDienThoai.getText();
-		if (hoTen.length() != 0 && diaChi.length() != 0 && thanhPho.length() != 0) {
+	private void setDataByClick(int row) {
+		try {
+			// Load data to JTextField + combobox
+			String[] where = { "id" };
+			String[] value = { tblResultModel.getValueAt(row, 0).toString() };
+			ResultSet rs = banDocModel.getBanDoc(where, value);
+			rs.next();
+			setText(rs.getString("id"), rs.getString("ho_ten"), rs.getString("thanh_pho"), rs.getString("quan"),
+					rs.getString("phuong"), rs.getString("dia_chi"), rs.getString("email"), rs.getString("dien_thoai"));
+			removeErr();
+			// Load data sách mượn to table
+			tblThongTinSachMuonModel.setRowCount(0);
+			rs = banDocModel.getDataSachChuaTra(value[0]);
+			row = 0;
+			while ((rs != null) && (rs.next())) {
+				tblThongTinSachMuonModel.addRow(new Object[0]);
+				tblThongTinSachMuonModel.setValueAt(rs.getString("ma_muon_tra"), row, 0);
+				tblThongTinSachMuonModel.setValueAt(rs.getString("ten_sach"), row, 1);
+				tblThongTinSachMuonModel.setValueAt(rs.getString("tac_gia"), row, 2);
+				tblThongTinSachMuonModel.setValueAt(rs.getString("ngay_muon").replace(".0", ""), row, 3);
+				row++;
+			}
+			while (row < 3) {
+				tblThongTinSachMuonModel.addRow(new Object[0]);
+				row++;
+			}
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		}
+	}
+
+	private BanDoc getDataInput() throws MyException {
+		boolean checkHoTen = myEx.checkEmpty(txtFldHoTen);
+		boolean checkThanhPho = myEx.checkCmbBx(cbBxThanhPho);
+		boolean checkQuan = myEx.checkCmbBx(cbBxQuan);
+		boolean checkPhuong = myEx.checkCmbBx(cbBxPhuong);
+		boolean checkDiaChi = myEx.checkEmpty(txtFldDiaChi);
+		boolean checkEmail = myEx.checkEmail(txtFldEmail);
+		boolean checkDienThoai = myEx.checkDienThoai(txtFldDienThoai);
+
+		int row = tblResult.getSelectedRow();
+		if (row != -1) {
+			String emailCu = tblResultModel.getValueAt(row, 3).toString();
+			if (txtFldEmail.getText().equals(emailCu)) {
+				checkEmail = true;
+				myEx.reset(txtFldEmail);
+			}
+			String dienThoaiCu = tblResultModel.getValueAt(row, 4).toString();
+			if (txtFldDienThoai.getText().equals(dienThoaiCu)) {
+				checkDienThoai = true;
+				myEx.reset(txtFldDienThoai);
+			}
+		}
+
+		if (checkHoTen && checkDiaChi && checkThanhPho && checkQuan && checkPhuong && checkEmail && checkDienThoai) {
+			String id = txtFldId.getText();
+			String hoTen = txtFldHoTen.getText();
+			String thanhPho = ((ComboItem) cbBxThanhPho.getSelectedItem()).getKey();
+			String quan = ((ComboItem) cbBxQuan.getSelectedItem()).getKey();
+			String phuong = ((ComboItem) cbBxPhuong.getSelectedItem()).getKey();
+			String diaChi = txtFldDiaChi.getText();
+			String email = txtFldEmail.getText();
+			String dienThoai = txtFldDienThoai.getText().replaceAll("\\s", "");
+
 			BanDoc banDoc = new BanDoc(id, hoTen, thanhPho, quan, phuong, diaChi, email, dienThoai);
 			return banDoc;
 		}
@@ -443,24 +554,24 @@ public class BanDocUI extends JPanel {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			try {
-				// set auto new id
-				textFieldId.setText(banDocModel.getAutoId());
 				if (btnSua.isEnabled()) {
 					// Nếu đang select row on table => đang sửa => reset
 					btnSua.setEnabled(false);
-					tableResult.getSelectionModel().clearSelection();
-					setText(null, null, null, null, null, null, null);
+					btnXoa.setEnabled(false);
+					tblResult.getSelectionModel().clearSelection();
+					setText(null, null, null, null, null, null, null, null);
+					removeErr();
+					tblThongTinSachMuonModel.setRowCount(0);
 				} else {
-					BanDoc banDoc = GetDataInput();
+					BanDoc banDoc = getDataInput();
 					if (banDoc != null && banDocModel.addBanDoc(banDoc) > 0) {
-						setText(null, null, null, null, null, null, null);
-						textFieldId.setText(banDocModel.getAutoId());
+						setText(null, null, null, null, null, null, null, null);
 						btnSearch.doClick();
+						myEx.reset(txtFldSearch);
 						JOptionPane.showMessageDialog(null, "Thêm thành công!");
 					}
 				}
-				tableThongTinSachMuonModel.setRowCount(0);
-			} catch (SQLException ex) {
+			} catch (SQLException | MyException ex) {
 				ex.printStackTrace();
 			}
 		}
@@ -470,12 +581,13 @@ public class BanDocUI extends JPanel {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			try {
-				BanDoc banDoc = GetDataInput();
+				BanDoc banDoc = getDataInput();
 				if (banDoc != null && banDocModel.editBanDoc(banDoc) > 0) {
 					btnSearch.doClick();
+					btnThem.doClick();
 					JOptionPane.showMessageDialog(null, "Sửa thành công!");
 				}
-			} catch (Exception ex) {
+			} catch (MyException | HeadlessException | SQLException ex) {
 				ex.printStackTrace();
 			}
 		}
@@ -485,17 +597,18 @@ public class BanDocUI extends JPanel {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			try {
-				int row = tableResult.getSelectedRow();
-				String id = tableResultModel.getValueAt(row, 0).toString();
+				int row = tblResult.getSelectedRow();
+				String id = tblResultModel.getValueAt(row, 0).toString();
 				if (row != -1) {
 					int reply = JOptionPane.showConfirmDialog(null, "Bạn có muốn xóa dữ liệu này không?",
 							"Confirm to Delete?", JOptionPane.YES_NO_OPTION);
 					if (reply == JOptionPane.YES_OPTION) {
 						if (banDocModel.deleteBanDoc(id) > 0) {
-							tableResultModel.removeRow(row);
-							setText(null, null, null, null, null, null, null);
-							btnSearch.doClick();
+							tblResultModel.removeRow(row);
+							btnThem.doClick();
 							JOptionPane.showMessageDialog(null, "Xóa thành công!");
+						} else {
+							JOptionPane.showMessageDialog(null, "Xóa thất bại, bạn đọc chưa trả hết sách mượn!");
 						}
 					}
 				}
@@ -509,12 +622,12 @@ public class BanDocUI extends JPanel {
 	private void getThanhPho() {
 		try {
 			ComboItem item;
-			cbBoxThanhPho.addItem(null);
+			cbBxThanhPho.addItem(null);
 
 			ResultSet rs = banDocModel.getThanhPho();
 			while ((rs != null) && (rs.next())) {
 				item = new ComboItem(rs.getString("matp"), rs.getString("name"));
-				cbBoxThanhPho.addItem(item);
+				cbBxThanhPho.addItem(item);
 			}
 		} catch (Exception ex) {
 			ex.printStackTrace();
@@ -526,22 +639,24 @@ public class BanDocUI extends JPanel {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			try {
-				cbBoxQuan.removeAllItems();
+				cbBxQuan.removeAllItems();
 
 				ComboItem item;
-				Object tp = cbBoxThanhPho.getSelectedItem();
+				Object tp = cbBxThanhPho.getSelectedItem();
 
 				if (tp != null) {
 					String matp = ((ComboItem) tp).getKey();
 
-					cbBoxQuan.addItem(null);
+					cbBxQuan.setEnabled(true);
+					cbBxQuan.addItem(null);
 
 					ResultSet rs = banDocModel.getQuan(matp);
 					while ((rs != null) && (rs.next())) {
 						item = new ComboItem(rs.getString("maqh"), rs.getString("name"));
-						cbBoxQuan.addItem(item);
+						cbBxQuan.addItem(item);
 					}
-					cbBoxPhuong.setSelectedIndex(-1);
+				} else {
+					cbBxQuan.setEnabled(false);
 				}
 			} catch (Exception ex) {
 				ex.printStackTrace();
@@ -555,20 +670,23 @@ public class BanDocUI extends JPanel {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			try {
-				cbBoxPhuong.removeAllItems();
+				cbBxPhuong.removeAllItems();
 
 				ComboItem item;
-				Object qh = cbBoxQuan.getSelectedItem();
+				Object qh = cbBxQuan.getSelectedItem();
 				if (qh != null) {
 					String maqh = ((ComboItem) qh).getKey();
 
-					cbBoxPhuong.addItem(null);
+					cbBxPhuong.setEnabled(true);
+					cbBxPhuong.addItem(null);
 
 					ResultSet rs = banDocModel.getPhuong(maqh);
 					while ((rs != null) && (rs.next())) {
 						item = new ComboItem(rs.getString("xaid"), rs.getString("name"));
-						cbBoxPhuong.addItem(item);
+						cbBxPhuong.addItem(item);
 					}
+				} else {
+					cbBxPhuong.setEnabled(false);
 				}
 			} catch (Exception ex) {
 				ex.printStackTrace();
@@ -580,7 +698,31 @@ public class BanDocUI extends JPanel {
 	private class ThoatListener implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			System.exit(0);
+			CheckLogin.setLoggedrole(null);
+			MyApp.mainFrame.dispose();
+			MyApp.loginFrame = new LoginUI("Đăng nhập hệ thống");
+		}
+	}
+
+	private void getRole() {
+		if (CheckLogin.getLoggedrole().equals("bandoc")) {
+			cbBxSearch.setEnabled(false);
+			txtFldSearch.setText(CheckLogin.getMaBanDoc());
+			txtFldSearch.setEditable(false);
+			btnSearch.doClick();
+			btnSearch.setEnabled(false);
+			btnThem.setEnabled(false);
+			setDataByClick(0);
+			txtFldHoTen.setEditable(false);
+			txtFldEmail.setEditable(false);
+			txtFldDienThoai.setEditable(false);
+			txtFldDiaChi.setEditable(false);
+			cbBxThanhPho.setEnabled(false);
+			cbBxQuan.setEnabled(false);
+			cbBxPhuong.setEnabled(false);
+			tblResult.setRowSelectionAllowed(false);
+			tblThongTinSachMuon.setRowSelectionAllowed(false);
+			clickTblResult = false;
 		}
 	}
 }

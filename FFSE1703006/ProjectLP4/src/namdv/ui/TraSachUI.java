@@ -53,7 +53,7 @@ public class TraSachUI extends JPanel {
 		fl_panelSearch.setVgap(15);
 
 		JComboBox cbBoxSearch = new JComboBox();
-		cbBoxSearch.setModel(new DefaultComboBoxModel(new String[] { "Mã mượn", "Ngày mượn", "Mã thành viên" }));
+		cbBoxSearch.setModel(new DefaultComboBoxModel(new String[] { "Mã mượn", "Mã bạn đọc" }));
 		panelSearch.add(cbBoxSearch);
 
 		textFieldSearch = new JTextField(20);

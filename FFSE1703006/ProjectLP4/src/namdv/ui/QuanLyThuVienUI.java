@@ -3,7 +3,6 @@ package namdv.ui;
 import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.Dimension;
-import java.awt.EventQueue;
 import java.awt.Font;
 
 import javax.swing.JFrame;
@@ -11,10 +10,10 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.SwingConstants;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+
+import namdv.model.CheckLogin;
 
 public class QuanLyThuVienUI extends JFrame {
 
@@ -22,36 +21,25 @@ public class QuanLyThuVienUI extends JFrame {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	JTabbedPane tabbedPaneContent;
-	JLabel lblHeader;
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		try {
-			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-		} catch (ClassNotFoundException | InstantiationException | IllegalAccessException
-				| UnsupportedLookAndFeelException e) {
-		}
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					QuanLyThuVienUI frame = new QuanLyThuVienUI("Quản lí thư viện - JunBjn");
-					frame.showWindow();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+	private JTabbedPane tabbedPaneContent;
+	private JLabel lblHeader;
+	private JPanel header;
+	private double rate = 0;
 
 	public void showWindow() {
-		this.setSize(800, 575);
+		this.setSize(800, 600);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setLocationRelativeTo(null);
 		this.setVisible(true);
+
+		// set size tab
+		double wid = (tabbedPaneContent.getSize().width) / (tabbedPaneContent.getTabCount() + rate + 0.685);
+		for (int i = 0; i < tabbedPaneContent.getTabCount(); i++) {
+			String name = tabbedPaneContent.getTitleAt(i);
+			tabbedPaneContent.setTitleAt(i, "<html><div style='width: " + wid
+					+ "px; height: 20px; font-size: 10px; text-align: center'><p style='vertical-align: middle; margin-top: 4px'>"
+					+ name + "</p></div></html>");
+		}
 	}
 
 	/**
@@ -61,19 +49,23 @@ public class QuanLyThuVienUI extends JFrame {
 		super(tieude);
 		addControls();
 		addEvents();
+
+		showWindow();
 	}
 
 	private void addControls() {
 		Container con = getContentPane();
 
 		// HEADER
-		JPanel header = new JPanel();
+		header = new JPanel();
 		header.setPreferredSize(new Dimension(200, 45));
 
-		lblHeader = new JLabel("Quản lí bạn đọc");
+		lblHeader = new JLabel("Quản lý thư viện");
 		header.add(lblHeader);
 		lblHeader.setHorizontalAlignment(SwingConstants.CENTER);
 		lblHeader.setFont(new Font("Tahoma", Font.BOLD, 15));
+
+		con.add(header, BorderLayout.NORTH);
 
 		// CENTER
 		tabbedPaneContent = new JTabbedPane(JTabbedPane.TOP);
@@ -84,17 +76,16 @@ public class QuanLyThuVienUI extends JFrame {
 		SachUI sachUI = new SachUI();
 		tabbedPaneContent.addTab("Quản lý sách", sachUI);
 
-		MuonSachUI muonSachUI = new MuonSachUI();
-		tabbedPaneContent.addTab("Mượn sách", muonSachUI);
+		if (CheckLogin.getLoggedrole().equals("admin")) {
+			rate = 0.825;
 
-		TraSachUI traSachUI = new TraSachUI();
-		tabbedPaneContent.addTab("Trả sách", traSachUI);
+			MuonTraSachUI muonTraSachUI = new MuonTraSachUI();
+			tabbedPaneContent.addTab("Mượn trả sách", muonTraSachUI);
 
-		ThongKeBaoCao thongKeBaoCao = new ThongKeBaoCao();
-		tabbedPaneContent.addTab("Thống kê báo cáo", thongKeBaoCao);
+			ThongKeBaoCao thongKeBaoCao = new ThongKeBaoCao();
+			tabbedPaneContent.addTab("Thống kê báo cáo", thongKeBaoCao);
+		}
 
-		// ADD TO CONTAINER
-		con.add(header, BorderLayout.NORTH);
 		con.add(tabbedPaneContent, BorderLayout.CENTER);
 	}
 
@@ -114,12 +105,9 @@ public class QuanLyThuVienUI extends JFrame {
 				lblHeader.setText("Quản lý sách");
 				break;
 			case 2:
-				lblHeader.setText("Quản lí mượn sách");
+				lblHeader.setText("Quản lí mượn trả sách");
 				break;
 			case 3:
-				lblHeader.setText("Quản lí trả sách");
-				break;
-			case 4:
 				lblHeader.setText("Thống kê báo cáo");
 				break;
 			}

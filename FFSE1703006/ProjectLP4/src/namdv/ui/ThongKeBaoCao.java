@@ -1,8 +1,14 @@
 package namdv.ui;
 
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
 
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
@@ -14,10 +20,18 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
+
+import namdv.main.MyApp;
+import namdv.model.BanDocModel;
+import namdv.model.CheckLogin;
+import namdv.model.ComboItem;
+import namdv.model.PlaceholderTextField;
+import namdv.model.SachModel;
+import namdv.model.XTableColumnModel;
 
 public class ThongKeBaoCao extends JPanel {
 
@@ -25,14 +39,26 @@ public class ThongKeBaoCao extends JPanel {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private JTextField textFieldMaThanhVien;
-	private JTextField textFieldNhaXuatBan;
-	private JTextField textFieldTheLoai;
-	private JTextField textFieldTacGia;
-	private JTable tableResult;
-	private JRadioButton rdbtnDanhSachBanDoc, rdbtnThongKeDauSach;
-	private JPanel panelOptionBanDoc, panelOptionSach;
-	private JButton btnThoat;
+	private PlaceholderTextField txtFldMaThanhVien, txtFldTacGia;
+	@SuppressWarnings("rawtypes")
+	private JComboBox cbBxNhaXuatBan, cbBxTheLoai, cbBxThanhPho;
+	private JTable tblResult;
+	private JRadioButton rdbtnThongKeBanDoc, rdbtnThongKeDauSach, rdbtnThongKeMuonTra;
+	private JPanel pnlOptionBanDoc, pnlOptionSach, pnlShowBanDoc, pnlShowSach;
+	private JButton btnSearchBanDoc, btnSearchSach, btnThoat;
+	private JCheckBox chckbxMaBanDoc, chckbxTen, chckbxDiaChi, chckbxPhuong, chckbxQuan, chckbxThanhPho, chckbxEmail,
+			chckbxDienThoai, chckbxSoSachDangMuon, chckbxMaSach, chckbxTenSach, chckbxTacGia, chckbxNhaXuatBan,
+			chckbxTheLoai, chckbxNamXuatBan, chckbxSoLuongTong, chckbxSoLuongTrongKho;
+
+	private String[] columnNames = { "Mã bạn đọc", "Tên", "Địa chỉ", "Phường", "Quận", "Thành phố", "Email",
+			"Điện thoại", "Số sách đang mượn", "Mã sách", "Tên", "Tác giả", "Nhà xuất bản", "Thể loại", "Năm xuất bản",
+			"Số lượng tổng", "Số lượng trong kho" };
+	private DefaultTableModel tblResultModel = new DefaultTableModel(columnNames, 0);
+
+	private ArrayList<JCheckBox> arrChckbx = new ArrayList<JCheckBox>();
+	private XTableColumnModel columnModel = new XTableColumnModel();
+	private BanDocModel banDocModel = new BanDocModel();
+	private SachModel sachModel = new SachModel();
 
 	/**
 	 * Create the frame.
@@ -42,153 +68,201 @@ public class ThongKeBaoCao extends JPanel {
 		addEvents();
 	}
 
+	private void addEvents() {
+		// TODO Auto-generated method stub
+		rdbtnThongKeBanDoc.addActionListener(new ThongKeListener());
+		rdbtnThongKeDauSach.addActionListener(new ThongKeListener());
+		btnSearchBanDoc.addActionListener(new SearchBanDocListener());
+		btnSearchSach.addActionListener(new SearchSachListener());
+
+		txtFldMaThanhVien.addActionListener(new EnterBanDocListener());
+		txtFldTacGia.addActionListener(new EnterSachListener());
+
+		for (JCheckBox cb : arrChckbx) {
+			cb.addItemListener(new ItemListener() {
+				@Override
+				public void itemStateChanged(ItemEvent e) {
+					TableColumn column = columnModel.getColumnByModelIndex(arrChckbx.indexOf(cb));
+					boolean visible = columnModel.isColumnVisible(column);
+					columnModel.setColumnVisible(column, !visible);
+				}
+			});
+		}
+
+		btnThoat.addActionListener(new ThoatListener());
+	}
+
 	@SuppressWarnings({ "rawtypes" })
 	private void addControls() {
 		// CENTER
-		JPanel panelCenter = new JPanel();
-		panelCenter.setBorder(new EmptyBorder(5, 5, 5, 5));
-		panelCenter.setLayout(new BoxLayout(panelCenter, BoxLayout.Y_AXIS));
+		JPanel pnlCenter = new JPanel();
+		pnlCenter.setBorder(new EmptyBorder(5, 5, 5, 5));
+		pnlCenter.setLayout(new BoxLayout(pnlCenter, BoxLayout.Y_AXIS));
 
 		// Option
-		JPanel panelOption = new JPanel();
-		panelCenter.add(panelOption);
+		JPanel pnlOption = new JPanel();
+		pnlCenter.add(pnlOption);
 
 		JLabel lblBaoCao = new JLabel("Báo cáo: ");
-		panelOption.add(lblBaoCao);
+		pnlOption.add(lblBaoCao);
 
-		rdbtnDanhSachBanDoc = new JRadioButton("Danh sách bạn đọc");
-		panelOption.add(rdbtnDanhSachBanDoc);
+		rdbtnThongKeBanDoc = new JRadioButton("Thống kê bạn đọc");
+		pnlOption.add(rdbtnThongKeBanDoc);
 
 		rdbtnThongKeDauSach = new JRadioButton("Thống kê đầu sách");
-		panelOption.add(rdbtnThongKeDauSach);
+		pnlOption.add(rdbtnThongKeDauSach);
+
+		rdbtnThongKeMuonTra = new JRadioButton("Thống kê mượn trả");
+		//pnlOption.add(rdbtnThongKeMuonTra);
 
 		ButtonGroup bg = new ButtonGroup();
 		bg.add(rdbtnThongKeDauSach);
-		bg.add(rdbtnDanhSachBanDoc);
+		bg.add(rdbtnThongKeBanDoc);
+		//bg.add(rdbtnThongKeMuonTra);
 
 		// Bạn đọc
-		panelOptionBanDoc = new JPanel();
-		panelOptionBanDoc.setVisible(false);
-		panelOptionBanDoc.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
-		panelCenter.add(panelOptionBanDoc);
-		panelOptionBanDoc.setLayout(new BoxLayout(panelOptionBanDoc, BoxLayout.Y_AXIS));
+		pnlOptionBanDoc = new JPanel();
+		pnlOptionBanDoc.setVisible(false);
+		pnlOptionBanDoc.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
+		pnlCenter.add(pnlOptionBanDoc);
+		pnlOptionBanDoc.setLayout(new BoxLayout(pnlOptionBanDoc, BoxLayout.Y_AXIS));
 
-		JPanel panelSearchBanDoc = new JPanel();
-		panelOptionBanDoc.add(panelSearchBanDoc);
+		JPanel pnlSearchBanDoc = new JPanel();
+		pnlOptionBanDoc.add(pnlSearchBanDoc);
 
 		JLabel lblThanhPho = new JLabel("Thành phố:");
-		panelSearchBanDoc.add(lblThanhPho);
+		pnlSearchBanDoc.add(lblThanhPho);
 
-		JComboBox cbBoxThanhPho = new JComboBox();
-		panelSearchBanDoc.add(cbBoxThanhPho);
+		cbBxThanhPho = new JComboBox();
+		pnlSearchBanDoc.add(cbBxThanhPho);
+		getThanhPho();
 
 		JLabel lblMaThanhVien = new JLabel("       Mã thành viên:");
-		panelSearchBanDoc.add(lblMaThanhVien);
+		pnlSearchBanDoc.add(lblMaThanhVien);
 
-		textFieldMaThanhVien = new JTextField();
-		panelSearchBanDoc.add(textFieldMaThanhVien);
-		textFieldMaThanhVien.setColumns(15);
+		txtFldMaThanhVien = new PlaceholderTextField();
+		txtFldMaThanhVien.setPreferredSize(new Dimension(150, 22));
+		txtFldMaThanhVien.setPlaceholder("e.g. 00001");
+		pnlSearchBanDoc.add(txtFldMaThanhVien);
 
-		JButton btnTimBanDoc = new JButton("Tìm");
-		panelSearchBanDoc.add(btnTimBanDoc);
+		btnSearchBanDoc = new JButton("Tìm");
+		pnlSearchBanDoc.add(btnSearchBanDoc);
 
-		JPanel panelShowBanDoc = new JPanel();
-		panelOptionBanDoc.add(panelShowBanDoc);
+		pnlShowBanDoc = new JPanel();
+		pnlOptionBanDoc.add(pnlShowBanDoc);
 
-		JCheckBox chckbxMaBanDoc = new JCheckBox("Mã bạn đọc", true);
-		panelShowBanDoc.add(chckbxMaBanDoc);
+		chckbxMaBanDoc = new JCheckBox("Mã bạn đọc", true);
+		addChkbx(chckbxMaBanDoc, pnlShowBanDoc);
 
-		JCheckBox chckbxTen = new JCheckBox("Tên", true);
-		panelShowBanDoc.add(chckbxTen);
+		chckbxTen = new JCheckBox("Tên", true);
+		addChkbx(chckbxTen, pnlShowBanDoc);
 
-		JCheckBox chckbxDiaChi = new JCheckBox("Địa chỉ");
-		panelShowBanDoc.add(chckbxDiaChi);
+		chckbxDiaChi = new JCheckBox("Địa chỉ");
+		addChkbx(chckbxDiaChi, pnlShowBanDoc);
 
-		JCheckBox chckbxPhuong = new JCheckBox("Phường");
-		panelShowBanDoc.add(chckbxPhuong);
+		chckbxPhuong = new JCheckBox("Phường");
+		addChkbx(chckbxPhuong, pnlShowBanDoc);
 
-		JCheckBox chckbxQuan = new JCheckBox("Quận");
-		panelShowBanDoc.add(chckbxQuan);
+		chckbxQuan = new JCheckBox("Quận");
+		addChkbx(chckbxQuan, pnlShowBanDoc);
 
-		JCheckBox chckbxThanhPho = new JCheckBox("Thành Phố", true);
-		panelShowBanDoc.add(chckbxThanhPho);
+		chckbxThanhPho = new JCheckBox("Thành Phố", true);
+		addChkbx(chckbxThanhPho, pnlShowBanDoc);
 
-		JCheckBox chckbxEmail = new JCheckBox("Email");
-		panelShowBanDoc.add(chckbxEmail);
+		chckbxEmail = new JCheckBox("Email");
+		addChkbx(chckbxEmail, pnlShowBanDoc);
 
-		JCheckBox chckbxDienThoai = new JCheckBox("Điện thoại");
-		panelShowBanDoc.add(chckbxDienThoai);
+		chckbxDienThoai = new JCheckBox("Điện thoại");
+		addChkbx(chckbxDienThoai, pnlShowBanDoc);
 
-		JCheckBox chckbxSoSachDangMuon = new JCheckBox("Số sách đang mượn", true);
-		panelShowBanDoc.add(chckbxSoSachDangMuon);
+		chckbxSoSachDangMuon = new JCheckBox("Số sách đang mượn", true);
+		addChkbx(chckbxSoSachDangMuon, pnlShowBanDoc);
 
 		// Sách
-		panelOptionSach = new JPanel();
-		panelOptionSach.setVisible(false);
-		panelOptionSach.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
-		panelCenter.add(panelOptionSach);
-		panelOptionSach.setLayout(new BoxLayout(panelOptionSach, BoxLayout.Y_AXIS));
+		pnlOptionSach = new JPanel();
+		pnlOptionSach.setVisible(false);
+		pnlOptionSach.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
+		pnlCenter.add(pnlOptionSach);
+		pnlOptionSach.setLayout(new BoxLayout(pnlOptionSach, BoxLayout.Y_AXIS));
 
-		JPanel panelSearchSach = new JPanel();
-		panelOptionSach.add(panelSearchSach);
+		JPanel pnlSearchSach = new JPanel();
+		pnlOptionSach.add(pnlSearchSach);
 
 		JLabel lblNhaXuatBan = new JLabel("Nhà xuất bản:");
-		panelSearchSach.add(lblNhaXuatBan);
+		pnlSearchSach.add(lblNhaXuatBan);
 
-		textFieldNhaXuatBan = new JTextField();
-		panelSearchSach.add(textFieldNhaXuatBan);
-		textFieldNhaXuatBan.setColumns(15);
+		cbBxNhaXuatBan = new JComboBox();
+		cbBxNhaXuatBan.setPreferredSize(new Dimension(165, 22));
+		pnlSearchSach.add(cbBxNhaXuatBan);
+
+		getNhaXuatBan();
 
 		JLabel lblTheLoai = new JLabel("       Thể loại:");
-		panelSearchSach.add(lblTheLoai);
+		pnlSearchSach.add(lblTheLoai);
 
-		textFieldTheLoai = new JTextField();
-		panelSearchSach.add(textFieldTheLoai);
-		textFieldTheLoai.setColumns(15);
+		cbBxTheLoai = new JComboBox();
+		cbBxTheLoai.setPreferredSize(new Dimension(165, 22));
+		pnlSearchSach.add(cbBxTheLoai);
+
+		getTheLoai();
 
 		JLabel lblTacGia = new JLabel("       Tác giả:");
-		panelSearchSach.add(lblTacGia);
+		pnlSearchSach.add(lblTacGia);
 
-		textFieldTacGia = new JTextField();
-		panelSearchSach.add(textFieldTacGia);
-		textFieldTacGia.setColumns(15);
+		txtFldTacGia = new PlaceholderTextField();
+		txtFldTacGia.setPreferredSize(new Dimension(150, 22));
+		txtFldTacGia.setPlaceholder("e.g. Đặng Văn Nam");
+		pnlSearchSach.add(txtFldTacGia);
 
-		JButton btnTimSach = new JButton("Tìm");
-		panelSearchSach.add(btnTimSach);
+		btnSearchSach = new JButton("Tìm");
+		pnlSearchSach.add(btnSearchSach);
 
-		JPanel panelShowSach = new JPanel();
-		panelOptionSach.add(panelShowSach);
+		pnlShowSach = new JPanel();
+		pnlOptionSach.add(pnlShowSach);
 
-		JCheckBox chckbxMaSach = new JCheckBox("Mã sách", true);
-		panelShowSach.add(chckbxMaSach);
+		chckbxMaSach = new JCheckBox("Mã sách", true);
+		addChkbx(chckbxMaSach, pnlShowSach);
 
-		JCheckBox chckbxTenSach = new JCheckBox("Tên", true);
-		panelShowSach.add(chckbxTenSach);
+		chckbxTenSach = new JCheckBox("Tên", true);
+		addChkbx(chckbxTenSach, pnlShowSach);
 
-		JCheckBox chckbxTacGia = new JCheckBox("Tác giả");
-		panelShowSach.add(chckbxTacGia);
+		chckbxTacGia = new JCheckBox("Tác giả");
+		addChkbx(chckbxTacGia, pnlShowSach);
 
-		JCheckBox chckbxNhaXuatBan = new JCheckBox("Nhà xuất bản");
-		panelShowSach.add(chckbxNhaXuatBan);
+		chckbxNhaXuatBan = new JCheckBox("Nhà xuất bản");
+		addChkbx(chckbxNhaXuatBan, pnlShowSach);
 
-		JCheckBox chckbxTheLoi = new JCheckBox("Thể loại");
-		panelShowSach.add(chckbxTheLoi);
+		chckbxTheLoai = new JCheckBox("Thể loại");
+		addChkbx(chckbxTheLoai, pnlShowSach);
 
-		JCheckBox chckbxNamXuatBan = new JCheckBox("Năm xuất bản");
-		panelShowSach.add(chckbxNamXuatBan);
+		chckbxNamXuatBan = new JCheckBox("Năm xuất bản");
+		addChkbx(chckbxNamXuatBan, pnlShowSach);
 
-		JCheckBox chckbxSoLuongTong = new JCheckBox("Số lượng tổng", true);
-		panelShowSach.add(chckbxSoLuongTong);
+		chckbxSoLuongTong = new JCheckBox("Số lượng tổng", true);
+		addChkbx(chckbxSoLuongTong, pnlShowSach);
 
-		JCheckBox chckbxSoLuongTrongKho = new JCheckBox("Số lượng trong kho", true);
-		panelShowSach.add(chckbxSoLuongTrongKho);
+		chckbxSoLuongTrongKho = new JCheckBox("Số lượng trong kho", true);
+		addChkbx(chckbxSoLuongTrongKho, pnlShowSach);
+
+		// Mượn trả
 
 		// Search result
 		JScrollPane scrollPaneResult = new JScrollPane();
-		panelCenter.add(scrollPaneResult);
+		pnlCenter.add(scrollPaneResult);
 
-		tableResult = new JTable();
-		scrollPaneResult.setViewportView(tableResult);
+		tblResult = new JTable();
+
+		tblResult.setModel(tblResultModel);
+
+		tblResult.setColumnModel(columnModel);
+		tblResult.createDefaultColumnsFromModel();
+
+		for (int i = 0; i < 17; i++) {
+			TableColumn column = columnModel.getColumnByModelIndex(i);
+			columnModel.setColumnVisible(column, false);
+		}
+
+		scrollPaneResult.setViewportView(tblResult);
 
 		// FOOTER
 		JPanel footer = new JPanel();
@@ -201,47 +275,214 @@ public class ThongKeBaoCao extends JPanel {
 		btnThoat = new JButton("Thoát");
 		footer.add(btnThoat);
 
-		// ADD TO JPANEL
+		// ADD TO Jpnl
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-		this.add(panelCenter);
+		this.add(pnlCenter);
 		this.add(footer);
 
 	}
 
-	private void addEvents() {
-		// TODO Auto-generated method stub
-		rdbtnDanhSachBanDoc.addActionListener(new DanhSachBanDocListener());
-		rdbtnThongKeDauSach.addActionListener(new ThongKeDauSachListener());
-
-		btnThoat.addActionListener(new ThoatListener());
+	private void addChkbx(JCheckBox jChckbx, JPanel pnl) {
+		arrChckbx.add(jChckbx);
+		pnl.add(jChckbx);
 	}
 
-	private class DanhSachBanDocListener implements ActionListener {
+	private class ThongKeListener implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			panelOptionSach.setVisible(false);
-			panelOptionBanDoc.setVisible(true);
-
-			tableResult.setModel(new DefaultTableModel(new Object[][] {},
-					new String[] { "Mã bạn đọc", "Tên", "Thành phố", "Số sách đang mượn" }));
+			tblResultModel.setRowCount(0);
+			setColTable();
 		}
 	}
 
-	private class ThongKeDauSachListener implements ActionListener {
+	public void setColTable() {
+		boolean isBanDoc;
+		int indexHide, indexShow, i, j;
+		if (rdbtnThongKeBanDoc.isSelected()) {
+			isBanDoc = true;
+			indexShow = 0;
+			indexHide = i = 9;
+			j = 17;
+		} else {
+			isBanDoc = false;
+			indexShow = j = 9;
+			indexHide = 0;
+			i = 17;
+		}
+		pnlOptionSach.setVisible(!isBanDoc);
+		pnlOptionBanDoc.setVisible(isBanDoc);
+
+		for (int k = indexShow; k < i; k++) {
+			TableColumn column = columnModel.getColumnByModelIndex(k);
+			columnModel.setColumnVisible(column, arrChckbx.get(k).isSelected());
+		}
+
+		for (int k = indexHide; k < j; k++) {
+			TableColumn column = columnModel.getColumnByModelIndex(k);
+			columnModel.setColumnVisible(column, false);
+		}
+	}
+
+	private class SearchBanDocListener implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			panelOptionSach.setVisible(true);
-			panelOptionBanDoc.setVisible(false);
+			try {
+				tblResultModel.setRowCount(0);
+				String[] where = { "1", "1" }, value = { "1", "1" };
 
-			tableResult.setModel(new DefaultTableModel(new Object[][] {},
-					new String[] { "Mã sách", "Tên", "Số lượng tổng", "Số lượng trong kho" }));
+				String thanhPho = ((ComboItem) cbBxThanhPho.getSelectedItem()).getKey();
+				String maThanhVien = txtFldMaThanhVien.getText();
+
+				if (!thanhPho.equals("0")) {
+					where[0] = "thanh_pho";
+					value[0] = thanhPho;
+				}
+				if (!maThanhVien.isEmpty()) {
+					where[1] = "id";
+					value[1] = maThanhVien;
+				}
+
+				ResultSet rs = banDocModel.getBanDoc(where, value);
+				int row = 0;
+				columnModel.setAllColumnsVisible();
+				while ((rs != null) && (rs.next())) {
+					tblResultModel.addRow(new Object[0]);
+					tblResultModel.setValueAt(rs.getString("id"), row, 0);
+					tblResultModel.setValueAt(rs.getString("ho_ten"), row, 1);
+					tblResultModel.setValueAt(rs.getString("dia_chi"), row, 2);
+					tblResultModel.setValueAt(rs.getString("gsovn_xaphuongthitran.name"), row, 3);
+					tblResultModel.setValueAt(rs.getString("gsovn_quanhuyen.name"), row, 4);
+					tblResultModel.setValueAt(rs.getString("gsovn_tinhthanhpho.name"), row, 5);
+					tblResultModel.setValueAt(rs.getString("email"), row, 6);
+					tblResultModel.setValueAt(rs.getString("dien_thoai"), row, 7);
+					tblResultModel.setValueAt(rs.getString("so_sach_dang_muon"), row, 8);
+					row++;
+				}
+				setColTable();
+			} catch (SQLException ex) {
+				ex.printStackTrace();
+			}
+		}
+	}
+
+	private class SearchSachListener implements ActionListener {
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			try {
+				tblResultModel.setRowCount(0);
+				String[] where = { "1", "1", "1" }, value = { "1", "1", "1" };
+
+				String nhaXuatBan = ((ComboItem) cbBxNhaXuatBan.getSelectedItem()).getKey();
+				String theLoai = ((ComboItem) cbBxTheLoai.getSelectedItem()).getKey();
+				String tacGia = txtFldTacGia.getText();
+
+				if (!nhaXuatBan.equals("0")) {
+					where[0] = "nha_xuat_ban";
+					value[0] = nhaXuatBan;
+				}
+				if (!theLoai.equals("0")) {
+					where[1] = "the_loai";
+					value[1] = theLoai;
+				}
+				if (!tacGia.isEmpty()) {
+					where[2] = "tac_gia";
+					value[2] = tacGia;
+				}
+
+				ResultSet rs = sachModel.getSach(where, value);
+				int row = 0;
+				columnModel.setAllColumnsVisible();
+				while ((rs != null) && (rs.next())) {
+					tblResultModel.addRow(new Object[0]);
+					tblResultModel.setValueAt(rs.getString("id"), row, 9);
+					tblResultModel.setValueAt(rs.getString("ten_sach"), row, 10);
+					tblResultModel.setValueAt(rs.getString("tac_gia"), row, 11);
+					tblResultModel.setValueAt(rs.getString("ten_nha_xuat_ban"), row, 12);
+					tblResultModel.setValueAt(rs.getString("ten_the_loai"), row, 13);
+					tblResultModel.setValueAt(rs.getString("nam_xuat_ban"), row, 14);
+					tblResultModel.setValueAt(rs.getString("so_luong_tong"), row, 15);
+					tblResultModel.setValueAt(rs.getString("so_luong_kho"), row, 16);
+					row++;
+				}
+				setColTable();
+			} catch (SQLException ex) {
+				ex.printStackTrace();
+			}
+		}
+	}
+
+	@SuppressWarnings({ "unchecked" })
+	private void getThanhPho() {
+		try {
+			ComboItem item;
+			cbBxThanhPho.addItem(new ComboItem("0", "Tất cả"));
+
+			ResultSet rs = banDocModel.getThanhPho();
+			while ((rs != null) && (rs.next())) {
+				item = new ComboItem(rs.getString("matp"), rs.getString("name"));
+				cbBxThanhPho.addItem(item);
+			}
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+	}
+
+	@SuppressWarnings({ "unchecked" })
+	private void getNhaXuatBan() {
+		try {
+			ComboItem item;
+			cbBxNhaXuatBan.addItem(new ComboItem("0", "Tất cả"));
+
+			ResultSet rs = sachModel.getNhaXuatBan();
+			while ((rs != null) && (rs.next())) {
+				item = new ComboItem(rs.getString("id"), rs.getString("ten_nha_xuat_ban"));
+				cbBxNhaXuatBan.addItem(item);
+			}
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+	}
+
+	@SuppressWarnings({ "unchecked" })
+	private void getTheLoai() {
+		try {
+			ComboItem item;
+			cbBxTheLoai.addItem(new ComboItem("0", "Tất cả"));
+
+			ResultSet rs = sachModel.getTheLoai();
+			while ((rs != null) && (rs.next())) {
+				item = new ComboItem(rs.getString("id"), rs.getString("ten_the_loai"));
+				cbBxTheLoai.addItem(item);
+			}
+		} catch (Exception ex) {
+			ex.printStackTrace();
 		}
 	}
 
 	private class ThoatListener implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			System.exit(0);
+			CheckLogin.setLoggedrole(null);
+			MyApp.mainFrame.dispose();
+			MyApp.loginFrame = new LoginUI("Đăng nhập hệ thống");
+		}
+	}
+
+	private class EnterBanDocListener implements ActionListener {
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			btnSearchBanDoc.doClick();
+			int end = txtFldMaThanhVien.getText().length();
+			txtFldMaThanhVien.setCaretPosition(end);
+		}
+	}
+
+	private class EnterSachListener implements ActionListener {
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			btnSearchSach.doClick();
+			int end = txtFldTacGia.getText().length();
+			txtFldTacGia.setCaretPosition(end);
 		}
 	}
 }

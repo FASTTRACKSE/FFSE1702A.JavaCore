@@ -9,7 +9,7 @@ public class BanDocModel {
 	private Connection conn;
 	private PreparedStatement ps;
 	private String sql;
-	private ResultSet rs;
+	private AccountModel accountModel = new AccountModel();
 
 	public BanDocModel() {
 		super();
@@ -41,22 +41,10 @@ public class BanDocModel {
 	}
 
 	public ResultSet getDataSachChuaTra(String idBanDoc) throws SQLException {
-		sql = "SELECT ma_sach_muon FROM `muon_tra_sach` WHERE id_ban_doc = ? AND ngay_tra = '0000-00-00 00:00:00'";
+		sql = "SELECT * FROM `muon_tra_sach` INNER JOIN `sach` ON `muon_tra_sach`.`ma_sach_muon` = `sach`.`id` WHERE ma_ban_doc = ? AND ngay_tra = '0000-00-00 00:00:00' ORDER BY ma_muon_tra ASC";
 		ps = conn.prepareStatement(sql);
 		ps.setString(1, idBanDoc);
-		rs = ps.executeQuery();
-
-		// get infor sách
-		sql = "SELECT id, ten, tac_gia FROM `sach` WHERE ";
-		if ((rs != null) && (rs.next())) {
-			sql += "id = '" + rs.getString("ma_sach_muon") + "'";
-			while ((rs != null) && (rs.next())) {
-				sql += " OR id = '" + rs.getString("ma_sach_muon") + "'";
-			}
-			ps = conn.prepareStatement(sql);
-			return ps.executeQuery();
-		}
-		return null;
+		return ps.executeQuery();
 	}
 
 	public String getAutoId() throws SQLException {
@@ -64,12 +52,14 @@ public class BanDocModel {
 		ps = conn.prepareStatement(sql);
 		ResultSet rs = ps.executeQuery();
 		rs.next();
-		return String.format("%05d", Integer.parseInt(rs.getString("AUTO_INCREMENT")));
+		return String.format("%05d", rs.getInt("AUTO_INCREMENT"));
 	}
 
 	public ResultSet getBanDoc(String[] where, String[] value) throws SQLException {
 		int count = where.length;
-		sql = "SELECT * FROM ban_doc INNER JOIN gsovn_tinhthanhpho ON ban_doc.thanh_pho = gsovn_tinhthanhpho.matp INNER JOIN gsovn_quanhuyen ON ban_doc.quan = gsovn_quanhuyen.maqh INNER JOIN gsovn_xaphuongthitran ON ban_doc.phuong = gsovn_xaphuongthitran.xaid WHERE ";
+		sql = "SELECT * FROM ban_doc INNER JOIN gsovn_tinhthanhpho ON ban_doc.thanh_pho = gsovn_tinhthanhpho.matp "
+				+ "INNER JOIN gsovn_quanhuyen ON ban_doc.quan = gsovn_quanhuyen.maqh "
+				+ "INNER JOIN gsovn_xaphuongthitran ON ban_doc.phuong = gsovn_xaphuongthitran.xaid WHERE ban_doc.trang_thai = 'active' AND ";
 		for (int i = 0; i < count; i++) {
 			if (where[i].equals("ho_ten")) {
 				sql += where[i] + " LIKE '%" + value[i] + "%'";
@@ -85,6 +75,9 @@ public class BanDocModel {
 	}
 
 	public int addBanDoc(BanDoc banDoc) throws SQLException {
+		CreateAccount acc = new CreateAccount(banDoc.getId(), banDoc.getHoTen());
+		accountModel.addAccount(acc);
+
 		sql = "INSERT INTO ban_doc (ho_ten, dia_chi, phuong, quan, thanh_pho, dien_thoai, email) VALUES (?,?,?,?,?,?,?)";
 		ps = conn.prepareStatement(sql);
 		ps.setString(1, banDoc.getHoTen());
@@ -112,9 +105,16 @@ public class BanDocModel {
 	}
 
 	public int deleteBanDoc(String id) throws SQLException {
-		sql = "DELETE FROM ban_doc WHERE id = ?";
+		sql = "UPDATE ban_doc SET trang_thai = 'inactive' WHERE id = ? AND so_sach_dang_muon = 0";
 		ps = conn.prepareStatement(sql);
 		ps.setString(1, id);
+		return ps.executeUpdate();
+	}
+
+	public int updateSoSachDangMuon(String val, String maBanDoc) throws SQLException {
+		sql = "UPDATE ban_doc SET so_sach_dang_muon = so_sach_dang_muon " + val + " WHERE id = ?";
+		ps = conn.prepareStatement(sql);
+		ps.setString(1, maBanDoc);
 		return ps.executeUpdate();
 	}
 }

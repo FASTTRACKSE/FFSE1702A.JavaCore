@@ -1,35 +1,33 @@
 package namdv.model;
 
 public class MuonTraSach {
-	private int idMuonTra, idBanDoc;
-	private String maSachMuon, ngayMuon, ngayTra;
+	private String maMuonTra, maBanDoc, maSachMuon, ngayMuon, ngayTra;
 
 	public MuonTraSach() {
 		super();
 	}
 
-	public MuonTraSach(int idMuonTra, int idBanDoc, String maSachMuon, String ngayMuon) {
+	public MuonTraSach(String maMuonTra, String maBanDoc, String maSachMuon) {
 		super();
-		this.idMuonTra = idMuonTra;
-		this.idBanDoc = idBanDoc;
-		this.ngayMuon = ngayMuon;
+		this.maBanDoc = maBanDoc;
 		this.maSachMuon = maSachMuon;
+		this.maMuonTra = maMuonTra;
 	}
 
-	public int getId() {
-		return idMuonTra;
+	public String getMaMuonTra() {
+		return maMuonTra;
 	}
 
-	public void setId(int idMuonTra) {
-		this.idMuonTra = idMuonTra;
+	public void setMaMuonTra(String maMuonTra) {
+		this.maMuonTra = maMuonTra;
 	}
 
-	public int getMaThanhVien() {
-		return idBanDoc;
+	public String getMaBanDoc() {
+		return maBanDoc;
 	}
 
-	public void setMaThanhVien(int idBanDoc) {
-		this.idBanDoc = idBanDoc;
+	public void setMaBanDoc(String maBanDoc) {
+		this.maBanDoc = maBanDoc;
 	}
 
 	public String getNgayMuon() {

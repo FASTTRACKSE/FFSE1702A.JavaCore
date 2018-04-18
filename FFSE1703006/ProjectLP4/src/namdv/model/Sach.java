@@ -1,15 +1,15 @@
 package namdv.model;
 
 public class Sach {
-	private int id, nhaXuatBan, theLoaiSach, namXuanBan, soLuongTong, soLuongKho;
-	private String ten, tacGia;
+	private int soLuongTong, soLuongKho;
+	private String id, ten, tacGia, namXuanBan, theLoaiSach, nhaXuatBan;
 
 	public Sach() {
 		super();
 	}
 
-	public Sach(int id, int nhaXuatBan, int theLoaiSach, int namXuanBan, int soLuongTong, int soLuongKho, String ten,
-			String tacGia) {
+	public Sach(String id, String ten, String tacGia, String namXuanBan, String theLoaiSach, String nhaXuatBan,
+			int soLuongTong, int soLuongKho) {
 		super();
 		this.id = id;
 		this.nhaXuatBan = nhaXuatBan;
@@ -21,35 +21,35 @@ public class Sach {
 		this.tacGia = tacGia;
 	}
 
-	public int getId() {
+	public String getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 
-	public int getNhaXuatBan() {
+	public String getNhaXuatBan() {
 		return nhaXuatBan;
 	}
 
-	public void setNhaXuatBan(int nhaXuatBan) {
+	public void setNhaXuatBan(String nhaXuatBan) {
 		this.nhaXuatBan = nhaXuatBan;
 	}
 
-	public int getTheLoaiSach() {
+	public String getTheLoaiSach() {
 		return theLoaiSach;
 	}
 
-	public void setTheLoaiSach(int theLoaiSach) {
+	public void setTheLoaiSach(String theLoaiSach) {
 		this.theLoaiSach = theLoaiSach;
 	}
 
-	public int getNamXuanBan() {
+	public String getNamXuanBan() {
 		return namXuanBan;
 	}
 
-	public void setNamXuanBan(int namXuanBan) {
+	public void setNamXuanBan(String namXuanBan) {
 		this.namXuanBan = namXuanBan;
 	}
 

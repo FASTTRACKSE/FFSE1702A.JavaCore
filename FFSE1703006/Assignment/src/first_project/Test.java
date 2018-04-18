@@ -1,70 +1,80 @@
 package first_project;
 
-import java.awt.GridLayout;
-import java.awt.Label;
-
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTabbedPane;
+import javax.swing.JTextField;
 
-public class Test {
+import com.jgoodies.forms.layout.ColumnSpec;
+import com.jgoodies.forms.layout.FormLayout;
+import com.jgoodies.forms.layout.FormSpecs;
+import com.jgoodies.forms.layout.RowSpec;
 
-	private static void createAndShowGUI() {
+public class Test extends JPanel {
+	private JTextField textField;
+	private JTextField textField_1;
 
-		// Create and set up the window.
-		final JFrame frame = new JFrame("Tabbed Pane Example");
+	public Test() {
+		setLayout(new FormLayout(
+				new ColumnSpec[] { FormSpecs.RELATED_GAP_COLSPEC, FormSpecs.DEFAULT_COLSPEC,
+						FormSpecs.RELATED_GAP_COLSPEC, FormSpecs.DEFAULT_COLSPEC, FormSpecs.RELATED_GAP_COLSPEC,
+						ColumnSpec.decode("default:grow"), FormSpecs.RELATED_GAP_COLSPEC, FormSpecs.DEFAULT_COLSPEC,
+						FormSpecs.RELATED_GAP_COLSPEC, FormSpecs.DEFAULT_COLSPEC, },
+				new RowSpec[] { FormSpecs.RELATED_GAP_ROWSPEC, FormSpecs.DEFAULT_ROWSPEC, FormSpecs.RELATED_GAP_ROWSPEC,
+						FormSpecs.DEFAULT_ROWSPEC, FormSpecs.RELATED_GAP_ROWSPEC, FormSpecs.DEFAULT_ROWSPEC, }));
 
-		// Display the window.
-		frame.setSize(400, 400);
-		frame.setVisible(true);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		JLabel lblNewLabel = new JLabel("New label");
+		add(lblNewLabel, "2, 2");
 
-		// set grid layout for the frame
-		frame.getContentPane().setLayout(new GridLayout(1, 1));
+		textField = new JTextField();
+		add(textField, "6, 2, fill, default");
+		textField.setColumns(10);
 
-		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
+		JLabel lblNewLabel_1 = new JLabel("New label");
+		add(lblNewLabel_1, "10, 2");
 
-		tabbedPane.addTab("Tab1", makePanel("This is tab 1"));
-		tabbedPane.addTab("Tab2", makePanel("This is tab 2"));
-		tabbedPane.addTab("Tab3", makePanel("This is tab 3"));
-		tabbedPane.addTab("Tab4", makePanel("This is tab 4"));
+		JLabel lblNewLabel_2 = new JLabel("New label");
+		add(lblNewLabel_2, "2, 6");
 
-		frame.getContentPane().add(tabbedPane);
+		textField_1 = new JTextField();
+		add(textField_1, "6, 6, fill, default");
+		textField_1.setColumns(10);
 
-		// get the currently selected index for this tabbedpane
-		int selectedIndex = tabbedPane.getSelectedIndex();
-		System.out.println("Default Index:" + selectedIndex);
+		String[] columnNames = { "First Name", "Last Name", "Sport", "# of Years", "Vegetarian" };
 
-		// select the last tab
-		tabbedPane.setSelectedIndex(tabbedPane.getTabCount() - 1);
-
-		selectedIndex = tabbedPane.getSelectedIndex();
-		System.out.println("New Index:" + selectedIndex);
-
+		Object[][] data = { { "Kathy", "Smith", "Snowboarding", new Integer(5), new Boolean(false) },
+				{ "John", "Doe", "Rowing", new Integer(3), new Boolean(true) },
+				{ "Sue", "Black", "Knitting", new Integer(2), new Boolean(false) },
+				{ "Jane", "White", "Speed reading", new Integer(20), new Boolean(true) },
+				{ "Joe", "Brown", "Pool", new Integer(10), new Boolean(false) } };
 	}
 
-	private static JPanel makePanel(String text) {
-		JPanel p = new JPanel();
-		p.add(new Label(text));
-		p.setLayout(new GridLayout(1, 1));
-		return p;
+	/**
+	 * Create the GUI and show it. For thread safety, this method should be invoked
+	 * from the event-dispatching thread.
+	 */
+	private static void createAndShowGUI() {
+		//Create and set up the window.
+		JFrame frame = new JFrame("SimpleTableDemo");
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+		//Create and set up the content pane.
+		Test newContentPane = new Test();
+		newContentPane.setOpaque(true); //content panes must be opaque
+		frame.setContentPane(newContentPane);
+
+		//Display the window.
+		frame.setSize(600, 200);
+		frame.setVisible(true);
 	}
 
 	public static void main(String[] args) {
-
 		//Schedule a job for the event-dispatching thread:
-
 		//creating and showing this application's GUI.
-
 		javax.swing.SwingUtilities.invokeLater(new Runnable() {
-
 			public void run() {
-
 				createAndShowGUI();
-
 			}
-
 		});
 	}
-
 }
