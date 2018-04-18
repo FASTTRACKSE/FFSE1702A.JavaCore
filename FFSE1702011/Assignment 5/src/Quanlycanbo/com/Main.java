@@ -6,13 +6,25 @@ package Quanlycanbo.com;
 
 >>>>>>> parent of 7aeaedb... ASM 1 vs 2 JavaSwing:FFSE1702011/Assignment 5/src/Quanlycanbo/com/Main.java
 import java.util.ArrayList;
+<<<<<<< HEAD
+import java.io.*;
+
+import java.util.Collection;
+=======
+>>>>>>> 45c6cc847d29ca7c683fcf8d24d00a1ee0c5e29f
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Scanner;
-
+import java.util.*;
 public class Main {
+<<<<<<< HEAD
+	static Scanner myInput = new Scanner(System.in);
+	public static void main(String[] args) {
+		Scanner chucNang = new Scanner(System.in);
+=======
 	
 	public static void main(String[] args) throws IOException, ClassNotFoundException  {
+>>>>>>> 45c6cc847d29ca7c683fcf8d24d00a1ee0c5e29f
 		ArrayList<CanBo> list = new ArrayList<CanBo>();
 		Scanner chucNang = new Scanner(System.in);
 		try {
@@ -49,6 +61,33 @@ public class Main {
 						gv.nhapGiangVien();
 						gv.nhapHeSoLuong();
 						System.out.println("Giang vien " + dem);
+<<<<<<< HEAD
+						for(;;) {
+							System.out.print("Nhap ma giang vien: ");
+							try {
+								String maCanBo = myInput.nextLine();
+								CanBoException.chkMaCB(maCanBo, list);
+								gv.setMaCanBo(maCanBo);
+								break;
+							} catch(CanBoException e) {
+								System.out.print(e);
+							}
+						}
+							gv.nhapTen();
+							gv.nhapGiangVien();
+							gv.nhapHeSoLuong();
+							list.add(gv);
+							dem++;
+					}
+					try {
+						ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("CanBo.txt"));
+						oos.writeObject(list);
+						oos.close();
+					} catch (FileNotFoundException e) {
+						e.printStackTrace();
+					} catch (IOException e) {
+						e.printStackTrace();
+=======
 <<<<<<< HEAD:FFSE1702042/canBo/src/Quanlycanbo/Main.java
 						for(;;) {
 							System.out.println("nhap ma can bo");
@@ -83,6 +122,7 @@ public class Main {
 							System.out.println(e);
 						}
 						dem++;
+>>>>>>> 45c6cc847d29ca7c683fcf8d24d00a1ee0c5e29f
 					}
 				} else if(ds == 2) {
 <<<<<<< HEAD:FFSE1702042/canBo/src/Quanlycanbo/Main.java
@@ -100,6 +140,23 @@ public class Main {
 					for(int i = 0; i < sl; i++) {
 						
 						System.out.println("Nhan vien " + dem);
+<<<<<<< HEAD
+						for(;;) {
+							System.out.print("Nhap ma giang vien: ");
+							try {
+								String maCanBo = myInput.nextLine();
+								CanBoException.chkMaCB(maCanBo, list);
+								nv.setMaCanBo(maCanBo);
+								break;
+							} catch(CanBoException e) {
+								System.out.print(e);
+							}
+						}
+						nv.nhapTen();
+						nv.nhapNhanVien();
+						nv.nhapHeSoLuong();
+						list.add(nv);
+=======
 					
 						
 						
@@ -117,22 +174,57 @@ public class Main {
 
 					} catch (IOException e) {
 						System.out.println(e);
+>>>>>>> 45c6cc847d29ca7c683fcf8d24d00a1ee0c5e29f
+					}
+					try {
+						ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("CanBo.txt"));
+						oos.writeObject(list);
+					} catch (FileNotFoundException e) {
+						e.printStackTrace();
+					} catch (IOException e) {
+						e.printStackTrace();
 					}
 				}
 			} else if(cn == 2) {
 				System.out.println("Danh sach giang vien");
-				for(int i = 0; i < list.size(); i++) {
-					if(list.get(i) instanceof GiangVien) {
-						GiangVien gv = (GiangVien)list.get(i);
-						gv.xuatGiangVien();
-					} 
+				try {
+					ObjectInputStream ios = new ObjectInputStream(new BufferedInputStream(new FileInputStream("CanBo.txt")));
+					try {
+						Object obj = ios.readObject();
+						ArrayList<CanBo> dsCB = (ArrayList<CanBo>) obj;
+						for(int i = 0; i < dsCB.size(); i++) {
+							if(dsCB.get(i) instanceof GiangVien) {
+								GiangVien gv = (GiangVien)dsCB.get(i);
+								gv.xuatGiangVien();
+							} 
+						}
+					} catch (ClassNotFoundException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				}
 				System.out.println("Danh sach nhan vien");
-				for(int i = 0; i < list.size(); i++) {
-					if(list.get(i) instanceof NhanVien) {
-						NhanVien nv = (NhanVien)list.get(i);
-						nv.xuatNhanVien();
+				try {
+					ObjectInputStream ios = new ObjectInputStream(new BufferedInputStream(new FileInputStream("CanBo.txt")));
+					try {
+						Object obj = ios.readObject();
+						ArrayList<CanBo> dsCB = (ArrayList<CanBo>) obj;
+						for(int i = 0; i < dsCB.size(); i++) {
+							if(dsCB.get(i) instanceof NhanVien) {
+								NhanVien nv = (NhanVien)dsCB.get(i);
+								nv.xuatNhanVien();
+							}
+						}
+					} catch (ClassNotFoundException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
 					}
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				}
 			} else if(cn == 3) {
 				float tongLuong = 0;
