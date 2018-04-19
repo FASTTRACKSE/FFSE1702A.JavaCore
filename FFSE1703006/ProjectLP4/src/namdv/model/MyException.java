@@ -46,7 +46,7 @@ public class MyException extends Exception {
 			Integer.parseInt(s);
 		} catch (Exception e) {
 			txtFld.setBorder(BorderFactory.createLineBorder(Color.RED));
-			txtFld.setToolTipText("Vui lòng nhập đúng định dạng mã số!");
+			txtFld.setToolTipText("Vui lòng nhập đúng định dạng số!");
 			return false;
 		}
 		reset(txtFld);
@@ -130,11 +130,8 @@ public class MyException extends Exception {
 		if (s == null) {
 			return false;
 		}
-		String[] where = { "ten_sach", "tac_gia" };
-		String[] value = { s, txtFldTacGia.getText() };
 		try {
-			ResultSet rs = sachModel.getSach(where, value);
-			while ((rs != null) && (rs.next())) {
+			if (sachModel.isExistSach(s, txtFldTacGia.getText())) {
 				txtFldTenSach.setBorder(BorderFactory.createLineBorder(Color.RED));
 				txtFldTenSach.setToolTipText("Sách đã tồn tại trong kho!");
 				return false;

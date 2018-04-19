@@ -24,7 +24,7 @@ public class AccountModel {
 		ps = conn.prepareStatement(sql);
 		ps.setString(1, acc.getUsername());
 		ps.setString(2, acc.getPassword());
-		ps.setString(3, acc.getId());
+		ps.setString(3, String.format("%05d", acc.getId()));
 		return ps.executeUpdate();
 	}
 

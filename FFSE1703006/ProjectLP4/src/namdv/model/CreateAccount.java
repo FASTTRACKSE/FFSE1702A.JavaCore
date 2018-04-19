@@ -51,7 +51,7 @@ public class CreateAccount {
 	}
 
 	public String getPassword() {
-		password = "123";
+		setPassword(username);
 		return password;
 	}
 

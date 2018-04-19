@@ -28,6 +28,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableCellRenderer;
+import javax.swing.table.TableColumnModel;
 
 import namdv.main.MyApp;
 import namdv.model.CheckLogin;
@@ -121,6 +122,10 @@ public class SachUI extends JPanel {
 
 		tblResult.setModel(tblResultModel);
 		scrollPaneResult.setViewportView(tblResult);
+
+		TableColumnModel columnModel = tblResult.getColumnModel();
+		columnModel.getColumn(1).setPreferredWidth(250);
+		columnModel.getColumn(2).setPreferredWidth(125);
 
 		JPanel pnl = new JPanel();
 		pnlCenter.add(pnl);
@@ -313,10 +318,13 @@ public class SachUI extends JPanel {
 	private class SelectSearchListener implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			if (cbBxSearch.getSelectedItem().equals("Mã sách")) {
+			String rs = cbBxSearch.getSelectedItem().toString();
+			if (rs.equals("Mã sách")) {
 				txtFldSearch.setPlaceholder("e.g. 00001");
-			} else {
+			} else if (rs.equals("Tên sách")) {
 				txtFldSearch.setPlaceholder("e.g. Nhà giả kim");
+			} else {
+				txtFldSearch.setPlaceholder("e.g. Đặng Văn Nam");
 			}
 		}
 	}
@@ -594,6 +602,7 @@ public class SachUI extends JPanel {
 	private void getRole() {
 		if (CheckLogin.getLoggedrole().equals("bandoc")) {
 			btnThem.setEnabled(false);
+			txtFldMaSach.setText("");
 			txtFldTenSach.setEditable(false);
 			txtFldTacGia.setEditable(false);
 			txtFldNamXuatBan.setEditable(false);

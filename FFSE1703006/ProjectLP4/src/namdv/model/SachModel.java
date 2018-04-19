@@ -96,4 +96,16 @@ public class SachModel {
 		ps.setString(1, maSachMuon);
 		return ps.executeUpdate();
 	}
+
+	public boolean isExistSach(String tenSach, String tacgia) throws SQLException {
+		sql = "SELECT * FROM sach WHERE ten_sach = ? AND tac_gia = ?";
+		ps = conn.prepareStatement(sql);
+		ps.setString(1, tenSach);
+		ps.setString(2, tacgia);
+		ResultSet rs = ps.executeQuery();
+		while ((rs != null) && (rs.next())) {
+			return true;
+		}
+		return false;
+	}
 }

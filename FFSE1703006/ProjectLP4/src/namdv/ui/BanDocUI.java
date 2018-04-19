@@ -132,6 +132,9 @@ public class BanDocUI extends JPanel {
 		tblResult.setModel(tblResultModel);
 		scrollPaneResult.setViewportView(tblResult);
 
+		TableColumnModel columnModel_1 = tblResult.getColumnModel();
+		columnModel_1.getColumn(3).setPreferredWidth(150);
+
 		JPanel pnl = new JPanel();
 		pnlCenter.add(pnl);
 
@@ -282,9 +285,13 @@ public class BanDocUI extends JPanel {
 		cbBxPhuong.setEnabled(false);
 		pnlPhuong.add(cbBxPhuong);
 
+		// pnl 5
+		JPanel pnlSub_5 = new JPanel();
+		pnlThongTinBanDoc.add(pnlSub_5);
+
 		// Thông tin sách mượn
 		JLabel lblThongTinSachMuon = new JLabel("Thông tin sách mượn");
-		pnlThongTinBanDoc.add(lblThongTinSachMuon);
+		pnlSub_5.add(lblThongTinSachMuon);
 
 		JScrollPane scrollPaneThongTinSachMuon = new JScrollPane();
 		pnlThongTinBanDoc.add(scrollPaneThongTinSachMuon);
@@ -317,8 +324,8 @@ public class BanDocUI extends JPanel {
 		// tblThongTinSachMuon.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		// ColumnsAutoSizer.sizeColumnsToFit(tblThongTinSachMuon);
 
-		TableColumnModel columnModel = tblThongTinSachMuon.getColumnModel();
-		columnModel.getColumn(1).setPreferredWidth(200);
+		TableColumnModel columnModel_2 = tblThongTinSachMuon.getColumnModel();
+		columnModel_2.getColumn(1).setPreferredWidth(200);
 
 		scrollPaneThongTinSachMuon.setViewportView(tblThongTinSachMuon);
 

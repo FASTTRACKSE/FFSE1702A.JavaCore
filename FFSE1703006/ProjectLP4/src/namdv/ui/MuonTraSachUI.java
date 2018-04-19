@@ -29,6 +29,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableCellRenderer;
+import javax.swing.table.TableColumnModel;
 
 import namdv.model.BanDocModel;
 import namdv.model.MuonTraSach;
@@ -98,7 +99,7 @@ public class MuonTraSachUI extends JPanel {
 		fl_pnlSearch.setVgap(15);
 
 		cbBxSearch = new JComboBox();
-		cbBxSearch.setModel(new DefaultComboBoxModel(new String[] { "Mã sách", "Tên sách" }));
+		cbBxSearch.setModel(new DefaultComboBoxModel(new String[] { "Mã sách", "Tên sách", "Tác giả" }));
 		pnlSearch.add(cbBxSearch);
 
 		txtFldSearch = new PlaceholderTextField();
@@ -219,6 +220,10 @@ public class MuonTraSachUI extends JPanel {
 		tblSachChuaTra.setModel(tblSachChuaTraModel);
 		scrollPaneSachChuaTraDetail.setViewportView(tblSachChuaTra);
 
+		TableColumnModel columnModel_1 = tblSachChuaTra.getColumnModel();
+		columnModel_1.getColumn(1).setPreferredWidth(175);
+		columnModel_1.getColumn(2).setPreferredWidth(125);
+
 		// Thông tin sách
 		JPanel pnlThongTinSach = new JPanel();
 		pnlThongTinMuonSach.add(pnlThongTinSach);
@@ -252,6 +257,10 @@ public class MuonTraSachUI extends JPanel {
 
 		tblSearchSachResult.setModel(tblSearchSachResultModel);
 		scrollPaneSearchSachResult.setViewportView(tblSearchSachResult);
+
+		TableColumnModel columnModel_2 = tblSearchSachResult.getColumnModel();
+		columnModel_2.getColumn(0).setPreferredWidth(75);
+		columnModel_2.getColumn(1).setPreferredWidth(175);
 
 		JPanel pnlThongTinSachButton = new JPanel();
 		FlowLayout fl_pnlThongTinSachButton = (FlowLayout) pnlThongTinSachButton.getLayout();
@@ -288,6 +297,10 @@ public class MuonTraSachUI extends JPanel {
 
 		tblSachSeMuon.setModel(tblSachSeMuonModel);
 		scrollPaneSachSeMuon.setViewportView(tblSachSeMuon);
+
+		TableColumnModel columnModel_3 = tblSachSeMuon.getColumnModel();
+		columnModel_3.getColumn(0).setPreferredWidth(75);
+		columnModel_3.getColumn(1).setPreferredWidth(175);
 
 		// FOOTER
 		JPanel pnlFooter = new JPanel();
@@ -341,10 +354,13 @@ public class MuonTraSachUI extends JPanel {
 	private class SelectSearchListener implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			if (cbBxSearch.getSelectedItem().equals("Mã sách")) {
+			String rs = cbBxSearch.getSelectedItem().toString();
+			if (rs.equals("Mã sách")) {
 				txtFldSearch.setPlaceholder("e.g. 00001");
-			} else {
+			} else if (rs.equals("Tên sách")) {
 				txtFldSearch.setPlaceholder("e.g. Nhà giả kim");
+			} else {
+				txtFldSearch.setPlaceholder("e.g. Đặng Văn Nam");
 			}
 		}
 	}
@@ -435,6 +451,10 @@ public class MuonTraSachUI extends JPanel {
 					where[0] = "ten_sach";
 					check = myEx.checkEmpty(txtFldSearch);
 				}
+				if (search == 2) {
+					where[0] = "tac_gia";
+					check = myEx.checkEmpty(txtFldSearch);
+				}
 
 				if (check) {
 					String[] value = { txtFldSearch.getText() };
@@ -475,7 +495,7 @@ public class MuonTraSachUI extends JPanel {
 			if (txtFldMaTen.getText().length() == 0) {
 				JOptionPane.showMessageDialog(null, "Vui lòng nhập mã bạn đọc!");
 			} else if (numRowTableDsMuon == sizeArrSachSeMuon) {
-				JOptionPane.showMessageDialog(null, "Bạn đọc đã mượn tối đa 3 cuốn sách!");
+				JOptionPane.showMessageDialog(null, "Bạn đọc chỉ được mượn tối đa 3 cuốn sách!");
 			} else if (soLuongKho.equals("0")) {
 				JOptionPane.showMessageDialog(null, "Sách không có sẵn trong kho!");
 			} else if (arrSachChuaTra.contains(maSachMuon)) {
