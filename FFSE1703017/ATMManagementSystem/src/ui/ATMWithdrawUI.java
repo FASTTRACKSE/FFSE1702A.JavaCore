@@ -22,6 +22,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 
@@ -36,18 +37,18 @@ import model.ComboItem;
 public class ATMWithdrawUI extends JPanel {
 
 	private static final long serialVersionUID = 1L;
-	JScrollPane spATMWithdraw = new JScrollPane();
-	JTable tblATMWithdraw = new JTable();
-	String[] col = { "Mã máy ATM", "Vị trí", "Mã khách hàng", "Mã giao dịch", "Thời gian giao dịch", "Số tiền đã rút" };
-	DefaultTableModel mdlATMWithdraw = new DefaultTableModel(col, 0);
-	JDateChooser dateFrom, dateTo;
-	JComboBox<ComboItem> cbSelect, cbDistrict, cbWard;
-	JTextField txtCode, txtStreet;
-	CardLayout lyt;
-	JPanel pnChoice;
-	JButton btnFilter;
+	private JScrollPane spATMWithdraw = new JScrollPane();
+	private JTable tblATMWithdraw = new JTable();
+	private String[] col = { "Mã máy ATM", "Vị trí", "Mã khách hàng", "Mã giao dịch", "Thời gian giao dịch", "Số tiền đã rút" };
+	private DefaultTableModel mdlATMWithdraw = new DefaultTableModel(col, 0);
+	private JDateChooser dateFrom, dateTo;
+	private JComboBox<ComboItem> cbSelect, cbDistrict, cbWard;
+	private JTextField txtCode, txtStreet;
+	private CardLayout lyt;
+	private JPanel pnChoice;
+	private JButton btnFilter;
 
-	ActionListener evtSelect = new ActionListener() {
+	private ActionListener evtSelect = new ActionListener() {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			int i = cbSelect.getSelectedIndex();
@@ -59,7 +60,7 @@ public class ATMWithdrawUI extends JPanel {
 		}
 	};
 
-	ActionListener evtFilter = new ActionListener() {
+	private ActionListener evtFilter = new ActionListener() {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			int i = cbSelect.getSelectedIndex();
@@ -122,8 +123,8 @@ public class ATMWithdrawUI extends JPanel {
 		this.add(pnAction, BorderLayout.CENTER);
 
 		/* Panel chính -> Tiêu đề */
-		pnTitle.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 5));
-		String title = "<html><p style='font-size:15px'>TÌNH HÌNH RÚT TIỀN CỦA MÁY ATM</p></html>";
+		pnTitle.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 5));
+		String title = "<html><p style='font-size:12px'>TÌNH HÌNH RÚT TIỀN CỦA MÁY ATM</p></html>";
 		JLabel lblTitle = new JLabel(title);
 		pnTitle.add(lblTitle);
 
@@ -211,11 +212,16 @@ public class ATMWithdrawUI extends JPanel {
 		tblATMWithdraw.setModel(mdlATMWithdraw);
 		TableColumnModel columnModel = tblATMWithdraw.getColumnModel();
 		columnModel.getColumn(1).setPreferredWidth(200);
+		
+		DefaultTableCellRenderer rightRenderer = new DefaultTableCellRenderer();
+		rightRenderer.setHorizontalAlignment(JLabel.RIGHT);
+		tblATMWithdraw.getColumnModel().getColumn(5).setCellRenderer(rightRenderer);
+		
 		spATMWithdraw.setViewportView(tblATMWithdraw);
 
 	}
 
-	void addEvent() {
+	private void addEvent() {
 		btnFilter.addActionListener(evtFilter);
 		cbSelect.addActionListener(evtSelect);
 		cbDistrict.addActionListener(new DistrictSelectEvent(cbDistrict, cbWard));

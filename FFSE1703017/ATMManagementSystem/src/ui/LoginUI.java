@@ -7,52 +7,70 @@ import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.AbstractButton;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
+import javax.swing.GroupLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
+
+import model.ConnectDB;
+
 import javax.swing.ImageIcon;
 
 public class LoginUI extends JPanel {
 
 	private static final long serialVersionUID = 1L;
-	final JRadioButton rbnAdmin = new JRadioButton("Quản trị viên");
-	final JRadioButton rbnCustomer = new JRadioButton("Khách hàng");
-	JButton btnAdminLogin, btnCustomerLogin, btnAdminExit, btnCustomerExit;
-	JPanel pnInput;
-	CardLayout lyt;
+	private final JRadioButton rbnAdmin = new JRadioButton("Hệ thống quản lý");
+	private final JRadioButton rbnCustomer = new JRadioButton("Mô phỏng giao dịch");
+	private JButton btnAppLogin, btnAppExit, btnAtmLogin, btnAtmExit;
+	private JPanel pnInput;
+	private JTextField txtAdminName, txtCardSN;
+	private JPasswordField txtAdminPass, txtPIN;
+	private CardLayout lyt;
 
-	public JButton getBtnAdminLogin() {
-		return btnAdminLogin;
+	public JButton getBtnAppLogin() {
+		return btnAppLogin;
+	}
+
+	public JTextField getTxtAdminName() {
+		return txtAdminName;
+	}
+
+	public JPasswordField getTxtAdminPass() {
+		return txtAdminPass;
+	}
+
+	public JButton getBtnAtmLogin() {
+		return btnAppExit;
+	}
+
+	public JTextField getTxtCardSN() {
+		return txtCardSN;
+	}
+
+	public JPasswordField getTxtPIN() {
+		return txtPIN;
 	}
 
 	/* Thêm sự kiện cho radiobutton */
-	ActionListener showAdminInput = new ActionListener() {
+	private ActionListener showInput = new ActionListener() {
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			AbstractButton aBtn = (AbstractButton) e.getSource();
-			if (aBtn.isSelected()) {
+			if (rbnAdmin.isSelected()) {
 				lyt.show(pnInput, "1");
-			}
-		}
-	};
-
-	ActionListener showCustomerInput = new ActionListener() {
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			AbstractButton aBtn = (AbstractButton) e.getSource();
-			if (aBtn.isSelected()) {
+			} else {
 				lyt.show(pnInput, "2");
 			}
 		}
 	};
 	
-	ActionListener evtExit = new ActionListener() {
+	private ActionListener evtExit = new ActionListener() {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			System.exit(0);
@@ -62,9 +80,10 @@ public class LoginUI extends JPanel {
 	public LoginUI() {
 		addPanels();
 		addEvents();
+		checkConnect();
 	}
 
-	void addPanels() {
+	private void addPanels() {
 
 		JPanel pnTop = new JPanel();
 		JPanel pnBottom = new JPanel();
@@ -97,82 +116,124 @@ public class LoginUI extends JPanel {
 		pnSelection.add(rbnCustomer);
 
 		/* Main -> Bottom -> Input */
-		JPanel pnAdminInput = new JPanel();
-		JPanel pnCustomerInput = new JPanel();
+		JPanel pnAdmin = new JPanel();
+		JPanel pnCustomer = new JPanel();
 		lyt = new CardLayout();
 		pnInput.setLayout(lyt);
-		pnInput.add(pnAdminInput, "1");
-		pnInput.add(pnCustomerInput, "2");
+		pnInput.add(pnAdmin, "1");
+		pnInput.add(pnCustomer, "2");
 
 		/* Main -> Bottom -> Input -> Admin */
-		pnAdminInput.setLayout(new BoxLayout(pnAdminInput, BoxLayout.Y_AXIS));
-		JPanel pnAdminName = new JPanel();
-		JPanel pnAdminPass = new JPanel();
-		JPanel pnAdminButton = new JPanel();
-		btnAdminLogin = new JButton("Đăng nhập");
-		btnAdminExit = new JButton("Thoát");
-		pnAdminInput.add(Box.createVerticalGlue());
-		pnAdminInput.add(pnAdminName);
-		pnAdminInput.add(pnAdminPass);
-		pnAdminInput.add(pnAdminButton);
-		pnAdminInput.add(Box.createVerticalGlue());
-
+		JPanel pnAdminInput = new JPanel();
+		pnAdmin.setLayout(new BoxLayout(pnAdmin, BoxLayout.X_AXIS));
+		pnAdmin.add(Box.createHorizontalGlue());
+		pnAdmin.add(pnAdminInput);
+		pnAdmin.add(Box.createHorizontalGlue());
+		
 		JLabel lblAdminName = new JLabel("Tên đăng nhập:");
-		lblAdminName.setPreferredSize(new Dimension(80, 15));
-		JTextField txtAdminName = new JTextField(20);
-		pnAdminName.add(lblAdminName);
-		pnAdminName.add(txtAdminName);
-
+		txtAdminName = new JTextField(20);
 		JLabel lblAdminPass = new JLabel("Mật khẩu:");
-		lblAdminPass.setPreferredSize(new Dimension(80, 15));
-		JTextField txtAdminPass = new JTextField(20);
-		pnAdminPass.add(lblAdminPass);
-		pnAdminPass.add(txtAdminPass);
-
-		pnAdminButton.setLayout(new BoxLayout(pnAdminButton, BoxLayout.X_AXIS));
-		pnAdminButton.add(Box.createRigidArea(new Dimension(85, 0)));
-		pnAdminButton.add(btnAdminLogin);
-		pnAdminButton.add(Box.createRigidArea(new Dimension(20, 0)));
-		pnAdminButton.add(btnAdminExit);
+		txtAdminPass = new JPasswordField(20);
+		btnAppLogin = new JButton("Đăng nhập");
+		btnAtmLogin = new JButton("Thoát");
+		
+		GroupLayout lytAdmin = new GroupLayout(pnAdminInput);
+		pnAdminInput.setLayout(lytAdmin);
+		lytAdmin.setAutoCreateGaps(true);
+		lytAdmin.setAutoCreateContainerGaps(true);
+		lytAdmin.setHorizontalGroup(lytAdmin.createSequentialGroup()
+			.addGroup(lytAdmin.createParallelGroup(GroupLayout.Alignment.LEADING, false)
+				.addComponent(lblAdminName, 0, 80, Short.MAX_VALUE)
+				.addComponent(lblAdminPass)
+			)
+			.addGroup(lytAdmin.createParallelGroup(GroupLayout.Alignment.LEADING, false)
+				.addComponent(txtAdminName)
+				.addComponent(txtAdminPass)
+				.addGroup(lytAdmin.createSequentialGroup()
+					.addComponent(btnAppLogin, 0, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+					.addComponent(btnAtmLogin, 0, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+				)
+			)
+		);
+		
+		lytAdmin.setVerticalGroup(lytAdmin.createSequentialGroup()
+			.addGroup(lytAdmin.createParallelGroup(GroupLayout.Alignment.BASELINE)
+				.addComponent(lblAdminName)
+				.addComponent(txtAdminName)
+			)
+			.addGroup(lytAdmin.createParallelGroup(GroupLayout.Alignment.BASELINE)
+				.addComponent(lblAdminPass)
+				.addComponent(txtAdminPass)
+			)
+			.addGroup(lytAdmin.createParallelGroup(GroupLayout.Alignment.BASELINE)
+				.addComponent(btnAppLogin)
+				.addComponent(btnAtmLogin)
+			)
+		);
 
 		/* Main -> Bottom -> Input -> Customer */
-		pnCustomerInput.setLayout(new BoxLayout(pnCustomerInput, BoxLayout.Y_AXIS));
-		JPanel pnCustomerName = new JPanel();
-		JPanel pnCustomerPass = new JPanel();
-		JPanel pnCustomnerButton = new JPanel();
-		btnCustomerLogin = new JButton("Đăng nhập");
-		btnCustomerExit = new JButton("Thoát");
-		pnCustomerInput.add(Box.createVerticalGlue());
-		pnCustomerInput.add(pnCustomerName);
-		pnCustomerInput.add(pnCustomerPass);
-		pnCustomerInput.add(pnCustomnerButton);
-		pnCustomerInput.add(Box.createVerticalGlue());
+		JPanel pnCustomerInput = new JPanel();
+		pnCustomer.setLayout(new BoxLayout(pnCustomer, BoxLayout.X_AXIS));
+		pnCustomer.add(Box.createHorizontalGlue());
+		pnCustomer.add(pnCustomerInput);
+		pnCustomer.add(Box.createHorizontalGlue());
 
 		JLabel lblCustomerName = new JLabel("Số thẻ ATM:");
-		lblCustomerName.setPreferredSize(new Dimension(80, 15));
-		JTextField txtCustomerName = new JTextField(20);
-		pnCustomerName.add(lblCustomerName);
-		pnCustomerName.add(txtCustomerName);
-
+		txtCardSN = new JTextField(20);
 		JLabel lblCustomerPass = new JLabel("PIN:");
-		lblCustomerPass.setPreferredSize(new Dimension(80, 15));
-		JTextField txtCustomerPass = new JTextField(20);
-		pnCustomerPass.add(lblCustomerPass);
-		pnCustomerPass.add(txtCustomerPass);
+		txtPIN = new JPasswordField();
+		btnAppExit = new JButton("Đăng nhập");
+		btnAtmExit = new JButton("Thoát");
 
-		pnCustomnerButton.setLayout(new BoxLayout(pnCustomnerButton, BoxLayout.X_AXIS));
-		pnCustomnerButton.add(Box.createRigidArea(new Dimension(85, 0)));
-		pnCustomnerButton.add(btnCustomerLogin);
-		pnCustomnerButton.add(Box.createRigidArea(new Dimension(20, 0)));
-		pnCustomnerButton.add(btnCustomerExit);
-
+		GroupLayout lytCustomer = new GroupLayout(pnCustomerInput);
+		pnCustomerInput.setLayout(lytCustomer);
+		lytCustomer.setAutoCreateGaps(true);
+		lytCustomer.setAutoCreateContainerGaps(true);
+		lytCustomer.setHorizontalGroup(lytCustomer.createSequentialGroup()
+			.addGroup(lytCustomer.createParallelGroup(GroupLayout.Alignment.LEADING, false)
+				.addComponent(lblCustomerName, 0, 80, Short.MAX_VALUE)
+				.addComponent(lblCustomerPass)
+			)
+			.addGroup(lytCustomer.createParallelGroup(GroupLayout.Alignment.LEADING, false)
+				.addComponent(txtCardSN)
+				.addComponent(txtPIN)
+				.addGroup(lytCustomer.createSequentialGroup()
+					.addComponent(btnAppExit, 0, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+					.addComponent(btnAtmExit, 0, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+				)
+			)
+		);
+		
+		lytCustomer.setVerticalGroup(lytCustomer.createSequentialGroup()
+			.addGroup(lytCustomer.createParallelGroup(GroupLayout.Alignment.BASELINE)
+				.addComponent(lblCustomerName)
+				.addComponent(txtCardSN)
+			)
+			.addGroup(lytCustomer.createParallelGroup(GroupLayout.Alignment.BASELINE)
+				.addComponent(lblCustomerPass)
+				.addComponent(txtPIN)
+			)
+			.addGroup(lytCustomer.createParallelGroup(GroupLayout.Alignment.BASELINE)
+				.addComponent(btnAppExit)
+				.addComponent(btnAtmExit)
+			)
+		);
+		
 	}
 
-	void addEvents() {
-		rbnAdmin.addActionListener(showAdminInput);
-		rbnCustomer.addActionListener(showCustomerInput);
-		btnAdminExit.addActionListener(evtExit);
-		btnCustomerExit.addActionListener(evtExit);
+	private void addEvents() {
+		rbnAdmin.addActionListener(showInput);
+		rbnCustomer.addActionListener(showInput);
+		btnAtmLogin.addActionListener(evtExit);
+		btnAtmExit.addActionListener(evtExit);
+
+	}
+	
+	private void checkConnect() {
+		if (!ConnectDB.checkConnect()) {
+			JOptionPane.showMessageDialog(null, "Kiểm tra kết nối Cơ sở dữ liệu.", "Lỗi",
+					JOptionPane.WARNING_MESSAGE);
+		}
 	}
 
 }

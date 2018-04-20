@@ -3,30 +3,43 @@ package ui;
 import java.awt.CardLayout;
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
+
+import model.User;
+
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.GroupLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
 public class ManagementUI extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	
-	private JPanel pnSide, pnCenter, pnCustomerAccess, pnCustomerReport, 
-					pnCustomerWithdraw, pnATMAccess, pnATMReport,pnATMWithdraw;
+	private JPanel pnSide, pnButton, pnCenter, pnCustomerReport, 
+					pnCustomerWithdraw, pnATMReport,pnATMWithdraw;
+	ATMAccessUI pnATMAccess;
+	CustomerAccessUI pnCustomerAccess;
 	private JButton btnCustomerAccess, btnCustomerReport, btnCustomerWithdraw, 
 					btnATMAccess, btnATMReport, btnATMWithdraw, btnLogout;
 	private CardLayout layoutCenter;
 	private JLabel lblWelcome;
+	private User user;
 
 	private ActionListener showCustomerAccess = new ActionListener() {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			layoutCenter.show(pnCenter, "1");
+			if (user.getRole() == 1) {
+				pnCustomerAccess.loadCustomerList();
+			}
 		}
 	};
 
@@ -34,6 +47,7 @@ public class ManagementUI extends JPanel {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			layoutCenter.show(pnCenter, "2");
+			pnATMAccess.loadATMList();
 		}
 	};
 
@@ -64,18 +78,28 @@ public class ManagementUI extends JPanel {
 			layoutCenter.show(pnCenter, "6");
 		}
 	};
+	
+	private ActionListener showUserWithdraw = new ActionListener() {
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			layoutCenter.show(pnCenter, "2");
+		}
+	};
 
 	public JButton getBtnLogout() {
 		return btnLogout;
 	}
 
-	public JLabel getLblWelcome() {
-		return lblWelcome;
-	}
-
-	public ManagementUI() {
+	public ManagementUI(User user) {
+		this.user = user;
 		addControls();
-		addEvent();
+		if (user.getRole() == 1) {
+			addControlsAdmin();
+			addEventsAdmin();
+		} else {
+			addControlsCustomer();
+			addEventsCustomer();
+		}
 	}
 
 	public void addControls() {
@@ -92,23 +116,59 @@ public class ManagementUI extends JPanel {
 		this.add(Box.createRigidArea(new Dimension(5, 0)));
 
 		/* Main -> Side */
+		JPanel pnWelcome = new JPanel();
 		pnSide.setLayout(new BoxLayout(pnSide, BoxLayout.Y_AXIS));
-		JPanel pnButton = new JPanel();
+		pnButton = new JPanel();
 		pnSide.add(Box.createVerticalGlue());
+		pnSide.add(pnWelcome);
 		pnSide.add(pnButton);
 		pnSide.add(Box.createVerticalGlue());
-
+		
+		/*Main - Welcome*/
+		String name = user.getName();
+		String welcomeString = "<html>Xin chào, <font color='red'>" + name + "</font></html>.";
+		lblWelcome = new JLabel(welcomeString);
+		lblWelcome.setHorizontalAlignment(SwingConstants.CENTER);
+		JLabel lblUser = new JLabel();
+		ImageIcon bgImage = new ImageIcon(getClass().getResource("/images/user.png"));
+		bgImage.getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH);
+		lblUser.setIcon(bgImage);
+		GroupLayout welcome = new GroupLayout(pnWelcome);
+		pnWelcome.setLayout(welcome);
+		welcome.setAutoCreateGaps(true);
+		welcome.setAutoCreateContainerGaps(true);
+		welcome.setHorizontalGroup(welcome.createSequentialGroup()
+			.addGroup(welcome.createParallelGroup(GroupLayout.Alignment.CENTER)
+				.addComponent(lblUser)
+				.addComponent(lblWelcome)
+			)
+		);
+		welcome.setVerticalGroup(welcome.createSequentialGroup()
+			.addComponent(lblUser)
+			.addComponent(lblWelcome)
+		);
+		
+	}
+	
+	private void addControlsAdmin() {
+		
+		/*Main --> Button*/
 		btnCustomerAccess = new JButton("QUẢN LÝ KHÁCH HÀNG");
+		btnCustomerAccess.setHorizontalAlignment(SwingConstants.LEFT);
 		btnATMAccess = new JButton("QUẢN LÝ ATM");
+		btnATMAccess.setHorizontalAlignment(SwingConstants.LEFT);
 		btnCustomerReport = new JButton("BÁO CÁO KHÁCH HÀNG");
+		btnCustomerReport.setHorizontalAlignment(SwingConstants.LEFT);
 		btnCustomerWithdraw = new JButton("TÌNH HÌNH RÚT TIỀN CỦA KHÁCH HÀNG");
+		btnCustomerWithdraw.setHorizontalAlignment(SwingConstants.LEFT);
 		btnATMReport = new JButton("BÁO CÁO ATM");
+		btnATMReport.setHorizontalAlignment(SwingConstants.LEFT);
 		btnATMWithdraw = new JButton("TÌNH HÌNH RÚT TIỀN TRÊN ATM");
-
-		pnButton.setLayout(new GridLayout(0, 1, 0, 5));
-		lblWelcome = new JLabel();
+		btnATMWithdraw.setHorizontalAlignment(SwingConstants.LEFT);
 		btnLogout = new JButton("ĐĂNG XUẤT");
-		pnButton.add(lblWelcome);
+		btnLogout.setHorizontalAlignment(SwingConstants.LEFT);
+		
+		pnButton.setLayout(new GridLayout(0, 1, 0, 5));
 		pnButton.add(btnCustomerAccess);
 		pnButton.add(btnATMAccess);
 		pnButton.add(btnCustomerReport);
@@ -121,10 +181,10 @@ public class ManagementUI extends JPanel {
 		layoutCenter = new CardLayout();
 		pnCenter.setLayout(layoutCenter);
 
-		pnCustomerAccess = new CustomerAccessUI();
+		pnCustomerAccess = new CustomerAccessUI(user);
 		pnATMAccess = new ATMAccessUI();
 		pnCustomerReport = new CustomerReportUI();
-		pnCustomerWithdraw = new CustomerWithdrawUI();
+		pnCustomerWithdraw = new CustomerWithdrawUI(user);
 		pnATMReport = new ATMReportUI();
 		pnATMWithdraw = new ATMWithdrawUI();
 
@@ -137,13 +197,47 @@ public class ManagementUI extends JPanel {
 
 	}
 
-	void addEvent() {
+	private void addEventsAdmin() {
 		btnCustomerAccess.addActionListener(showCustomerAccess);
 		btnATMAccess.addActionListener(showATMAccess);
 		btnCustomerReport.addActionListener(showCustomerReport);
 		btnCustomerWithdraw.addActionListener(showCustomerWithdraw);
 		btnATMReport.addActionListener(showATMReport);
 		btnATMWithdraw.addActionListener(showATMWithdraw);
+
+	}
+	
+	private void addControlsCustomer() {
+		
+		/*Main --> Button*/
+		btnCustomerAccess = new JButton("THÔNG TIN KHÁCH HÀNG");
+		btnCustomerAccess.setHorizontalAlignment(SwingConstants.LEFT);
+		btnCustomerWithdraw = new JButton("LỊCH SỬ GIAO DỊCH KHÁCH HÀNG");
+		btnCustomerWithdraw.setHorizontalAlignment(SwingConstants.LEFT);
+		btnLogout = new JButton("ĐĂNG XUẤT");
+		btnLogout.setHorizontalAlignment(SwingConstants.LEFT);
+		
+		pnButton.setLayout(new GridLayout(0, 1, 0, 5));
+		pnButton.add(btnCustomerAccess);
+		pnButton.add(btnCustomerWithdraw);
+		pnButton.add(btnLogout);
+		
+		/* Main -> Center */
+		layoutCenter = new CardLayout();
+		pnCenter.setLayout(layoutCenter);
+
+		pnCustomerAccess = new CustomerAccessUI(user);
+		pnCustomerWithdraw = new CustomerWithdrawUI(user);
+
+		pnCenter.add(pnCustomerAccess, "1");
+		pnCenter.add(pnCustomerWithdraw, "2");
+
+	}
+	
+	private void addEventsCustomer() {
+		btnCustomerAccess.addActionListener(showCustomerAccess);
+		btnCustomerWithdraw.addActionListener(showUserWithdraw);
+
 	}
 
 }

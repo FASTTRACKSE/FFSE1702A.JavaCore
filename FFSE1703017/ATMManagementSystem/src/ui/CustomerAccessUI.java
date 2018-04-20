@@ -28,6 +28,9 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 
@@ -35,25 +38,32 @@ import model.AddressDB;
 import model.ComboItem;
 import model.Customer;
 import model.CustomerDB;
+import model.User;
+import model.UserDB;
 
 public class CustomerAccessUI extends JPanel {
 
 	private static final long serialVersionUID = 1L;
-	String[] col = { "Mã khách hàng", "Họ tên", "Số điện thoại", "Email", "Số tiền trong TK" };
-	DefaultTableModel mdlCustomerList = new DefaultTableModel(col, 0);
-	JButton btnAdd, btnEdit, btnDelete, btnReset, btnSearch;
-	JTextField txtName, txtPhone, txtEmail, txtStreet, txtCode, txtCardSN, txtAccSN, txtSearch;
+	private String[] col = { "Mã khách hàng", "Họ tên", "Số điện thoại", "Email", "Số tiền trong TK" };
+	private DefaultTableModel mdlCustomerList = new DefaultTableModel(col, 0);
+	private JButton btnAdd, btnEdit, btnDelete, btnReset;
+	private JTextField txtName, txtPhone, txtEmail, txtStreet, txtCode, txtCardSN, txtAccSN, txtSearch;
 	/* Xử lý hiển thị số có dấu phẩy động */
-	NumberFormat amountFormat;
-	JFormattedTextField txtAmount;
-	JComboBox<ComboItem> cbDistrict, cbWard;
-	JTable tblCustomerList;
+	private NumberFormat amountFormat;
+	private JFormattedTextField txtAmount;
+	private JComboBox<ComboItem> cbDistrict, cbWard;
+	private JTable tblCustomerList;
+	private JPanel pnLeft, pnRight, pnAddress, pnButton;
+	UserInfo pnUser;
+	User user;
+	JLabel lblTitle;
 
-	MouseAdapter evtRowSelected = new MouseAdapter() {
+	private MouseAdapter evtRowSelected = new MouseAdapter() {
 		public void mouseClicked(MouseEvent e) {
 			int i = tblCustomerList.getSelectedRow();
 			if (i >= 0) {
-				setTextToInput(i);
+				String code = (String) tblCustomerList.getValueAt(i, 0);
+				setTextToInput(code);
 				btnEdit.setEnabled(true);
 				btnDelete.setEnabled(true);
 				btnAdd.setEnabled(false);
@@ -64,7 +74,7 @@ public class CustomerAccessUI extends JPanel {
 		}
 	};
 
-	ActionListener evtAdd = new ActionListener() {
+	private ActionListener evtAdd = new ActionListener() {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			String name = txtName.getText();
@@ -106,7 +116,7 @@ public class CustomerAccessUI extends JPanel {
 		}
 	};
 
-	ActionListener evtEdit = new ActionListener() {
+	private ActionListener evtEdit = new ActionListener() {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			String name = txtName.getText();
@@ -166,7 +176,7 @@ public class CustomerAccessUI extends JPanel {
 		}
 	};
 
-	ActionListener evtDelete = new ActionListener() {
+	private ActionListener evtDelete = new ActionListener() {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			int i = tblCustomerList.getSelectedRow();
@@ -193,39 +203,69 @@ public class CustomerAccessUI extends JPanel {
 		}
 	};
 
-	ActionListener evtReset = new ActionListener() {
+	private ActionListener evtReset = new ActionListener() {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			resetInput();
 		}
 	};
-
-	ActionListener evtSearch = new ActionListener() {
+	
+	private DocumentListener evtSearch = new DocumentListener() {
+		
+		@Override
+		public void removeUpdate(DocumentEvent e) {
+			search();
+		}
+		
+		@Override
+		public void insertUpdate(DocumentEvent e) {
+			search();
+		}
+		
+		@Override
+		public void changedUpdate(DocumentEvent e) {
+			search();
+		}
+	};
+	
+	private ActionListener evtChangePassword = new ActionListener() {
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			String keySearch = txtSearch.getText();
-			ArrayList<Customer> arr = CustomerDB.getCustomersByName(keySearch);
-			mdlCustomerList.setRowCount(0);
-			if (arr.isEmpty()) {
-				JOptionPane.showMessageDialog(null, "Không tìm thấy khách hàng phù hợp.", "Thông báo",
-						JOptionPane.INFORMATION_MESSAGE);
+			String password = new String(pnUser.txtPassword.getPassword());
+			String rePassword = new String(pnUser.txtRePassword.getPassword());
+			String code = user.getCustomerCode();
+			if (password.isEmpty() || rePassword.isEmpty() || !password.equals(rePassword)) {
+				JOptionPane.showMessageDialog(null, "Mật khẩu trống hoặc không khớp.", "Lỗi",
+						JOptionPane.WARNING_MESSAGE);
+			} else {
+				int i = UserDB.changePassword(password, code);
+				if (i > 0) {
+					pnUser.txtPassword.setText("");
+					pnUser.txtRePassword.setText("");
+					JOptionPane.showMessageDialog(null, "Đổi mật khẩu thành công.", "Thông báo",
+							JOptionPane.INFORMATION_MESSAGE);
+				} else {
+					JOptionPane.showMessageDialog(null, "Đổi mật khẩu không thành công.", "Lỗi",
+							JOptionPane.WARNING_MESSAGE);
+				}
 			}
-			for (Customer ctm : arr) {
-				String[] row = { ctm.getCode(), ctm.getName(), ctm.getPhone(),
-						String.format("%,d", (long) ctm.getAmount()) };
-				mdlCustomerList.addRow(row);
-			}
-			resetInput();
+			
 		}
 	};
 
-	public CustomerAccessUI() {
+	public CustomerAccessUI(User user) {
+		this.user = user;
 		setupInput();
 		addPanel();
-		addEvent();
+		if (user.getRole() == 1) {
+			addPanelsAdmin();
+			addEvent();
+		} else {
+			addPanelsCustomer();
+		}
 	}
 
-	void addPanel() {
+	private void addPanel() {
 		/* Panel chính */
 		this.setLayout(new BorderLayout());
 		JPanel pnTitle = new JPanel();
@@ -234,15 +274,15 @@ public class CustomerAccessUI extends JPanel {
 		this.add(pnAction, BorderLayout.CENTER);
 
 		/* Panel chính -> Tiêu đề */
-		pnTitle.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 5));
-		String title = "<html><p style='font-size:15px'>QUẢN LÝ KHÁCH HÀNG</p></html>";
-		JLabel lblTitle = new JLabel(title);
+		pnTitle.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 5));
+		String title = "<html><p style='font-size:12px'>QUẢN LÝ KHÁCH HÀNG</p></html>";
+		lblTitle = new JLabel(title);
 		pnTitle.add(lblTitle);
 
 		/* Panel chính -> Action */
 		pnAction.setLayout(new BoxLayout(pnAction, BoxLayout.X_AXIS));
-		JPanel pnLeft = new JPanel();
-		JPanel pnRight = new JPanel();
+		pnLeft = new JPanel();
+		pnRight = new JPanel();
 		pnAction.add(pnLeft);
 		pnAction.add(Box.createRigidArea(new Dimension(5, 0)));
 		pnAction.add(pnRight);
@@ -250,9 +290,9 @@ public class CustomerAccessUI extends JPanel {
 		/* Panel chính -> Action -> Trái */
 		pnLeft.setLayout(new BoxLayout(pnLeft, BoxLayout.Y_AXIS));
 		JPanel pnProfile = new JPanel();
-		JPanel pnAddress = new JPanel();
+		pnAddress = new JPanel();
 		JPanel pnAccount = new JPanel();
-		JPanel pnButton = new JPanel();
+		pnButton = new JPanel();
 
 		pnLeft.add(Box.createVerticalGlue());
 		pnLeft.add(pnProfile);
@@ -276,17 +316,31 @@ public class CustomerAccessUI extends JPanel {
 		lytProfile.setAutoCreateContainerGaps(true);
 		lytProfile.setHorizontalGroup(lytProfile.createSequentialGroup()
 				.addGroup(lytProfile.createParallelGroup(GroupLayout.Alignment.LEADING, false)
-						.addComponent(lblName, 0, 80, Short.MAX_VALUE).addComponent(lblPhone).addComponent(lblEmail))
-				.addGroup(lytProfile.createParallelGroup(GroupLayout.Alignment.LEADING).addComponent(txtName)
-						.addComponent(txtPhone).addComponent(txtEmail)));
+						.addComponent(lblName, 0, 80, Short.MAX_VALUE)
+						.addComponent(lblPhone)
+						.addComponent(lblEmail)
+				)
+				.addGroup(lytProfile.createParallelGroup(GroupLayout.Alignment.LEADING)
+						.addComponent(txtName)
+						.addComponent(txtPhone)
+						.addComponent(txtEmail)
+				)
+		);
 
 		lytProfile.setVerticalGroup(lytProfile.createSequentialGroup()
-				.addGroup(lytProfile.createParallelGroup(GroupLayout.Alignment.BASELINE).addComponent(lblName)
-						.addComponent(txtName))
-				.addGroup(lytProfile.createParallelGroup(GroupLayout.Alignment.BASELINE).addComponent(lblPhone)
-						.addComponent(txtPhone))
-				.addGroup(lytProfile.createParallelGroup(GroupLayout.Alignment.BASELINE).addComponent(lblEmail)
-						.addComponent(txtEmail)));
+				.addGroup(lytProfile.createParallelGroup(GroupLayout.Alignment.BASELINE)
+						.addComponent(lblName)
+						.addComponent(txtName)
+				)
+				.addGroup(lytProfile.createParallelGroup(GroupLayout.Alignment.BASELINE)
+						.addComponent(lblPhone)
+						.addComponent(txtPhone)
+				)
+				.addGroup(lytProfile.createParallelGroup(GroupLayout.Alignment.BASELINE)
+						.addComponent(lblEmail)
+						.addComponent(txtEmail)
+				)
+		);
 
 		/* Panel chính -> Action -> Trái -> Địa chỉ */
 		Border bdrAddress = BorderFactory.createLineBorder(Color.RED);
@@ -308,17 +362,27 @@ public class CustomerAccessUI extends JPanel {
 		lytAddress.setAutoCreateContainerGaps(true);
 		lytAddress.setHorizontalGroup(lytAddress.createSequentialGroup()
 				.addGroup(lytAddress.createParallelGroup(GroupLayout.Alignment.LEADING, false)
-						.addComponent(lblDistrict, 0, 80, Short.MAX_VALUE).addComponent(lblWard)
-						.addComponent(lblStreet))
-				.addGroup(lytAddress.createParallelGroup(GroupLayout.Alignment.LEADING).addComponent(cbDistrict)
+						.addComponent(lblDistrict, 0, 80, Short.MAX_VALUE)
+						.addComponent(lblWard)
+						.addComponent(lblStreet)
+				)
+				.addGroup(lytAddress.createParallelGroup(GroupLayout.Alignment.LEADING)
+						.addComponent(cbDistrict)
 						.addComponent(cbWard).addComponent(txtStreet)));
 		lytAddress.setVerticalGroup(lytAddress.createSequentialGroup()
-				.addGroup(lytAddress.createParallelGroup(GroupLayout.Alignment.BASELINE).addComponent(lblDistrict)
-						.addComponent(cbDistrict))
-				.addGroup(lytAddress.createParallelGroup(GroupLayout.Alignment.BASELINE).addComponent(lblWard)
-						.addComponent(cbWard))
-				.addGroup(lytAddress.createParallelGroup(GroupLayout.Alignment.BASELINE).addComponent(lblStreet)
-						.addComponent(txtStreet)));
+				.addGroup(lytAddress.createParallelGroup(GroupLayout.Alignment.BASELINE)
+						.addComponent(lblDistrict)
+						.addComponent(cbDistrict)
+				)
+				.addGroup(lytAddress.createParallelGroup(GroupLayout.Alignment.BASELINE)
+						.addComponent(lblWard)
+						.addComponent(cbWard)
+				)
+				.addGroup(lytAddress.createParallelGroup(GroupLayout.Alignment.BASELINE)
+						.addComponent(lblStreet)
+						.addComponent(txtStreet)
+				)
+		);
 
 		/* Panel chính -> Action -> Trái -> Thông tin tài khoản */
 		Border bdrAccount = BorderFactory.createLineBorder(Color.RED);
@@ -336,19 +400,34 @@ public class CustomerAccessUI extends JPanel {
 		lytAccount.setAutoCreateContainerGaps(true);
 		lytAccount.setHorizontalGroup(lytAccount.createSequentialGroup()
 				.addGroup(lytAccount.createParallelGroup(GroupLayout.Alignment.LEADING, false)
-						.addComponent(lblCode, 0, 80, Short.MAX_VALUE).addComponent(lblCardSN).addComponent(lblAccSN)
-						.addComponent(lblAmount))
-				.addGroup(lytAccount.createParallelGroup(GroupLayout.Alignment.LEADING).addComponent(txtCode)
-						.addComponent(txtCardSN).addComponent(txtAccSN).addComponent(txtAmount)));
+						.addComponent(lblCode, 0, 80, Short.MAX_VALUE)
+						.addComponent(lblCardSN)
+						.addComponent(lblAccSN)
+						.addComponent(lblAmount)
+				)
+				.addGroup(lytAccount.createParallelGroup(GroupLayout.Alignment.LEADING)
+						.addComponent(txtCode)
+						.addComponent(txtCardSN).addComponent(txtAccSN)
+						.addComponent(txtAmount)
+				)
+		);
 		lytAccount.setVerticalGroup(lytAccount.createSequentialGroup()
-				.addGroup(lytAccount.createParallelGroup(GroupLayout.Alignment.BASELINE).addComponent(lblCode)
-						.addComponent(txtCode))
-				.addGroup(lytAccount.createParallelGroup(GroupLayout.Alignment.BASELINE).addComponent(lblCardSN)
-						.addComponent(txtCardSN))
-				.addGroup(lytAccount.createParallelGroup(GroupLayout.Alignment.BASELINE).addComponent(lblAccSN)
-						.addComponent(txtAccSN))
-				.addGroup(lytAccount.createParallelGroup(GroupLayout.Alignment.BASELINE).addComponent(lblAmount)
-						.addComponent(txtAmount))
+				.addGroup(lytAccount.createParallelGroup(GroupLayout.Alignment.BASELINE)
+						.addComponent(lblCode)
+						.addComponent(txtCode)
+				)
+				.addGroup(lytAccount.createParallelGroup(GroupLayout.Alignment.BASELINE)
+						.addComponent(lblCardSN)
+						.addComponent(txtCardSN)
+				)
+				.addGroup(lytAccount.createParallelGroup(GroupLayout.Alignment.BASELINE)
+						.addComponent(lblAccSN)
+						.addComponent(txtAccSN)
+				)
+				.addGroup(lytAccount.createParallelGroup(GroupLayout.Alignment.BASELINE)
+						.addComponent(lblAmount)
+						.addComponent(txtAmount)
+				)
 
 		);
 
@@ -363,6 +442,10 @@ public class CustomerAccessUI extends JPanel {
 		pnButton.add(btnEdit);
 		pnButton.add(btnDelete);
 		pnButton.add(btnReset);
+		
+	}
+	
+	private void addPanelsAdmin() {
 
 		/* Panel chính -> Action -> Phải */
 		pnRight.setLayout(new BoxLayout(pnRight, BoxLayout.Y_AXIS));
@@ -374,13 +457,18 @@ public class CustomerAccessUI extends JPanel {
 
 		/* Panel chính -> Action -> Phải -> Tìm kiêm */
 		pnSearch.setLayout(new FlowLayout(FlowLayout.RIGHT));
-		btnSearch = new JButton("Tìm kiếm");
+		JLabel lblSearch = new JLabel("Tìm kiếm: ");
+		pnSearch.add(lblSearch);
 		pnSearch.add(txtSearch);
-		pnSearch.add(btnSearch);
 
 		/* Panel chính -> Action -> Phải -> Danh sách khách hàng */
 		tblCustomerList = new JTable();
 		tblCustomerList.setModel(mdlCustomerList);
+		
+		DefaultTableCellRenderer rightRenderer = new DefaultTableCellRenderer();
+		rightRenderer.setHorizontalAlignment(JLabel.RIGHT);
+		tblCustomerList.getColumnModel().getColumn(4).setCellRenderer(rightRenderer);
+		
 		TableColumnModel columnModel = tblCustomerList.getColumnModel();
 		columnModel.getColumn(1).setPreferredWidth(120);
 		columnModel.getColumn(3).setPreferredWidth(120);
@@ -388,18 +476,54 @@ public class CustomerAccessUI extends JPanel {
 		loadCustomerList();
 
 	}
+	
+	private void addPanelsCustomer() {
+		String title = "<html><p style='font-size:12px'>THÔNG TIN CÁ NHÂN</p></html>";
+		lblTitle.setText(title);
+		
+		pnLeft.remove(pnAddress);
+		pnLeft.remove(pnButton);
+		
+		JPanel pnEdit = new JPanel();
+		pnEdit.setLayout(new FlowLayout(FlowLayout.RIGHT));
+		pnEdit.add(btnEdit);
+		btnEdit.setEnabled(true);
+		
+		pnUser = new UserInfo(user);
+		pnRight.setLayout(new BoxLayout(pnRight, BoxLayout.Y_AXIS));
+		pnRight.add(Box.createVerticalGlue());
+		pnRight.add(Box.createRigidArea(new Dimension(0, 25)));
+		pnRight.add(pnAddress);
+		pnRight.add(pnUser);
+		pnRight.add(pnEdit);
+		pnRight.add(Box.createVerticalGlue());
+		
+		String code = user.getCustomerCode();
+		cbDistrict.addActionListener(new DistrictSelectEvent(cbDistrict, cbWard));
+		setTextToInput(code);
+		
+		txtName.setEditable(false);
+		txtPhone.setEditable(false);
+		txtEmail.setEditable(false);
+		txtAmount.setEditable(false);
+		cbDistrict.setEditable(false);
+		cbWard.setEditable(false);
+		txtStreet.setEditable(false);
+		
+		btnEdit.addActionListener(evtChangePassword);
+	}
 
-	void addEvent() {
+	private void addEvent() {
 		tblCustomerList.addMouseListener(evtRowSelected);
 		btnAdd.addActionListener(evtAdd);
 		btnEdit.addActionListener(evtEdit);
 		btnDelete.addActionListener(evtDelete);
 		btnReset.addActionListener(evtReset);
-		btnSearch.addActionListener(evtSearch);
 		cbDistrict.addActionListener(new DistrictSelectEvent(cbDistrict, cbWard));
+		txtSearch.getDocument().addDocumentListener(evtSearch);
 	}
 
-	void setupInput() {
+	private void setupInput() {
 		txtName = new JTextField();
 		txtPhone = new JTextField();
 		txtEmail = new JTextField();
@@ -415,8 +539,7 @@ public class CustomerAccessUI extends JPanel {
 		cbWard = new JComboBox<>();
 	}
 
-	void setTextToInput(int i) {
-		String code = (String) tblCustomerList.getValueAt(i, 0);
+	private void setTextToInput(String code) {
 		Customer ctm = CustomerDB.getCustomerbyCode(code);
 		txtName.setText(ctm.getName());
 		txtPhone.setText(ctm.getPhone());
@@ -452,7 +575,7 @@ public class CustomerAccessUI extends JPanel {
 		}
 	}
 
-	void resetInput() {
+	private void resetInput() {
 		txtName.setText("");
 		txtPhone.setText("");
 		txtEmail.setText("");
@@ -462,18 +585,18 @@ public class CustomerAccessUI extends JPanel {
 		txtAccSN.setText("");
 		txtAmount.setValue(new Double(0));
 		cbDistrict.setSelectedIndex(0);
-		/* Rest Button */
+		/* Reset Button */
 		btnDelete.setEnabled(false);
 		btnEdit.setEnabled(false);
 		btnAdd.setEnabled(true);
-		/* Rest Textfiled */
+		/* Reset Textfiled */
 		txtCode.setEditable(true);
 		txtCardSN.setEditable(true);
 		txtAccSN.setEditable(true);
 	}
 
 	/* Validate input */
-	boolean checkInput(String name, String email, String phone, int districtID, int wardID, String street, String code,
+	private boolean checkInput(String name, String email, String phone, int districtID, int wardID, String street, String code,
 			String cardSN, String accSN) {
 		/* Email validate by RegEx */
 		String emailReg = "^([_a-zA-Z0-9-]+(\\.[_a-zA-Z0-9-]+)*@[a-zA-Z0-9-]+(\\.[a-zA-Z0-9-]+)*(\\.[a-zA-Z]{1,6}))?$";
@@ -537,7 +660,7 @@ public class CustomerAccessUI extends JPanel {
 	}
 
 	/* Check exist */
-	boolean checkValidItems(String code, String phone, String email, String cardSN, String accSN) {
+	private boolean checkValidItems(String code, String phone, String email, String cardSN, String accSN) {
 		if (CustomerDB.isItem("phone", phone)) {
 
 			JOptionPane.showMessageDialog(null, "Số điện thoại đã được sử dụng.", "Lỗi", JOptionPane.WARNING_MESSAGE);
@@ -566,6 +689,19 @@ public class CustomerAccessUI extends JPanel {
 		} else {
 			return true;
 		}
+	}
+	
+	private void search() {
+		String keySearch = txtSearch.getText();
+		ArrayList<Customer> arr = CustomerDB.getCustomersByName(keySearch);
+		mdlCustomerList.setRowCount(0);
+
+		for (Customer ctm : arr) {
+			String[] row = { ctm.getCode(), ctm.getName(), ctm.getPhone(), ctm.getEmail(), 
+					String.format("%,d", (long) ctm.getAmount()) };
+			mdlCustomerList.addRow(row);
+		}
+		resetInput();
 	}
 
 	void loadCustomerList() {

@@ -27,5 +27,11 @@ public class ConnectDB {
 		}
 		return conn;
 	}
+	
+	public static boolean checkConnect() {
+		Connection conn = getConnect();
+		return (conn != null) ? true : false;
+		
+	}
 
 }

@@ -20,6 +20,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
 import com.toedter.calendar.JDateChooser;
@@ -27,22 +28,31 @@ import com.toedter.calendar.JTextFieldDateEditor;
 
 import model.CustomerReport;
 import model.CustomerReportDB;
+import model.User;
 
 public class CustomerWithdrawUI extends JPanel {
 
 	private static final long serialVersionUID = 1L;
-	String[] col = { "Mã khách hàng", "Họ tên", "Máy ATM", "Mã giao dịch", "Thời gian giao dịch", "Số tiền đã rút" };
-	DefaultTableModel mdlCustomerWithdraw = new DefaultTableModel(col, 0);
-	JButton btnFilter;
-	JTextField txtCode;
-	JDateChooser dateFrom, dateTo;
-	JLabel lblTotal;
+	private String[] col;
+	private DefaultTableModel mdlCustomerWithdraw;
+	private JPanel pnFilter, pnCode;
+	JScrollPane spCustomerWithdraw;
+	private JButton btnFilter;
+	private JTextField txtCode;
+	private JDateChooser dateFrom, dateTo;
+	private JLabel lblTotal, lblTitle;
+	User user;
 
-	ActionListener evtFilter = new ActionListener() {
+	private ActionListener evtFilter = new ActionListener() {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 
-			String code = txtCode.getText().trim();
+			String code;
+			if (user.getRole() == 1) {
+				code = txtCode.getText().trim();
+			} else {
+				code = user.getCustomerCode();
+			}
 			boolean isDuration = Validation.checkDuration(dateFrom, dateTo);
 			if (isDuration) {
 				/* Sử dung Calendar để tính toán với ngày */
@@ -61,9 +71,16 @@ public class CustomerWithdrawUI extends JPanel {
 					Timestamp ts = cus.getTime();
 					date.setTime(ts.getTime());
 					String time = dateFormat.format(date);
+					String[] row;
+					if (user.getRole() == 1) {
 
-					String[] row = { cus.getCustomer_code(), cus.getCustomer_name(), cus.getAtm_code(), cus.getCode(),
-							time, String.format("%,d", (long) cus.getAmount()) };
+						row = new String[] { cus.getCustomer_code(), cus.getCustomer_name(),
+								cus.getAtm_code(), cus.getCode(), time,
+								String.format("%,d", (long) cus.getAmount()) };
+					} else {
+						
+						row = new String[] {  cus.getCode(),time, String.format("%,d", (long) cus.getAmount()) };
+					}
 
 					total += cus.getAmount();
 					mdlCustomerWithdraw.addRow(row);
@@ -77,12 +94,18 @@ public class CustomerWithdrawUI extends JPanel {
 		}
 	};
 
-	public CustomerWithdrawUI() {
+	public CustomerWithdrawUI(User user) {
+		this.user = user;
 		addPanel();
+		if (user.getRole() == 1) {
+			addPanelsAdmin();
+		} else {
+			addPanelsCustomer();
+		}
 		addEvent();
 	}
 
-	void addPanel() {
+	private void addPanel() {
 		/* Panel chính */
 		this.setLayout(new BorderLayout());
 		JPanel pnTitle = new JPanel();
@@ -93,9 +116,9 @@ public class CustomerWithdrawUI extends JPanel {
 		this.add(pnTotal, BorderLayout.SOUTH);
 
 		/* Panel chính -> Tiêu đề */
-		pnTitle.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 5));
-		String title = "<html><p style='font-size:15px'>BÁO CÁO TÌNH HÌNH RÚT TIỀN CỦA KHÁCH HÀNG</p></html>";
-		JLabel lblTitle = new JLabel(title);
+		pnTitle.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 5));
+		String title = "<html><p style='font-size:12px'>BÁO CÁO TÌNH HÌNH RÚT TIỀN CỦA KHÁCH HÀNG</p></html>";
+		lblTitle = new JLabel(title);
 		pnTitle.add(lblTitle);
 
 		/* Panel chính -> Tông tiền */
@@ -105,15 +128,15 @@ public class CustomerWithdrawUI extends JPanel {
 
 		/* Panel chính -> Action */
 		pnAction.setLayout(new BoxLayout(pnAction, BoxLayout.Y_AXIS));
-		JPanel pnFilter = new JPanel();
-		JScrollPane spCustomerWithdraw = new JScrollPane();
+		pnFilter = new JPanel();
+		spCustomerWithdraw = new JScrollPane();
 		pnAction.add(Box.createRigidArea(new Dimension(0, 10)));
 		pnAction.add(pnFilter);
 		pnAction.add(spCustomerWithdraw);
 		pnAction.add(Box.createRigidArea(new Dimension(0, 5)));
 
 		/* Panel chính -> Action -> Filter */
-		JPanel pnCode = new JPanel();
+		pnCode = new JPanel();
 		JPanel pnDuration = new JPanel();
 		btnFilter = new JButton("Xem");
 		pnFilter.setLayout(new FlowLayout(FlowLayout.LEADING));
@@ -144,16 +167,44 @@ public class CustomerWithdrawUI extends JPanel {
 		pnDuration.add(dateFrom);
 		pnDuration.add(lblTo);
 		pnDuration.add(dateTo);
+	}
+	
+	private void addPanelsAdmin() {
 
 		/* Panel chính -> Action -> Phải -> Danh sách khách hàng */
 		JTable tblCustomerWithdraw = new JTable();
+		col = new String[]{ "Mã khách hàng", "Họ tên", "Máy ATM", "Mã giao dịch", "Thời gian giao dịch", "Số tiền đã rút" };
+		mdlCustomerWithdraw = new DefaultTableModel(col, 0);
 		tblCustomerWithdraw.setModel(mdlCustomerWithdraw);
+		
+		DefaultTableCellRenderer rightRenderer = new DefaultTableCellRenderer();
+		rightRenderer.setHorizontalAlignment(JLabel.RIGHT);
+		tblCustomerWithdraw.getColumnModel().getColumn(5).setCellRenderer(rightRenderer);
+		spCustomerWithdraw.setViewportView(tblCustomerWithdraw);
+	}
+	
+	private void addPanelsCustomer() {
+		String title = "<html><p style='font-size:12px'>LỊCH SỬ GIAO DỊCH KHÁCH HÀN</p></html>";
+		lblTitle.setText(title);
+		pnFilter.remove(pnCode);
+
+		/* Panel chính -> Action -> Phải -> Danh sách khách hàng */
+		JTable tblCustomerWithdraw = new JTable();
+		col = new String[]{"Mã giao dịch", "Thời gian giao dịch", "Số tiền đã rút" };
+		mdlCustomerWithdraw = new DefaultTableModel(col, 0);
+		tblCustomerWithdraw.setModel(mdlCustomerWithdraw);
+		
+		DefaultTableCellRenderer rightRenderer = new DefaultTableCellRenderer();
+		rightRenderer.setHorizontalAlignment(JLabel.RIGHT);
+		tblCustomerWithdraw.getColumnModel().getColumn(2).setCellRenderer(rightRenderer);
+		
 		spCustomerWithdraw.setViewportView(tblCustomerWithdraw);
 
 	}
 
-	void addEvent() {
+	private void addEvent() {
 		btnFilter.addActionListener(evtFilter);
 	}
+
 
 }

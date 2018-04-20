@@ -26,6 +26,9 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
 import model.AddressDB;
@@ -36,17 +39,17 @@ import model.ATMDB;
 public class ATMAccessUI extends JPanel {
 
 	private static final long serialVersionUID = 1L;
-	String[] col = { "Mã máy ATM", "Đường", "Số tiền trong máy" };
-	DefaultTableModel mdlATMList = new DefaultTableModel(col, 0);
-	JButton btnAdd, btnEdit, btnDelete, btnReset, btnSearch;
-	JTextField txtStreet, txtCode, txtSearch;
+	private String[] col = { "Mã máy ATM", "Đường", "Số tiền trong máy" };
+	private DefaultTableModel mdlATMList = new DefaultTableModel(col, 0);
+	private JButton btnAdd, btnEdit, btnDelete, btnReset;
+	private JTextField txtStreet, txtCode, txtSearch;
 	/* Xử lý hiển thị số có dấu phẩy động */
-	NumberFormat amountFormat;
-	JFormattedTextField txtAmount;
-	JComboBox<ComboItem> cbDistrict, cbWard;
-	JTable tblATMList;
+	private NumberFormat amountFormat;
+	private JFormattedTextField txtAmount;
+	private JComboBox<ComboItem> cbDistrict, cbWard;
+	private JTable tblATMList;
 
-	MouseAdapter evtRowSelected = new MouseAdapter() {
+	private MouseAdapter evtRowSelected = new MouseAdapter() {
 		public void mouseClicked(MouseEvent e) {
 			int i = tblATMList.getSelectedRow();
 			if (i >= 0) {
@@ -61,7 +64,7 @@ public class ATMAccessUI extends JPanel {
 		}
 	};
 
-	ActionListener evtAdd = new ActionListener() {
+	private ActionListener evtAdd = new ActionListener() {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			ComboItem itemD = (ComboItem) cbDistrict.getSelectedItem();
@@ -97,7 +100,7 @@ public class ATMAccessUI extends JPanel {
 		}
 	};
 
-	ActionListener evtEdit = new ActionListener() {
+	private ActionListener evtEdit = new ActionListener() {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			ComboItem itemD = (ComboItem) cbDistrict.getSelectedItem();
@@ -133,7 +136,7 @@ public class ATMAccessUI extends JPanel {
 		}
 	};
 
-	ActionListener evtDelete = new ActionListener() {
+	private ActionListener evtDelete = new ActionListener() {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			int i = tblATMList.getSelectedRow();
@@ -162,28 +165,25 @@ public class ATMAccessUI extends JPanel {
 		}
 	};
 
-	ActionListener evtReset = new ActionListener() {
+	private ActionListener evtReset = new ActionListener() {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			resetInput();
 		}
 	};
-
-	ActionListener evtSearch = new ActionListener() {
+	
+	private DocumentListener evtSearch = new DocumentListener() {
 		@Override
-		public void actionPerformed(ActionEvent e) {
-			String keySearch = txtSearch.getText().trim();
-			ArrayList<ATM> arr = ATMDB.getATMsByName(keySearch);
-			mdlATMList.setRowCount(0);
-			if (arr.isEmpty()) {
-				JOptionPane.showMessageDialog(null, "Không tìm thấy máy ATM phù hợp.", "Thông báo",
-						JOptionPane.INFORMATION_MESSAGE);
-			}
-			for (ATM atm : arr) {
-				String[] row = { atm.getCode(), atm.getStreet(), String.format("%,d", (long) atm.getAmount()) };
-				mdlATMList.addRow(row);
-			}
-			resetInput();
+		public void removeUpdate(DocumentEvent arg0) {
+			search();
+		}
+		@Override
+		public void insertUpdate(DocumentEvent arg0) {
+			search();
+		}
+		@Override
+		public void changedUpdate(DocumentEvent arg0) {
+			search();
 		}
 	};
 
@@ -193,7 +193,7 @@ public class ATMAccessUI extends JPanel {
 		addEvent();
 	}
 
-	void addPanel() {
+	private void addPanel() {
 		/* Panel chính */
 		this.setLayout(new BorderLayout());
 		JPanel pnTitle = new JPanel();
@@ -202,8 +202,8 @@ public class ATMAccessUI extends JPanel {
 		this.add(pnAction, BorderLayout.CENTER);
 
 		/* Panel chính -> Tiêu đề */
-		pnTitle.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 5));
-		String title = "<html><p style='font-size:15px'>QUẢN LÝ MÁY ATM</p></html>";
+		pnTitle.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 5));
+		String title = "<html><p style='font-size:12px'>QUẢN LÝ MÁY ATM</p></html>";
 		JLabel lblTitle = new JLabel(title);
 		pnTitle.add(lblTitle);
 
@@ -241,14 +241,23 @@ public class ATMAccessUI extends JPanel {
 		lytProfile.setAutoCreateContainerGaps(true);
 		lytProfile.setHorizontalGroup(lytProfile.createSequentialGroup()
 				.addGroup(lytProfile.createParallelGroup(GroupLayout.Alignment.LEADING, false)
-						.addComponent(lblCode, 0, 70, Short.MAX_VALUE).addComponent(lblAmount))
-				.addGroup(lytProfile.createParallelGroup(GroupLayout.Alignment.LEADING).addComponent(txtCode)
-						.addComponent(txtAmount)));
+						.addComponent(lblCode, 0, 70, Short.MAX_VALUE)
+						.addComponent(lblAmount)
+				)
+				.addGroup(lytProfile.createParallelGroup(GroupLayout.Alignment.LEADING)
+						.addComponent(txtCode)
+						.addComponent(txtAmount)
+				)
+		);
 		lytProfile.setVerticalGroup(lytProfile.createSequentialGroup()
-				.addGroup(lytProfile.createParallelGroup(GroupLayout.Alignment.BASELINE).addComponent(lblCode)
-						.addComponent(txtCode))
-				.addGroup(lytProfile.createParallelGroup(GroupLayout.Alignment.BASELINE).addComponent(lblAmount)
-						.addComponent(txtAmount))
+				.addGroup(lytProfile.createParallelGroup(GroupLayout.Alignment.BASELINE)
+						.addComponent(lblCode)
+						.addComponent(txtCode)
+				)
+				.addGroup(lytProfile.createParallelGroup(GroupLayout.Alignment.BASELINE)
+						.addComponent(lblAmount)
+						.addComponent(txtAmount)
+				)
 
 		);
 
@@ -273,17 +282,30 @@ public class ATMAccessUI extends JPanel {
 		lytAddress.setAutoCreateContainerGaps(true);
 		lytAddress.setHorizontalGroup(lytAddress.createSequentialGroup()
 				.addGroup(lytAddress.createParallelGroup(GroupLayout.Alignment.LEADING, false)
-						.addComponent(lblDistrict, 0, 70, Short.MAX_VALUE).addComponent(lblWard)
-						.addComponent(lblStreet))
-				.addGroup(lytAddress.createParallelGroup(GroupLayout.Alignment.LEADING).addComponent(cbDistrict)
-						.addComponent(cbWard).addComponent(txtStreet)));
+						.addComponent(lblDistrict, 0, 70, Short.MAX_VALUE)
+						.addComponent(lblWard)
+						.addComponent(lblStreet)
+				)
+				.addGroup(lytAddress.createParallelGroup(GroupLayout.Alignment.LEADING)
+						.addComponent(cbDistrict)
+						.addComponent(cbWard)
+						.addComponent(txtStreet)
+				)
+		);
 		lytAddress.setVerticalGroup(lytAddress.createSequentialGroup()
-				.addGroup(lytAddress.createParallelGroup(GroupLayout.Alignment.BASELINE).addComponent(lblDistrict)
-						.addComponent(cbDistrict))
-				.addGroup(lytAddress.createParallelGroup(GroupLayout.Alignment.BASELINE).addComponent(lblWard)
-						.addComponent(cbWard))
-				.addGroup(lytAddress.createParallelGroup(GroupLayout.Alignment.BASELINE).addComponent(lblStreet)
-						.addComponent(txtStreet)));
+				.addGroup(lytAddress.createParallelGroup(GroupLayout.Alignment.BASELINE)
+						.addComponent(lblDistrict)
+						.addComponent(cbDistrict)
+				)
+				.addGroup(lytAddress.createParallelGroup(GroupLayout.Alignment.BASELINE)
+						.addComponent(lblWard)
+						.addComponent(cbWard)
+				)
+				.addGroup(lytAddress.createParallelGroup(GroupLayout.Alignment.BASELINE)
+						.addComponent(lblStreet)
+						.addComponent(txtStreet)
+				)
+		);
 
 		/* Panel chính -> Action -> Trái -> Button xử lý */
 		btnAdd = new JButton("Thêm");
@@ -307,28 +329,32 @@ public class ATMAccessUI extends JPanel {
 
 		/* Panel chính -> Action -> Phải -> Tìm kiêm */
 		pnSearch.setLayout(new FlowLayout(FlowLayout.RIGHT));
-		btnSearch = new JButton("Tìm kiếm");
+		JLabel lblSearch = new JLabel("Tìm kiếm: ");
+		pnSearch.add(lblSearch);
 		pnSearch.add(txtSearch);
-		pnSearch.add(btnSearch);
 
 		/* Panel chính -> Action -> Phải -> Danh sách máy ATM */
 		tblATMList = new JTable();
 		tblATMList.setModel(mdlATMList);
+		
+		DefaultTableCellRenderer rightRenderer = new DefaultTableCellRenderer();
+		rightRenderer.setHorizontalAlignment(JLabel.RIGHT);
+		tblATMList.getColumnModel().getColumn(2).setCellRenderer(rightRenderer);
+		
 		spATMList.setViewportView(tblATMList);
-		loadATMList();
 	}
 
-	void addEvent() {
+	private void addEvent() {
 		tblATMList.addMouseListener(evtRowSelected);
 		btnAdd.addActionListener(evtAdd);
 		btnEdit.addActionListener(evtEdit);
 		btnDelete.addActionListener(evtDelete);
 		btnReset.addActionListener(evtReset);
-		btnSearch.addActionListener(evtSearch);
 		cbDistrict.addActionListener(new DistrictSelectEvent(cbDistrict, cbWard));
+		txtSearch.getDocument().addDocumentListener(evtSearch);
 	}
 
-	void setupInput() {
+	private void setupInput() {
 		txtCode = new JTextField();
 		amountFormat = NumberFormat.getNumberInstance();
 		txtAmount = new JFormattedTextField(amountFormat);
@@ -339,7 +365,7 @@ public class ATMAccessUI extends JPanel {
 		txtSearch = new JTextField(30);
 	}
 
-	void setTextToInput(int i) {
+	private void setTextToInput(int i) {
 		String code = (String) tblATMList.getValueAt(i, 0);
 		ATM atm = ATMDB.getATMbyCode(code);
 		txtStreet.setText(atm.getStreet());
@@ -370,7 +396,7 @@ public class ATMAccessUI extends JPanel {
 	}
 
 	/* Reset input */
-	void resetInput() {
+	private void resetInput() {
 		txtStreet.setText("");
 		txtCode.setText("");
 		txtCode.setEditable(true);
@@ -382,7 +408,7 @@ public class ATMAccessUI extends JPanel {
 	}
 
 	/* Validate input */
-	boolean checkInput(String code, int districtID, int wardID, String street) {
+	private boolean checkInput(String code, int districtID, int wardID, String street) {
 		if (code.isEmpty()) {
 
 			JOptionPane.showMessageDialog(null, "Bạn chưa nhập mã máy ATM.", "Lỗi", JOptionPane.WARNING_MESSAGE);
@@ -407,6 +433,18 @@ public class ATMAccessUI extends JPanel {
 
 			return true;
 		}
+	}
+	
+	private void search() {
+		String keySearch = txtSearch.getText().trim();
+		ArrayList<ATM> arr = ATMDB.getATMsByName(keySearch);
+		mdlATMList.setRowCount(0);
+		
+		for (ATM atm : arr) {
+			String[] row = { atm.getCode(), atm.getStreet(), String.format("%,d", (long) atm.getAmount()) };
+			mdlATMList.addRow(row);
+		}
+		resetInput();
 	}
 
 	/* Load table ATM list */

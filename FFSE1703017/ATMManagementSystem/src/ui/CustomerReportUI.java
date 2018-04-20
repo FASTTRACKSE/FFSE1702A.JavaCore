@@ -16,6 +16,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
 import model.AddressDB;
@@ -26,12 +27,12 @@ import model.CustomerReportDB;
 public class CustomerReportUI extends JPanel {
 
 	private static final long serialVersionUID = 1L;
-	String[] col = { "Mã khách hàng", "Họ tên", "Số điện thoại", "Số iền trong TK", "Tổng tiền đã rút" };
-	DefaultTableModel mdlCustomerList = new DefaultTableModel(col, 0);
-	JButton btnFilter;
-	JComboBox<ComboItem> cbDistrict, cbWard;
+	private String[] col = { "Mã khách hàng", "Họ tên", "Số điện thoại", "Số iền trong TK", "Tổng tiền đã rút" };
+	private DefaultTableModel mdlCustomerList = new DefaultTableModel(col, 0);
+	private JButton btnFilter;
+	private JComboBox<ComboItem> cbDistrict, cbWard;
 
-	ActionListener evtFilter = new ActionListener() {
+	private ActionListener evtFilter = new ActionListener() {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			int i = cbDistrict.getSelectedIndex();
@@ -50,7 +51,7 @@ public class CustomerReportUI extends JPanel {
 				}
 			} else {
 				mdlCustomerList.setRowCount(0);
-				cbDistrict.requestFocus();
+				cbDistrict.showPopup();
 				JOptionPane.showMessageDialog(null, "Bạn chưa chọn quận.", "Lỗi", JOptionPane.WARNING_MESSAGE);
 			}
 		}
@@ -61,7 +62,7 @@ public class CustomerReportUI extends JPanel {
 		addEvent();
 	}
 
-	void addPanel() {
+	private void addPanel() {
 		/* Panel chính */
 		this.setLayout(new BorderLayout());
 		JPanel pnTitle = new JPanel();
@@ -70,8 +71,8 @@ public class CustomerReportUI extends JPanel {
 		this.add(pnAction, BorderLayout.CENTER);
 
 		/* Panel chính -> Tiêu đề */
-		pnTitle.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 5));
-		String title = "<html><p style='font-size:15px'>BÁO CÁO KHÁCH HÀNG</p></html>";
+		pnTitle.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 5));
+		String title = "<html><p style='font-size:12px'>BÁO CÁO KHÁCH HÀNG</p></html>";
 		JLabel lblTitle = new JLabel(title);
 		pnTitle.add(lblTitle);
 
@@ -108,11 +109,16 @@ public class CustomerReportUI extends JPanel {
 		/* Panel chính -> Action -> Phải -> Danh sách khách hàng */
 		JTable tblCustomerList = new JTable();
 		tblCustomerList.setModel(mdlCustomerList);
+		
+		DefaultTableCellRenderer rightRenderer = new DefaultTableCellRenderer();
+		rightRenderer.setHorizontalAlignment(JLabel.RIGHT);
+		tblCustomerList.getColumnModel().getColumn(4).setCellRenderer(rightRenderer);
+		
 		spCustomerList.setViewportView(tblCustomerList);
 
 	}
 
-	void addEvent() {
+	private void addEvent() {
 		btnFilter.addActionListener(evtFilter);
 		cbDistrict.addActionListener(new DistrictSelectEvent(cbDistrict, cbWard));
 	}

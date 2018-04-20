@@ -23,7 +23,26 @@ public class ATMDB {
 			return false;
 		}
 	}
-
+	
+	public static ArrayList<ComboItem> getAllATMs() {
+		ArrayList<ComboItem> arr = new ArrayList<>();
+		try {
+			String sql = "SELECT * FROM tbl_atm ";
+			Statement stm = (Statement) conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
+					ResultSet.CONCUR_READ_ONLY);
+			ResultSet rs = stm.executeQuery(sql);
+			while (rs.next()) {
+				ComboItem it = new ComboItem();
+				it.setValue(rs.getString("code"));
+				it.setKey(1);
+				arr.add(it);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return arr;
+	}
+	
 	public static ATM getATMbyCode(String code) {
 		ATM atm = new ATM();
 		try {

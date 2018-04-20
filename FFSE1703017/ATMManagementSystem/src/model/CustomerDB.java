@@ -23,6 +23,45 @@ public class CustomerDB {
 			return false;
 		}
 	}
+	
+	public static boolean isLogin(String cardSN, String pin) {
+		try {
+			String sql = "SELECT * FROM tbl_customer WHERE card_sn = ? AND pin = ?";
+			PreparedStatement stm = conn.prepareStatement(sql);
+			stm.setString(1, cardSN);
+			stm.setString(2, pin);
+			ResultSet rs = stm.executeQuery();
+			return rs.next();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+	
+	public static Customer getCustomerbyCardSN(String cardSN) {
+		Customer ctm = new Customer();
+		try {
+			String sql = "SELECT * FROM tbl_customer WHERE card_sn = ?";
+			PreparedStatement stm = conn.prepareStatement(sql);
+			stm.setString(1, cardSN);
+			ResultSet rs = stm.executeQuery();
+			while (rs.next()) {
+				ctm.setName(rs.getString("name"));
+				ctm.setPhone(rs.getString("phone"));
+				ctm.setEmail(rs.getString("email"));
+				ctm.setDistrictID(rs.getInt("districtid"));
+				ctm.setWardID(rs.getInt("wardid"));
+				ctm.setStreet(rs.getString("street"));
+				ctm.setCode(rs.getString("code"));
+				ctm.setCardSN(rs.getString("card_sn"));
+				ctm.setAccSN(rs.getString("acc_sn"));
+				ctm.setAmount(rs.getDouble("amount"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return ctm;
+	}
 
 	public static Customer getCustomerbyCode(String code) {
 		Customer ctm = new Customer();
@@ -127,7 +166,8 @@ public class CustomerDB {
 	public static int addCustomer(Customer ctm) {
 		try {
 			String sql = "insert into tbl_customer (name, phone, email, districtid,"
-					+ "wardid, street, code, card_sn, acc_sn, amount) " + " values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+					+ "wardid, street, code, card_sn, acc_sn, amount, pin) "
+					+ " values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 555888)";
 			PreparedStatement stm = conn.prepareStatement(sql);
 			stm.setString(1, ctm.getName());
 			stm.setString(2, ctm.getPhone());

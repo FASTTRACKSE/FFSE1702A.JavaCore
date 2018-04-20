@@ -6,18 +6,99 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+import javax.swing.JTextField;
+
+import model.CustomerDB;
+import model.User;
+import model.UserDB;
 
 public class ControlUI extends JFrame {
 
 	private static final long serialVersionUID = 1L;
-	JPanel pnMain, pnCustomer;
-	LoginUI pnLogin;
-	ManagementUI pnManagement;
-	CardLayout cardlayout;
-	JButton btnAmindLogin, btnAdminLogout;
-	JLabel lblWelcome;
+	JPanel pnMain;
+	private ATMSimulation pnCustomer;
+	private LoginUI pnLogin;
+	private ManagementUI pnManagement;
+	private CardLayout cardlayout;
+	private JButton btnAppLogin, btnAtmLogin;
+	private JTextField txtAdminName, txtCardSN;
+	private JPasswordField txtAdminPass, txtPIN;
+	
+	ActionListener adminLogin = new ActionListener() {
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			String username = txtAdminName.getText();
+			String password = new String(txtAdminPass.getPassword());
+			if(UserDB.isLogin(username, password)) {
+				User user = UserDB.getUser(username, password);
+				
+				pnManagement = new ManagementUI(user);
+				pnManagement.getBtnLogout().addActionListener(adminLogout);
+				pnMain.add(pnManagement, "2");
+				cardlayout.show(pnMain, "2");
+				
+				if (user.getRole() == 1) {
+					showManagement();
+				} else {
+					showCustomer();
+				}
+				
+				txtAdminName.setText("");
+				txtAdminPass.setText("");
+				
+			} else {
+				JOptionPane.showMessageDialog(null, "Sai tài khoản hoặc mật khẩu.", "Thông báo",
+						JOptionPane.INFORMATION_MESSAGE);
+				txtAdminName.requestFocus();
+			}
+		}
+	};
+	
+	ActionListener adminLogout = new ActionListener() {
+		public void actionPerformed(ActionEvent e) {
+			
+			int cf = JOptionPane.showConfirmDialog(null, "Bạn thực sự muốn thoát?", "Xác nhận",
+					JOptionPane.YES_NO_OPTION);
+			if (cf == JOptionPane.YES_OPTION) {
+				cardlayout.show(pnMain, "1");
+				showLogin();
+			}
+		}
+	};
+	
+	ActionListener customerLogin = new ActionListener() {
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			String cardSN = txtCardSN.getText();
+			String pin = new String(txtPIN.getPassword());
+			if (CustomerDB.isLogin(cardSN, pin)) {
+				pnCustomer = new ATMSimulation(cardSN);
+				pnCustomer.getBtnLogout().addActionListener(customerLogout);
+				pnMain.add(pnCustomer, "3");
+				cardlayout.show(pnMain, "3");
+				showATM();
+				
+				txtCardSN.setText("");
+				txtPIN.setText("");
+			} else {
+				JOptionPane.showMessageDialog(null, "Sai mật khẩu.", "Thông báo",
+						JOptionPane.INFORMATION_MESSAGE);
+				txtCardSN.requestFocus();
+			}
+		}
+	};
+	
+	ActionListener customerLogout = new ActionListener() {
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			cardlayout.show(pnMain, "1");
+			showLogin();
+		}
+	};
+
 
 	public ControlUI(String title) {
 		super(title);
@@ -25,7 +106,7 @@ public class ControlUI extends JFrame {
 		addEvents();
 	}
 
-	public void addControls() {
+	private void addControls() {
 		/* Main Panel */
 		Container con = getContentPane();
 		pnMain = new JPanel();
@@ -34,38 +115,19 @@ public class ControlUI extends JFrame {
 		con.add(pnMain);
 		
 		pnLogin = new LoginUI();
-		pnManagement = new ManagementUI();
-		pnCustomer = new JPanel();
-		
 		pnMain.add(pnLogin, "1");
-		pnMain.add(pnManagement, "2");
-		
-		btnAmindLogin = pnLogin.getBtnAdminLogin();
-		btnAdminLogout = pnManagement.getBtnLogout();
-		lblWelcome = pnManagement.getLblWelcome();
+		btnAppLogin = pnLogin.getBtnAppLogin();
+		txtAdminName = pnLogin.getTxtAdminName();
+		txtAdminPass = pnLogin.getTxtAdminPass();
+		btnAtmLogin = pnLogin.getBtnAtmLogin();
+		txtCardSN = pnLogin.getTxtCardSN();
+		txtPIN = pnLogin.getTxtPIN();
 				
 	}
 
-	public void addEvents() {
-		btnAmindLogin.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				cardlayout.show(pnMain, "2");
-				showManagement();
-				String welcome = "Xin chào, Administrator.";
-				lblWelcome.setText(welcome);
-				
-			}
-		});
-		
-		btnAdminLogout.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				cardlayout.show(pnMain, "1");
-				showLogin();
-			}
-		});
-		
+	private void addEvents() {
+		btnAppLogin.addActionListener(adminLogin);
+		btnAtmLogin.addActionListener(customerLogin);
 
 	}
 
@@ -77,16 +139,28 @@ public class ControlUI extends JFrame {
 		this.setResizable(false);
 	}
 	
-	public void showLogin() {
+	private void showLogin() {
 		this.setSize(600, 400);
 		this.setLocationRelativeTo(null);
 		this.setTitle("TPBank - Đăng nhập");
 	}
 	
-	public void showManagement() {
+	private void showManagement() {
 		this.setSize(1200, 500);
 		this.setLocationRelativeTo(null);
 		this.setTitle("TPBank - Hệ thống quản lý ATM");
+	}
+	
+	private void showCustomer() {
+		this.setSize(700, 400);
+		this.setLocationRelativeTo(null);
+		this.setTitle("TPBank - Hệ thống quản lý ATM");
+	}
+	
+	private void showATM() {
+		this.setSize(500, 300);
+		this.setLocationRelativeTo(null);
+		this.setTitle("TPBank - Mô phỏng ATM");
 	}
 
 	

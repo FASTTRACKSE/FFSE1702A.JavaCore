@@ -17,6 +17,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
 import model.ATMReport;
@@ -27,15 +28,15 @@ import model.ComboItem;
 public class ATMReportUI extends JPanel {
 
 	private static final long serialVersionUID = 1L;
-	String[] col = { "Mã máy ATM", "Quận", "Phường", "Đường", "Số tiền trong máy" };
-	DefaultTableModel mdlATMList = new DefaultTableModel(col, 0);
-	JButton btnFilterByCode, btnFilterByAddress;
-	JTextField txtSearch, txtStreet;
-	JComboBox<ComboItem> cbSelect, cbDistrict, cbWard;
-	CardLayout card;
-	JPanel pnSelection;
+	private String[] col = { "Mã máy ATM", "Quận", "Phường", "Đường", "Số tiền trong máy" };
+	private DefaultTableModel mdlATMList = new DefaultTableModel(col, 0);
+	private JButton btnFilterByCode, btnFilterByAddress;
+	private JTextField txtSearch, txtStreet;
+	private JComboBox<ComboItem> cbSelect, cbDistrict, cbWard;
+	private CardLayout card;
+	private JPanel pnSelection;
 
-	ActionListener evtFilterSelect = new ActionListener() {
+	private ActionListener evtFilterSelect = new ActionListener() {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			int i = cbSelect.getSelectedIndex();
@@ -47,7 +48,7 @@ public class ATMReportUI extends JPanel {
 		}
 	};
 
-	ActionListener evtFilterByCode = new ActionListener() {
+	private ActionListener evtFilterByCode = new ActionListener() {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 
@@ -62,7 +63,7 @@ public class ATMReportUI extends JPanel {
 		}
 	};
 
-	ActionListener evtFilterByAddress = new ActionListener() {
+	private ActionListener evtFilterByAddress = new ActionListener() {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 
@@ -87,7 +88,7 @@ public class ATMReportUI extends JPanel {
 		addEvent();
 	}
 
-	void addPanel() {
+	private void addPanel() {
 		/* Panel chính */
 		this.setLayout(new BorderLayout());
 		JPanel pnTitle = new JPanel();
@@ -96,8 +97,8 @@ public class ATMReportUI extends JPanel {
 		this.add(pnAction, BorderLayout.CENTER);
 
 		/* Panel chính -> Tiêu đề */
-		pnTitle.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 5));
-		String title = "<html><p style='font-size:15px'>BÁO CÁO MÁY ATM</p></html>";
+		pnTitle.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 5));
+		String title = "<html><p style='font-size:12px'>BÁO CÁO MÁY ATM</p></html>";
 		JLabel lblTitle = new JLabel(title);
 		pnTitle.add(lblTitle);
 
@@ -165,11 +166,16 @@ public class ATMReportUI extends JPanel {
 		/* Panel chính -> Action -> Phải -> Danh sách khách hàng */
 		JTable tblATMList = new JTable();
 		tblATMList.setModel(mdlATMList);
+		
+		DefaultTableCellRenderer rightRenderer = new DefaultTableCellRenderer();
+		rightRenderer.setHorizontalAlignment(JLabel.RIGHT);
+		tblATMList.getColumnModel().getColumn(4).setCellRenderer(rightRenderer);
+		
 		spATMList.setViewportView(tblATMList);
 
 	}
 
-	void addEvent() {
+	private void addEvent() {
 		cbSelect.addActionListener(evtFilterSelect);
 		cbDistrict.addActionListener(new DistrictSelectEvent(cbDistrict, cbWard));
 		btnFilterByAddress.addActionListener(evtFilterByAddress);
