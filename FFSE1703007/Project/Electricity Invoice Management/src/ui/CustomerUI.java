@@ -295,21 +295,25 @@ public class CustomerUI extends JFrame {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			// TODO Auto-generated method stub
-			try {
-				if (txtName.getText().equals("") || txtAddress.getText().equals("") || txtPhone.getText().equals("")
-						|| txtEmail.getText().equals("") || txtMeterID.getText().equals("")) {
-					JOptionPane.showMessageDialog(null, "Hãy nhập đầy đủ thông tin");
-				} else {
-					editCustomer();
-					int row = jt.getSelectedRow();
-					int col = jt.getSelectedColumn();
-					btnSearch2.doClick();
-					jt.requestFocus();
-					jt.changeSelection(row, col, false, false);
+			if (jt.getSelectedRow() == -1) {
+				JOptionPane.showMessageDialog(null, "Hãy chọn dòng muốn sửa");
+			} else {
+				try {
+					if (txtName.getText().equals("") || txtAddress.getText().equals("") || txtPhone.getText().equals("")
+							|| txtEmail.getText().equals("") || txtMeterID.getText().equals("")) {
+						JOptionPane.showMessageDialog(null, "Hãy nhập đầy đủ thông tin");
+					} else {
+						editCustomer();
+						int row = jt.getSelectedRow();
+						int col = jt.getSelectedColumn();
+						btnSearch2.doClick();
+						jt.requestFocus();
+						jt.changeSelection(row, col, false, false);
+					}
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
 				}
-			} catch (SQLException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
 			}
 		}
 	};

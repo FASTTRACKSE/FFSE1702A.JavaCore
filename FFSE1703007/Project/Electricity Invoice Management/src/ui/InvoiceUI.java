@@ -226,19 +226,23 @@ public class InvoiceUI extends JFrame {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			// TODO Auto-generated method stub
-			if (txtMeterIndex.getText().equals("")) {
-				JOptionPane.showMessageDialog(null, "Hãy nhập đầy đủ thông tin");
+			if (jt.getSelectedRow() == -1) {
+				JOptionPane.showMessageDialog(null, "Hãy chọn dòng muốn sửa");
 			} else {
-				try {
-					editInvoice();
-					int row = jt.getSelectedRow();
-					int col = jt.getSelectedColumn();
-					btnSearch1.doClick();
-					jt.requestFocus();
-					jt.changeSelection(row, col, false, false);
-				} catch (SQLException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
+				if (txtMeterIndex.getText().equals("")) {
+					JOptionPane.showMessageDialog(null, "Hãy nhập đầy đủ thông tin");
+				} else {
+					try {
+						editInvoice();
+						int row = jt.getSelectedRow();
+						int col = jt.getSelectedColumn();
+						btnSearch1.doClick();
+						jt.requestFocus();
+						jt.changeSelection(row, col, false, false);
+					} catch (SQLException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 				}
 			}
 		}
