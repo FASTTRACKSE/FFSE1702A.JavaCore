@@ -1,5 +1,8 @@
 package ui;
 
+import java.awt.Dimension;
+import java.awt.GridLayout;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -7,6 +10,7 @@ import java.util.ArrayList;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.GroupLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFormattedTextField;
@@ -43,11 +47,24 @@ public class ATMSimulation extends JPanel {
 	
 	private void addPanels() {
 		
-		JPanel pnMain = new JPanel();
+		JPanel pnTop = new JPanel();
+		JPanel pnBottom = new JPanel();
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-		this.add(Box.createVerticalGlue());
-		this.add(pnMain);
-		this.add(Box.createVerticalGlue());
+		this.add(pnTop);
+		this.add(Box.createRigidArea(new Dimension(0, 10)));
+		this.add(pnBottom);
+		this.add(Box.createRigidArea(new Dimension(0, 40)));
+		
+		/* Main -> Top */
+		pnTop.setLayout(new GridLayout(0, 1));
+		JLabel bg = new JLabel();
+		bg.setPreferredSize(new Dimension(600, 200));
+		pnTop.add(bg);
+		ImageIcon bgImage = new ImageIcon(getClass().getResource("/images/bg.png"));
+		bgImage.getImage().getScaledInstance(600, 200, Image.SCALE_SMOOTH);
+		bg.setIcon(bgImage);
+
+		/* Main -> Bottom */
 		
 		JLabel lblCutomerAmount = new JLabel("Số tiền trong TK:");
 		JLabel lblChoose = new JLabel("Chọn máy ATM:");
@@ -69,8 +86,8 @@ public class ATMSimulation extends JPanel {
 		btnWithdraw = new JButton("Rút tiền");
 		btnLogout = new JButton("Đăng xuất");
 	
-		GroupLayout card = new GroupLayout(pnMain);
-		pnMain.setLayout(card);
+		GroupLayout card = new GroupLayout(pnBottom);
+		pnBottom.setLayout(card);
 		card.setAutoCreateGaps(true);
 		card.setAutoCreateContainerGaps(true);
 		card.setHorizontalGroup(card.createSequentialGroup()

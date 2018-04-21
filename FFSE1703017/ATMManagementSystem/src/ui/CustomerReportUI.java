@@ -109,9 +109,11 @@ public class CustomerReportUI extends JPanel {
 		/* Panel chính -> Action -> Phải -> Danh sách khách hàng */
 		JTable tblCustomerList = new JTable();
 		tblCustomerList.setModel(mdlCustomerList);
+		tblCustomerList.getColumnModel().setColumnMargin(10);
 		
 		DefaultTableCellRenderer rightRenderer = new DefaultTableCellRenderer();
 		rightRenderer.setHorizontalAlignment(JLabel.RIGHT);
+		tblCustomerList.getColumnModel().getColumn(3).setCellRenderer(rightRenderer);
 		tblCustomerList.getColumnModel().getColumn(4).setCellRenderer(rightRenderer);
 		
 		spCustomerList.setViewportView(tblCustomerList);

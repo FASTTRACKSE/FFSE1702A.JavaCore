@@ -39,6 +39,8 @@ public class ManagementUI extends JPanel {
 			layoutCenter.show(pnCenter, "1");
 			if (user.getRole() == 1) {
 				pnCustomerAccess.loadCustomerList();
+			} else {
+				pnCustomerAccess.setTextToInput(user.getCustomerCode());
 			}
 		}
 	};
@@ -210,9 +212,9 @@ public class ManagementUI extends JPanel {
 	private void addControlsCustomer() {
 		
 		/*Main --> Button*/
-		btnCustomerAccess = new JButton("THÔNG TIN KHÁCH HÀNG");
+		btnCustomerAccess = new JButton("THÔNG TIN CÁ NHÂN");
 		btnCustomerAccess.setHorizontalAlignment(SwingConstants.LEFT);
-		btnCustomerWithdraw = new JButton("LỊCH SỬ GIAO DỊCH KHÁCH HÀNG");
+		btnCustomerWithdraw = new JButton("LỊCH SỬ GIAO DỊCH CÁ NHÂN");
 		btnCustomerWithdraw.setHorizontalAlignment(SwingConstants.LEFT);
 		btnLogout = new JButton("ĐĂNG XUẤT");
 		btnLogout.setHorizontalAlignment(SwingConstants.LEFT);

@@ -21,11 +21,10 @@ public class ATMReportDB {
 			street = replaceString(street);
 			String sql = "SELECT atm.code, dis.name, w.name, atm.street, atm.amount " + "FROM tbl_atm atm "
 					+ "INNER JOIN district dis ON dis.districtid = atm.districtid "
-					+ "INNER JOIN ward w ON w.wardid = atm.wardid " + "WHERE atm.street LIKE ? ESCAPE '!' "
-					+ "AND atm.districtid  ";
-			sql += (districtID > 0) ? "= ? " : "> ? ";
-			sql += "AND atm.wardid ";
-			sql += (wardID > 0) ? "= ? " : "> ? ";
+					+ "INNER JOIN ward w ON w.wardid = atm.wardid " + "WHERE atm.street LIKE ? ESCAPE '!' ";
+					
+			sql += (districtID > 0) ? "AND atm.districtid = ? " : "AND atm.districtid > ? ";
+			sql += (wardID > 0) ? "AND atm.wardid = ? " : "AND atm.wardid > ? ";
 			sql += "ORDER BY atm.code";
 			PreparedStatement stm = conn.prepareStatement(sql);
 			stm.setString(1, "%" + street + "%");
@@ -124,11 +123,10 @@ public class ATMReportDB {
 					+ "FROM tbl_atm atm " + "INNER JOIN district dis ON dis.districtid = atm.districtid  "
 					+ "INNER JOIN ward w ON w.wardid = atm.wardid "
 					+ "INNER JOIN tbl_transaction tran ON tran.atm_code = atm.code "
-					+ "WHERE ( tran.time BETWEEN ? AND ? ) " + "AND atm.street LIKE ? ESCAPE '!' "
-					+ "AND atm.districtid ";
-			sql += (districtID > 0) ? "= ? " : "> ? ";
-			sql += "AND atm.wardid ";
-			sql += (wardID > 0) ? "= ? " : "> ? ";
+					+ "WHERE ( tran.time BETWEEN ? AND ? ) " + "AND atm.street LIKE ? ESCAPE '!' ";
+			
+			sql += (districtID > 0) ? "AND atm.districtid = ? " : "AND atm.districtid > ? ";
+			sql += (wardID > 0) ? "AND atm.wardid  = ? " : "AND atm.wardid  > ? ";
 			sql += "ORDER BY tran.time";
 
 			PreparedStatement stm = conn.prepareStatement(sql);

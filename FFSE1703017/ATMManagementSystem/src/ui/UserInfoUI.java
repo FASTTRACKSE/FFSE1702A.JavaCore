@@ -13,14 +13,14 @@ import javax.swing.border.TitledBorder;
 
 import model.User;
 
-public class UserInfo extends JPanel{
+public class UserInfoUI extends JPanel{
 
 	private static final long serialVersionUID = 1L;
 	private JTextField txtName;
 	JPasswordField txtPassword, txtRePassword;
 	private User user;
 	
-	public UserInfo(User user) {
+	public UserInfoUI(User user) {
 		this.user = user;
 		addPanel();
 	}

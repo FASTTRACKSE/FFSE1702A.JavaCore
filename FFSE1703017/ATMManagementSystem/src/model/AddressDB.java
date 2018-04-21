@@ -37,7 +37,7 @@ public class AddressDB {
 	public static void setDistricts(JComboBox<ComboItem> cb) {
 		ComboItem item = new ComboItem(0, "Chọn quận");
 		cb.addItem(item);
-		ArrayList<ComboItem> arr = AddressDB.getDistricts();
+		ArrayList<ComboItem> arr = getDistricts();
 		for (ComboItem it : arr) {
 			cb.addItem(it);
 		}

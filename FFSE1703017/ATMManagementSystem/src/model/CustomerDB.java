@@ -3,7 +3,9 @@ package model;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.Normalizer;
 import java.util.ArrayList;
+import java.util.regex.Pattern;
 
 import com.mysql.jdbc.Connection;
 import com.mysql.jdbc.Statement;
@@ -165,6 +167,7 @@ public class CustomerDB {
 
 	public static int addCustomer(Customer ctm) {
 		try {
+			int status = -1;
 			String sql = "insert into tbl_customer (name, phone, email, districtid,"
 					+ "wardid, street, code, card_sn, acc_sn, amount, pin) "
 					+ " values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 555888)";
@@ -179,7 +182,36 @@ public class CustomerDB {
 			stm.setString(8, ctm.getCardSN());
 			stm.setString(9, ctm.getAccSN());
 			stm.setDouble(10, ctm.getAmount());
-			return stm.executeUpdate();
+			int i = stm.executeUpdate();
+			
+			if (i > 0) {
+				String name = ctm.getName();
+				name = covertString(name);
+				String[] arrName = name.split("\\s");
+				String firstName = arrName[0];
+				String lastName = arrName[arrName.length -1];
+				String username = lastName + firstName;
+				
+				String queryCount = "select count(*) from tbl_user where username = ?";
+				PreparedStatement stmCount = conn.prepareStatement(queryCount);
+				stmCount.setString(1, username);
+				ResultSet rsCounnt = stmCount.executeQuery();
+				if (rsCounnt.next()) {
+					int count = rsCounnt.getInt(1);
+					username += (count > 0) ? count : "";
+				}
+
+				
+				String queryAddUser = "insert into tbl_user (username, password, name, role, customer_code) "
+						+ "values (?, 555888, ?, 0, ?)";
+				PreparedStatement stmAddUser = conn.prepareStatement(queryAddUser);
+				stmAddUser.setString(1, username);
+				stmAddUser.setString(2, ctm.getName());
+				stmAddUser.setString(3, ctm.getCode());
+				status = stmAddUser.executeUpdate();
+			}
+			
+			return status;
 		} catch (Exception e) {
 			e.printStackTrace();
 			return -1;
@@ -188,10 +220,19 @@ public class CustomerDB {
 
 	public static int delCustomer(String code) {
 		try {
+			int status = -1;
 			String sql = "delete from tbl_customer where code = ?";
 			PreparedStatement stm = conn.prepareStatement(sql);
 			stm.setString(1, code);
-			return stm.executeUpdate();
+			int i = stm.executeUpdate();
+			if (i > 0) {
+				String query = "delete from tbl_user where customer_code = ?";
+				PreparedStatement stmUser = conn.prepareStatement(query);
+				stmUser.setString(1, code);
+				status = stmUser.executeUpdate();
+			}
+			
+			return status;
 		} catch (Exception e) {
 			e.printStackTrace();
 			return -1;
@@ -201,5 +242,16 @@ public class CustomerDB {
 	private static String replaceString(String code) {
 		code = code.replace("!", "!!").replace("%", "!%").replace("_", "!_").replace("[", "![");
 		return code;
+	}
+	
+	private static String covertString(String str) {
+	   try {
+	       String temp = Normalizer.normalize(str, Normalizer.Form.NFD);
+	       Pattern pattern = Pattern.compile("\\p{InCombiningDiacriticalMarks}+");
+	       return pattern.matcher(temp).replaceAll("").toLowerCase().replaceAll("đ", "d");
+	   } catch (Exception ex) {
+	       ex.printStackTrace(); 
+	   }
+	   return "";
 	}
 }

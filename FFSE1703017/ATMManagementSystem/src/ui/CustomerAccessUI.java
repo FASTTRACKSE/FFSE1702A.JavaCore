@@ -44,33 +44,28 @@ import model.UserDB;
 public class CustomerAccessUI extends JPanel {
 
 	private static final long serialVersionUID = 1L;
-	private String[] col = { "Mã khách hàng", "Họ tên", "Số điện thoại", "Email", "Số tiền trong TK" };
-	private DefaultTableModel mdlCustomerList = new DefaultTableModel(col, 0);
+	private DefaultTableModel mdlCustomerList;
 	private JButton btnAdd, btnEdit, btnDelete, btnReset;
-	private JTextField txtName, txtPhone, txtEmail, txtStreet, txtCode, txtCardSN, txtAccSN, txtSearch;
+	private JTextField txtName, txtPhone, txtEmail, txtStreet, txtCode, txtCardSN, txtAccSN;
+	private PlaceholderTextField txtSearch;
 	/* Xử lý hiển thị số có dấu phẩy động */
 	private NumberFormat amountFormat;
 	private JFormattedTextField txtAmount;
 	private JComboBox<ComboItem> cbDistrict, cbWard;
 	private JTable tblCustomerList;
 	private JPanel pnLeft, pnRight, pnAddress, pnButton;
-	UserInfo pnUser;
+	UserInfoUI pnUser;
 	User user;
 	JLabel lblTitle;
 
 	private MouseAdapter evtRowSelected = new MouseAdapter() {
 		public void mouseClicked(MouseEvent e) {
 			int i = tblCustomerList.getSelectedRow();
-			if (i >= 0) {
-				String code = (String) tblCustomerList.getValueAt(i, 0);
-				setTextToInput(code);
-				btnEdit.setEnabled(true);
-				btnDelete.setEnabled(true);
-				btnAdd.setEnabled(false);
-			} else {
-				resetInput();
-			}
-
+			String code = (String) tblCustomerList.getValueAt(i, 0);
+			setTextToInput(code);
+			btnEdit.setEnabled(true);
+			btnDelete.setEnabled(true);
+			btnAdd.setEnabled(false);
 		}
 	};
 
@@ -106,7 +101,6 @@ public class CustomerAccessUI extends JPanel {
 						JOptionPane.showMessageDialog(null, "Thêm khách hàng thành công.", "Thông báo",
 								JOptionPane.INFORMATION_MESSAGE);
 						loadCustomerList();
-						resetInput();
 					} else {
 						JOptionPane.showMessageDialog(null, "Thêm khách hàng không thành công.", "Lỗi",
 								JOptionPane.WARNING_MESSAGE);
@@ -165,7 +159,6 @@ public class CustomerAccessUI extends JPanel {
 									JOptionPane.WARNING_MESSAGE);
 						}
 						loadCustomerList();
-						resetInput();
 					}
 				}
 
@@ -180,8 +173,8 @@ public class CustomerAccessUI extends JPanel {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			int i = tblCustomerList.getSelectedRow();
-			String code = (String) mdlCustomerList.getValueAt(i, 0);
 			if (i >= 0) {
+				String code = (String) mdlCustomerList.getValueAt(i, 0);
 				int cf = JOptionPane.showConfirmDialog(null, "Bạn thực sự muốn xóa?", "Xác nhận",
 						JOptionPane.YES_NO_OPTION);
 				if (cf == JOptionPane.YES_OPTION) {
@@ -194,7 +187,6 @@ public class CustomerAccessUI extends JPanel {
 								JOptionPane.WARNING_MESSAGE);
 					}
 					loadCustomerList();
-					resetInput();
 				}
 			} else {
 				JOptionPane.showMessageDialog(null, "Bạn chưa chọn khách hàng muốn xóa.", "Lỗi",
@@ -463,6 +455,8 @@ public class CustomerAccessUI extends JPanel {
 
 		/* Panel chính -> Action -> Phải -> Danh sách khách hàng */
 		tblCustomerList = new JTable();
+		String[] col = { "Mã khách hàng", "Họ tên", "Số điện thoại", "Email", "Số tiền trong TK" };
+		mdlCustomerList = new DefaultTableModel(col, 0);
 		tblCustomerList.setModel(mdlCustomerList);
 		
 		DefaultTableCellRenderer rightRenderer = new DefaultTableCellRenderer();
@@ -472,6 +466,7 @@ public class CustomerAccessUI extends JPanel {
 		TableColumnModel columnModel = tblCustomerList.getColumnModel();
 		columnModel.getColumn(1).setPreferredWidth(120);
 		columnModel.getColumn(3).setPreferredWidth(120);
+		columnModel.setColumnMargin(10);
 		spCustomerList.setViewportView(tblCustomerList);
 		loadCustomerList();
 
@@ -489,7 +484,7 @@ public class CustomerAccessUI extends JPanel {
 		pnEdit.add(btnEdit);
 		btnEdit.setEnabled(true);
 		
-		pnUser = new UserInfo(user);
+		pnUser = new UserInfoUI(user);
 		pnRight.setLayout(new BoxLayout(pnRight, BoxLayout.Y_AXIS));
 		pnRight.add(Box.createVerticalGlue());
 		pnRight.add(Box.createRigidArea(new Dimension(0, 25)));
@@ -510,6 +505,7 @@ public class CustomerAccessUI extends JPanel {
 		cbWard.setEditable(false);
 		txtStreet.setEditable(false);
 		
+		btnEdit.setText("Đổi mật khẩu");
 		btnEdit.addActionListener(evtChangePassword);
 	}
 
@@ -531,7 +527,8 @@ public class CustomerAccessUI extends JPanel {
 		txtCode = new JTextField();
 		txtCardSN = new JTextField();
 		txtAccSN = new JTextField();
-		txtSearch = new JTextField(30);
+		txtSearch = new PlaceholderTextField(30);
+		txtSearch.setPlaceholder("Nhập họ tên để tìm kiếm");
 		amountFormat = NumberFormat.getNumberInstance();
 		txtAmount = new JFormattedTextField(amountFormat);
 		txtAmount.setValue(new Double(0));
@@ -539,7 +536,7 @@ public class CustomerAccessUI extends JPanel {
 		cbWard = new JComboBox<>();
 	}
 
-	private void setTextToInput(String code) {
+	void setTextToInput(String code) {
 		Customer ctm = CustomerDB.getCustomerbyCode(code);
 		txtName.setText(ctm.getName());
 		txtPhone.setText(ctm.getPhone());
@@ -712,6 +709,7 @@ public class CustomerAccessUI extends JPanel {
 					String.format("%,d", (long) ctm.getAmount()) };
 			mdlCustomerList.addRow(row);
 		}
+		resetInput();
 	}
 
 }

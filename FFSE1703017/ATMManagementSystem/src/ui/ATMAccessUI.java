@@ -39,10 +39,10 @@ import model.ATMDB;
 public class ATMAccessUI extends JPanel {
 
 	private static final long serialVersionUID = 1L;
-	private String[] col = { "Mã máy ATM", "Đường", "Số tiền trong máy" };
-	private DefaultTableModel mdlATMList = new DefaultTableModel(col, 0);
+	private DefaultTableModel mdlATMList;
 	private JButton btnAdd, btnEdit, btnDelete, btnReset;
-	private JTextField txtStreet, txtCode, txtSearch;
+	private JTextField txtStreet, txtCode;
+	private PlaceholderTextField txtSearch;
 	/* Xử lý hiển thị số có dấu phẩy động */
 	private NumberFormat amountFormat;
 	private JFormattedTextField txtAmount;
@@ -335,7 +335,10 @@ public class ATMAccessUI extends JPanel {
 
 		/* Panel chính -> Action -> Phải -> Danh sách máy ATM */
 		tblATMList = new JTable();
+		String[] col = { "Mã máy ATM", "Đường", "Số tiền trong máy" };
+		mdlATMList = new DefaultTableModel(col, 0);
 		tblATMList.setModel(mdlATMList);
+		tblATMList.getColumnModel().setColumnMargin(10);
 		
 		DefaultTableCellRenderer rightRenderer = new DefaultTableCellRenderer();
 		rightRenderer.setHorizontalAlignment(JLabel.RIGHT);
@@ -362,7 +365,8 @@ public class ATMAccessUI extends JPanel {
 		cbDistrict = new JComboBox<>();
 		cbWard = new JComboBox<>();
 		txtStreet = new JTextField();
-		txtSearch = new JTextField(30);
+		txtSearch = new PlaceholderTextField(30);
+		txtSearch.setPlaceholder("Nhập mã ATM để tìm kiếm");
 	}
 
 	private void setTextToInput(int i) {

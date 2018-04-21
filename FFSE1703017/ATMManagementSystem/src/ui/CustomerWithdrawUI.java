@@ -176,6 +176,7 @@ public class CustomerWithdrawUI extends JPanel {
 		col = new String[]{ "Mã khách hàng", "Họ tên", "Máy ATM", "Mã giao dịch", "Thời gian giao dịch", "Số tiền đã rút" };
 		mdlCustomerWithdraw = new DefaultTableModel(col, 0);
 		tblCustomerWithdraw.setModel(mdlCustomerWithdraw);
+		tblCustomerWithdraw.getColumnModel().setColumnMargin(10);
 		
 		DefaultTableCellRenderer rightRenderer = new DefaultTableCellRenderer();
 		rightRenderer.setHorizontalAlignment(JLabel.RIGHT);
@@ -184,7 +185,7 @@ public class CustomerWithdrawUI extends JPanel {
 	}
 	
 	private void addPanelsCustomer() {
-		String title = "<html><p style='font-size:12px'>LỊCH SỬ GIAO DỊCH KHÁCH HÀN</p></html>";
+		String title = "<html><p style='font-size:12px'>LỊCH SỬ GIAO DỊCH CÁ NHÂN</p></html>";
 		lblTitle.setText(title);
 		pnFilter.remove(pnCode);
 
@@ -193,6 +194,7 @@ public class CustomerWithdrawUI extends JPanel {
 		col = new String[]{"Mã giao dịch", "Thời gian giao dịch", "Số tiền đã rút" };
 		mdlCustomerWithdraw = new DefaultTableModel(col, 0);
 		tblCustomerWithdraw.setModel(mdlCustomerWithdraw);
+		tblCustomerWithdraw.getColumnModel().setColumnMargin(10);
 		
 		DefaultTableCellRenderer rightRenderer = new DefaultTableCellRenderer();
 		rightRenderer.setHorizontalAlignment(JLabel.RIGHT);

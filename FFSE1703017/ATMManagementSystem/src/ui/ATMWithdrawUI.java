@@ -39,8 +39,7 @@ public class ATMWithdrawUI extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private JScrollPane spATMWithdraw = new JScrollPane();
 	private JTable tblATMWithdraw = new JTable();
-	private String[] col = { "Mã máy ATM", "Vị trí", "Mã khách hàng", "Mã giao dịch", "Thời gian giao dịch", "Số tiền đã rút" };
-	private DefaultTableModel mdlATMWithdraw = new DefaultTableModel(col, 0);
+	private DefaultTableModel mdlATMWithdraw;
 	private JDateChooser dateFrom, dateTo;
 	private JComboBox<ComboItem> cbSelect, cbDistrict, cbWard;
 	private JTextField txtCode, txtStreet;
@@ -209,9 +208,12 @@ public class ATMWithdrawUI extends JPanel {
 		pnDuration.add(dateTo);
 
 		/* Panel chính -> Action -> Phải -> Danh sách máy ATM */
+		String[] col = { "Mã máy ATM", "Vị trí", "Mã khách hàng", "Mã giao dịch", "Thời gian giao dịch", "Số tiền đã rút" };
+		mdlATMWithdraw = new DefaultTableModel(col, 0);
 		tblATMWithdraw.setModel(mdlATMWithdraw);
 		TableColumnModel columnModel = tblATMWithdraw.getColumnModel();
 		columnModel.getColumn(1).setPreferredWidth(200);
+		tblATMWithdraw.getColumnModel().setColumnMargin(10);
 		
 		DefaultTableCellRenderer rightRenderer = new DefaultTableCellRenderer();
 		rightRenderer.setHorizontalAlignment(JLabel.RIGHT);

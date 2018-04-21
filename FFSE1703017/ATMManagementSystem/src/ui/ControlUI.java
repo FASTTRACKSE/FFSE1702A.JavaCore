@@ -140,25 +140,31 @@ public class ControlUI extends JFrame {
 	}
 	
 	private void showLogin() {
+		this.dispose();
 		this.setSize(600, 400);
 		this.setLocationRelativeTo(null);
 		this.setTitle("TPBank - Đăng nhập");
+		this.setVisible(true);
 	}
 	
 	private void showManagement() {
+		this.dispose();
 		this.setSize(1200, 500);
 		this.setLocationRelativeTo(null);
 		this.setTitle("TPBank - Hệ thống quản lý ATM");
+		this.setVisible(true);
 	}
 	
 	private void showCustomer() {
+		this.dispose();
 		this.setSize(700, 400);
 		this.setLocationRelativeTo(null);
 		this.setTitle("TPBank - Hệ thống quản lý ATM");
+		this.setVisible(true);
 	}
 	
 	private void showATM() {
-		this.setSize(500, 300);
+		this.setSize(600, 400);
 		this.setLocationRelativeTo(null);
 		this.setTitle("TPBank - Mô phỏng ATM");
 	}

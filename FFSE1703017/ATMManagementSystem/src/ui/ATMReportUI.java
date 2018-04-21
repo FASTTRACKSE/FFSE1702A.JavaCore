@@ -28,8 +28,7 @@ import model.ComboItem;
 public class ATMReportUI extends JPanel {
 
 	private static final long serialVersionUID = 1L;
-	private String[] col = { "Mã máy ATM", "Quận", "Phường", "Đường", "Số tiền trong máy" };
-	private DefaultTableModel mdlATMList = new DefaultTableModel(col, 0);
+	private DefaultTableModel mdlATMList;
 	private JButton btnFilterByCode, btnFilterByAddress;
 	private JTextField txtSearch, txtStreet;
 	private JComboBox<ComboItem> cbSelect, cbDistrict, cbWard;
@@ -165,7 +164,10 @@ public class ATMReportUI extends JPanel {
 
 		/* Panel chính -> Action -> Phải -> Danh sách khách hàng */
 		JTable tblATMList = new JTable();
+		String[] col = { "Mã máy ATM", "Quận", "Phường", "Đường", "Số tiền trong máy" };
+		mdlATMList = new DefaultTableModel(col, 0);
 		tblATMList.setModel(mdlATMList);
+		tblATMList.getColumnModel().setColumnMargin(10);
 		
 		DefaultTableCellRenderer rightRenderer = new DefaultTableCellRenderer();
 		rightRenderer.setHorizontalAlignment(JLabel.RIGHT);
