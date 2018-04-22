@@ -1,77 +1,148 @@
 package namdv.main;
+/*
+author		: Mr. Xymon
+website		: https://sites.google.com/site/teachmemrxymon/
+program		: Test 1.2
+description	: A simple demonstration on how to export data from JTable to MS Excel file (.xls)
+update		: Added JFileChooser dialog for browsing when saving the excel file
+date		: 2012.04.27
+*/
 
-import java.awt.Color;
+import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.Graphics;
-import java.awt.Shape;
-import java.awt.geom.Ellipse2D;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 
-public class Test extends JButton {
-	public Test(String label) {
-		super(label);
+class Test extends JFrame {
+	String header[] = { "Firstname", "Lastname", "Email" };
+	String data[][];
+	DefaultTableModel model = new DefaultTableModel(data, header);
+	JTable table = new JTable(model);
+	JPanel pane = new JPanel();
+	JPanel pane_input = new JPanel();
+	JLabel lbl_firstname = new JLabel(" Firstname");
+	JLabel lbl_lastname = new JLabel(" Lastname");
+	JLabel lbl_email = new JLabel(" Email");
+	JTextField txt_firstname = new JTextField(10);
+	JTextField txt_lastname = new JTextField(10);
+	JTextField txt_email = new JTextField(10);
+	JButton btn_add = new JButton("Add");
+	JButton btn_excel = new JButton("Export");
 
-		// These statements enlarge the button so that it 
-		// becomes a circle rather than an oval.
-		Dimension size = getPreferredSize();
-		size.width = size.height = Math.max(size.width, size.height);
-		setPreferredSize(size);
+	public Test() {
+		setSize(200, 200);
+		setPreferredSize(new Dimension(350, 300));
+		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		setLocationRelativeTo(null);
+		setResizable(false);
+		setTitle("JTable to Excel Demo");
 
-		// This call causes the JButton not to paint 
-		// the background.
-		// This allows us to paint a round background.
-		setContentAreaFilled(false);
+		btn_add.setMnemonic(KeyEvent.VK_A);
+		btn_excel.setMnemonic(KeyEvent.VK_X);
+
+		pane_input.setLayout(new GridLayout(0, 2));
+		pane_input.add(lbl_firstname);
+		pane_input.add(txt_firstname);
+		pane_input.add(lbl_lastname);
+		pane_input.add(txt_lastname);
+		pane_input.add(lbl_email);
+		pane_input.add(txt_email);
+		pane_input.add(btn_excel);
+		pane_input.add(btn_add);
+
+		pane.setLayout(new BorderLayout());
+		pane.add(pane_input, BorderLayout.NORTH);
+		pane.add(new JScrollPane(table), BorderLayout.CENTER);
+
+		add(pane);
+		pack();
+		setVisible(true);
+
+		btn_add.addActionListener(new AksyonListener());
+		btn_excel.addActionListener(new AksyonListener());
+		txt_email.addActionListener(new AksyonListener());
 	}
 
-	// Paint the round background and label.
-	protected void paintComponent(Graphics g) {
-		if (getModel().isArmed()) {
-			// You might want to make the highlight color 
-			// a property of the Test class.
-			g.setColor(Color.lightGray);
-		} else {
-			g.setColor(getBackground());
+	public void toExcel(JTable table, File file) {
+		try {
+			TableModel model = table.getModel();
+			FileWriter excel = new FileWriter(file);
+
+			for (int i = 0; i < model.getColumnCount(); i++) {
+				excel.write(model.getColumnName(i) + "\t");
+			}
+
+			excel.write("\n");
+
+			for (int i = 0; i < model.getRowCount(); i++) {
+				for (int j = 0; j < model.getColumnCount(); j++) {
+					excel.write(model.getValueAt(i, j).toString() + "\t");
+				}
+				excel.write("\n");
+			}
+
+			excel.close();
+		} catch (IOException e) {
+			System.out.println(e);
 		}
-		g.fillOval(0, 0, getSize().width - 1, getSize().height - 1);
-
-		// This call will paint the label and the 
-		// focus rectangle.
-		super.paintComponent(g);
 	}
 
-	// Paint the border of the button using a simple stroke.
-	protected void paintBorder(Graphics g) {
-		g.setColor(getForeground());
-		g.drawOval(0, 0, getSize().width - 1, getSize().height - 1);
-	}
-
-	// Hit detection.
-	Shape shape;
-
-	public boolean contains(int x, int y) {
-		// If the button has changed size, 
-		// make a new shape object.
-		if (shape == null || !shape.getBounds().equals(getBounds())) {
-			shape = new Ellipse2D.Float(0, 0, getWidth(), getHeight());
-		}
-		return shape.contains(x, y);
-	}
-
-	// Test routine.
 	public static void main(String[] args) {
-		// Create a button with the label "Jackpot".
-		JButton button = new Test("Jackpot");
-		button.setBackground(Color.green);
+		new Test();
+	}
 
-		// Create a frame in which to show the button.
-		JFrame frame = new JFrame();
-		frame.getContentPane().setBackground(Color.yellow);
-		frame.getContentPane().add(button);
-		frame.getContentPane().setLayout(new FlowLayout());
-		frame.setSize(150, 150);
-		frame.setVisible(true);
+	class AksyonListener implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+			if (e.getSource() == btn_add || e.getSource() == txt_email) {
+				String fn = txt_firstname.getText();
+				String ln = txt_lastname.getText();
+				String mail = txt_email.getText();
+
+				txt_firstname.setText("");
+				txt_lastname.setText("");
+				txt_email.setText("");
+				txt_firstname.requestFocus();
+
+				model.insertRow(model.getRowCount(), new Object[] { fn, ln, mail });
+			} else if (e.getSource() == btn_excel) {
+				JFileChooser fc = new JFileChooser();
+				int option = fc.showSaveDialog(Test.this);
+				if (option == JFileChooser.APPROVE_OPTION) {
+					String filename = fc.getSelectedFile().getName();
+					String path = fc.getSelectedFile().getParentFile().getPath();
+
+					int len = filename.length();
+					String ext = "";
+					String file = "";
+
+					if (len > 4) {
+						ext = filename.substring(len - 4, len);
+					}
+
+					if (ext.equals(".xls")) {
+						file = path + "\\" + filename;
+					} else {
+						file = path + "\\" + filename + ".xls";
+					}
+					toExcel(table, new File(file));
+				}
+			}
+		}
 	}
 }

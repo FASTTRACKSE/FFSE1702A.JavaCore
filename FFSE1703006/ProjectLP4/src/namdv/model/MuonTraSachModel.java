@@ -30,6 +30,21 @@ public class MuonTraSachModel {
 		return String.format("%07d", rs.getInt("MAX(ma_muon_tra)") + 1);
 	}
 
+	public ResultSet getMuonTraSach(String[] where, String[] value) throws SQLException {
+		int count = where.length;
+		sql = "SELECT * FROM muon_tra_sach INNER JOIN ban_doc ON muon_tra_sach.ma_ban_doc = ban_doc.id "
+				+ "INNER JOIN sach ON muon_tra_sach.ma_sach_muon = sach.id "
+				+ "WHERE ban_doc.trang_thai = 'active' AND ";
+		for (int i = 0; i < count; i++) {
+			sql += where[i] + value[i];
+			if (i < count - 1) {
+				sql += " AND ";
+			}
+		}
+		ps = conn.prepareStatement(sql);
+		return ps.executeQuery();
+	}
+
 	public boolean muonSach(MuonTraSach muonSach) throws SQLException {
 		String maBanDoc = muonSach.getMaBanDoc();
 		String maSachMuon = muonSach.getMaSachMuon();
@@ -52,7 +67,7 @@ public class MuonTraSachModel {
 		String maBanDoc = traSach.getMaBanDoc();
 		String maSachMuon = traSach.getMaSachMuon();
 
-		sql = "UPDATE muon_tra_sach SET ngay_tra = CURRENT_TIMESTAMP WHERE ma_ban_doc = ? AND ma_sach_muon = ? AND ngay_tra = '0000-00-00 00:00:00'";
+		sql = "UPDATE muon_tra_sach SET ngay_tra = CURRENT_TIMESTAMP WHERE ma_ban_doc = ? AND ma_sach_muon = ? AND ngay_tra IS NULL";
 		ps = conn.prepareStatement(sql);
 		ps.setString(1, traSach.getMaBanDoc());
 		ps.setString(2, maSachMuon);
