@@ -34,6 +34,7 @@ import com.toedter.calendar.JDateChooser;
 import com.toedter.calendar.JMonthChooser;
 import com.toedter.calendar.JYearChooser;
 
+import model.MyException;
 import model.MySQL;
 
 public class InvoiceUI extends JFrame {
@@ -191,26 +192,33 @@ public class InvoiceUI extends JFrame {
 				// Calendar cal = Calendar.getInstance();
 				// cal.setTime(cycleDate);
 
-				int recentMeterIndex = Integer.parseInt(txtMeterIndex.getText());
-
-				int meterNumber = 0;
-				int lastestMeterIndex = 0;
-				ResultSet lastestInvoice = MySQL.getLastestInvoice(meterID);
 				try {
-					while (lastestInvoice.next()) {
-						lastestMeterIndex = lastestInvoice.getInt("MeterIndex");
+					MyException.checkInt(txtMeterIndex.getText());
+					int recentMeterIndex = Integer.parseInt(txtMeterIndex.getText());
+					int meterNumber = 0;
+					int lastestMeterIndex = 0;
+					ResultSet lastestInvoice = MySQL.getLastestInvoice(meterID);
+					try {
+						while (lastestInvoice.next()) {
+							lastestMeterIndex = lastestInvoice.getInt("MeterIndex");
+						}
+						meterNumber = recentMeterIndex - lastestMeterIndex;
+						int amount = calcAmount(meterNumber);
+						 if (MySQL.addInvoice(meterID, dateAdded, cycleDate, recentMeterIndex,
+						 amount)) {
+						 JOptionPane.showMessageDialog(null, "Thêm thành công");
+						 } else {
+						 JOptionPane.showMessageDialog(null, "Thêm thất bại");
+						 }
+					} catch (SQLException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
 					}
-					meterNumber = recentMeterIndex - lastestMeterIndex;
-					int amount = calcAmount(meterNumber);
-					if (MySQL.addInvoice(meterID, dateAdded, cycleDate, recentMeterIndex, amount)) {
-						JOptionPane.showMessageDialog(null, "Thêm thành công");
-					} else {
-						JOptionPane.showMessageDialog(null, "Thêm thất bại");
-					}
-				} catch (SQLException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
+				} catch (MyException e2) {
+					// TODO: handle exception
+					JOptionPane.showMessageDialog(null, e2);
 				}
+
 			}
 		}
 	};

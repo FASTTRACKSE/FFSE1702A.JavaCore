@@ -111,8 +111,8 @@ public class MySQL {
 			String sql = "SELECT customer.id, customer.fullname, customer.address, county.name, ward.name, customer.phone, customer.email, customer.meterID,customer.countyID,customer.wardID FROM ((customer INNER JOIN county on customer.countyID = county.id)\r\n"
 					+ "               INNER JOIN ward ON customer.wardID = ward.id) where county.name like ? and ward.name like ?";
 			PreparedStatement stm = (PreparedStatement) conn.prepareStatement(sql);
-			stm.setString(1, "%"+countyName+"%");
-			stm.setString(2, "%"+wardName+"%");
+			stm.setString(1, "%" + countyName + "%");
+			stm.setString(2, "%" + wardName + "%");
 			ResultSet result = stm.executeQuery();
 			return result;
 		} catch (Exception e) {
@@ -290,15 +290,16 @@ public class MySQL {
 		}
 	}
 
-	public static ResultSet getDataBySearch2(String customerName, String countyName, String wardName, Date cycleStart,Date cycleEnd) {
+	public static ResultSet getDataBySearch2(String customerName, String countyName, String wardName, Date cycleStart,
+			Date cycleEnd) {
 		try {
 			String sql = "SELECT customer.id, customer.meterID,customer.fullname, customer.address, county.name, ward.name, customer.phone, customer.email, invoice.cycle,invoice.amount,customer.countyID,customer.wardID FROM (((customer INNER JOIN county on customer.countyID = county.id)\r\n"
 					+ "					              INNER JOIN ward ON customer.wardID = ward.id) INNER JOIN invoice ON customer.meterID = invoice.meterID) where customer.fullname like ? and county.name like ? and ward.name like ? and (invoice.cycle between ? and ?)";
 			PreparedStatement stm = (PreparedStatement) conn.prepareStatement(sql);
-			
+
 			java.sql.Date sqlCycleStart = new java.sql.Date(cycleStart.getTime());
 			java.sql.Date sqlCycleEnd = new java.sql.Date(cycleEnd.getTime());
-			
+
 			stm.setString(1, "%" + customerName + "%");
 			stm.setString(2, "%" + countyName + "%");
 			stm.setString(3, "%" + wardName + "%");
@@ -311,19 +312,32 @@ public class MySQL {
 			return null;
 		}
 	}
-	
+
 	public static ResultSet getDataBySearch3(String customerName, String countyName, String wardName, Date cycle) {
 		try {
 			String sql = "SELECT customer.id, customer.meterID,customer.fullname, customer.address, county.name, ward.name, customer.phone, customer.email, invoice.cycle,invoice.amount,customer.countyID,customer.wardID FROM (((customer INNER JOIN county on customer.countyID = county.id)\r\n"
 					+ "					              INNER JOIN ward ON customer.wardID = ward.id) INNER JOIN invoice ON customer.meterID = invoice.meterID) where customer.fullname like ? and county.name like ? and ward.name like ? and invoice.cycle = ? ";
 			PreparedStatement stm = (PreparedStatement) conn.prepareStatement(sql);
-			
+
 			java.sql.Date sqlCycle = new java.sql.Date(cycle.getTime());
-			
+
 			stm.setString(1, "%" + customerName + "%");
 			stm.setString(2, "%" + countyName + "%");
 			stm.setString(3, "%" + wardName + "%");
 			stm.setDate(4, sqlCycle);
+			ResultSet result = stm.executeQuery();
+			return result;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	public static ResultSet getMeterIdList() {
+		try {
+			String sql = "select meterID from customer";
+			PreparedStatement stm = (PreparedStatement) conn.prepareStatement(sql);
+
 			ResultSet result = stm.executeQuery();
 			return result;
 		} catch (Exception e) {
