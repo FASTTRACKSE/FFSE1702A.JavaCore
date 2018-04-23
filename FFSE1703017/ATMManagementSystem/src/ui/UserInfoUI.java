@@ -11,6 +11,7 @@ import javax.swing.JTextField;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 
+import model.SessionLogin;
 import model.User;
 
 public class UserInfoUI extends JPanel{
@@ -20,8 +21,8 @@ public class UserInfoUI extends JPanel{
 	JPasswordField txtPassword, txtRePassword;
 	private User user;
 	
-	public UserInfoUI(User user) {
-		this.user = user;
+	public UserInfoUI() {
+		this.user = SessionLogin.getUser();
 		addPanel();
 	}
 	

@@ -39,6 +39,7 @@ import model.AddressDB;
 import model.ComboItem;
 import model.Customer;
 import model.CustomerDB;
+import model.SessionLogin;
 import model.User;
 import model.UserDB;
 
@@ -246,8 +247,8 @@ public class CustomerAccessUI extends JPanel {
 		}
 	};
 
-	public CustomerAccessUI(User user) {
-		this.user = user;
+	public CustomerAccessUI() {
+		this.user = SessionLogin.getUser();
 		setupInput();
 		addPanel();
 		if (user.getRole() == 1) {
@@ -486,7 +487,7 @@ public class CustomerAccessUI extends JPanel {
 		pnEdit.add(btnEdit);
 		btnEdit.setEnabled(true);
 		
-		pnUser = new UserInfoUI(user);
+		pnUser = new UserInfoUI();
 		pnRight.setLayout(new BoxLayout(pnRight, BoxLayout.Y_AXIS));
 		pnRight.add(Box.createVerticalGlue());
 		pnRight.add(Box.createRigidArea(new Dimension(0, 25)));

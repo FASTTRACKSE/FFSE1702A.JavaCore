@@ -28,6 +28,7 @@ import com.toedter.calendar.JTextFieldDateEditor;
 
 import model.CustomerReport;
 import model.CustomerReportDB;
+import model.SessionLogin;
 import model.User;
 
 public class CustomerWithdrawUI extends JPanel {
@@ -94,8 +95,8 @@ public class CustomerWithdrawUI extends JPanel {
 		}
 	};
 
-	public CustomerWithdrawUI(User user) {
-		this.user = user;
+	public CustomerWithdrawUI() {
+		this.user = SessionLogin.getUser();
 		addPanel();
 		if (user.getRole() == 1) {
 			addPanelsAdmin();

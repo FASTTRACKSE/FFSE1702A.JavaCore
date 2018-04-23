@@ -11,6 +11,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
+import model.SessionLogin;
 import model.User;
 
 import javax.swing.Box;
@@ -92,8 +93,8 @@ public class ManagementUI extends JPanel {
 		return btnLogout;
 	}
 
-	public ManagementUI(User user) {
-		this.user = user;
+	public ManagementUI() {
+		this.user = SessionLogin.getUser();
 		addControls();
 		if (user.getRole() == 1) {
 			addControlsAdmin();
@@ -183,10 +184,10 @@ public class ManagementUI extends JPanel {
 		layoutCenter = new CardLayout();
 		pnCenter.setLayout(layoutCenter);
 
-		pnCustomerAccess = new CustomerAccessUI(user);
+		pnCustomerAccess = new CustomerAccessUI();
 		pnATMAccess = new ATMAccessUI();
 		pnCustomerReport = new CustomerReportUI();
-		pnCustomerWithdraw = new CustomerWithdrawUI(user);
+		pnCustomerWithdraw = new CustomerWithdrawUI();
 		pnATMReport = new ATMReportUI();
 		pnATMWithdraw = new ATMWithdrawUI();
 
@@ -228,8 +229,8 @@ public class ManagementUI extends JPanel {
 		layoutCenter = new CardLayout();
 		pnCenter.setLayout(layoutCenter);
 
-		pnCustomerAccess = new CustomerAccessUI(user);
-		pnCustomerWithdraw = new CustomerWithdrawUI(user);
+		pnCustomerAccess = new CustomerAccessUI();
+		pnCustomerWithdraw = new CustomerWithdrawUI();
 
 		pnCenter.add(pnCustomerAccess, "1");
 		pnCenter.add(pnCustomerWithdraw, "2");

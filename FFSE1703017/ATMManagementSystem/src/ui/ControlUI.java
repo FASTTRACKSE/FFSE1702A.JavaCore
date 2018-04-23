@@ -17,6 +17,7 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 import model.CustomerDB;
+import model.SessionLogin;
 import model.User;
 import model.UserDB;
 
@@ -39,8 +40,9 @@ public class ControlUI extends JFrame {
 			String password = new String(txtAdminPass.getPassword());
 			if(UserDB.isLogin(username, password)) {
 				User user = UserDB.getUser(username, password);
+				SessionLogin.setUser(user);
 				
-				pnManagement = new ManagementUI(user);
+				pnManagement = new ManagementUI();
 				pnManagement.getBtnLogout().addActionListener(adminLogout);
 				pnMain.add(pnManagement, "2");
 				cardlayout.show(pnMain, "2");
