@@ -62,7 +62,7 @@ public class QuanLyBienLai extends JFrame {
 	JComboBox jcThang = new JComboBox(Ngay);
 	String Nam[] = { "2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023", "2024", "2025", "2026"};
 	JComboBox jcNam = new JComboBox(Nam);
-	JButton btnNew, btnUpdate, btnDelete, btnLoad, btnExit, btnView;
+	JButton btnNew, btnUpdate, btnDelete, btnLoad, btnExit, btnView,btnLogout;
 
 	JScrollPane spList = new JScrollPane();
 	JTable tbList = new JTable();
@@ -149,7 +149,17 @@ public class QuanLyBienLai extends JFrame {
 			}
 		}
 	};
-
+	ActionListener eventLogout = new ActionListener() {
+		public void actionPerformed(ActionEvent e) {
+			
+			Login();
+		}
+	};
+	protected void Login() {
+		Login myUI = new Login("Phần mềm quản lý tiền điện");
+       myUI.showWindow();
+		dispose();
+	}
 	public void setText() {
 
 		txtMCT.setEditable(true);
@@ -199,7 +209,7 @@ public class QuanLyBienLai extends JFrame {
 	};
 
 	protected void Menu() {
-		Menu myUI = new Menu("My Application");
+		Menu myUI = new Menu("Phần mềm quản lý tiền điện");
 		myUI.showWindow();
 		dispose();
 	}
@@ -212,13 +222,12 @@ public class QuanLyBienLai extends JFrame {
 		btnView.addActionListener(eventViewKH);
 		tbList.addMouseListener(eventselect);
 		btnUpdate.addActionListener(eventUpdate);
-
+		btnLogout.addActionListener(eventLogout);
 	}
 
 	public void addControls() {
-		// Container con = getContentPane();
-		// JPanel pnMain = new JPanel();
-		// pnMain.setLayout(new BoxLayout(pnMain, BoxLayout.Y_AXIS));
+		this.setResizable(false);
+	
 		JPanel panelGirBagLayout = new JPanel();
 
 		GridBagLayout gridBagLayout = new GridBagLayout();
@@ -353,6 +362,21 @@ public class QuanLyBienLai extends JFrame {
 
 		panelGirBagLayout.add(spList, gridBagConstraints2);
 
+JPanel pnAction4 = new JPanel();
+		
+		ImageIcon iconView4 = new ImageIcon("image/logout.png");
+		Image getIconView4 = iconView4.getImage();
+		Image newIconView4 = getIconView4.getScaledInstance(20, 20, java.awt.Image.SCALE_SMOOTH);
+		ImageIcon newIcon4 = new ImageIcon(newIconView4);
+		btnLogout = new JButton(newIcon4);
+		btnLogout.setContentAreaFilled(false);
+		btnLogout.setBorderPainted(false);
+		pnAction4.add(btnLogout);
+		gridBagConstraints1.gridx = 3;
+		gridBagConstraints1.gridy = 6;
+		panelGirBagLayout.add(btnLogout, gridBagConstraints1);
+		this.add(panelGirBagLayout);
+		
 		this.add(panelGirBagLayout);
 	}
 

@@ -50,7 +50,7 @@ public class KhachHang extends JFrame {
 	private String email;
 	ConnectDB cn = new ConnectDB();
 	Connection conn = cn.getConnect("localhost", "Appcuatoi", "Appcuatoi", "123456");
-	JButton btnView, btnExit;
+	JButton btnView, btnExit,btnLogout;
 
 	JScrollPane spList = new JScrollPane();
 	JTable tbList = new JTable();
@@ -69,7 +69,7 @@ public class KhachHang extends JFrame {
 		addEvents();
 	}
 
-	ActionListener eventMenu = new ActionListener() {
+	ActionListener eventlogin = new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
 			Login();
 
@@ -84,18 +84,19 @@ public class KhachHang extends JFrame {
 	};
 
 	protected void Login() {
-		Login myUI = new Login("My Application");
+		Login myUI = new Login("Phần mềm quản lý tiền điện");
 		myUI.showWindow();
 		dispose();
 	}
 
 	public void addEvents() {
-		btnExit.addActionListener(eventMenu);
+		btnLogout.addActionListener(eventlogin);
 		btnView.addActionListener(eventView);
 
 	}
 
 	public void addControls() {
+		this.setResizable(false);
 		String sql = "SELECT * FROM qlkh INNER JOIN qlbl WHERE BINARY Email = ? ";
 		try {
 			ptmt = conn.prepareStatement(sql);
@@ -156,7 +157,7 @@ public class KhachHang extends JFrame {
 				panelGirBagLayout.add(pnInput6, gridBagConstraints1);
 
 				JPanel pnInput7 = new JPanel();
-				JLabel lblTitle7 = new JLabel(" Mã công tơ :");
+				JLabel lblTitle7 = new JLabel(" Mã CT :");
 				pnInput7.add(lblTitle7);
 				lblTitle7.setPreferredSize(new Dimension(80, 20));
 				gridBagConstraints1.gridx = 0;
@@ -283,16 +284,10 @@ public class KhachHang extends JFrame {
 				JPanel pnAction = new JPanel();
 				btnView = new JButton("Tìm kiếm");
 				pnAction.add(btnView);
-				gridBagConstraints1.gridx = 1;
-				gridBagConstraints1.gridy = 6;
-				panelGirBagLayout.add(pnAction, gridBagConstraints1);
-
-				JPanel pnAction1 = new JPanel();
-				btnExit = new JButton("Đăng xuất");
-				pnAction1.add(btnExit);
-				gridBagConstraints1.gridx = 2;
-				gridBagConstraints1.gridy = 6;
-				panelGirBagLayout.add(pnAction1, gridBagConstraints1);
+				gridBagConstraints2.gridx = 0;
+				gridBagConstraints2.gridy = 6;
+				gridBagConstraints2.gridwidth = 4;
+				panelGirBagLayout.add(pnAction, gridBagConstraints2);
 
 				Border border = BorderFactory.createLineBorder(Color.CYAN);
 				TitledBorder borderTittle = BorderFactory.createTitledBorder(border, "Danh Sách");
@@ -300,12 +295,24 @@ public class KhachHang extends JFrame {
 				tbList.setModel(mdTable);
 				spList.setViewportView(tbList);
 
-				tbList.setPreferredScrollableViewportSize(new Dimension(600, 250));
+				tbList.setPreferredScrollableViewportSize(new Dimension(600, 220));
 				gridBagConstraints2.gridx = 0;
 				gridBagConstraints2.gridy = 7;
-				gridBagConstraints2.gridwidth = 4;
 				panelGirBagLayout.add(spList, gridBagConstraints2);
 
+				JPanel pnAction4 = new JPanel();
+				ImageIcon iconView4 = new ImageIcon("image/logout.png");
+				Image getIconView4 = iconView4.getImage();
+				Image newIconView4 = getIconView4.getScaledInstance(20, 20, java.awt.Image.SCALE_SMOOTH);
+				ImageIcon newIcon4 = new ImageIcon(newIconView4);
+				btnLogout = new JButton(newIcon4);
+				btnLogout.setContentAreaFilled(false);
+				btnLogout.setBorderPainted(false);
+				pnAction4.add(btnLogout);
+				gridBagConstraints1.gridx = 3;
+				gridBagConstraints1.gridy = 8;
+				panelGirBagLayout.add(btnLogout, gridBagConstraints1);
+				
 				this.add(panelGirBagLayout);
 
 			} else {

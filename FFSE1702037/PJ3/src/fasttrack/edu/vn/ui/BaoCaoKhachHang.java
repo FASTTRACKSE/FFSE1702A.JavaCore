@@ -49,7 +49,7 @@ public class BaoCaoKhachHang extends JFrame {
 	private JDateChooser dateChooser;
 	ConnectDB cn = new ConnectDB();
 	Connection conn = cn.getConnect("localhost", "Appcuatoi", "Appcuatoi", "123456");
-	JButton btnView, btnExit;
+	JButton btnView, btnExit,btnLogout;
 
 	JScrollPane spList = new JScrollPane();
 	JTable tbList = new JTable();
@@ -82,9 +82,19 @@ public class BaoCaoKhachHang extends JFrame {
 			ViewKH();
 		}
 	};
-
+	ActionListener eventLogout = new ActionListener() {
+		public void actionPerformed(ActionEvent e) {
+			
+			Login();
+		}
+	};
+	protected void Login() {
+		Login myUI = new Login("Phần mềm quản lý tiền điện");
+       myUI.showWindow();
+		dispose();
+	}
 	protected void Menu() {
-		Menu myUI = new Menu("My Application");
+		Menu myUI = new Menu("Phần mềm quản lý tiền điện");
 		myUI.showWindow();
 		dispose();
 	}
@@ -93,6 +103,7 @@ public class BaoCaoKhachHang extends JFrame {
 		btnExit.addActionListener(eventMenu);
 		btnView.addActionListener(eventView);
 		jcQuan.addActionListener(eventCombobox);
+		btnLogout.addActionListener(eventLogout);
 		/*
 		 * btnExit.addActionListener(new ActionListener() {
 		 * 
@@ -102,6 +113,7 @@ public class BaoCaoKhachHang extends JFrame {
 	}
 
 	public void addControls() {
+		this.setResizable(false);
 		JPanel panelGirBagLayout = new JPanel();
 
 		GridBagLayout gridBagLayout = new GridBagLayout();
@@ -175,6 +187,21 @@ public class BaoCaoKhachHang extends JFrame {
 		gridBagConstraints2.gridwidth = 4;
 		panelGirBagLayout.add(spList, gridBagConstraints2);
 
+JPanel pnAction4 = new JPanel();
+		
+		ImageIcon iconView4 = new ImageIcon("image/logout.png");
+		Image getIconView4 = iconView4.getImage();
+		Image newIconView4 = getIconView4.getScaledInstance(20, 20, java.awt.Image.SCALE_SMOOTH);
+		ImageIcon newIcon4 = new ImageIcon(newIconView4);
+		btnLogout = new JButton(newIcon4);
+		btnLogout.setContentAreaFilled(false);
+		btnLogout.setBorderPainted(false);
+		pnAction4.add(btnLogout);
+		gridBagConstraints1.gridx = 3;
+		gridBagConstraints1.gridy = 6;
+		panelGirBagLayout.add(btnLogout, gridBagConstraints1);
+		this.add(panelGirBagLayout);
+		
 		this.add(panelGirBagLayout);
 	}
 

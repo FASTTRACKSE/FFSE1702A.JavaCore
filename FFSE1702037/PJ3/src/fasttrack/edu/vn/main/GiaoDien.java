@@ -16,7 +16,7 @@ public class GiaoDien {
 
 	public static void main(String args[]) {
 
-		Login myUI = new Login("My Application");
+		Login myUI = new Login("Phần mềm quản lý tiền điện");
 		myUI.showWindow();
 
 	}
