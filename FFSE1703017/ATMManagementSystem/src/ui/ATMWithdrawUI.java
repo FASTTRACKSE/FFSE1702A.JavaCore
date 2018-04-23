@@ -42,7 +42,8 @@ public class ATMWithdrawUI extends JPanel {
 	private DefaultTableModel mdlATMWithdraw;
 	private JDateChooser dateFrom, dateTo;
 	private JComboBox<ComboItem> cbSelect, cbDistrict, cbWard;
-	private JTextField txtCode, txtStreet;
+	private JTextField txtCode;
+	private PlaceholderTextField txtStreet;
 	private CardLayout lyt;
 	private JPanel pnChoice;
 	private JButton btnFilter;
@@ -174,7 +175,7 @@ public class ATMWithdrawUI extends JPanel {
 		pnCode.add(lblCode);
 		pnCode.add(txtCode);
 
-		JLabel lblDistrict = new JLabel("Quận:");
+		JLabel lblDistrict = new JLabel("Vị trí:");
 		cbDistrict = new JComboBox<>();
 		cbDistrict.setPreferredSize(new Dimension(100, 20));
 		AddressDB.setDistricts(cbDistrict);
@@ -182,7 +183,8 @@ public class ATMWithdrawUI extends JPanel {
 		cbWard.setPreferredSize(new Dimension(100, 20));
 		ComboItem itemWard = new ComboItem(0, "Chọn phường");
 		cbWard.addItem(itemWard);
-		txtStreet = new JTextField(15);
+		txtStreet = new PlaceholderTextField(15);
+		txtStreet.setPlaceholder("Nhập đường");
 		pnLocation.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 0));
 		pnLocation.add(lblDistrict);
 		pnLocation.add(cbDistrict);

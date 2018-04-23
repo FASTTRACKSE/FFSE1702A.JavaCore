@@ -2,8 +2,13 @@ package ui;
 
 import java.awt.CardLayout;
 import java.awt.Container;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
+import javax.swing.AbstractAction;
+import javax.swing.Action;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -18,7 +23,7 @@ import model.UserDB;
 public class ControlUI extends JFrame {
 
 	private static final long serialVersionUID = 1L;
-	JPanel pnMain;
+	private JPanel pnMain;
 	private ATMSimulation pnCustomer;
 	private LoginUI pnLogin;
 	private ManagementUI pnManagement;
@@ -27,7 +32,7 @@ public class ControlUI extends JFrame {
 	private JTextField txtAdminName, txtCardSN;
 	private JPasswordField txtAdminPass, txtPIN;
 	
-	ActionListener adminLogin = new ActionListener() {
+	private ActionListener adminLogin = new ActionListener() {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			String username = txtAdminName.getText();
@@ -57,7 +62,7 @@ public class ControlUI extends JFrame {
 		}
 	};
 	
-	ActionListener adminLogout = new ActionListener() {
+	private ActionListener adminLogout = new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
 			
 			int cf = JOptionPane.showConfirmDialog(null, "Bạn thực sự muốn thoát?", "Xác nhận",
@@ -69,7 +74,7 @@ public class ControlUI extends JFrame {
 		}
 	};
 	
-	ActionListener customerLogin = new ActionListener() {
+	private ActionListener customerLogin = new ActionListener() {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			String cardSN = txtCardSN.getText();
@@ -91,7 +96,7 @@ public class ControlUI extends JFrame {
 		}
 	};
 	
-	ActionListener customerLogout = new ActionListener() {
+	private ActionListener customerLogout = new ActionListener() {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			cardlayout.show(pnMain, "1");
@@ -126,12 +131,18 @@ public class ControlUI extends JFrame {
 	}
 
 	private void addEvents() {
+		txtAdminName.addActionListener(adminLogin);
+		txtAdminPass.addActionListener(adminLogin);
 		btnAppLogin.addActionListener(adminLogin);
+		
+		txtCardSN.addActionListener(customerLogin);
+		txtPIN.addActionListener(customerLogin);
 		btnAtmLogin.addActionListener(customerLogin);
-
 	}
 
 	public void showWindow() {
+		ImageIcon logo = new ImageIcon(getClass().getResource("/images/logo.png"));
+		this.setIconImage(logo.getImage());
 		this.setSize(600, 400);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.setLocationRelativeTo(null);
@@ -164,9 +175,11 @@ public class ControlUI extends JFrame {
 	}
 	
 	private void showATM() {
+		this.dispose();
 		this.setSize(600, 400);
 		this.setLocationRelativeTo(null);
 		this.setTitle("TPBank - Mô phỏng ATM");
+		this.setVisible(true);
 	}
 
 	

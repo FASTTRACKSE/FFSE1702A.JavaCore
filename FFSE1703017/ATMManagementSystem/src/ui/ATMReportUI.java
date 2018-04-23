@@ -30,11 +30,12 @@ public class ATMReportUI extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private DefaultTableModel mdlATMList;
 	private JButton btnFilterByCode, btnFilterByAddress;
-	private JTextField txtSearch, txtStreet;
+	private JTextField txtSearch;
+	private PlaceholderTextField txtStreet;
 	private JComboBox<ComboItem> cbSelect, cbDistrict, cbWard;
 	private CardLayout card;
 	private JPanel pnSelection;
-
+	
 	private ActionListener evtFilterSelect = new ActionListener() {
 		@Override
 		public void actionPerformed(ActionEvent e) {
@@ -144,7 +145,8 @@ public class ATMReportUI extends JPanel {
 		cbWard.setPreferredSize(new Dimension(100, 20));
 		ComboItem itemWard = new ComboItem(0, "Chọn phường");
 		cbWard.addItem(itemWard);
-		txtStreet = new JTextField(15);
+		txtStreet = new PlaceholderTextField(15);
+		txtStreet.setPlaceholder("Nhập đường");
 		btnFilterByAddress = new JButton("Xem");
 		pnLocation.setLayout(new FlowLayout(FlowLayout.LEFT, 10, 0));
 		pnLocation.add(lblDistrict);

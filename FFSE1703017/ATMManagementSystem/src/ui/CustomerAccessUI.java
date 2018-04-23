@@ -26,6 +26,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.DocumentEvent;
@@ -294,7 +295,7 @@ public class CustomerAccessUI extends JPanel {
 		pnLeft.add(Box.createVerticalGlue());
 
 		/* Panel chính -> Action -> Trái -> Thông tin cá nhân */
-		Border bdrProfile = BorderFactory.createLineBorder(Color.RED);
+		Border bdrProfile = BorderFactory.createLineBorder(Color.RED); //Color.decode("#ba55d3")
 		TitledBorder bttProfile = BorderFactory.createTitledBorder(bdrProfile, " Thông tin cá nhân ");
 		pnProfile.setBorder(bttProfile);
 
@@ -455,6 +456,7 @@ public class CustomerAccessUI extends JPanel {
 
 		/* Panel chính -> Action -> Phải -> Danh sách khách hàng */
 		tblCustomerList = new JTable();
+		tblCustomerList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		String[] col = { "Mã khách hàng", "Họ tên", "Số điện thoại", "Email", "Số tiền trong TK" };
 		mdlCustomerList = new DefaultTableModel(col, 0);
 		tblCustomerList.setModel(mdlCustomerList);

@@ -51,8 +51,8 @@ public class CustomerReportUI extends JPanel {
 				}
 			} else {
 				mdlCustomerList.setRowCount(0);
-				cbDistrict.showPopup();
 				JOptionPane.showMessageDialog(null, "Bạn chưa chọn quận.", "Lỗi", JOptionPane.WARNING_MESSAGE);
+				cbDistrict.showPopup();
 			}
 		}
 	};

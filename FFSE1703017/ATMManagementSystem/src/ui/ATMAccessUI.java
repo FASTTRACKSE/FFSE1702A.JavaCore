@@ -24,6 +24,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.DocumentEvent;
@@ -335,6 +336,7 @@ public class ATMAccessUI extends JPanel {
 
 		/* Panel chính -> Action -> Phải -> Danh sách máy ATM */
 		tblATMList = new JTable();
+		tblATMList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		String[] col = { "Mã máy ATM", "Đường", "Số tiền trong máy" };
 		mdlATMList = new DefaultTableModel(col, 0);
 		tblATMList.setModel(mdlATMList);

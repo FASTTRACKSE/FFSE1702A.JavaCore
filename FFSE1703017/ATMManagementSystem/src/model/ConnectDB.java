@@ -20,7 +20,7 @@ public class ConnectDB {
 		pro.put("user", strUser);
 		pro.put("password", strPwd);
 		try {
-			com.mysql.jdbc.Driver driver = new Driver();
+			Driver driver = new Driver();
 			conn = (Connection) driver.connect(strConnect, pro);
 		} catch (SQLException e) {
 			e.printStackTrace();
