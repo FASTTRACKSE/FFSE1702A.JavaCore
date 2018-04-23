@@ -41,7 +41,7 @@ public class BanDocModel {
 	}
 
 	public ResultSet getDataSachChuaTra(String idBanDoc) throws SQLException {
-		sql = "SELECT * FROM `muon_tra_sach` INNER JOIN `sach` ON `muon_tra_sach`.`ma_sach_muon` = `sach`.`id` WHERE ma_ban_doc = ? AND ngay_tra = '0000-00-00 00:00:00' ORDER BY ma_muon_tra ASC";
+		sql = "SELECT * FROM `muon_tra_sach` INNER JOIN `sach` ON `muon_tra_sach`.`ma_sach_muon` = `sach`.`id` WHERE ma_ban_doc = ? AND ngay_tra IS NULL ORDER BY ma_muon_tra ASC";
 		ps = conn.prepareStatement(sql);
 		ps.setString(1, idBanDoc);
 		return ps.executeQuery();

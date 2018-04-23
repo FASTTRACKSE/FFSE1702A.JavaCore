@@ -576,6 +576,7 @@ public class MuonTraSachUI extends JPanel {
 				}
 				txtFldMaBanDoc.setText(null);
 				btnSearch.doClick();
+				myEx.reset(txtFldSearch);
 				JOptionPane.showMessageDialog(null, "Trả sách thành công!");
 			} catch (SQLException ex) {
 				ex.printStackTrace();

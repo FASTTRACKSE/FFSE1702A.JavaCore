@@ -231,7 +231,11 @@ public class CustomerUI extends JFrame {
 						|| txtMeterID.getText().equals("")) {
 					JOptionPane.showMessageDialog(null, "Hãy nhập đầy đủ thông tin");
 				} else {
-					addCustomer();
+					if (checkDuplicateMeterID(txtMeterID.getText())) {
+						JOptionPane.showMessageDialog(null, "Mã công tơ đã bị trùng, hãy nhập lại");
+					} else {
+						addCustomer();
+					}
 				}
 
 			} catch (SQLException e1) {
@@ -303,12 +307,16 @@ public class CustomerUI extends JFrame {
 							|| txtEmail.getText().equals("") || txtMeterID.getText().equals("")) {
 						JOptionPane.showMessageDialog(null, "Hãy nhập đầy đủ thông tin");
 					} else {
-						editCustomer();
-						int row = jt.getSelectedRow();
-						int col = jt.getSelectedColumn();
-						btnSearch2.doClick();
-						jt.requestFocus();
-						jt.changeSelection(row, col, false, false);
+						if (checkDuplicateMeterID(txtMeterID.getText())) {
+							JOptionPane.showMessageDialog(null, "Mã công tơ đã bị trùng, hãy nhập lại");
+						} else {
+							editCustomer();
+							int row = jt.getSelectedRow();
+							int col = jt.getSelectedColumn();
+							btnSearch2.doClick();
+							jt.requestFocus();
+							jt.changeSelection(row, col, false, false);
+						}
 					}
 				} catch (SQLException e1) {
 					// TODO Auto-generated catch block
@@ -398,5 +406,15 @@ public class CustomerUI extends JFrame {
 		} else {
 			JOptionPane.showMessageDialog(null, "Xóa thất bại");
 		}
+	}
+
+	boolean checkDuplicateMeterID(String meterID) throws SQLException {
+		ResultSet meterIdList = MySQL.getMeterIdList();
+		while (meterIdList.next()) {
+			if (meterID.equals(meterIdList.getString("meterID"))) {
+				return true;
+			}
+		}
+		return false;
 	}
 }
