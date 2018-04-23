@@ -235,9 +235,10 @@ public class CustomerUI extends JFrame {
 						JOptionPane.showMessageDialog(null, "Mã công tơ đã bị trùng, hãy nhập lại");
 					} else {
 						addCustomer();
+						btnSearch2.doClick();
 					}
 				}
-
+				
 			} catch (SQLException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
@@ -261,7 +262,7 @@ public class CustomerUI extends JFrame {
 				wardName = "";
 			}
 
-			ResultSet customerList = MySQL.getCustomerList(countyName, wardName);
+			ResultSet customerList = MySQL.getCustomerList(customerName, countyName, wardName);
 			DefaultTableModel model = (DefaultTableModel) jt.getModel();
 			model.setRowCount(0);
 			try {
@@ -408,7 +409,7 @@ public class CustomerUI extends JFrame {
 		}
 	}
 
-	boolean checkDuplicateMeterID(String meterID) throws SQLException {
+	public static boolean checkDuplicateMeterID(String meterID) throws SQLException {
 		ResultSet meterIdList = MySQL.getMeterIdList();
 		while (meterIdList.next()) {
 			if (meterID.equals(meterIdList.getString("meterID"))) {
