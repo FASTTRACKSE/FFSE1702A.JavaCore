@@ -106,13 +106,14 @@ public class MySQL {
 		}
 	}
 
-	public static ResultSet getCustomerList(String countyName, String wardName) {
+	public static ResultSet getCustomerList(String customerName, String countyName, String wardName) {
 		try {
 			String sql = "SELECT customer.id, customer.fullname, customer.address, county.name, ward.name, customer.phone, customer.email, customer.meterID,customer.countyID,customer.wardID FROM ((customer INNER JOIN county on customer.countyID = county.id)\r\n"
-					+ "               INNER JOIN ward ON customer.wardID = ward.id) where county.name like ? and ward.name like ?";
+					+ "               INNER JOIN ward ON customer.wardID = ward.id) where customer.fullname like ? and county.name like ? and ward.name like ?";
 			PreparedStatement stm = (PreparedStatement) conn.prepareStatement(sql);
-			stm.setString(1, "%" + countyName + "%");
-			stm.setString(2, "%" + wardName + "%");
+			stm.setString(1, "%" + customerName + "%");
+			stm.setString(2, "%" + countyName + "%");
+			stm.setString(3, "%" + wardName + "%");
 			ResultSet result = stm.executeQuery();
 			return result;
 		} catch (Exception e) {
@@ -240,12 +241,40 @@ public class MySQL {
 		}
 	}
 
-	public static ResultSet getLastestInvoiceForEdit(String meterID, int InvoiceID) {
+	public static ResultSet getPreMeterIndexForEdit(String meterID, int invoiceID) {
 		try {
 			String sql = "SELECT * from invoice where meterID = ? AND (id BETWEEN 1 AND ?)  ORDER BY id DESC LIMIT 1";
 			PreparedStatement stm = (PreparedStatement) conn.prepareStatement(sql);
 			stm.setString(1, meterID);
-			stm.setInt(2, InvoiceID - 1);
+			stm.setInt(2, invoiceID - 1);
+			ResultSet result = stm.executeQuery();
+			return result;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	public static ResultSet getNextMeterIndexForEdit(String meterID, int invoiceID, int lastInvoiceID) {
+		try {
+			String sql = "SELECT * from invoice where meterID = ? AND (id BETWEEN ? AND ?) ORDER BY id ASC LIMIT 1";
+			PreparedStatement stm = (PreparedStatement) conn.prepareStatement(sql);
+			stm.setString(1, meterID);
+			stm.setInt(2, invoiceID + 1);
+			stm.setInt(3, lastInvoiceID);
+			ResultSet result = stm.executeQuery();
+			return result;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	public static ResultSet getLastInvoiceID(String meterID) {
+		try {
+			String sql = "SELECT max(id) from invoice where meterID = ?";
+			PreparedStatement stm = (PreparedStatement) conn.prepareStatement(sql);
+			stm.setString(1, meterID);
 			ResultSet result = stm.executeQuery();
 			return result;
 		} catch (Exception e) {
