@@ -328,14 +328,7 @@ public class JKhachHangInfor extends JFrame {
 						int yearfr = Integer.parseInt(yearFrom);
 						int monthT = Integer.parseInt(monthTo);
 						int yearT = Integer.parseInt(yearTo);
-						if (monthFr != 1) {
-							monthFrom = String.valueOf((monthFr - 1));
-
-						} else {
-							monthFrom = "12";
-							yearFrom = String.valueOf((yearfr - 1));
-
-						}
+						
 						if (monthT != 12) {
 							monthTo = String.valueOf((monthT + 1));
 

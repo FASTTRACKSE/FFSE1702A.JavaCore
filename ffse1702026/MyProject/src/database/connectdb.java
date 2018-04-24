@@ -26,6 +26,12 @@ public class connectdb {
 		try {
 			Driver driver = new Driver();
 			conn = (Connection) driver.connect(strConnect, pro);
+			if(conn==null) {
+				JOptionPane.showMessageDialog(null, "không thể kết nối database","Thông báo lỗi",JOptionPane.ERROR_MESSAGE);
+				System.exit(0);
+				
+				
+			}
 		} catch (SQLException ex) {
 			JOptionPane.showMessageDialog(null, "không thể kết nối database","Thông báo lỗi",JOptionPane.ERROR_MESSAGE);
 		}
