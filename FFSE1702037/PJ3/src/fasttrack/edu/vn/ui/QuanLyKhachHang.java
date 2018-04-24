@@ -235,6 +235,8 @@ public class QuanLyKhachHang extends JFrame {
 		Image newIconView = getIconView.getScaledInstance(11, 11, java.awt.Image.SCALE_SMOOTH);
 		ImageIcon newIcon = new ImageIcon(newIconView);
 		btnView = new JButton(newIcon);
+		btnView.setFocusPainted(false);
+
 		pnInput2.add(btnView);
 		gridBagConstraints1.gridx = 1;
 		gridBagConstraints1.gridy = 1;

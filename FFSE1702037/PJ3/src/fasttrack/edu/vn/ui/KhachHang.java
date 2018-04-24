@@ -50,14 +50,14 @@ public class KhachHang extends JFrame {
 	private String email;
 	ConnectDB cn = new ConnectDB();
 	Connection conn = cn.getConnect("localhost", "Appcuatoi", "Appcuatoi", "123456");
-	JButton btnView, btnExit,btnLogout;
+	JButton btnView, btnExit, btnLogout;
 
 	JScrollPane spList = new JScrollPane();
 	JTable tbList = new JTable();
 	String tbSV[] = { "Mã BL", "Tháng", "Năm", "Ngày Nhập", "Chỉ số tiêu thụ", "Tiền Điện" };
 	DefaultTableModel mdTable = new DefaultTableModel(tbSV, 0);
-	String Thang[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12" };
-	String Nam[] = { "2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023", "2024", "2025", "2026" };
+	String Thang[] = { " ", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12" };
+	String Nam[] = { "2018", "2019", "2020", "2021", "2022", "2023", "2024", "2025", "2026" };
 	JComboBox jcNam = new JComboBox(Nam);
 	JComboBox jcThang = new JComboBox(Thang);
 
@@ -121,45 +121,55 @@ public class KhachHang extends JFrame {
 				Font fontTitle = new Font("Time new roman", Font.BOLD, 20);
 				lblTitle.setFont(fontTitle);
 				pnTitle.add(lblTitle);
-				gridBagConstraints.gridwidth = 4;
+				gridBagConstraints.gridx = 0;
+				gridBagConstraints.gridy = 0;
+				gridBagConstraints.gridwidth = 5;
 				panelGirBagLayout.add(pnTitle, gridBagConstraints);
 
 				JPanel pnInput3 = new JPanel();
-				JLabel lblTitle3 = new JLabel("Tên KH :");
+				JLabel lblTitle3 = new JLabel("             Tên KH :");
+				lblTitle3.setPreferredSize(new Dimension(90, 20));
 				pnInput3.add(lblTitle3);
-				lblTitle3.setPreferredSize(new Dimension(80, 20));
 				gridBagConstraints1.gridx = 0;
 				gridBagConstraints1.gridy = 1;
 				panelGirBagLayout.add(pnInput3, gridBagConstraints1);
 
 				JPanel pnInput4 = new JPanel();
 				JLabel lblTitle4 = new JLabel(rs.getString("Name"));
+				lblTitle4.setPreferredSize(new Dimension(120, 20));
 				pnInput4.add(lblTitle4);
-				lblTitle4.setPreferredSize(new Dimension(130, 20));
 				gridBagConstraints1.gridx = 1;
 				gridBagConstraints1.gridy = 1;
 				panelGirBagLayout.add(pnInput4, gridBagConstraints1);
 
-				JPanel pnInput5 = new JPanel();
-				JLabel lblTitle5 = new JLabel(" Mã KH ");
-				pnInput5.add(lblTitle5);
-				lblTitle5.setPreferredSize(new Dimension(80, 20));
+				JPanel pnInput42 = new JPanel();
+				JLabel lblTitle42 = new JLabel("");
+				pnInput42.add(lblTitle42);
+				pnInput42.setPreferredSize(new Dimension(120, 20));
 				gridBagConstraints1.gridx = 2;
+				gridBagConstraints1.gridy = 1;
+				panelGirBagLayout.add(pnInput42, gridBagConstraints1);
+
+				JPanel pnInput5 = new JPanel();
+				JLabel lblTitle5 = new JLabel(" Mã KH :");
+				lblTitle5.setPreferredSize(new Dimension(70, 20));
+				pnInput5.add(lblTitle5);
+				gridBagConstraints1.gridx = 3;
 				gridBagConstraints1.gridy = 1;
 				panelGirBagLayout.add(pnInput5, gridBagConstraints1);
 
 				JPanel pnInput6 = new JPanel();
 				JLabel lblTitle6 = new JLabel(rs.getString("MaKH"));
+				lblTitle6.setPreferredSize(new Dimension(90, 20));
 				pnInput6.add(lblTitle6);
-				// lblTitle6.setPreferredSize(new Dimension(80, 20));
-				gridBagConstraints1.gridx = 3;
+				gridBagConstraints1.gridx = 4;
 				gridBagConstraints1.gridy = 1;
 				panelGirBagLayout.add(pnInput6, gridBagConstraints1);
 
 				JPanel pnInput7 = new JPanel();
-				JLabel lblTitle7 = new JLabel(" Mã CT :");
+				JLabel lblTitle7 = new JLabel("             Mã CT :");
+				lblTitle7.setPreferredSize(new Dimension(90, 20));
 				pnInput7.add(lblTitle7);
-				lblTitle7.setPreferredSize(new Dimension(80, 20));
 				gridBagConstraints1.gridx = 0;
 				gridBagConstraints1.gridy = 2;
 				panelGirBagLayout.add(pnInput7, gridBagConstraints1);
@@ -167,117 +177,118 @@ public class KhachHang extends JFrame {
 				JPanel pnInput8 = new JPanel();
 				JLabel lblTitle8 = new JLabel(rs.getString("MaCT"));
 				pnInput8.add(lblTitle8);
-				lblTitle8.setPreferredSize(new Dimension(130, 20));
+				lblTitle8.setPreferredSize(new Dimension(120, 20));
 				gridBagConstraints1.gridx = 1;
 				gridBagConstraints1.gridy = 2;
 				panelGirBagLayout.add(pnInput8, gridBagConstraints1);
 
 				JPanel pnInput9 = new JPanel();
 				JLabel lblTitle9 = new JLabel("Địa chỉ :");
+				lblTitle9.setPreferredSize(new Dimension(70, 20));
 				pnInput9.add(lblTitle9);
-				lblTitle9.setPreferredSize(new Dimension(80, 20));
-				gridBagConstraints1.gridx = 2;
+				gridBagConstraints1.gridx = 3;
 				gridBagConstraints1.gridy = 2;
 				panelGirBagLayout.add(pnInput9, gridBagConstraints1);
 
 				JPanel pnInput11 = new JPanel();
 				JLabel lblTitle11 = new JLabel(rs.getString("DiaChi"));
+				lblTitle11.setPreferredSize(new Dimension(90, 20));
 				pnInput11.add(lblTitle11);
-				// lblTitle11.setPreferredSize(new Dimension(80, 20));
-				gridBagConstraints1.gridx = 3;
+				gridBagConstraints1.gridx = 4;
 				gridBagConstraints1.gridy = 2;
 				panelGirBagLayout.add(pnInput11, gridBagConstraints1);
 
 				JPanel pnInput22 = new JPanel();
-				JLabel lblTitle22 = new JLabel("Quận :");
+				JLabel lblTitle22 = new JLabel("             Quận :");
+				lblTitle22.setPreferredSize(new Dimension(90, 20));
 				pnInput22.add(lblTitle22);
-				lblTitle22.setPreferredSize(new Dimension(80, 20));
 				gridBagConstraints1.gridx = 0;
 				gridBagConstraints1.gridy = 3;
 				panelGirBagLayout.add(pnInput22, gridBagConstraints1);
 
 				JPanel pnInput33 = new JPanel();
 				JLabel lblTitle33 = new JLabel(rs.getString("Quan"));
+				lblTitle33.setPreferredSize(new Dimension(120, 20));
 				pnInput33.add(lblTitle33);
-				lblTitle33.setPreferredSize(new Dimension(130, 20));
 				gridBagConstraints1.gridx = 1;
 				gridBagConstraints1.gridy = 3;
 				panelGirBagLayout.add(pnInput33, gridBagConstraints1);
 
 				JPanel pnInput44 = new JPanel();
 				JLabel lblTitle44 = new JLabel("Phường :");
+				lblTitle44.setPreferredSize(new Dimension(70, 20));
 				pnInput44.add(lblTitle44);
-				lblTitle44.setPreferredSize(new Dimension(80, 20));
-				gridBagConstraints1.gridx = 2;
+				gridBagConstraints1.gridx = 3;
 				gridBagConstraints1.gridy = 3;
 				panelGirBagLayout.add(pnInput44, gridBagConstraints1);
 
 				JPanel pnInput55 = new JPanel();
 				JLabel lblTitle55 = new JLabel(rs.getString("Phuong"));
+				lblTitle55.setPreferredSize(new Dimension(90, 20));
 				pnInput55.add(lblTitle55);
-				// lblTitle55.setPreferredSize(new Dimension(80, 20));
-				gridBagConstraints1.gridx = 3;
+				gridBagConstraints1.gridx = 4;
 				gridBagConstraints1.gridy = 3;
 				panelGirBagLayout.add(pnInput55, gridBagConstraints1);
 
 				JPanel pnInput66 = new JPanel();
-				JLabel lblTitle66 = new JLabel("Email :");
+				JLabel lblTitle66 = new JLabel("             Email :");
+				lblTitle66.setPreferredSize(new Dimension(90, 20));
 				pnInput66.add(lblTitle66);
-				lblTitle66.setPreferredSize(new Dimension(80, 20));
 				gridBagConstraints1.gridx = 0;
 				gridBagConstraints1.gridy = 4;
 				panelGirBagLayout.add(pnInput66, gridBagConstraints1);
 
 				JPanel pnInput77 = new JPanel();
 				JLabel lblTitle77 = new JLabel(rs.getString("Email"));
+				lblTitle77.setPreferredSize(new Dimension(120, 20));
 				pnInput77.add(lblTitle77);
-				lblTitle77.setPreferredSize(new Dimension(130, 20));
 				gridBagConstraints1.gridx = 1;
 				gridBagConstraints1.gridy = 4;
 				panelGirBagLayout.add(pnInput77, gridBagConstraints1);
 
 				JPanel pnInput88 = new JPanel();
 				JLabel lblTitle88 = new JLabel("Phone :");
+				lblTitle88.setPreferredSize(new Dimension(70, 20));
 				pnInput88.add(lblTitle88);
-				lblTitle88.setPreferredSize(new Dimension(80, 20));
-				gridBagConstraints1.gridx = 2;
+				gridBagConstraints1.gridx = 3;
 				gridBagConstraints1.gridy = 4;
 				panelGirBagLayout.add(pnInput88, gridBagConstraints1);
 
 				JPanel pnInput99 = new JPanel();
 				JLabel lblTitle99 = new JLabel(rs.getString("Phone"));
+				lblTitle99.setPreferredSize(new Dimension(90, 20));
 				pnInput99.add(lblTitle99);
-				// lblTitle99.setPreferredSize(new Dimension(80, 20));
-				gridBagConstraints1.gridx = 3;
+				gridBagConstraints1.gridx = 4;
 				gridBagConstraints1.gridy = 4;
 				panelGirBagLayout.add(pnInput99, gridBagConstraints1);
 
 				JPanel pnInput1 = new JPanel();
-				JLabel lblTitle1 = new JLabel("Tháng :");
+				JLabel lblTitle1 = new JLabel("             Tháng :");
+				lblTitle1.setPreferredSize(new Dimension(90, 20));
 				pnInput1.add(lblTitle1);
-				lblTitle1.setPreferredSize(new Dimension(80, 20));
 				gridBagConstraints1.gridx = 0;
 				gridBagConstraints1.gridy = 5;
 				panelGirBagLayout.add(pnInput1, gridBagConstraints1);
+
 				JPanel pnInput2 = new JPanel();
 				pnInput2.add(jcThang);
-				jcThang.setPreferredSize(new Dimension(80, 20));
+				jcThang.setPreferredSize(new Dimension(50, 20));
 				gridBagConstraints1.gridx = 1;
 				gridBagConstraints1.gridy = 5;
 				panelGirBagLayout.add(pnInput2, gridBagConstraints1);
 
 				JPanel pnInput31 = new JPanel();
 				JLabel lblTitle31 = new JLabel("Năm :");
+				lblTitle31.setPreferredSize(new Dimension(70, 20));
 				pnInput31.add(lblTitle31);
-				// lblTitle31.setPreferredSize(new Dimension 80, 20));
-				gridBagConstraints1.gridx = 2;
+				gridBagConstraints1.gridx = 3;
 				gridBagConstraints1.gridy = 5;
 				panelGirBagLayout.add(pnInput31, gridBagConstraints1);
 
 				JPanel pnInput41 = new JPanel();
 				pnInput41.add(jcNam);
-				jcNam.setPreferredSize(new Dimension(80, 20));
-				gridBagConstraints1.gridx = 3;
+				jcNam.setPreferredSize(new Dimension(60, 20));
+				gridBagConstraints1.gridx = 4;
 				gridBagConstraints1.gridy = 5;
 				panelGirBagLayout.add(pnInput41, gridBagConstraints1);
 
@@ -286,7 +297,7 @@ public class KhachHang extends JFrame {
 				pnAction.add(btnView);
 				gridBagConstraints2.gridx = 0;
 				gridBagConstraints2.gridy = 6;
-				gridBagConstraints2.gridwidth = 4;
+				gridBagConstraints2.gridwidth = 5;
 				panelGirBagLayout.add(pnAction, gridBagConstraints2);
 
 				Border border = BorderFactory.createLineBorder(Color.CYAN);
@@ -309,10 +320,10 @@ public class KhachHang extends JFrame {
 				btnLogout.setContentAreaFilled(false);
 				btnLogout.setBorderPainted(false);
 				pnAction4.add(btnLogout);
-				gridBagConstraints1.gridx = 3;
+				gridBagConstraints1.gridx = 4;
 				gridBagConstraints1.gridy = 8;
 				panelGirBagLayout.add(btnLogout, gridBagConstraints1);
-				
+
 				this.add(panelGirBagLayout);
 
 			} else {
@@ -328,13 +339,19 @@ public class KhachHang extends JFrame {
 	PreparedStatement ptmt = null;
 
 	public void ViewHD() {
-		String sql = "SELECT * FROM qlbl INNER JOIN qlkh WHERE qlbl.MaCT=qlkh.MaCT AND qlkh.Email=? AND Chu_Ky_Month = ? AND Chu_Ky_Year = ?";
+		String sql = "SELECT * FROM qlbl INNER JOIN qlkh WHERE qlbl.MaCT=qlkh.MaCT AND qlkh.Email='"+this.email+"' AND Chu_Ky_Year = '"+jcNam.getSelectedItem().toString()+"'";
 		try {
-			PreparedStatement ptmt = conn.prepareStatement(sql);
-			ptmt.setString(1, this.email);
-			ptmt.setString(2, jcThang.getSelectedItem().toString());
-			ptmt.setString(3, jcNam.getSelectedItem().toString());
-			// khởi tạo resultset
+			
+			String thang = (String) jcThang.getSelectedItem();
+			String sqlWhere = null;
+			if (!thang.equals(" ")) {
+				sqlWhere = sql.concat(" AND Chu_Ky_Month = '" + jcThang.getSelectedItem().toString() + "'");
+			//	PreparedStatement ptmt = conn.prepareStatement(sqlWhere);
+			}else {
+				sqlWhere = sql;	
+			}
+			PreparedStatement ptmt = conn.prepareStatement(sqlWhere);
+						// khởi tạo resultset
 			ResultSet rs = ptmt.executeQuery();
 			Vector items = new Vector();
 			double td;

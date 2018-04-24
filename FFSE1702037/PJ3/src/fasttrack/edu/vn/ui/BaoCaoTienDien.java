@@ -76,7 +76,7 @@ public class BaoCaoTienDien extends JFrame {
 	JComboBox jcNam1 = new JComboBox(Nam1);
 	JComboBox jcNam2 = new JComboBox(Nam2);
 	JComboBox jcNam3 = new JComboBox(Nam3);
-	JButton btnView, btnExit, btnSearch,btnLogout;
+	JButton btnView, btnExit, btnSearch, btnLogout;
 	JScrollPane spList = new JScrollPane();
 	JTable tbList = new JTable();
 	String tbSV[] = { "Ma KH", "Mã CT", "Ten KH", "Quận", "Phường", "Thời Gian", "Chữ số Tiêu Thụ", "Tiền điện" };
@@ -117,15 +117,17 @@ public class BaoCaoTienDien extends JFrame {
 	};
 	ActionListener eventLogout = new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
-			
+
 			Login();
 		}
 	};
+
 	protected void Login() {
 		Login myUI = new Login("Phần mềm quản lý tiền điện");
-       myUI.showWindow();
+		myUI.showWindow();
 		dispose();
 	}
+
 	protected void Menu() {
 		Menu myUI = new Menu("Phần mềm quản lý tiền điện");
 		myUI.showWindow();
@@ -232,7 +234,7 @@ public class BaoCaoTienDien extends JFrame {
 		gridBagConstraints1.gridx = 1;
 		gridBagConstraints1.gridy = 1;
 		panelGirBagLayout.add(lblTitle11, gridBagConstraints1);
-		
+
 		ButtonGroup buttonGroup = new ButtonGroup();
 
 		JPanel pnjRadio = new JPanel();
@@ -241,6 +243,7 @@ public class BaoCaoTienDien extends JFrame {
 		buttonGroup.add(jRadioKH);
 		jRadioKH.setSelected(true);
 		pnjRadio.add(jRadioKH);
+		jRadioKH.setFocusPainted(false);
 		gridBagConstraints1.gridx = 0;
 		gridBagConstraints1.gridy = 2;
 		panelGirBagLayout.add(pnjRadio, gridBagConstraints1);
@@ -250,6 +253,7 @@ public class BaoCaoTienDien extends JFrame {
 		jRadioKhuVuc.setHorizontalAlignment(SwingConstants.RIGHT);
 		buttonGroup.add(jRadioKhuVuc);
 		pnjRadio2.add(jRadioKhuVuc);
+		jRadioKhuVuc.setFocusPainted(false);
 		gridBagConstraints1.gridx = 0;
 		gridBagConstraints1.gridy = 3;
 		panelGirBagLayout.add(pnjRadio2, gridBagConstraints1);
@@ -259,6 +263,7 @@ public class BaoCaoTienDien extends JFrame {
 		jRadioKHCT.setPreferredSize(new Dimension(140, 20));
 		buttonGroup.add(jRadioKHCT);
 		pnjRadio4.add(jRadioKHCT);
+		jRadioKHCT.setFocusPainted(false);
 		gridBagConstraints1.gridx = 0;
 		gridBagConstraints1.gridy = 4;
 		panelGirBagLayout.add(pnjRadio4, gridBagConstraints1);
@@ -340,7 +345,7 @@ public class BaoCaoTienDien extends JFrame {
 		gridBagConstraints1.gridx = 2;
 		gridBagConstraints1.gridy = 1;
 		panelGirBagLayout.add(lblTitle2, gridBagConstraints1);
-		
+
 		JPanel pnTitle22 = new JPanel();
 		JLabel lblTitle22 = new JLabel("");
 		pnTitle22.add(lblTitle22);
@@ -348,7 +353,7 @@ public class BaoCaoTienDien extends JFrame {
 		gridBagConstraints1.gridx = 3;
 		gridBagConstraints1.gridy = 1;
 		panelGirBagLayout.add(lblTitle22, gridBagConstraints1);
-		
+
 		ButtonGroup buttonGroup1 = new ButtonGroup();
 
 		JPanel pnjRadio1 = new JPanel();
@@ -356,22 +361,25 @@ public class BaoCaoTienDien extends JFrame {
 		buttonGroup1.add(jRadioYear);
 		jRadioYear.setSelected(true);
 		pnjRadio1.add(jRadioYear);
+		jRadioYear.setFocusPainted(false);
 		gridBagConstraints1.gridx = 2;
 		gridBagConstraints1.gridy = 2;
 		panelGirBagLayout.add(pnjRadio1, gridBagConstraints1);
-		
+
 		JPanel pnjRadio3 = new JPanel();
 		jRadioTime = new JRadioButton("Khoảng thời gian");
 		buttonGroup1.add(jRadioTime);
 		pnjRadio3.add(jRadioTime);
+		jRadioTime.setFocusPainted(false);
 		gridBagConstraints1.gridx = 2;
 		gridBagConstraints1.gridy = 3;
 		panelGirBagLayout.add(pnjRadio3, gridBagConstraints1);
-		
+
 		JPanel pnjRadio5 = new JPanel();
 		jRadioChuKy = new JRadioButton("Theo kỳ                 ");
 		buttonGroup1.add(jRadioChuKy);
 		pnjRadio5.add(jRadioChuKy);
+		jRadioChuKy.setFocusPainted(false);
 		gridBagConstraints1.gridx = 2;
 		gridBagConstraints1.gridy = 4;
 		panelGirBagLayout.add(pnjRadio5, gridBagConstraints1);
@@ -425,7 +433,6 @@ public class BaoCaoTienDien extends JFrame {
 		gridBagConstraints1.gridy = 3;
 		panelGirBagLayout.add(pnjRadio333, gridBagConstraints1);
 
-
 		pnjRadio55 = new JPanel();
 		JLabel lbCls55 = new JLabel("Tháng :");
 		Font fCls55 = new Font("arial", Font.ITALIC, 14);
@@ -445,7 +452,7 @@ public class BaoCaoTienDien extends JFrame {
 		gridBagConstraints1.gridx = 3;
 		gridBagConstraints1.gridy = 2;
 		panelGirBagLayout.add(pnjRadio55, gridBagConstraints1);
-		
+
 		JPanel pnAction = new JPanel();
 		btnView = new JButton("Tìm");
 		pnAction.add(btnView);
@@ -456,10 +463,9 @@ public class BaoCaoTienDien extends JFrame {
 		gridBagConstraints2.gridwidth = 4;
 		panelGirBagLayout.add(pnAction, gridBagConstraints2);
 
-		
 		Border border = BorderFactory.createLineBorder(Color.CYAN);
 		TitledBorder borderTittle = BorderFactory.createTitledBorder(border, "Danh Sách");
-				
+
 		spList.setBorder(borderTittle);
 		tbList.setModel(mdTable);
 		spList.setViewportView(tbList);
@@ -468,9 +474,9 @@ public class BaoCaoTienDien extends JFrame {
 		gridBagConstraints2.gridy = 6;
 
 		panelGirBagLayout.add(spList, gridBagConstraints2);
-		
-JPanel pnAction4 = new JPanel();
-		
+
+		JPanel pnAction4 = new JPanel();
+
 		ImageIcon iconView4 = new ImageIcon("image/logout.png");
 		Image getIconView4 = iconView4.getImage();
 		Image newIconView4 = getIconView4.getScaledInstance(20, 20, java.awt.Image.SCALE_SMOOTH);
@@ -483,7 +489,7 @@ JPanel pnAction4 = new JPanel();
 		gridBagConstraints1.gridy = 7;
 		panelGirBagLayout.add(btnLogout, gridBagConstraints1);
 		this.add(panelGirBagLayout);
-		
+
 		this.add(panelGirBagLayout);
 	}
 
@@ -545,7 +551,6 @@ JPanel pnAction4 = new JPanel();
 		}
 	}
 
-	
 	private String selectKhoangTg(String thangSt, String namSt, String thangEnd, String namEnd, String sqlWhere) {
 		String sql = "";
 		int namSt11 = Integer.parseInt(namSt);
@@ -567,17 +572,29 @@ JPanel pnAction4 = new JPanel();
 				}
 				thangSt11 = 1;
 			} else if (namSt11 == namEnd11) {
-				for (int i = thangSt11; thangSt11 <= thangEnd11; thangSt11++) {
-					if (thangSt11 == thangEnd11) {
-						sqlWhere += " OR (`Chu_Ky_Year` = " + namSt11 + " AND `Chu_Ky_Month`= " + thangSt11 + "))";
-					} else {
-						sqlWhere += " OR (`Chu_Ky_Year` = " + namSt11 + " AND `Chu_Ky_Month`= " + thangSt11 + ")";
+				if (namEnd11 == m && thangEnd11 == n) {
+					sqlWhere += " AND ((`Chu_Ky_Year` = " + namSt11 + " AND `Chu_Ky_Month`= " + thangSt11 + "))";
+				} else {
+					for (int i = thangSt11; thangSt11 <= thangEnd11; thangSt11++) {
+						if (thangSt11 == thangEnd11) {
+							sqlWhere += " OR (`Chu_Ky_Year` = " + namSt11 + " AND `Chu_Ky_Month`= " + thangSt11 + "))";
+						} else {
+							if (namEnd11 == m && thangSt11 == n) {
+								sqlWhere += " AND ((`Chu_Ky_Year` = " + namSt11 + " AND `Chu_Ky_Month`= " + thangSt11
+										+ ")";
+							} else {
+								sqlWhere += " OR (`Chu_Ky_Year` = " + namSt11 + " AND `Chu_Ky_Month`= " + thangSt11
+										+ ")";
+							}
+						}
 					}
 				}
 			}
 			namSt11 += 1;
 		}
+		
 		return sqlWhere;
+
 	}
 
 	PreparedStatement ptmt = null;

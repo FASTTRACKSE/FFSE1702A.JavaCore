@@ -468,7 +468,7 @@ JPanel pnAction4 = new JPanel();
 		try {
 			if (myEx.checkBLMaCT(txtMCT.getText()) && myEx.chkMeterNumber(txtCSCT.getText())
 					&& myEx.checkEmpty(txtMCT.getText()) && myEx.checkEmpty(txtCSCT.getText())
-					&& myEx.chkCycle(month, year, MCT)) {
+					&& myEx.chkCycle(month, year, MCT)&& myEx.chkSameCycle(month, year, MCT)) {
 				int chiSoCu = 0;
 				int thangChuKy = Integer.parseInt(jcThang.getSelectedItem().toString());
 				sql = "select `Chi_So_CT` from `qlbl` where Chu_Ky_Month = ? AND Chu_Ky_Year = ? AND MaCT = ?";
