@@ -6,8 +6,6 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 
@@ -29,6 +27,8 @@ import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
@@ -37,10 +37,10 @@ import model.ComboItem;
 import model.ATM;
 import model.ATMDB;
 
-public class ATMAccessUI extends JPanel {
+public class AtmAccessUI extends JPanel {
 
 	private static final long serialVersionUID = 1L;
-	private DefaultTableModel mdlATMList;
+	private DefaultTableModel mdlAtmList;
 	private JButton btnAdd, btnEdit, btnDelete, btnReset;
 	private JTextField txtStreet, txtCode;
 	private PlaceholderTextField txtSearch;
@@ -48,23 +48,25 @@ public class ATMAccessUI extends JPanel {
 	private NumberFormat amountFormat;
 	private JFormattedTextField txtAmount;
 	private JComboBox<ComboItem> cbDistrict, cbWard;
-	private JTable tblATMList;
-
-	private MouseAdapter evtRowSelected = new MouseAdapter() {
-		public void mouseClicked(MouseEvent e) {
-			int i = tblATMList.getSelectedRow();
+	private JTable tblAtmList;
+	
+	private ListSelectionListener evtRowSelected = new ListSelectionListener() {
+		
+		@Override
+		public void valueChanged(ListSelectionEvent e) {
+			int i = tblAtmList.getSelectedRow();
 			if (i >= 0) {
 				setTextToInput(i);
 				btnEdit.setEnabled(true);
 				btnDelete.setEnabled(true);
+				btnReset.setEnabled(true);
 				btnAdd.setEnabled(false);
 			} else {
 				resetInput();
 			}
-
 		}
 	};
-
+	
 	private ActionListener evtAdd = new ActionListener() {
 		@Override
 		public void actionPerformed(ActionEvent e) {
@@ -87,8 +89,7 @@ public class ATMAccessUI extends JPanel {
 					if (i > 0) {
 						JOptionPane.showMessageDialog(null, "Thêm máy ATM thành công.", "Thông báo",
 								JOptionPane.INFORMATION_MESSAGE);
-						loadATMList();
-						resetInput();
+						loadAtmList();
 					} else {
 						JOptionPane.showMessageDialog(null, "Thêm máy ATM không thành công.", "Lỗi",
 								JOptionPane.WARNING_MESSAGE);
@@ -112,7 +113,7 @@ public class ATMAccessUI extends JPanel {
 			String code = txtCode.getText();
 			double amount = ((Number) txtAmount.getValue()).doubleValue();
 			ATM atm = new ATM(code, amount, districtID, wardID, street);
-			int i = tblATMList.getSelectedRow();
+			int i = tblAtmList.getSelectedRow();
 			/* Check row selected */
 			if (i >= 0) {
 				/* Check input validation */
@@ -126,8 +127,7 @@ public class ATMAccessUI extends JPanel {
 						JOptionPane.showMessageDialog(null, "Sửa thông tin máy ATM không thành công.", "Lỗi",
 								JOptionPane.WARNING_MESSAGE);
 					}
-					loadATMList();
-					resetInput();
+					loadAtmList();
 				}
 
 			} else {
@@ -140,8 +140,8 @@ public class ATMAccessUI extends JPanel {
 	private ActionListener evtDelete = new ActionListener() {
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			int i = tblATMList.getSelectedRow();
-			String code = (String) mdlATMList.getValueAt(i, 0);
+			int i = tblAtmList.getSelectedRow();
+			String code = (String) mdlAtmList.getValueAt(i, 0);
 
 			if (i >= 0) {
 				int cf = JOptionPane.showConfirmDialog(null, "Bạn thực sự muốn xóa?", "Xác nhận",
@@ -155,8 +155,7 @@ public class ATMAccessUI extends JPanel {
 						JOptionPane.showMessageDialog(null, "Xóa máy ATM không thành công.", "Lỗi",
 								JOptionPane.WARNING_MESSAGE);
 					}
-					loadATMList();
-					resetInput();
+					loadAtmList();
 				}
 
 			} else {
@@ -169,6 +168,7 @@ public class ATMAccessUI extends JPanel {
 	private ActionListener evtReset = new ActionListener() {
 		@Override
 		public void actionPerformed(ActionEvent e) {
+			tblAtmList.clearSelection();
 			resetInput();
 		}
 	};
@@ -188,7 +188,7 @@ public class ATMAccessUI extends JPanel {
 		}
 	};
 
-	public ATMAccessUI() {
+	public AtmAccessUI() {
 		setupInput();
 		addPanel();
 		addEvent();
@@ -314,7 +314,8 @@ public class ATMAccessUI extends JPanel {
 		btnEdit.setEnabled(false);
 		btnDelete = new JButton("Xóa");
 		btnDelete.setEnabled(false);
-		btnReset = new JButton("Reset");
+		btnReset = new JButton("Hủy");
+		btnReset.setEnabled(false);
 		pnButton.add(btnAdd);
 		pnButton.add(btnEdit);
 		pnButton.add(btnDelete);
@@ -323,9 +324,9 @@ public class ATMAccessUI extends JPanel {
 		/* Panel chính -> Action -> Phải */
 		pnRight.setLayout(new BoxLayout(pnRight, BoxLayout.Y_AXIS));
 		JPanel pnSearch = new JPanel();
-		JScrollPane spATMList = new JScrollPane();
+		JScrollPane spAtmList = new JScrollPane();
 		pnRight.add(pnSearch);
-		pnRight.add(spATMList);
+		pnRight.add(spAtmList);
 		pnRight.add(Box.createRigidArea(new Dimension(0, 5)));
 
 		/* Panel chính -> Action -> Phải -> Tìm kiêm */
@@ -335,22 +336,22 @@ public class ATMAccessUI extends JPanel {
 		pnSearch.add(txtSearch);
 
 		/* Panel chính -> Action -> Phải -> Danh sách máy ATM */
-		tblATMList = new JTable();
-		tblATMList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		tblAtmList = new JTable();
+		tblAtmList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		String[] col = { "Mã máy ATM", "Đường", "Số tiền trong máy" };
-		mdlATMList = new DefaultTableModel(col, 0);
-		tblATMList.setModel(mdlATMList);
-		tblATMList.getColumnModel().setColumnMargin(10);
+		mdlAtmList = new DefaultTableModel(col, 0);
+		tblAtmList.setModel(mdlAtmList);
+		tblAtmList.getColumnModel().setColumnMargin(10);
 		
 		DefaultTableCellRenderer rightRenderer = new DefaultTableCellRenderer();
 		rightRenderer.setHorizontalAlignment(JLabel.RIGHT);
-		tblATMList.getColumnModel().getColumn(2).setCellRenderer(rightRenderer);
+		tblAtmList.getColumnModel().getColumn(2).setCellRenderer(rightRenderer);
 		
-		spATMList.setViewportView(tblATMList);
+		spAtmList.setViewportView(tblAtmList);
 	}
 
 	private void addEvent() {
-		tblATMList.addMouseListener(evtRowSelected);
+		tblAtmList.getSelectionModel().addListSelectionListener(evtRowSelected);
 		btnAdd.addActionListener(evtAdd);
 		btnEdit.addActionListener(evtEdit);
 		btnDelete.addActionListener(evtDelete);
@@ -372,7 +373,7 @@ public class ATMAccessUI extends JPanel {
 	}
 
 	private void setTextToInput(int i) {
-		String code = (String) tblATMList.getValueAt(i, 0);
+		String code = (String) tblAtmList.getValueAt(i, 0);
 		ATM atm = ATMDB.getATMbyCode(code);
 		txtStreet.setText(atm.getStreet());
 		txtCode.setText(atm.getCode());
@@ -410,6 +411,7 @@ public class ATMAccessUI extends JPanel {
 		cbDistrict.setSelectedIndex(0);
 		btnDelete.setEnabled(false);
 		btnEdit.setEnabled(false);
+		btnReset.setEnabled(false);
 		btnAdd.setEnabled(true);
 	}
 
@@ -444,22 +446,21 @@ public class ATMAccessUI extends JPanel {
 	private void search() {
 		String keySearch = txtSearch.getText().trim();
 		ArrayList<ATM> arr = ATMDB.getATMsByName(keySearch);
-		mdlATMList.setRowCount(0);
+		mdlAtmList.setRowCount(0);
 		
 		for (ATM atm : arr) {
 			String[] row = { atm.getCode(), atm.getStreet(), String.format("%,d", (long) atm.getAmount()) };
-			mdlATMList.addRow(row);
+			mdlAtmList.addRow(row);
 		}
-		resetInput();
 	}
 
 	/* Load table ATM list */
-	void loadATMList() {
+	void loadAtmList() {
 		ArrayList<ATM> arr = ATMDB.getATMsList();
-		mdlATMList.setRowCount(0);
+		mdlAtmList.setRowCount(0);
 		for (ATM atm : arr) {
 			String[] row = { atm.getCode(), atm.getStreet(), String.format("%,d", (long) atm.getAmount()) };
-			mdlATMList.addRow(row);
+			mdlAtmList.addRow(row);
 		}
 	}
 

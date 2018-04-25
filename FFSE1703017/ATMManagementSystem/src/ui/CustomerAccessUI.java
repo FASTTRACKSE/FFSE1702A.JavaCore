@@ -6,8 +6,6 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
@@ -31,6 +29,8 @@ import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
@@ -59,15 +59,21 @@ public class CustomerAccessUI extends JPanel {
 	UserInfoUI pnUser;
 	User user;
 	JLabel lblTitle;
-
-	private MouseAdapter evtRowSelected = new MouseAdapter() {
-		public void mouseClicked(MouseEvent e) {
+	
+	private ListSelectionListener evtRowSelected = new ListSelectionListener() {
+		@Override
+		public void valueChanged(ListSelectionEvent e) {
 			int i = tblCustomerList.getSelectedRow();
-			String code = (String) tblCustomerList.getValueAt(i, 0);
-			setTextToInput(code);
-			btnEdit.setEnabled(true);
-			btnDelete.setEnabled(true);
-			btnAdd.setEnabled(false);
+			if (i >= 0) {
+				String code = (String) tblCustomerList.getValueAt(i, 0);
+				setTextToInput(code);
+				btnEdit.setEnabled(true);
+				btnDelete.setEnabled(true);
+				btnReset.setEnabled(true);
+				btnAdd.setEnabled(false);
+			} else {
+				resetInput();
+			}
 		}
 	};
 
@@ -200,6 +206,7 @@ public class CustomerAccessUI extends JPanel {
 	private ActionListener evtReset = new ActionListener() {
 		@Override
 		public void actionPerformed(ActionEvent e) {
+			tblCustomerList.clearSelection();
 			resetInput();
 		}
 	};
@@ -431,7 +438,8 @@ public class CustomerAccessUI extends JPanel {
 		btnEdit.setEnabled(false);
 		btnDelete = new JButton("Xóa");
 		btnDelete.setEnabled(false);
-		btnReset = new JButton("Reset");
+		btnReset = new JButton("Hủy");
+		btnReset.setEnabled(false);
 		pnButton.add(btnAdd);
 		pnButton.add(btnEdit);
 		pnButton.add(btnDelete);
@@ -513,7 +521,7 @@ public class CustomerAccessUI extends JPanel {
 	}
 
 	private void addEvent() {
-		tblCustomerList.addMouseListener(evtRowSelected);
+		tblCustomerList.getSelectionModel().addListSelectionListener(evtRowSelected);
 		btnAdd.addActionListener(evtAdd);
 		btnEdit.addActionListener(evtEdit);
 		btnDelete.addActionListener(evtDelete);
@@ -589,6 +597,7 @@ public class CustomerAccessUI extends JPanel {
 		btnDelete.setEnabled(false);
 		btnEdit.setEnabled(false);
 		btnAdd.setEnabled(true);
+		btnReset.setEnabled(false);
 		/* Reset Textfiled */
 		txtCode.setEditable(true);
 		txtCardSN.setEditable(true);
@@ -701,7 +710,6 @@ public class CustomerAccessUI extends JPanel {
 					String.format("%,d", (long) ctm.getAmount()) };
 			mdlCustomerList.addRow(row);
 		}
-		resetInput();
 	}
 
 	void loadCustomerList() {
@@ -712,7 +720,6 @@ public class CustomerAccessUI extends JPanel {
 					String.format("%,d", (long) ctm.getAmount()) };
 			mdlCustomerList.addRow(row);
 		}
-		resetInput();
 	}
 
 }

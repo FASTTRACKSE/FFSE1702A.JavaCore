@@ -26,7 +26,7 @@ public class ManagementUI extends JPanel {
 	
 	private JPanel pnSide, pnButton, pnCenter, pnCustomerReport, 
 					pnCustomerWithdraw, pnATMReport,pnATMWithdraw;
-	ATMAccessUI pnATMAccess;
+	AtmAccessUI pnATMAccess;
 	CustomerAccessUI pnCustomerAccess;
 	private JButton btnCustomerAccess, btnCustomerReport, btnCustomerWithdraw, 
 					btnATMAccess, btnATMReport, btnATMWithdraw, btnLogout;
@@ -50,7 +50,7 @@ public class ManagementUI extends JPanel {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			layoutCenter.show(pnCenter, "2");
-			pnATMAccess.loadATMList();
+			pnATMAccess.loadAtmList();
 		}
 	};
 
@@ -88,10 +88,6 @@ public class ManagementUI extends JPanel {
 			layoutCenter.show(pnCenter, "2");
 		}
 	};
-
-	public JButton getBtnLogout() {
-		return btnLogout;
-	}
 
 	public ManagementUI() {
 		this.user = SessionLogin.getUser();
@@ -185,11 +181,11 @@ public class ManagementUI extends JPanel {
 		pnCenter.setLayout(layoutCenter);
 
 		pnCustomerAccess = new CustomerAccessUI();
-		pnATMAccess = new ATMAccessUI();
+		pnATMAccess = new AtmAccessUI();
 		pnCustomerReport = new CustomerReportUI();
 		pnCustomerWithdraw = new CustomerWithdrawUI();
-		pnATMReport = new ATMReportUI();
-		pnATMWithdraw = new ATMWithdrawUI();
+		pnATMReport = new AtmReportUI();
+		pnATMWithdraw = new AtmWithdrawUI();
 
 		pnCenter.add(pnCustomerAccess, "1");
 		pnCenter.add(pnATMAccess, "2");
@@ -241,6 +237,15 @@ public class ManagementUI extends JPanel {
 		btnCustomerAccess.addActionListener(showCustomerAccess);
 		btnCustomerWithdraw.addActionListener(showUserWithdraw);
 
+	}
+	
+	public void addLogoutListener(LogoutListener evt) {
+		btnLogout.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				evt.doLogout();
+			}
+		});
 	}
 
 }

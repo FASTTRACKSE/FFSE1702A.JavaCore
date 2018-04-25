@@ -25,10 +25,10 @@ import model.ATMReportDB;
 import model.AddressDB;
 import model.ComboItem;
 
-public class ATMReportUI extends JPanel {
+public class AtmReportUI extends JPanel {
 
 	private static final long serialVersionUID = 1L;
-	private DefaultTableModel mdlATMList;
+	private DefaultTableModel mdlAtmList;
 	private JButton btnFilterByCode, btnFilterByAddress;
 	private JTextField txtSearch;
 	private PlaceholderTextField txtStreet;
@@ -54,11 +54,11 @@ public class ATMReportUI extends JPanel {
 
 			String code = txtSearch.getText().trim();
 			ArrayList<ATMReport> arr = ATMReportDB.getATMsByCode(code);
-			mdlATMList.setRowCount(0);
+			mdlAtmList.setRowCount(0);
 			for (ATMReport atm : arr) {
 				String[] row = { atm.getCode(), atm.getDistrict(), atm.getWard(), atm.getStreet(),
 						String.format("%,d", (long) atm.getAmount()) };
-				mdlATMList.addRow(row);
+				mdlAtmList.addRow(row);
 			}
 		}
 	};
@@ -73,17 +73,17 @@ public class ATMReportUI extends JPanel {
 			int wardID = itemW.getKey();
 			String street = txtStreet.getText();
 			ArrayList<ATMReport> arr = ATMReportDB.getATMsByAddress(districtID, wardID, street);
-			mdlATMList.setRowCount(0);
+			mdlAtmList.setRowCount(0);
 			for (ATMReport atm : arr) {
 				String[] row = { atm.getCode(), atm.getDistrict(), atm.getWard(), atm.getStreet(),
 						String.format("%,d", (long) atm.getAmount()) };
-				mdlATMList.addRow(row);
+				mdlAtmList.addRow(row);
 			}
 
 		}
 	};
 
-	public ATMReportUI() {
+	public AtmReportUI() {
 		addPanel();
 		addEvent();
 	}
@@ -165,17 +165,17 @@ public class ATMReportUI extends JPanel {
 		pnSearch.add(btnFilterByCode);
 
 		/* Panel chính -> Action -> Phải -> Danh sách khách hàng */
-		JTable tblATMList = new JTable();
+		JTable tblAtmList = new JTable();
 		String[] col = { "Mã máy ATM", "Quận", "Phường", "Đường", "Số tiền trong máy" };
-		mdlATMList = new DefaultTableModel(col, 0);
-		tblATMList.setModel(mdlATMList);
-		tblATMList.getColumnModel().setColumnMargin(10);
+		mdlAtmList = new DefaultTableModel(col, 0);
+		tblAtmList.setModel(mdlAtmList);
+		tblAtmList.getColumnModel().setColumnMargin(10);
 		
 		DefaultTableCellRenderer rightRenderer = new DefaultTableCellRenderer();
 		rightRenderer.setHorizontalAlignment(JLabel.RIGHT);
-		tblATMList.getColumnModel().getColumn(4).setCellRenderer(rightRenderer);
+		tblAtmList.getColumnModel().getColumn(4).setCellRenderer(rightRenderer);
 		
-		spATMList.setViewportView(tblATMList);
+		spATMList.setViewportView(tblAtmList);
 
 	}
 

@@ -34,11 +34,10 @@ import model.ATMWithdraw;
 import model.AddressDB;
 import model.ComboItem;
 
-public class ATMWithdrawUI extends JPanel {
+public class AtmWithdrawUI extends JPanel {
 
 	private static final long serialVersionUID = 1L;
-	private JScrollPane spATMWithdraw = new JScrollPane();
-	private JTable tblATMWithdraw = new JTable();
+	private JScrollPane spAtmWithdraw = new JScrollPane();
 	private DefaultTableModel mdlATMWithdraw;
 	private JDateChooser dateFrom, dateTo;
 	private JComboBox<ComboItem> cbSelect, cbDistrict, cbWard;
@@ -109,7 +108,7 @@ public class ATMWithdrawUI extends JPanel {
 		}
 	};
 
-	public ATMWithdrawUI() {
+	public AtmWithdrawUI() {
 		addPanel();
 		addEvent();
 	}
@@ -133,7 +132,7 @@ public class ATMWithdrawUI extends JPanel {
 		JPanel pnFilter = new JPanel();
 		pnAction.add(Box.createRigidArea(new Dimension(0, 10)));
 		pnAction.add(pnFilter);
-		pnAction.add(spATMWithdraw);
+		pnAction.add(spAtmWithdraw);
 		pnAction.add(Box.createRigidArea(new Dimension(0, 5)));
 
 		/* Panel chính -> Action -> Filter */
@@ -210,18 +209,19 @@ public class ATMWithdrawUI extends JPanel {
 		pnDuration.add(dateTo);
 
 		/* Panel chính -> Action -> Phải -> Danh sách máy ATM */
+		JTable tblAtmWithdraw = new JTable();
 		String[] col = { "Mã máy ATM", "Vị trí", "Mã khách hàng", "Mã giao dịch", "Thời gian giao dịch", "Số tiền đã rút" };
 		mdlATMWithdraw = new DefaultTableModel(col, 0);
-		tblATMWithdraw.setModel(mdlATMWithdraw);
-		TableColumnModel columnModel = tblATMWithdraw.getColumnModel();
+		tblAtmWithdraw.setModel(mdlATMWithdraw);
+		TableColumnModel columnModel = tblAtmWithdraw.getColumnModel();
 		columnModel.getColumn(1).setPreferredWidth(200);
-		tblATMWithdraw.getColumnModel().setColumnMargin(10);
+		tblAtmWithdraw.getColumnModel().setColumnMargin(10);
 		
 		DefaultTableCellRenderer rightRenderer = new DefaultTableCellRenderer();
 		rightRenderer.setHorizontalAlignment(JLabel.RIGHT);
-		tblATMWithdraw.getColumnModel().getColumn(5).setCellRenderer(rightRenderer);
+		tblAtmWithdraw.getColumnModel().getColumn(5).setCellRenderer(rightRenderer);
 		
-		spATMWithdraw.setViewportView(tblATMWithdraw);
+		spAtmWithdraw.setViewportView(tblAtmWithdraw);
 
 	}
 

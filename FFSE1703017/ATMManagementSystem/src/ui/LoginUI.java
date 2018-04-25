@@ -28,44 +28,22 @@ public class LoginUI extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private final JRadioButton rbnAdmin = new JRadioButton("Hệ thống quản lý");
 	private final JRadioButton rbnCustomer = new JRadioButton("Mô phỏng giao dịch");
-	private JButton btnAppLogin, btnAppExit, btnAtmLogin, btnAtmExit;
+	private JButton btnAppLogin, btnAtmLogin, btnAppLogout, btnAtmLogout;
 	private JPanel pnInput;
 	private JTextField txtAdminName, txtCardSN;
 	private JPasswordField txtAdminPass, txtPIN;
-	private CardLayout lyt;
-
-	public JButton getBtnAppLogin() {
-		return btnAppLogin;
-	}
-
-	public JTextField getTxtAdminName() {
-		return txtAdminName;
-	}
-
-	public JPasswordField getTxtAdminPass() {
-		return txtAdminPass;
-	}
-
-	public JButton getBtnAtmLogin() {
-		return btnAppExit;
-	}
-
-	public JTextField getTxtCardSN() {
-		return txtCardSN;
-	}
-
-	public JPasswordField getTxtPIN() {
-		return txtPIN;
-	}
+	private CardLayout cardlayout;
+	private LoginListener appListenner, atmListener;
+	
 
 	/* Thêm sự kiện cho radiobutton */
 	private ActionListener showInput = new ActionListener() {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			if (rbnAdmin.isSelected()) {
-				lyt.show(pnInput, "1");
+				cardlayout.show(pnInput, "1");
 			} else {
-				lyt.show(pnInput, "2");
+				cardlayout.show(pnInput, "2");
 			}
 		}
 	};
@@ -76,7 +54,41 @@ public class LoginUI extends JPanel {
 			System.exit(0);
 		}
 	};
-
+	
+	private ActionListener evtAppLogin = new ActionListener() {
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			String username = txtAdminName.getText();
+			String password = new String(txtAdminPass.getPassword());
+			boolean isLoginSuccess = appListenner.doLogin(username, password);
+			if (isLoginSuccess) {
+				txtAdminName.setText("");
+				txtAdminPass.setText("");
+			} else {
+				JOptionPane.showMessageDialog(null, "Sai thông tin đăng nhập.", "Thông báo",
+						JOptionPane.INFORMATION_MESSAGE);
+				txtAdminName.requestFocus();
+			}
+		}
+	};
+	
+	private ActionListener evtAtmLogin = new ActionListener() {
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			String cardSN = txtCardSN.getText();
+			String pin = new String(txtPIN.getPassword());
+			boolean isLoginSuccess = atmListener.doLogin(cardSN, pin);
+			if (isLoginSuccess) {
+				txtCardSN.setText("");
+				txtPIN.setText("");
+			} else {
+				JOptionPane.showMessageDialog(null, "Sai thông tin đăng nhập.", "Thông báo",
+						JOptionPane.INFORMATION_MESSAGE);
+				txtPIN.requestFocus();
+			}
+		}
+	};
+	
 	public LoginUI() {
 		addPanels();
 		addEvents();
@@ -118,8 +130,8 @@ public class LoginUI extends JPanel {
 		/* Main -> Bottom -> Input */
 		JPanel pnAdmin = new JPanel();
 		JPanel pnCustomer = new JPanel();
-		lyt = new CardLayout();
-		pnInput.setLayout(lyt);
+		cardlayout = new CardLayout();
+		pnInput.setLayout(cardlayout);
 		pnInput.add(pnAdmin, "1");
 		pnInput.add(pnCustomer, "2");
 
@@ -135,7 +147,7 @@ public class LoginUI extends JPanel {
 		JLabel lblAdminPass = new JLabel("Mật khẩu:");
 		txtAdminPass = new JPasswordField(20);
 		btnAppLogin = new JButton("Đăng nhập");
-		btnAtmLogin = new JButton("Thoát");
+		btnAppLogout = new JButton("Thoát");
 		
 		GroupLayout lytAdmin = new GroupLayout(pnAdminInput);
 		pnAdminInput.setLayout(lytAdmin);
@@ -151,7 +163,7 @@ public class LoginUI extends JPanel {
 				.addComponent(txtAdminPass)
 				.addGroup(lytAdmin.createSequentialGroup()
 					.addComponent(btnAppLogin, 0, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-					.addComponent(btnAtmLogin, 0, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+					.addComponent(btnAppLogout, 0, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 				)
 			)
 		);
@@ -167,7 +179,7 @@ public class LoginUI extends JPanel {
 			)
 			.addGroup(lytAdmin.createParallelGroup(GroupLayout.Alignment.BASELINE)
 				.addComponent(btnAppLogin)
-				.addComponent(btnAtmLogin)
+				.addComponent(btnAppLogout)
 			)
 		);
 
@@ -182,8 +194,8 @@ public class LoginUI extends JPanel {
 		txtCardSN = new JTextField(20);
 		JLabel lblCustomerPass = new JLabel("PIN:");
 		txtPIN = new JPasswordField();
-		btnAppExit = new JButton("Đăng nhập");
-		btnAtmExit = new JButton("Thoát");
+		btnAtmLogin = new JButton("Đăng nhập");
+		btnAtmLogout = new JButton("Thoát");
 
 		GroupLayout lytCustomer = new GroupLayout(pnCustomerInput);
 		pnCustomerInput.setLayout(lytCustomer);
@@ -198,8 +210,8 @@ public class LoginUI extends JPanel {
 				.addComponent(txtCardSN)
 				.addComponent(txtPIN)
 				.addGroup(lytCustomer.createSequentialGroup()
-					.addComponent(btnAppExit, 0, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-					.addComponent(btnAtmExit, 0, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+					.addComponent(btnAtmLogin, 0, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+					.addComponent(btnAtmLogout, 0, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 				)
 			)
 		);
@@ -214,8 +226,8 @@ public class LoginUI extends JPanel {
 				.addComponent(txtPIN)
 			)
 			.addGroup(lytCustomer.createParallelGroup(GroupLayout.Alignment.BASELINE)
-				.addComponent(btnAppExit)
-				.addComponent(btnAtmExit)
+				.addComponent(btnAtmLogin)
+				.addComponent(btnAtmLogout)
 			)
 		);
 		
@@ -224,8 +236,8 @@ public class LoginUI extends JPanel {
 	private void addEvents() {
 		rbnAdmin.addActionListener(showInput);
 		rbnCustomer.addActionListener(showInput);
-		btnAtmLogin.addActionListener(evtExit);
-		btnAtmExit.addActionListener(evtExit);
+		btnAppLogout.addActionListener(evtExit);
+		btnAtmLogout.addActionListener(evtExit);
 
 	}
 	
@@ -234,6 +246,20 @@ public class LoginUI extends JPanel {
 			JOptionPane.showMessageDialog(null, "Kiểm tra kết nối Cơ sở dữ liệu.", "Lỗi",
 					JOptionPane.WARNING_MESSAGE);
 		}
+	}
+	
+	public void addAppLoginListener(LoginListener evt) {
+		this.appListenner = evt;
+		btnAppLogin.addActionListener(evtAppLogin);
+		txtAdminName.addActionListener(evtAppLogin);
+		txtAdminPass.addActionListener(evtAppLogin);
+	}
+	
+	public void addAtmLoginListener(LoginListener evt) {
+		this.atmListener = evt;
+		btnAtmLogin.addActionListener(evtAtmLogin);
+		txtCardSN.addActionListener(evtAtmLogin);
+		txtPIN.addActionListener(evtAtmLogin);
 	}
 
 }

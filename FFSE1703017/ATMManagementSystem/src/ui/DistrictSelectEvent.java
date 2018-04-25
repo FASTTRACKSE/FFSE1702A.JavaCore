@@ -13,7 +13,6 @@ public class DistrictSelectEvent implements ActionListener {
 	JComboBox<ComboItem> cbDistrict, cbWard;
 
 	public DistrictSelectEvent(JComboBox<ComboItem> cbDistrict, JComboBox<ComboItem> cbWard) {
-		super();
 		this.cbDistrict = cbDistrict;
 		this.cbWard = cbWard;
 	}

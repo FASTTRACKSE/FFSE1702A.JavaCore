@@ -25,7 +25,7 @@ import model.Customer;
 import model.CustomerDB;
 import model.TransactionDB;
 
-public class ATMSimulation extends JPanel {
+public class AtmSimulationUI extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	private JButton btnWithdraw, btnLogout;
@@ -35,11 +35,7 @@ public class ATMSimulation extends JPanel {
 	Customer cus;
 	double customerAmount;
 
-	public JButton getBtnLogout() {
-		return btnLogout;
-	}
-
-	public ATMSimulation(String cardSN) {
+	public AtmSimulationUI(String cardSN) {
 		this.cardSN = cardSN;
 		addPanels();
 		addEvents();
@@ -169,6 +165,15 @@ public class ATMSimulation extends JPanel {
 					}
 				}
 				
+			}
+		});
+	}
+	
+	public void addLogoutListener(LogoutListener evt) {
+		btnLogout.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				evt.doLogout();
 			}
 		});
 	}
