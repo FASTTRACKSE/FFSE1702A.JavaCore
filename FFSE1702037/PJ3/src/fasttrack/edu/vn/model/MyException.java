@@ -172,10 +172,10 @@ public class MyException extends Exception {
 	}
 
 	// Check Same Cycle
-	public boolean chkSameCycle(String month, String year, String meterCode) throws MyException {
+	public boolean chkSameCycle(String month, String year, String MCT) throws MyException {
 		try {
-			String sql = "select Meter_Code from ffse1702011_bill_information where Meter_Code = '" + meterCode
-					+ "' and Cycle_Month = '" + month + "' and Cycle_Year = '" + year + "'";
+			String sql = "select MaCT from qlbl where MaCT = '" + MCT
+					+ "' and Chu_Ky_Month = '" + month + "' and Chu_Ky_Year = '" + year + "'";
 			Statement stm = conn.createStatement();
 			ResultSet rs = stm.executeQuery(sql);
 			while (rs.next()) {

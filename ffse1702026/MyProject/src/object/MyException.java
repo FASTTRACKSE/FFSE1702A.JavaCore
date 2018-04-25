@@ -209,7 +209,7 @@ public class MyException extends IOException {
 	}
 
 	public static void checkKhoangTime(String monthFr, String yearFr, String monthT, String yearT) throws MyException {
-		try {
+		
 			int monthFrom = Integer.parseInt(monthFr);
 			int yearFrom = Integer.parseInt(yearFr);
 			int monthTo = Integer.parseInt(monthT);
@@ -225,9 +225,7 @@ public class MyException extends IOException {
 					throw new MyException("Bạn đã chọn trùng tháng");
 				}
 			}
-		} catch (Exception e) {
-			throw new MyException("Vui lòng nhập đúng định dạng năm");
-		}
+		
 
 	}
 

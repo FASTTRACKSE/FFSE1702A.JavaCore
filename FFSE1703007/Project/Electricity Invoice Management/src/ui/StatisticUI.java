@@ -47,7 +47,7 @@ public class StatisticUI extends JFrame {
 	JYearChooser jycPn1, jycStart, jycEnd, jycPn3;
 	JTextField txtSearch;
 	JButton btnSearch2, btnSearch3, btnSearch4;
-	JTable jt = new JTable(new DefaultTableModel(new Object[] { "Mã khách hàng", "Mã công tơ", "Tên khách hàng",
+	JTable jt = new JTable(new DefaultTableModel(new Object[] { "Mã biên lai", "Mã khách hàng", "Mã công tơ", "Tên khách hàng",
 			"Địa chỉ", "Quận", "Phường", "Điện thoại", "Email", "Chu kì", "Số tiền" }, 0));
 
 	public StatisticUI(String arg0) throws HeadlessException, SQLException {
@@ -326,9 +326,9 @@ public class StatisticUI extends JFrame {
 	}
 
 	void addDataToTable(ResultSet customerList, DefaultTableModel model) throws SQLException {
-		Object[] row = new Object[10];
+		Object[] row = new Object[11];
 		while (customerList.next()) {
-			for (int i = 1; i <= 10; ++i) {
+			for (int i = 1; i <= 11; ++i) {
 				row[i - 1] = customerList.getString(i); // Or even rs.getObject()
 			}
 			model.addRow(row);

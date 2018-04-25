@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th4 20, 2018 lúc 04:05 PM
+-- Thời gian đã tạo: Th4 23, 2018 lúc 02:36 PM
 -- Phiên bản máy phục vụ: 10.1.29-MariaDB
 -- Phiên bản PHP: 7.1.12
 
@@ -69,9 +69,10 @@ CREATE TABLE `customer` (
 --
 
 INSERT INTO `customer` (`id`, `fullname`, `address`, `countyID`, `wardID`, `phone`, `email`, `meterID`) VALUES
-(1, 'hoainam', 'q', 3, 40, '1', '3', '5'),
-(2, 'viet', 'qq', 2, 47, '4', '5', '2'),
-(3, 'long', 'nn', 2, 48, '5', 'g', '7');
+(1, 'hoainam', 'q', 3, 40, '0123456789', 'x@gmail.com', '5'),
+(2, 'viet', 'qq', 2, 47, '0123456789', 'l@gmail.com', '2'),
+(3, 'long', 'nn', 2, 48, '0123456789', 'g@gmail.com', '7'),
+(4, 'z', 'a', 1, 7, '0123456789', 'a@gmail.com', '3');
 
 -- --------------------------------------------------------
 
@@ -93,10 +94,12 @@ CREATE TABLE `invoice` (
 --
 
 INSERT INTO `invoice` (`id`, `meterID`, `dateAdded`, `cycle`, `meterIndex`, `amount`) VALUES
-(7, '2', '2018-04-19', '2018-01-01', 3, 4647),
-(8, '5', '2018-04-19', '2017-04-01', 6, 9294),
-(9, '7', '2018-04-19', '2018-12-01', 8, 12392),
-(11, '6', '2018-04-20', '2018-01-01', 3, 4647);
+(7, '2', '2018-04-19', '2018-01-01', 2, 3098),
+(16, '2', '2018-04-19', '2018-01-01', 3, 1549),
+(17, '2', '2018-04-19', '2018-01-01', 7, 4647),
+(18, '3', '2018-04-19', '2018-01-01', 2, 3098),
+(19, '5', '2018-04-23', '2018-04-01', 5, 7745),
+(20, '5', '2018-04-23', '2018-04-01', 8, 4647);
 
 -- --------------------------------------------------------
 
@@ -239,13 +242,13 @@ ALTER TABLE `county`
 -- AUTO_INCREMENT cho bảng `customer`
 --
 ALTER TABLE `customer`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT cho bảng `invoice`
 --
 ALTER TABLE `invoice`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT cho bảng `user`

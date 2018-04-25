@@ -76,10 +76,10 @@ public class BaoCaoTienDien extends JFrame {
 	JComboBox jcNam1 = new JComboBox(Nam1);
 	JComboBox jcNam2 = new JComboBox(Nam2);
 	JComboBox jcNam3 = new JComboBox(Nam3);
-	JButton btnView, btnExit, btnSearch;
+	JButton btnView, btnExit, btnSearch, btnLogout;
 	JScrollPane spList = new JScrollPane();
 	JTable tbList = new JTable();
-	String tbSV[] = { "Ma KH", "Mã CT", "Ten KH", "Quận", "Phường", "Thời Gian", "Chỉ số Tiêu Thụ", "Tiền điện" };
+	String tbSV[] = { "Ma KH", "Mã CT", "Ten KH", "Quận", "Phường", "Thời Gian", "Chữ số Tiêu Thụ", "Tiền điện" };
 	DefaultTableModel mdTable = new DefaultTableModel(tbSV, 0);
 
 	public BaoCaoTienDien(String tieude) {
@@ -115,9 +115,21 @@ public class BaoCaoTienDien extends JFrame {
 			combobox1(jcQuan.getSelectedItem().toString());
 		}
 	};
+	ActionListener eventLogout = new ActionListener() {
+		public void actionPerformed(ActionEvent e) {
+
+			Login();
+		}
+	};
+
+	protected void Login() {
+		Login myUI = new Login("Phần mềm quản lý tiền điện");
+		myUI.showWindow();
+		dispose();
+	}
 
 	protected void Menu() {
-		Menu myUI = new Menu("My Application");
+		Menu myUI = new Menu("Phần mềm quản lý tiền điện");
 		myUI.showWindow();
 		dispose();
 	}
@@ -126,6 +138,7 @@ public class BaoCaoTienDien extends JFrame {
 		btnSearch.addActionListener(eventViewKH);
 		btnView.addActionListener(eventView);
 		btnExit.addActionListener(eventMenu);
+		btnLogout.addActionListener(eventLogout);
 		jcQuan.addActionListener(eventCombobox);
 		jRadioKhuVuc.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
@@ -187,86 +200,106 @@ public class BaoCaoTienDien extends JFrame {
 	}
 
 	public void addControls() {
-		Container con = getContentPane();
-		JPanel pnMain = new JPanel();
-		pnMain.setLayout(new BoxLayout(pnMain, BoxLayout.Y_AXIS));
+		this.setResizable(false);
+		JPanel panelGirBagLayout = new JPanel();
+
+		GridBagLayout gridBagLayout = new GridBagLayout();
+		GridBagConstraints gridBagConstraints = new GridBagConstraints();
+		GridBagConstraints gridBagConstraints1 = new GridBagConstraints();
+		gridBagConstraints1.ipadx = 20;
+		GridBagConstraints gridBagConstraints2 = new GridBagConstraints();
+		gridBagConstraints2.insets = new Insets(10, 10, 10, 10);
+		panelGirBagLayout.setLayout(gridBagLayout);
+
 		JPanel pnTitle = new JPanel();
 		JLabel lblTitle = new JLabel("BÁO CÁO HÓA ĐƠN TIỀN ĐIỆN");
 		Font fontTitle = new Font("Time new roman", Font.BOLD, 20);
 		lblTitle.setFont(fontTitle);
 		pnTitle.add(lblTitle);
-
-		JPanel pnGroup = new JPanel();
-		pnGroup.setLayout(new BoxLayout(pnGroup, BoxLayout.X_AXIS));
-
-		JPanel pnGroup1 = new JPanel();
-
-		pnGroup1.setLayout(new BoxLayout(pnGroup1, BoxLayout.Y_AXIS));
-		JPanel pnGroup2 = new JPanel();
-		pnGroup2.setLayout(new BoxLayout(pnGroup2, BoxLayout.Y_AXIS));
-		// pnGroup.add(Box.createHorizontalGlue());
-		pnGroup.add(pnGroup1);
-		pnGroup.add(pnGroup2);
-		// pnGroup.add(Box.createHorizontalGlue());
+		gridBagConstraints.gridwidth = 4;
+		panelGirBagLayout.add(pnTitle, gridBagConstraints);
+		// group radio 1
 
 		JPanel pnTitle1 = new JPanel();
 		JLabel lblTitle1 = new JLabel("Khách hàng :");
 		pnTitle1.add(lblTitle1);
-		pnGroup1.add(pnTitle1);
+		gridBagConstraints1.gridx = 0;
+		gridBagConstraints1.gridy = 1;
+		panelGirBagLayout.add(lblTitle1, gridBagConstraints1);
+
+		JPanel pnTitle11 = new JPanel();
+		JLabel lblTitle11 = new JLabel("");
+		pnTitle11.add(lblTitle11);
+		lblTitle11.setPreferredSize(new Dimension(190, 20));
+		gridBagConstraints1.gridx = 1;
+		gridBagConstraints1.gridy = 1;
+		panelGirBagLayout.add(lblTitle11, gridBagConstraints1);
 
 		ButtonGroup buttonGroup = new ButtonGroup();
+
 		JPanel pnjRadio = new JPanel();
 		jRadioKH = new JRadioButton("Tất cả khách hàng    ");
-		// jRadioKH.setPreferredSize(new Dimension(140, 20));
 		jRadioKH.setHorizontalAlignment(SwingConstants.RIGHT);
 		buttonGroup.add(jRadioKH);
 		jRadioKH.setSelected(true);
 		pnjRadio.add(jRadioKH);
-		// pnjRadio.setVerticalAlignment(SwingConstants.RIGHT);
-		pnGroup1.add(pnjRadio);
-		// pnGroup1.add(pnjRadio);
+		jRadioKH.setFocusPainted(false);
+		gridBagConstraints1.gridx = 0;
+		gridBagConstraints1.gridy = 2;
+		panelGirBagLayout.add(pnjRadio, gridBagConstraints1);
 
 		JPanel pnjRadio2 = new JPanel();
 		jRadioKhuVuc = new JRadioButton("Khu vực                       ");
-		// jRadioKhuVuc.setPreferredSize(new Dimension(140, 20));
 		jRadioKhuVuc.setHorizontalAlignment(SwingConstants.RIGHT);
 		buttonGroup.add(jRadioKhuVuc);
 		pnjRadio2.add(jRadioKhuVuc);
-		pnGroup1.add(pnjRadio2, BorderLayout.WEST);
-		// pnGroup1.add(pnjRadio2);
-
-		pnjRadio22 = new JPanel();
-		JLabel lbCls2 = new JLabel("Quận :    ");
-		lbCls2.setHorizontalAlignment(SwingConstants.RIGHT);
-		Font fCls2 = new Font("arial", Font.ITALIC, 15);
-		lbCls2.setFont(fCls2);
-		pnjRadio22.add(lbCls2);
-		pnjRadio22.add(jcQuan);
-		pnjRadio22.setVisible(false);
-		pnGroup1.add(pnjRadio22);
-
-		pnjRadio222 = new JPanel();
-		JLabel lbCls22 = new JLabel("Phường :");
-		jcPhuong.setPreferredSize(new Dimension(110, 20));
-		lbCls22.setHorizontalAlignment(SwingConstants.RIGHT);
-
-		Font fCls22 = new Font("arial", Font.ITALIC, 15);
-		lbCls22.setFont(fCls22);
-		pnjRadio222.add(lbCls22);
-		pnjRadio222.add(jcPhuong);
-		pnjRadio222.setVisible(false);
-		pnGroup1.add(pnjRadio222);
+		jRadioKhuVuc.setFocusPainted(false);
+		gridBagConstraints1.gridx = 0;
+		gridBagConstraints1.gridy = 3;
+		panelGirBagLayout.add(pnjRadio2, gridBagConstraints1);
 
 		JPanel pnjRadio4 = new JPanel();
 		jRadioKHCT = new JRadioButton("Khách hàng cụ thể");
 		jRadioKHCT.setPreferredSize(new Dimension(140, 20));
 		buttonGroup.add(jRadioKHCT);
 		pnjRadio4.add(jRadioKHCT);
-		pnGroup1.add(pnjRadio4);
+		jRadioKHCT.setFocusPainted(false);
+		gridBagConstraints1.gridx = 0;
+		gridBagConstraints1.gridy = 4;
+		panelGirBagLayout.add(pnjRadio4, gridBagConstraints1);
+
+		pnjRadio22 = new JPanel();
+		JLabel lbCls2 = new JLabel("Quận :    ");
+		lbCls2.setHorizontalAlignment(SwingConstants.RIGHT);
+		Font fCls2 = new Font("arial", Font.ITALIC, 14);
+		lbCls2.setFont(fCls2);
+		jcQuan.setPreferredSize(new Dimension(110, 23));
+
+		pnjRadio22.add(lbCls2);
+		pnjRadio22.add(jcQuan);
+		pnjRadio22.setVisible(false);
+		gridBagConstraints1.gridx = 1;
+		gridBagConstraints1.gridy = 2;
+		panelGirBagLayout.add(pnjRadio22, gridBagConstraints1);
+
+		pnjRadio222 = new JPanel();
+		JLabel lbCls22 = new JLabel("Phường :");
+		jcPhuong.setPreferredSize(new Dimension(110, 23));
+		lbCls22.setHorizontalAlignment(SwingConstants.RIGHT);
+		Font fCls22 = new Font("arial", Font.ITALIC, 14);
+		lbCls22.setFont(fCls22);
+		pnjRadio222.add(lbCls22);
+		pnjRadio222.add(jcPhuong);
+		pnjRadio222.setVisible(false);
+		gridBagConstraints1.gridx = 1;
+		gridBagConstraints1.gridy = 3;
+		panelGirBagLayout.add(pnjRadio222, gridBagConstraints1);
 
 		pnInput = new JPanel();
-		JLabel lblTitle3 = new JLabel("Mã khách hàng :");
-		txtMKH = new JTextField(10);
+		JLabel lblTitle3 = new JLabel("Mã KH :");
+		Font fCls31 = new Font("arial", Font.ITALIC, 14);
+		lblTitle3.setFont(fCls31);
+		txtMKH = new JTextField(5);
 		pnInput.add(lblTitle3);
 		pnInput.add(txtMKH);
 
@@ -276,30 +309,50 @@ public class BaoCaoTienDien extends JFrame {
 		ImageIcon newIcon = new ImageIcon(newIconFind);
 		btnSearch = new JButton(newIcon);
 		pnInput.add(btnSearch);
-
 		pnInput.setVisible(false);
-		pnGroup1.add(pnInput);
+		gridBagConstraints1.gridx = 1;
+		gridBagConstraints1.gridy = 2;
+		panelGirBagLayout.add(pnInput, gridBagConstraints1);
 
 		pnInput1 = new JPanel();
-		JLabel lblTitle4 = new JLabel("Tên khách hàng :");
-		txtNameKH = new JTextField(15);
+		JLabel lblTitle4 = new JLabel("Tên KH:");
+		Font fCls4 = new Font("arial", Font.ITALIC, 14);
+		lblTitle4.setFont(fCls4);
+		txtNameKH = new JTextField(10);
 		pnInput1.add(lblTitle4);
 		pnInput1.add(txtNameKH);
 		pnInput1.setVisible(false);
-		pnGroup1.add(pnInput1);
+		gridBagConstraints1.gridx = 1;
+		gridBagConstraints1.gridy = 3;
+		panelGirBagLayout.add(pnInput1, gridBagConstraints1);
 
 		pnInput2 = new JPanel();
-		JLabel lblTitle5 = new JLabel("Địa chỉ :                 ");
-		txtDiaChi = new JTextField(15);
+		JLabel lblTitle5 = new JLabel("Địa chỉ :");
+		Font fCls5 = new Font("arial", Font.ITALIC, 14);
+		lblTitle5.setFont(fCls5);
+		txtDiaChi = new JTextField(10);
 		pnInput2.add(lblTitle5);
 		pnInput2.add(txtDiaChi);
 		pnInput2.setVisible(false);
-		pnGroup1.add(pnInput2);
+		gridBagConstraints1.gridx = 1;
+		gridBagConstraints1.gridy = 4;
+		panelGirBagLayout.add(pnInput2, gridBagConstraints1);
 
+		// group2 radio
 		JPanel pnTitle2 = new JPanel();
 		JLabel lblTitle2 = new JLabel("Thời gian :");
 		pnTitle2.add(lblTitle2);
-		pnGroup2.add(pnTitle2);
+		gridBagConstraints1.gridx = 2;
+		gridBagConstraints1.gridy = 1;
+		panelGirBagLayout.add(lblTitle2, gridBagConstraints1);
+
+		JPanel pnTitle22 = new JPanel();
+		JLabel lblTitle22 = new JLabel("");
+		pnTitle22.add(lblTitle22);
+		lblTitle22.setPreferredSize(new Dimension(240, 20));
+		gridBagConstraints1.gridx = 3;
+		gridBagConstraints1.gridy = 1;
+		panelGirBagLayout.add(lblTitle22, gridBagConstraints1);
 
 		ButtonGroup buttonGroup1 = new ButtonGroup();
 
@@ -308,99 +361,136 @@ public class BaoCaoTienDien extends JFrame {
 		buttonGroup1.add(jRadioYear);
 		jRadioYear.setSelected(true);
 		pnjRadio1.add(jRadioYear);
-		pnGroup2.add(pnjRadio1, BorderLayout.WEST);
-		pnGroup2.add(pnjRadio1);
-
-		pnjRadio6 = new JPanel();
-		JLabel lbCls1 = new JLabel("Năm :");
-		Font fCls1 = new Font("arial", Font.ITALIC, 15);
-		// lbCls1.setPreferredSize(new Dimension(80, 20));
-		lbCls1.setFont(fCls1);
-		pnjRadio6.add(lbCls1);
-		pnjRadio6.add(jcNam);
-		pnGroup2.add(pnjRadio6);
+		jRadioYear.setFocusPainted(false);
+		gridBagConstraints1.gridx = 2;
+		gridBagConstraints1.gridy = 2;
+		panelGirBagLayout.add(pnjRadio1, gridBagConstraints1);
 
 		JPanel pnjRadio3 = new JPanel();
 		jRadioTime = new JRadioButton("Khoảng thời gian");
 		buttonGroup1.add(jRadioTime);
 		pnjRadio3.add(jRadioTime);
-		pnGroup2.add(pnjRadio3);
-		pnGroup2.add(pnjRadio3, BorderLayout.WEST);
-
-		pnjRadio33 = new JPanel();
-		JLabel lbCls3 = new JLabel("Từ tháng :");
-		Font fCls3 = new Font("arial", Font.ITALIC, 15);
-		lbCls3.setFont(fCls3);
-		pnjRadio33.add(lbCls3);
-		pnjRadio33.add(jcThang);
-
-		JLabel lbCls33 = new JLabel("Năm :");
-		Font fCls33 = new Font("arial", Font.ITALIC, 15);
-		lbCls33.setFont(fCls33);
-		pnjRadio33.add(lbCls33);
-		pnjRadio33.add(jcNam1);
-
-		pnjRadio33.setVisible(false);
-		pnGroup2.add(pnjRadio33);
-
-		pnjRadio333 = new JPanel();
-		JLabel lbCls333 = new JLabel("Đến tháng :");
-		Font fCls333 = new Font("arial", Font.ITALIC, 15);
-		lbCls333.setFont(fCls333);
-		pnjRadio333.add(lbCls333);
-		pnjRadio333.add(jcThang1);
-
-		JLabel lbCls3333 = new JLabel("Năm :");
-		Font fCls3333 = new Font("arial", Font.ITALIC, 15);
-		lbCls3333.setFont(fCls3333);
-		pnjRadio333.add(lbCls3333);
-		pnjRadio333.add(jcNam2);
-
-		pnjRadio333.setVisible(false);
-		pnGroup2.add(pnjRadio333);
+		jRadioTime.setFocusPainted(false);
+		gridBagConstraints1.gridx = 2;
+		gridBagConstraints1.gridy = 3;
+		panelGirBagLayout.add(pnjRadio3, gridBagConstraints1);
 
 		JPanel pnjRadio5 = new JPanel();
 		jRadioChuKy = new JRadioButton("Theo kỳ                 ");
 		buttonGroup1.add(jRadioChuKy);
 		pnjRadio5.add(jRadioChuKy);
-		pnGroup2.add(pnjRadio5);
+		jRadioChuKy.setFocusPainted(false);
+		gridBagConstraints1.gridx = 2;
+		gridBagConstraints1.gridy = 4;
+		panelGirBagLayout.add(pnjRadio5, gridBagConstraints1);
+
+		pnjRadio6 = new JPanel();
+		JLabel lbCls1 = new JLabel("Năm :");
+		Font fCls1 = new Font("arial", Font.ITALIC, 14);
+		jcNam.setPreferredSize(new Dimension(55, 23));
+		lbCls1.setFont(fCls1);
+		pnjRadio6.add(lbCls1);
+		pnjRadio6.add(jcNam);
+		gridBagConstraints1.gridx = 3;
+		gridBagConstraints1.gridy = 2;
+		panelGirBagLayout.add(pnjRadio6, gridBagConstraints1);
+
+		pnjRadio33 = new JPanel();
+		JLabel lbCls3 = new JLabel("Từ tháng :");
+		Font fCls3 = new Font("arial", Font.ITALIC, 14);
+		jcThang.setPreferredSize(new Dimension(45, 23));
+		lbCls3.setFont(fCls3);
+		pnjRadio33.add(lbCls3);
+		pnjRadio33.add(jcThang);
+
+		JLabel lbCls33 = new JLabel("Năm :");
+		Font fCls33 = new Font("arial", Font.ITALIC, 14);
+		lbCls33.setFont(fCls33);
+		jcNam1.setPreferredSize(new Dimension(55, 23));
+		pnjRadio33.add(lbCls33);
+		pnjRadio33.add(jcNam1);
+		pnjRadio33.setVisible(false);
+		gridBagConstraints1.gridx = 3;
+		gridBagConstraints1.gridy = 2;
+		panelGirBagLayout.add(pnjRadio33, gridBagConstraints1);
+
+		pnjRadio333 = new JPanel();
+		JLabel lbCls333 = new JLabel("Đến tháng :");
+		Font fCls333 = new Font("arial", Font.ITALIC, 14);
+		jcThang1.setPreferredSize(new Dimension(45, 23));
+		lbCls333.setFont(fCls333);
+		pnjRadio333.add(lbCls333);
+		pnjRadio333.add(jcThang1);
+
+		JLabel lbCls3333 = new JLabel("Năm :");
+		Font fCls3333 = new Font("arial", Font.ITALIC, 14);
+		jcNam2.setPreferredSize(new Dimension(55, 23));
+		lbCls3333.setFont(fCls3333);
+		pnjRadio333.add(lbCls3333);
+		pnjRadio333.add(jcNam2);
+		pnjRadio333.setVisible(false);
+		gridBagConstraints1.gridx = 3;
+		gridBagConstraints1.gridy = 3;
+		panelGirBagLayout.add(pnjRadio333, gridBagConstraints1);
 
 		pnjRadio55 = new JPanel();
 		JLabel lbCls55 = new JLabel("Tháng :");
-		Font fCls55 = new Font("arial", Font.ITALIC, 15);
+		Font fCls55 = new Font("arial", Font.ITALIC, 14);
+		jcThang2.setPreferredSize(new Dimension(45, 23));
 		lbCls55.setFont(fCls55);
 		pnjRadio55.add(lbCls55);
 		pnjRadio55.add(jcThang2);
 
 		JLabel lbCls555 = new JLabel("Năm :");
-		Font fCls555 = new Font("arial", Font.ITALIC, 15);
+		Font fCls555 = new Font("arial", Font.ITALIC, 14);
+		jcNam3.setPreferredSize(new Dimension(55, 23));
 		lbCls555.setFont(fCls555);
 		pnjRadio55.add(lbCls555);
 		pnjRadio55.add(jcNam3);
 
 		pnjRadio55.setVisible(false);
-		pnGroup2.add(pnjRadio55);
+		gridBagConstraints1.gridx = 3;
+		gridBagConstraints1.gridy = 2;
+		panelGirBagLayout.add(pnjRadio55, gridBagConstraints1);
 
 		JPanel pnAction = new JPanel();
 		btnView = new JButton("Tìm");
 		pnAction.add(btnView);
 		btnExit = new JButton("Trở lại");
 		pnAction.add(btnExit);
+		gridBagConstraints2.gridx = 0;
+		gridBagConstraints2.gridy = 5;
+		gridBagConstraints2.gridwidth = 4;
+		panelGirBagLayout.add(pnAction, gridBagConstraints2);
+
 		Border border = BorderFactory.createLineBorder(Color.CYAN);
 		TitledBorder borderTittle = BorderFactory.createTitledBorder(border, "Danh Sách");
 
 		spList.setBorder(borderTittle);
 		tbList.setModel(mdTable);
 		spList.setViewportView(tbList);
-		tbList.setPreferredScrollableViewportSize(new Dimension(500, 250));
+		tbList.setPreferredScrollableViewportSize(new Dimension(750, 250));
+		gridBagConstraints2.gridx = 0;
+		gridBagConstraints2.gridy = 6;
 
-		pnMain.add(pnTitle);
-		pnMain.add(pnGroup);
+		panelGirBagLayout.add(spList, gridBagConstraints2);
 
-		pnMain.add(pnAction);
-		pnMain.add(spList);
+		JPanel pnAction4 = new JPanel();
 
-		con.add(pnMain);
+		ImageIcon iconView4 = new ImageIcon("image/logout.png");
+		Image getIconView4 = iconView4.getImage();
+		Image newIconView4 = getIconView4.getScaledInstance(20, 20, java.awt.Image.SCALE_SMOOTH);
+		ImageIcon newIcon4 = new ImageIcon(newIconView4);
+		btnLogout = new JButton(newIcon4);
+		btnLogout.setContentAreaFilled(false);
+		btnLogout.setBorderPainted(false);
+		pnAction4.add(btnLogout);
+		gridBagConstraints1.gridx = 3;
+		gridBagConstraints1.gridy = 7;
+		panelGirBagLayout.add(btnLogout, gridBagConstraints1);
+		this.add(panelGirBagLayout);
+
+		this.add(panelGirBagLayout);
 	}
 
 	JComboBox jcQuan = new JComboBox();
@@ -461,37 +551,6 @@ public class BaoCaoTienDien extends JFrame {
 		}
 	}
 
-	// public void Display() {
-	// // ConnectDB cn = new ConnectDB();
-	// // Connection conn = cn.getConnect("localhost", "Appcuatoi", "Appcuatoi",
-	// // "123456");
-	// // if (conn != null) {
-	// //
-	// // String sql = "select * from qlkh";
-	// // try {
-	// // PreparedStatement ptmt = conn.prepareStatement(sql);
-	// // // khởi tạo resultset
-	// // ResultSet rs = ptmt.executeQuery();
-	// // while (rs.next()) {
-	// // String rows[] = new String[8];
-	// // rows[0] = rs.getString(1);
-	// // rows[1] = rs.getString(3);
-	// // rows[2] = rs.getString(7);
-	// // rows[3] = rs.getString(5);
-	// // rows[4] = rs.getString(6);
-	// // rows[5] = rs.getString(8);
-	// // rows[6] = rs.getString(4);
-	// // rows[7] = rs.getString(2);
-	// // mdTable.addRow(rows);
-	// // }
-	// // } catch (SQLException e) {
-	// // System.out.println("loi " + e.getMessage());
-	// //
-	// // }
-	// // } else {
-	// // System.out.println("Kết nối MYSQL thất bại");
-	// // }
-	// }
 	private String selectKhoangTg(String thangSt, String namSt, String thangEnd, String namEnd, String sqlWhere) {
 		String sql = "";
 		int namSt11 = Integer.parseInt(namSt);
@@ -513,17 +572,29 @@ public class BaoCaoTienDien extends JFrame {
 				}
 				thangSt11 = 1;
 			} else if (namSt11 == namEnd11) {
-				for (int i = thangSt11; thangSt11 <= thangEnd11; thangSt11++) {
-					if (thangSt11 == thangEnd11) {
-						sqlWhere += " OR (`Chu_Ky_Year` = " + namSt11 + " AND `Chu_Ky_Month`= " + thangSt11 + "))";
-					} else {
-						sqlWhere += " OR (`Chu_Ky_Year` = " + namSt11 + " AND `Chu_Ky_Month`= " + thangSt11 + ")";
+				if (namEnd11 == m && thangEnd11 == n) {
+					sqlWhere += " AND ((`Chu_Ky_Year` = " + namSt11 + " AND `Chu_Ky_Month`= " + thangSt11 + "))";
+				} else {
+					for (int i = thangSt11; thangSt11 <= thangEnd11; thangSt11++) {
+						if (thangSt11 == thangEnd11) {
+							sqlWhere += " OR (`Chu_Ky_Year` = " + namSt11 + " AND `Chu_Ky_Month`= " + thangSt11 + "))";
+						} else {
+							if (namEnd11 == m && thangSt11 == n) {
+								sqlWhere += " AND ((`Chu_Ky_Year` = " + namSt11 + " AND `Chu_Ky_Month`= " + thangSt11
+										+ ")";
+							} else {
+								sqlWhere += " OR (`Chu_Ky_Year` = " + namSt11 + " AND `Chu_Ky_Month`= " + thangSt11
+										+ ")";
+							}
+						}
 					}
 				}
 			}
 			namSt11 += 1;
 		}
+		
 		return sqlWhere;
+
 	}
 
 	PreparedStatement ptmt = null;
@@ -538,9 +609,9 @@ public class BaoCaoTienDien extends JFrame {
 			if (phuong == null || phuong.equals("Tất cả")) {
 				sqlWhere = sql.concat(" AND Quan='" + jcQuan.getSelectedItem() + "'");
 			} else {
-				sqlWhere = sql.concat(" AND Quan ='" + jcQuan.getSelectedItem() + "' AND  Phuong ='t"
+				sqlWhere = sql.concat(" AND Quan ='" + jcQuan.getSelectedItem() + "' AND  Phuong ='"
 						+ jcPhuong.getSelectedItem() + "' ");
-			//	System.out.print("hiện quan phuong "+sqlWhere);
+				// System.out.print("hiện quan phuong "+sqlWhere);
 			}
 		} else if (jRadioKHCT.isSelected()) {
 			sqlWhere = sql.concat(" AND MaKH='" + txtMKH.getText() + "'");
@@ -596,6 +667,9 @@ public class BaoCaoTienDien extends JFrame {
 				String tdString = Double.toString(td);
 				rows[7] = tdString;
 				mdTable.addRow(rows);
+				txtMKH.setText("");
+				txtNameKH.setText("");
+				txtDiaChi.setText("");
 			}
 
 		} catch (SQLException e1) {
@@ -626,7 +700,7 @@ public class BaoCaoTienDien extends JFrame {
 	}
 
 	public void showWindow() {
-		this.setSize(700, 600);
+		this.setSize(850, 600);
 
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 

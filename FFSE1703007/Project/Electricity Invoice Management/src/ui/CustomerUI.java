@@ -230,15 +230,17 @@ public class CustomerUI extends JFrame {
 						|| cb4.getSelectedIndex() < 0 || txtPhone.getText().equals("") || txtEmail.getText().equals("")
 						|| txtMeterID.getText().equals("")) {
 					JOptionPane.showMessageDialog(null, "Hãy nhập đầy đủ thông tin");
+				} else if (!checkRegexPhoneNumber(txtPhone.getText())) {
+					JOptionPane.showMessageDialog(null, "Số điện thoại không đúng định dạng, vui lòng nhập lại");
+				} else if (!checkRegexEmail(txtEmail.getText())) {
+					JOptionPane.showMessageDialog(null, "Email không đúng định dạng, vui lòng nhập lại");
+				} else if (checkDuplicateMeterID(txtMeterID.getText())) {
+					JOptionPane.showMessageDialog(null, "Mã công tơ đã bị trùng, vui lòng nhập lại");
 				} else {
-					if (checkDuplicateMeterID(txtMeterID.getText())) {
-						JOptionPane.showMessageDialog(null, "Mã công tơ đã bị trùng, hãy nhập lại");
-					} else {
-						addCustomer();
-						btnSearch2.doClick();
-					}
+					addCustomer();
+					btnSearch2.doClick();
 				}
-				
+				//
 			} catch (SQLException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
@@ -304,20 +306,23 @@ public class CustomerUI extends JFrame {
 				JOptionPane.showMessageDialog(null, "Hãy chọn dòng muốn sửa");
 			} else {
 				try {
+					String oldMeterID = (String) jt.getValueAt(jt.getSelectedRow(), 7);
 					if (txtName.getText().equals("") || txtAddress.getText().equals("") || txtPhone.getText().equals("")
 							|| txtEmail.getText().equals("") || txtMeterID.getText().equals("")) {
 						JOptionPane.showMessageDialog(null, "Hãy nhập đầy đủ thông tin");
+					} else if (!checkRegexPhoneNumber(txtPhone.getText())) {
+						JOptionPane.showMessageDialog(null, "Số điện thoại không đúng định dạng, vui lòng nhập lại");
+					} else if (!checkRegexEmail(txtEmail.getText())) {
+						JOptionPane.showMessageDialog(null, "Email không đúng định dạng, vui lòng nhập lại");
+					} else if (checkDuplicateMeterID(txtMeterID.getText()) && !oldMeterID.equals(txtMeterID.getText())) {
+						JOptionPane.showMessageDialog(null, "Mã công tơ đã bị trùng, vui lòng nhập lại");
 					} else {
-						if (checkDuplicateMeterID(txtMeterID.getText())) {
-							JOptionPane.showMessageDialog(null, "Mã công tơ đã bị trùng, hãy nhập lại");
-						} else {
-							editCustomer();
-							int row = jt.getSelectedRow();
-							int col = jt.getSelectedColumn();
-							btnSearch2.doClick();
-							jt.requestFocus();
-							jt.changeSelection(row, col, false, false);
-						}
+						 editCustomer();
+						 int row = jt.getSelectedRow();
+						 int col = jt.getSelectedColumn();
+						 btnSearch2.doClick();
+						 jt.requestFocus();
+						 jt.changeSelection(row, col, false, false);
 					}
 				} catch (SQLException e1) {
 					// TODO Auto-generated catch block
@@ -417,5 +422,15 @@ public class CustomerUI extends JFrame {
 			}
 		}
 		return false;
+	}
+
+	public static boolean checkRegexEmail(String email) {
+		String regex = "^[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
+		return email.matches(regex);
+	}
+
+	public static boolean checkRegexPhoneNumber(String phoneNumber) {
+		String regex = "(\\+84|0)\\d{9,10}";
+		return phoneNumber.matches(regex);
 	}
 }

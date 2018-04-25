@@ -4,10 +4,13 @@ import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -58,27 +61,27 @@ public class Menu extends JFrame {
 
 
 	protected void QuanLyKhachHang() {
-		QuanLyKhachHang myUI = new QuanLyKhachHang("My Application");
+		QuanLyKhachHang myUI = new QuanLyKhachHang("Phần mềm quản lý tiền điện");
 		myUI.showWindow();
 		dispose();
 	}
 	protected void QuanLyBienLai() {
-		 QuanLyBienLai myUI = new QuanLyBienLai("My Application");
+		 QuanLyBienLai myUI = new QuanLyBienLai("Phần mềm quản lý tiền điện");
          myUI.showWindow();
 		dispose();
 	}
 	protected void BaoCaoTinhHinhTieuThu() {
-		BaoCaoTienDien myUI = new BaoCaoTienDien("My Application");
+		BaoCaoTienDien myUI = new BaoCaoTienDien("Phần mềm quản lý tiền điện");
         myUI.showWindow();
 		dispose();
 	}
 	protected void BaoCaoKhachHang() {
-		BaoCaoKhachHang myUI = new BaoCaoKhachHang("My Application");
+		BaoCaoKhachHang myUI = new BaoCaoKhachHang("Phần mềm quản lý tiền điện");
         myUI.showWindow();
 		dispose();
 	}
 	protected void Login() {
-		Login myUI = new Login("My Application");
+		Login myUI = new Login("Phần mềm quản lý tiền điện");
        myUI.showWindow();
 		dispose();
 	}
@@ -95,6 +98,7 @@ public class Menu extends JFrame {
 	}
 
 	public void addControls() {
+		this.setResizable(false);
 		Container con = getContentPane();
 		JPanel pnMain = new JPanel();
 		pnMain.setLayout(new BoxLayout(pnMain, BoxLayout.Y_AXIS));
@@ -102,24 +106,31 @@ public class Menu extends JFrame {
 		JPanel pnTitle = new JPanel();
 		JLabel lblTitle = new JLabel("Menu");
 		Font fontTitle = new Font("Arial", Font.BOLD, 30);
-		lblTitle.setForeground(Color.red);
+		lblTitle.setForeground(Color.white);
 
 		lblTitle.setFont(fontTitle);
-
+		pnTitle.setBackground(new Color(28, 105, 131));;
 		pnTitle.add(lblTitle);
-
+		pnTitle.setMaximumSize(new Dimension(700, 55));
 		JPanel pnGroup1 = new JPanel();
 		pnGroup1.setLayout(new BoxLayout(pnGroup1, BoxLayout.X_AXIS));
 
 		JPanel pnAction = new JPanel();
-		btnQlkh = new JButton("QUẢN LÝ KHÁCH HÀNG");
-		btnQlkh.setPreferredSize(new Dimension(200, 50));
-		
+		ImageIcon iconView = new ImageIcon("image/khachhang.png");
+		Image getIconView = iconView.getImage();
+		Image newIconView = getIconView.getScaledInstance(100, 100, java.awt.Image.SCALE_SMOOTH);
+		ImageIcon newIcon = new ImageIcon(newIconView);
+		btnQlkh = new JButton("QUẢN LÝ KHÁCH HÀNG",newIcon);
+		btnQlkh.setFocusPainted(false);
 		pnAction.add(btnQlkh);
 
+
 		JPanel pnAction1 = new JPanel();
-		btnQlbl = new JButton("QUẢN LÝ BIÊN LAI");
-		btnQlbl.setPreferredSize(new Dimension(200, 50));
+		ImageIcon iconView1 = new ImageIcon("image/hoadon.png");
+		Image getIconView1 = iconView1.getImage();
+		Image newIconView1 = getIconView1.getScaledInstance(100, 100, java.awt.Image.SCALE_SMOOTH);
+		ImageIcon newIcon1 = new ImageIcon(newIconView1);
+		btnQlbl = new JButton("QUẢN LÝ BIÊN LAI           ",newIcon1);
 		pnAction1.add(btnQlbl);
 		pnGroup1.add(pnAction);
 		pnGroup1.add(pnAction1);
@@ -128,23 +139,35 @@ public class Menu extends JFrame {
 		pnGroup2.setLayout(new BoxLayout(pnGroup2, BoxLayout.X_AXIS));
 
 		JPanel pnAction2 = new JPanel();
-		btnBckh = new JButton("BÁO CÁO KHÁCH HÀNG");
-		btnBckh.setPreferredSize(new Dimension(200, 50));
+		ImageIcon iconView2 = new ImageIcon("image/khach.png");
+		Image getIconView2 = iconView2.getImage();
+		Image newIconView2 = getIconView2.getScaledInstance(100, 100, java.awt.Image.SCALE_SMOOTH);
+		ImageIcon newIcon2 = new ImageIcon(newIconView2);
+		btnBckh = new JButton("BÁO CÁO KHÁCH HÀNG",newIcon2);
 		pnAction2.add(btnBckh);
 
 		JPanel pnAction3 = new JPanel();
-		btnBctd = new JButton("BÁO CÁO TIÊU THỤ ĐIỆN");
-		btnBctd.setPreferredSize(new Dimension(200, 50));
+		ImageIcon iconView3 = new ImageIcon("image/hoa1.png");
+		Image getIconView3 = iconView3.getImage();
+		Image newIconView3 = getIconView3.getScaledInstance(100, 100, java.awt.Image.SCALE_SMOOTH);
+		ImageIcon newIcon3 = new ImageIcon(newIconView3);
+		btnBctd = new JButton("BÁO CÁO TIÊU THỤ ĐIỆN",newIcon3);
 		pnAction3.add(btnBctd);
 		pnGroup2.add(pnAction2);
 		pnGroup2.add(pnAction3);
 
 		JPanel pnAction4 = new JPanel();
-		btnLogout = new JButton("Đăng xuất");
-
+		ImageIcon iconView4 = new ImageIcon("image/logout.png");
+		Image getIconView4 = iconView4.getImage();
+		Image newIconView4 = getIconView4.getScaledInstance(40, 40, java.awt.Image.SCALE_SMOOTH);
+		ImageIcon newIcon4 = new ImageIcon(newIconView4);
+		btnLogout = new JButton(newIcon4);
+		btnLogout.setContentAreaFilled(false);
+		btnLogout.setBorderPainted(false);
 		pnAction4.add(btnLogout);
-
+		pnMain.add(Box.createRigidArea(new Dimension(30,30)));
 		pnMain.add(pnTitle);
+		pnMain.add(Box.createRigidArea(new Dimension(30,30)));
 
 		pnMain.add(pnGroup1);
 		pnMain.add(pnGroup2);

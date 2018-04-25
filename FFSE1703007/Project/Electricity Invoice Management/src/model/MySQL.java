@@ -204,18 +204,18 @@ public class MySQL {
 		}
 	}
 
-	public static ResultSet getLastestInvoice(String meterID) {
-		try {
-			String sql = "SELECT id,meterID, meterIndex from invoice where meterID = ? ORDER BY id DESC LIMIT 1";
-			PreparedStatement stm = (PreparedStatement) conn.prepareStatement(sql);
-			stm.setString(1, meterID);
-			ResultSet result = stm.executeQuery();
-			return result;
-		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
-		}
-	}
+//	public static ResultSet getLastestInvoice(String meterID) {
+//		try {
+//			String sql = "SELECT id,meterID, meterIndex from invoice where meterID = ? ORDER BY id DESC LIMIT 1";
+//			PreparedStatement stm = (PreparedStatement) conn.prepareStatement(sql);
+//			stm.setString(1, meterID);
+//			ResultSet result = stm.executeQuery();
+//			return result;
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//			return null;
+//		}
+//	}
 
 	public static boolean editInvoice(Date cycle, String meterIndex, int amount, int invoiceID) {
 		try {
@@ -243,7 +243,7 @@ public class MySQL {
 
 	public static ResultSet getPreMeterIndexForEdit(String meterID, int invoiceID) {
 		try {
-			String sql = "SELECT * from invoice where meterID = ? AND (id BETWEEN 1 AND ?)  ORDER BY id DESC LIMIT 1";
+			String sql = "SELECT max(meterIndex) from invoice where meterID = ? AND (id BETWEEN 1 AND ?)";
 			PreparedStatement stm = (PreparedStatement) conn.prepareStatement(sql);
 			stm.setString(1, meterID);
 			stm.setInt(2, invoiceID - 1);
@@ -257,7 +257,7 @@ public class MySQL {
 	
 	public static ResultSet getNextMeterIndexForEdit(String meterID, int invoiceID, int lastInvoiceID) {
 		try {
-			String sql = "SELECT * from invoice where meterID = ? AND (id BETWEEN ? AND ?) ORDER BY id ASC LIMIT 1";
+			String sql = "SELECT min(meterIndex) from invoice where meterID = ? AND (id BETWEEN ? AND ?)";
 			PreparedStatement stm = (PreparedStatement) conn.prepareStatement(sql);
 			stm.setString(1, meterID);
 			stm.setInt(2, invoiceID + 1);
@@ -304,7 +304,7 @@ public class MySQL {
 
 	public static ResultSet getDataBySearch1(String customerName, String countyName, String wardName, String cycle) {
 		try {
-			String sql = "SELECT customer.id, customer.meterID,customer.fullname, customer.address, county.name, ward.name, customer.phone, customer.email, invoice.cycle,invoice.amount,customer.countyID,customer.wardID FROM (((customer INNER JOIN county on customer.countyID = county.id)\r\n"
+			String sql = "SELECT invoice.id, customer.id, customer.meterID,customer.fullname, customer.address, county.name, ward.name, customer.phone, customer.email, invoice.cycle,invoice.amount,customer.countyID,customer.wardID FROM (((customer INNER JOIN county on customer.countyID = county.id)\r\n"
 					+ "					              INNER JOIN ward ON customer.wardID = ward.id) INNER JOIN invoice ON customer.meterID = invoice.meterID) where customer.fullname like ? and county.name like ? and ward.name like ? and invoice.cycle like ?";
 			PreparedStatement stm = (PreparedStatement) conn.prepareStatement(sql);
 			stm.setString(1, "%" + customerName + "%");
@@ -322,7 +322,7 @@ public class MySQL {
 	public static ResultSet getDataBySearch2(String customerName, String countyName, String wardName, Date cycleStart,
 			Date cycleEnd) {
 		try {
-			String sql = "SELECT customer.id, customer.meterID,customer.fullname, customer.address, county.name, ward.name, customer.phone, customer.email, invoice.cycle,invoice.amount,customer.countyID,customer.wardID FROM (((customer INNER JOIN county on customer.countyID = county.id)\r\n"
+			String sql = "SELECT invoice.id, customer.id, customer.meterID,customer.fullname, customer.address, county.name, ward.name, customer.phone, customer.email, invoice.cycle,invoice.amount,customer.countyID,customer.wardID FROM (((customer INNER JOIN county on customer.countyID = county.id)\r\n"
 					+ "					              INNER JOIN ward ON customer.wardID = ward.id) INNER JOIN invoice ON customer.meterID = invoice.meterID) where customer.fullname like ? and county.name like ? and ward.name like ? and (invoice.cycle between ? and ?)";
 			PreparedStatement stm = (PreparedStatement) conn.prepareStatement(sql);
 
@@ -344,7 +344,7 @@ public class MySQL {
 
 	public static ResultSet getDataBySearch3(String customerName, String countyName, String wardName, Date cycle) {
 		try {
-			String sql = "SELECT customer.id, customer.meterID,customer.fullname, customer.address, county.name, ward.name, customer.phone, customer.email, invoice.cycle,invoice.amount,customer.countyID,customer.wardID FROM (((customer INNER JOIN county on customer.countyID = county.id)\r\n"
+			String sql = "SELECT invoice.id, customer.id, customer.meterID,customer.fullname, customer.address, county.name, ward.name, customer.phone, customer.email, invoice.cycle,invoice.amount,customer.countyID,customer.wardID FROM (((customer INNER JOIN county on customer.countyID = county.id)\r\n"
 					+ "					              INNER JOIN ward ON customer.wardID = ward.id) INNER JOIN invoice ON customer.meterID = invoice.meterID) where customer.fullname like ? and county.name like ? and ward.name like ? and invoice.cycle = ? ";
 			PreparedStatement stm = (PreparedStatement) conn.prepareStatement(sql);
 
@@ -367,6 +367,19 @@ public class MySQL {
 			String sql = "select meterID from customer";
 			PreparedStatement stm = (PreparedStatement) conn.prepareStatement(sql);
 
+			ResultSet result = stm.executeQuery();
+			return result;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	public static ResultSet getLastMeterIndex(String meterID) {
+		try {
+			String sql = "SELECT max(meterIndex) from invoice where meterID = ?";
+			PreparedStatement stm = (PreparedStatement) conn.prepareStatement(sql);
+			stm.setString(1, meterID);
 			ResultSet result = stm.executeQuery();
 			return result;
 		} catch (Exception e) {

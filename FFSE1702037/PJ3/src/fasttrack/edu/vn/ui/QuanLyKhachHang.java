@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.Vector;
 
+import javax.swing.AbstractButton;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultComboBoxModel;
@@ -59,7 +60,7 @@ public class QuanLyKhachHang extends JFrame {
 	JTextField txtPhone = new JTextField(15);
 	JTextField txtDiaChi = new JTextField(15);
 	String id;
-	JButton btnNew, btnUpdate, btnDelete, btnView, btnExit;
+	JButton btnNew, btnUpdate, btnDelete, btnView, btnExit, btnLogout;
 
 	JScrollPane spList = new JScrollPane();
 	JTable tbList = new JTable();
@@ -128,9 +129,20 @@ public class QuanLyKhachHang extends JFrame {
 			ViewKH();
 		}
 	};
+	ActionListener eventLogout = new ActionListener() {
+		public void actionPerformed(ActionEvent e) {
+			
+			Login();
+		}
+	};
+	protected void Login() {
+		Login myUI = new Login("Phần mềm quản lý tiền điện");
+       myUI.showWindow();
+		dispose();
+	}
 
 	protected void Menu() {
-		Menu myUI = new Menu("My Application");
+		Menu myUI = new Menu("Phần mềm quản lý tiền điện");
 		myUI.showWindow();
 		dispose();
 	}
@@ -142,6 +154,8 @@ public class QuanLyKhachHang extends JFrame {
 		btnUpdate.addActionListener(eventUpdate);
 		btnView.addActionListener(eventView);
 		tbList.addMouseListener(eventselect);
+		btnLogout.addActionListener(eventLogout);
+
 		jcQuan.addActionListener(eventCombobox);
 		/*
 		 * btnExit.addActionListener(new ActionListener() {
@@ -182,6 +196,7 @@ public class QuanLyKhachHang extends JFrame {
 	}
 
 	public void addControls() {
+		this.setResizable(false);
 		Container con = getContentPane();
 		// JPanel pnMain = new JPanel();
 		// pnMain.setLayout(new BoxLayout(pnMain, BoxLayout.Y_AXIS));
@@ -220,6 +235,8 @@ public class QuanLyKhachHang extends JFrame {
 		Image newIconView = getIconView.getScaledInstance(11, 11, java.awt.Image.SCALE_SMOOTH);
 		ImageIcon newIcon = new ImageIcon(newIconView);
 		btnView = new JButton(newIcon);
+		btnView.setFocusPainted(false);
+
 		pnInput2.add(btnView);
 		gridBagConstraints1.gridx = 1;
 		gridBagConstraints1.gridy = 1;
@@ -346,9 +363,22 @@ public class QuanLyKhachHang extends JFrame {
 		tbList.setPreferredScrollableViewportSize(new Dimension(600, 250));
 		gridBagConstraints3.gridx = 0;
 		gridBagConstraints3.gridy = 6;
-
 		panelGirBagLayout.add(spList, gridBagConstraints3);
 
+
+		JPanel pnAction4 = new JPanel();
+		
+		ImageIcon iconView4 = new ImageIcon("image/logout.png");
+		Image getIconView4 = iconView4.getImage();
+		Image newIconView4 = getIconView4.getScaledInstance(20, 20, java.awt.Image.SCALE_SMOOTH);
+		ImageIcon newIcon4 = new ImageIcon(newIconView4);
+		btnLogout = new JButton(newIcon4);
+		btnLogout.setContentAreaFilled(false);
+		btnLogout.setBorderPainted(false);
+		pnAction4.add(btnLogout);
+		gridBagConstraints1.gridx = 3;
+		gridBagConstraints1.gridy = 7;
+		panelGirBagLayout.add(btnLogout, gridBagConstraints1);
 		this.add(panelGirBagLayout);
 	}
 
@@ -425,7 +455,7 @@ public class QuanLyKhachHang extends JFrame {
 				ptmt.setString(6, jcPhuong.getSelectedItem().toString());
 				ptmt.setString(7, txtEmail.getText());
 				ptmt.setString(8, txtPhone.getText());
-				ptmt.setString(9,"123123");
+				ptmt.setString(9, "123123");
 				// executeUpdate hàm trả về kiểu int nên khai báo 1 giá trị
 				int kt = ptmt.executeUpdate();
 				if (kt != 0) {
@@ -499,7 +529,7 @@ public class QuanLyKhachHang extends JFrame {
 	}
 
 	public void ViewKH() {
-		String sql = "SELECT * FROM `qlkh` WHERE  MaKH=? ";
+		String sql = "SELECT * FROM `qlkh` WHERE  BINARY MaKH=? ";
 		try {
 			PreparedStatement ptmt = conn.prepareStatement(sql);
 

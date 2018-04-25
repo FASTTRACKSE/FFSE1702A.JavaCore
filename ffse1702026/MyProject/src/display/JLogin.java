@@ -31,7 +31,10 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
+import com.mysql.jdbc.Connection;
+
 import database.AdminDB;
+import database.connectdb;
 import database.dbKhachHang;
 import object.Admin;
 import object.KhachHang;
@@ -71,6 +74,7 @@ public class JLogin extends JFrame {
 	private JButton btnLoginAd;
 	private JPanel panelkhbt;
 	private JButton btnLoginKH;
+	private JLabel lbDSigned;
 
 	/**
 	 * Launch the application.
@@ -79,10 +83,13 @@ public class JLogin extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
+					Connection conn=connectdb.getConnect();
+					if(conn!=null) {
 					JLogin frame = new JLogin();
 					frame.setVisible(true);
+					}
 				} catch (Exception e) {
-					e.printStackTrace();
+					JOptionPane.showMessageDialog(null, "không thể kết nối ","Thông báo lỗi",JOptionPane.ERROR_MESSAGE);
 				}
 			}
 		});
@@ -182,6 +189,11 @@ public class JLogin extends JFrame {
 		panelDem = new JPanel();
 		panelDem.setBackground(new Color(153, 0, 204));
 		panelBao.add(panelDem);
+		
+		lbDSigned = new JLabel("Designed By Sang Nguyễn");
+		lbDSigned.setForeground(new Color(255, 255, 204));
+		lbDSigned.setFont(new Font("Times New Roman", Font.BOLD | Font.ITALIC, 16));
+		panelDem.add(lbDSigned);
 
 		panelBao.add(Box.createRigidArea(new Dimension(200, 250)));
 

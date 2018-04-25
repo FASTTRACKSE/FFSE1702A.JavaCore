@@ -197,18 +197,26 @@ public class InvoiceUI extends JFrame {
 					int recentMeterIndex = Integer.parseInt(txtMeterIndex.getText());
 					int meterNumber = 0;
 					int lastestMeterIndex = 0;
-					ResultSet lastestInvoice = MySQL.getLastestInvoice(meterID);
+					ResultSet lastestInvoice = MySQL.getLastMeterIndex(meterID);
 					try {
 						while (lastestInvoice.next()) {
-							lastestMeterIndex = lastestInvoice.getInt("MeterIndex");
+							lastestMeterIndex = lastestInvoice.getInt(1);
 						}
-						meterNumber = recentMeterIndex - lastestMeterIndex;
-						int amount = calcAmount(meterNumber);
-						if (MySQL.addInvoice(meterID, dateAdded, cycleDate, recentMeterIndex, amount)) {
-							JOptionPane.showMessageDialog(null, "Thêm thành công");
-							btnSearch1.doClick();
+						if (recentMeterIndex < lastestMeterIndex) {
+							JOptionPane.showMessageDialog(null,
+									"Chỉ số mới phải lớn hơn hoặc bằng chỉ số cũ, vui lòng nhập lại");
+						} else if (!CustomerUI.checkDuplicateMeterID(meterID)) {
+							JOptionPane.showMessageDialog(null, "Mã công tơ không tồn tại, vui lòng nhập lại");
 						} else {
-							JOptionPane.showMessageDialog(null, "Thêm thất bại");
+							meterNumber = recentMeterIndex - lastestMeterIndex;
+							int amount = calcAmount(meterNumber);
+							if (MySQL.addInvoice(meterID, dateAdded, cycleDate, recentMeterIndex, amount)) {
+								JOptionPane.showMessageDialog(null, "Thêm thành công");
+								txtSearch1.setText(meterID);
+								btnSearch1.doClick();
+							} else {
+								JOptionPane.showMessageDialog(null, "Thêm thất bại");
+							}
 						}
 					} catch (SQLException e1) {
 						// TODO Auto-generated catch block
@@ -235,10 +243,13 @@ public class InvoiceUI extends JFrame {
 		public void actionPerformed(ActionEvent e) {
 			// TODO Auto-generated method stub
 			if (jt.getSelectedRow() == -1) {
-				JOptionPane.showMessageDialog(null, "Hãy chọn dòng muốn sửa");
+				JOptionPane.showMessageDialog(null, "Vui lòng chọn dòng muốn sửa");
 			} else {
+				String meterID = (String) jt.getValueAt(jt.getSelectedRow(), 1);
 				if (txtMeterIndex.getText().equals("")) {
-					JOptionPane.showMessageDialog(null, "Hãy nhập đầy đủ thông tin");
+					JOptionPane.showMessageDialog(null, "Vui lòng nhập đầy đủ thông tin");
+				} else if (!meterID.equals(txtMeterID.getText())) {
+					JOptionPane.showMessageDialog(null, "Không cho phép thay đổi mã công tơ, vui lòng nhập lại");
 				} else {
 					try {
 						editInvoice();
@@ -335,7 +346,7 @@ public class InvoiceUI extends JFrame {
 		ResultSet preMeterIndexResultSet = MySQL.getPreMeterIndexForEdit(meterID, invoiceID);
 		int preMeterIndex = 0;
 		while (preMeterIndexResultSet.next()) {
-			preMeterIndex = preMeterIndexResultSet.getInt("meterIndex");
+			preMeterIndex = preMeterIndexResultSet.getInt(1);
 		}
 
 		int month = jmc.getMonth() + 1;
@@ -364,10 +375,10 @@ public class InvoiceUI extends JFrame {
 		ResultSet nextMeterIndexResultSet = MySQL.getNextMeterIndexForEdit(meterID, invoiceID, lastInvoiceID);
 		int nextMeterIndex = 0;
 		while (nextMeterIndexResultSet.next()) {
-			nextMeterIndex = nextMeterIndexResultSet.getInt("meterIndex");
+			nextMeterIndex = nextMeterIndexResultSet.getInt(1);
 		}
 
-		if (recentMeterIndex <= preMeterIndex || recentMeterIndex >= nextMeterIndex) {
+		if (recentMeterIndex < preMeterIndex || recentMeterIndex > nextMeterIndex) {
 			JOptionPane.showMessageDialog(null,
 					"Chỉ số công tơ nhập vào không được nhỏ hơn chỉ số kì trước hoặc lớn hơn kì sau, vui lòng nhập lại");
 		} else {
