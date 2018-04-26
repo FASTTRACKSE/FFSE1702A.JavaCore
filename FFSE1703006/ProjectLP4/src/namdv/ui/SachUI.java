@@ -6,8 +6,6 @@ import java.awt.FlowLayout;
 import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -24,6 +22,8 @@ import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
@@ -66,6 +66,8 @@ public class SachUI extends JPanel {
 	}
 
 	private void addEvents() {
+		tblResult.getSelectionModel().addListSelectionListener(new ClickTblResult());
+
 		txtFldSearch.addActionListener(new EnterListener());
 		btnSearch.addActionListener(new SearchListener());
 		btnThem.addActionListener(new ThemListener());
@@ -74,8 +76,6 @@ public class SachUI extends JPanel {
 		btnThoat.addActionListener(new ThoatListener());
 
 		cbBxSearch.addActionListener(new SelectSearchListener());
-
-		tblResult.addMouseListener(new ClickTblResult());
 	}
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
@@ -428,26 +428,31 @@ public class SachUI extends JPanel {
 		}
 	}
 
-	private class ClickTblResult extends MouseAdapter {
+	private class ClickTblResult implements ListSelectionListener {
 		@Override
-		public void mouseClicked(MouseEvent e) {
-			try {
-				// Load data to txtFld + combobox
-				if (!CheckLogin.getLoggedrole().equals("bandoc")) {
-					btnSua.setEnabled(true);
-					btnXoa.setEnabled(true);
-				}
+		public void valueChanged(ListSelectionEvent e) {
+			if (!e.getValueIsAdjusting()) {
 				int row = tblResult.getSelectedRow();
-				String[] where = { "sach.id" };
-				String[] value = { tblResultModel.getValueAt(row, 0).toString() };
-				ResultSet rs = sachModel.getSach(where, value);
-				rs.next();
-				setText(rs.getString("sach.id"), rs.getString("ten_sach"), rs.getString("tac_gia"),
-						rs.getString("nam_xuat_ban"), rs.getString("the_loai.id"), rs.getString("nha_xuat_ban.id"),
-						rs.getString("so_luong_tong"), rs.getString("so_luong_kho"));
-				removeErr();
-			} catch (SQLException ex) {
-				ex.printStackTrace();
+				if (row != -1) {
+					try {
+						// Load data to txtFld + combobox
+						if (!CheckLogin.getLoggedrole().equals("bandoc")) {
+							btnSua.setEnabled(true);
+							btnXoa.setEnabled(true);
+						}
+						String[] where = { "sach.id" };
+						String[] value = { tblResultModel.getValueAt(row, 0).toString() };
+						ResultSet rs = sachModel.getSach(where, value);
+						rs.next();
+						setText(rs.getString("sach.id"), rs.getString("ten_sach"), rs.getString("tac_gia"),
+								rs.getString("nam_xuat_ban"), rs.getString("the_loai.id"),
+								rs.getString("nha_xuat_ban.id"), rs.getString("so_luong_tong"),
+								rs.getString("so_luong_kho"));
+						removeErr();
+					} catch (SQLException ex) {
+						ex.printStackTrace();
+					}
+				}
 			}
 		}
 	}
@@ -479,6 +484,10 @@ public class SachUI extends JPanel {
 			int slTong = Integer.parseInt(txtFldSLTong.getText());
 			int slHienCo;
 			if (btnSua.isEnabled()) {
+				if (slTong < Integer.parseInt(tblResultModel.getValueAt(row, 4).toString())) {
+					JOptionPane.showMessageDialog(null, "Số lượng sách mới phải lớn hơn hoặc bằng số lượng hiện có!");
+					return null;
+				}
 				slHienCo = Integer.parseInt(txtFldSLTong.getText())
 						- Integer.parseInt(tblResultModel.getValueAt(row, 3).toString())
 						+ Integer.parseInt(tblResultModel.getValueAt(row, 4).toString());

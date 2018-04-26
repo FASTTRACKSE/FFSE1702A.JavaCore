@@ -7,8 +7,6 @@ import java.awt.FlowLayout;
 import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -25,6 +23,8 @@ import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
@@ -75,14 +75,14 @@ public class BanDocUI extends JPanel {
 	}
 
 	private void addEvents() {
+		tblResult.getSelectionModel().addListSelectionListener(new ClickTblResult());
+
 		txtFldSearch.addActionListener(new EnterListener());
 		btnSearch.addActionListener(new SearchListener());
 		btnThem.addActionListener(new ThemListener());
 		btnSua.addActionListener(new SuaListener());
 		btnXoa.addActionListener(new XoaListener());
 		btnThoat.addActionListener(new ThoatListener());
-
-		tblResult.addMouseListener(new ClickTblResult());
 
 		cbBxSearch.addActionListener(new SelectSearchListener());
 		cbBxThanhPho.addActionListener(new SelectThanhPhoListener());
@@ -474,15 +474,17 @@ public class BanDocUI extends JPanel {
 		}
 	}
 
-	private class ClickTblResult extends MouseAdapter {
+	private class ClickTblResult implements ListSelectionListener {
 		@Override
-		public void mouseClicked(MouseEvent e) {
-			if (clickTblResult) {
-				// Load data to JTextField + combobox
-				btnSua.setEnabled(true);
-				btnXoa.setEnabled(true);
+		public void valueChanged(ListSelectionEvent e) {
+			if (!e.getValueIsAdjusting()) {
 				int row = tblResult.getSelectedRow();
-				setDataByClick(row);
+				if (clickTblResult && row != -1) {
+					// Load data to JTextField + combobox
+					btnSua.setEnabled(true);
+					btnXoa.setEnabled(true);
+					setDataByClick(row);
+				}
 			}
 		}
 	}
@@ -528,6 +530,7 @@ public class BanDocUI extends JPanel {
 		boolean checkDienThoai = myEx.checkDienThoai(txtFldDienThoai);
 
 		int row = tblResult.getSelectedRow();
+		System.out.println("get data input: 	" + row);
 		if (row != -1) {
 			String emailCu = tblResultModel.getValueAt(row, 3).toString();
 			if (txtFldEmail.getText().equals(emailCu)) {
