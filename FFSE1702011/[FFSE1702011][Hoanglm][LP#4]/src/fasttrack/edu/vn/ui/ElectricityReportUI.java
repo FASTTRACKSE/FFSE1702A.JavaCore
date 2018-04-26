@@ -465,12 +465,12 @@ public class ElectricityReportUI extends JFrame{
 				rows[3] = result.getString(8);
 				rows[4] = result.getString(7);
 				rows[5] = result.getString(6);
-				rows[6] = result.getString(13);
-				rows[7] = result.getString(14);
-				rows[8] = result.getString(15);
+				rows[6] = result.getString(14);
+				rows[7] = result.getString(15);
+				rows[8] = result.getString(16);
 				
 				//Charged
-				String id = result.getString(10);
+				String id = result.getString(11);
 				String price = null;
 				try {
 					Statement stmMeter = conn.createStatement();
