@@ -55,7 +55,7 @@ public class AtmAccessUI extends JPanel {
 		@Override
 		public void valueChanged(ListSelectionEvent e) {
 			int i = tblAtmList.getSelectedRow();
-			if (i >= 0) {
+			if (i >= 0 && !e.getValueIsAdjusting()) {
 				setTextToInput(i);
 				btnEdit.setEnabled(true);
 				btnDelete.setEnabled(true);
@@ -339,7 +339,13 @@ public class AtmAccessUI extends JPanel {
 		tblAtmList = new JTable();
 		tblAtmList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		String[] col = { "Mã máy ATM", "Đường", "Số tiền trong máy" };
-		mdlAtmList = new DefaultTableModel(col, 0);
+		mdlAtmList = new DefaultTableModel(col, 0) {
+			private static final long serialVersionUID = 1L;
+			@Override
+			public boolean isCellEditable(int row, int column) {
+				return (column == 0) ? false : true;
+			}
+		};
 		tblAtmList.setModel(mdlAtmList);
 		tblAtmList.getColumnModel().setColumnMargin(10);
 		

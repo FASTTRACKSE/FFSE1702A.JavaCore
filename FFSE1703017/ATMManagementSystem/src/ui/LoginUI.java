@@ -19,8 +19,6 @@ import javax.swing.JPasswordField;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 
-import model.ConnectDB;
-
 import javax.swing.ImageIcon;
 
 public class LoginUI extends JPanel {
@@ -92,7 +90,6 @@ public class LoginUI extends JPanel {
 	public LoginUI() {
 		addPanels();
 		addEvents();
-		checkConnect();
 	}
 
 	private void addPanels() {
@@ -239,13 +236,6 @@ public class LoginUI extends JPanel {
 		btnAppLogout.addActionListener(evtExit);
 		btnAtmLogout.addActionListener(evtExit);
 
-	}
-	
-	private void checkConnect() {
-		if (!ConnectDB.checkConnect()) {
-			JOptionPane.showMessageDialog(null, "Kiểm tra kết nối Cơ sở dữ liệu.", "Lỗi",
-					JOptionPane.WARNING_MESSAGE);
-		}
 	}
 	
 	public void addAppLoginListener(LoginListener evt) {

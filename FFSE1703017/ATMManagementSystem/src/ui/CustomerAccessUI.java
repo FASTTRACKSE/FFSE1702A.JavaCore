@@ -63,17 +63,17 @@ public class CustomerAccessUI extends JPanel {
 	private ListSelectionListener evtRowSelected = new ListSelectionListener() {
 		@Override
 		public void valueChanged(ListSelectionEvent e) {
-			int i = tblCustomerList.getSelectedRow();
-			if (i >= 0) {
-				String code = (String) tblCustomerList.getValueAt(i, 0);
-				setTextToInput(code);
-				btnEdit.setEnabled(true);
-				btnDelete.setEnabled(true);
-				btnReset.setEnabled(true);
-				btnAdd.setEnabled(false);
-			} else {
-				resetInput();
-			}
+				int i = tblCustomerList.getSelectedRow();
+				if (i >= 0 && !e.getValueIsAdjusting()) {
+					String code = (String) tblCustomerList.getValueAt(i, 0);
+					setTextToInput(code);
+					btnEdit.setEnabled(true);
+					btnDelete.setEnabled(true);
+					btnReset.setEnabled(true);
+					btnAdd.setEnabled(false);
+				} else {
+					resetInput();
+				}
 		}
 	};
 
@@ -467,7 +467,13 @@ public class CustomerAccessUI extends JPanel {
 		tblCustomerList = new JTable();
 		tblCustomerList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		String[] col = { "Mã khách hàng", "Họ tên", "Số điện thoại", "Email", "Số tiền trong TK" };
-		mdlCustomerList = new DefaultTableModel(col, 0);
+		mdlCustomerList = new DefaultTableModel(col, 0) {
+			private static final long serialVersionUID = 1L;
+			@Override
+			public boolean isCellEditable(int row, int column) {
+				return (column == 0) ? false : true;
+			}
+		};
 		tblCustomerList.setModel(mdlCustomerList);
 		
 		DefaultTableCellRenderer rightRenderer = new DefaultTableCellRenderer();

@@ -3,6 +3,8 @@ package model;
 import java.sql.SQLException;
 import java.util.Properties;
 
+import javax.swing.JOptionPane;
+
 import com.mysql.jdbc.Connection;
 import com.mysql.jdbc.Driver;
 
@@ -25,13 +27,12 @@ public class ConnectDB {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		if (conn == null) {
+			String message = "Không có kết nối Cơ sở dữ liệu. Vui lòng kiểm tra lại.";
+			JOptionPane.showMessageDialog(null, message, "Lỗi", JOptionPane.YES_NO_OPTION);
+			System.exit(0);
+		}
 		return conn;
-	}
-	
-	public static boolean checkConnect() {
-		Connection conn = getConnect();
-		return (conn != null) ? true : false;
-		
 	}
 
 }
