@@ -362,8 +362,8 @@ public class InvoiceUI extends JFrame {
 			e1.printStackTrace();
 		}
 
-		int recentMeterIndex = Integer.parseInt(txtMeterIndex.getText());
-		int meterNumber = recentMeterIndex - preMeterIndex;
+		int inputMeterIndex = Integer.parseInt(txtMeterIndex.getText());
+		int meterNumber = inputMeterIndex - preMeterIndex;
 		int amount = calcAmount(meterNumber);
 
 		int lastInvoiceID = 0;
@@ -371,24 +371,46 @@ public class InvoiceUI extends JFrame {
 		while (invoiceIdList.next()) {
 			lastInvoiceID = invoiceIdList.getInt(1);
 		}
+		int lastMeterIndex = 0;
+		ResultSet lastMeterIndexResult = MySQL.getLastMeterIndex(meterID);
+		while (lastMeterIndexResult.next()) {
+			lastMeterIndex = lastMeterIndexResult.getInt(1);
+		}
 
 		ResultSet nextMeterIndexResultSet = MySQL.getNextMeterIndexForEdit(meterID, invoiceID, lastInvoiceID);
+
 		int nextMeterIndex = 0;
+
 		while (nextMeterIndexResultSet.next()) {
 			nextMeterIndex = nextMeterIndexResultSet.getInt(1);
 		}
 
-		if (recentMeterIndex < preMeterIndex || recentMeterIndex > nextMeterIndex) {
-			JOptionPane.showMessageDialog(null,
-					"Chỉ số công tơ nhập vào không được nhỏ hơn chỉ số kì trước hoặc lớn hơn kì sau, vui lòng nhập lại");
+		if (nextMeterIndex == 0) {
+			nextMeterIndex = lastMeterIndex;
+			if(inputMeterIndex < preMeterIndex) {
+				JOptionPane.showMessageDialog(null,
+						"Chỉ số công tơ nhập vào không được nhỏ hơn chỉ số kì trước, vui lòng nhập lại");
+			}else {
+				if (MySQL.editInvoice(cycleDate, txtMeterIndex.getText(), amount, invoiceID)) {
+					JOptionPane.showMessageDialog(null, "Sửa thành công");
+				} else {
+					JOptionPane.showMessageDialog(null, "Sửa thất bại");
+				}
+			}
+			
 		} else {
-			if (MySQL.editInvoice(cycleDate, txtMeterIndex.getText(), amount, invoiceID)) {
-				JOptionPane.showMessageDialog(null, "Sửa thành công");
+
+			if (inputMeterIndex < preMeterIndex || inputMeterIndex > nextMeterIndex) {
+				JOptionPane.showMessageDialog(null,
+						"Chỉ số công tơ nhập vào không được nhỏ hơn chỉ số kì trước hoặc lớn hơn kì sau, vui lòng nhập lại");
 			} else {
-				JOptionPane.showMessageDialog(null, "Sửa thất bại");
+				if (MySQL.editInvoice(cycleDate, txtMeterIndex.getText(), amount, invoiceID)) {
+					JOptionPane.showMessageDialog(null, "Sửa thành công");
+				} else {
+					JOptionPane.showMessageDialog(null, "Sửa thất bại");
+				}
 			}
 		}
-
 	}
 
 	void delInvoice() {
