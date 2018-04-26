@@ -20,6 +20,7 @@ public class MenuUI extends JFrame{
 	}
 	
 	public void addControls() {
+		this.setResizable(false);
 		Container con = getContentPane();
 		JPanel pnMain = new JPanel();
 		

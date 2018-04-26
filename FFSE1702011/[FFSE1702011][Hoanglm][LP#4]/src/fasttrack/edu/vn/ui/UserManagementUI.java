@@ -48,6 +48,7 @@ public class UserManagementUI extends JFrame {
 	}
 	
 	public void addControls() {
+		this.setResizable(false);
 		Container con = getContentPane();
 		JPanel pnMain = new JPanel();
 		
@@ -312,7 +313,7 @@ public class UserManagementUI extends JFrame {
 				String phone = txtPhone.getText();
 				String email = txtEmail.getText();
 				
-				String sql = "INSERT INTO ffse1702011_user_information(User_Code, User_Name, Address, Phone, Meter_Code, District, Ward, Email) VALUES ('"+userCode+"','"+userName+"','"+address+"','"+phone+"','"+meterCode+"','"+district+"','"+ward+"','"+email+"')";
+				String sql = "INSERT INTO ffse1702011_user_information(User_Code, User_Name, Address, Phone, Meter_Code, District, Ward, Email, Password) VALUES ('"+userCode+"','"+userName+"','"+address+"','"+phone+"','"+meterCode+"','"+district+"','"+ward+"','"+email+"', '"+123123+"')";
 				Statement statement = conn.createStatement();
 				int x = statement.executeUpdate(sql);
 				if(x>0) {

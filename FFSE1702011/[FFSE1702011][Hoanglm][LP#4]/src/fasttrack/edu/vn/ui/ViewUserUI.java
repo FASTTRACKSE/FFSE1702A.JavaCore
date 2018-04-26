@@ -40,9 +40,10 @@ public class ViewUserUI extends JFrame {
 	}
 	
 	public void addControls() {
+		this.setResizable(false);
 		Container con = getContentPane();
 		JPanel pnMain = new JPanel();
-		String sql = "SELECT * FROM ffse1702011_user_information INNER JOIN ffse1702011_bill_information WHERE ffse1702011_user_information.Meter_Code = ffse1702011_bill_information.Meter_Code AND ffse1702011_user_information.Email = '"+this.id+"'";
+		String sql = "SELECT * FROM ffse1702011_user_information WHERE Email = '"+this.id+"'";
 		Statement statement;
 		try {
 			statement = conn.createStatement();

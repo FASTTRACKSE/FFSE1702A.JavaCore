@@ -65,6 +65,7 @@ public class BillsManagementUI extends JFrame {
 	}
 	
 	public void addControls() {
+		this.setResizable(false);
 		Container con = getContentPane();
 		JPanel pnMain = new JPanel();
 		pnMain.setLayout(new BoxLayout(pnMain, BoxLayout.Y_AXIS));

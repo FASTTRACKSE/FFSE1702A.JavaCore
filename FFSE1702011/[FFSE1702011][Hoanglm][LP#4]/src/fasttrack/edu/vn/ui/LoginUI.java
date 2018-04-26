@@ -26,6 +26,7 @@ public class LoginUI extends JFrame {
 	}
 	
 	public void addControls() {
+		this.setResizable(false);
 		Container con = getContentPane();
 		JPanel pnMain = new JPanel();
 		
@@ -95,7 +96,7 @@ public class LoginUI extends JFrame {
 					giaodien.showWindow();
 					dispose();
 				} else if(pass.equals("123123")){
-					String sqlUser = "select Email from ffse1702011_user_information";
+					String sqlUser = "select Email from ffse1702011_user_information where Email = '"+id+"'";
 					try {
 						Statement stmUser = conn.createStatement();
 						ResultSet rsUser = stmUser.executeQuery(sqlUser);
