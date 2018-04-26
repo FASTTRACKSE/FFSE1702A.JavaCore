@@ -356,6 +356,18 @@ public class ThongKeBaoCao extends JPanel {
 		pnlCenter.add(scrollPaneResult);
 
 		tblResult = new JTable();
+		/* {
+			public Component prepareRenderer(TableCellRenderer renderer, int row, int column) {
+				Component c = super.prepareRenderer(renderer, row, column);
+		
+				//  Alternate row color
+		
+				if (!isRowSelected(row))
+					c.setBackground(row % 2 == 0 ? getBackground() : Color.LIGHT_GRAY);
+		
+				return c;
+			}
+		} */
 		tblResult.setModel(tblResultModel);
 		tblResult.setColumnModel(columnModel);
 		tblResult.createDefaultColumnsFromModel();

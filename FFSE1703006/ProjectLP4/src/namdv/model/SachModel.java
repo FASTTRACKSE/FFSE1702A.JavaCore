@@ -41,7 +41,7 @@ public class SachModel {
 
 	public ResultSet getSach(String[] where, String[] value) throws SQLException {
 		int count = where.length;
-		sql = "SELECT * FROM sach INNER JOIN nha_xuat_ban ON sach.nha_xuat_ban = nha_xuat_ban.id INNER JOIN the_loai ON sach.the_loai = the_loai.id WHERE ";
+		sql = "SELECT * FROM sach INNER JOIN nha_xuat_ban ON sach.nha_xuat_ban = nha_xuat_ban.id INNER JOIN the_loai ON sach.the_loai = the_loai.id WHERE sach.trang_thai = 'active' AND ";
 		for (int i = 0; i < count; i++) {
 			if (where[i].equals("ten_sach") || where[i].equals("tac_gia")) {
 				sql += where[i] + " LIKE '%" + value[i] + "%'";

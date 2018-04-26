@@ -37,12 +37,14 @@ public class LoginUI extends JFrame {
 	private JPasswordField passwordField;
 	private JButton btnSubmit;
 	private AccountModel accountModel = new AccountModel();
+	private ImageIcon img = new ImageIcon("src/namdv/icons/app-icon.png");
 
 	public void showWindow() {
 		this.setSize(400, 300);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setLocationRelativeTo(null);
 		this.setVisible(true);
+		this.setIconImage(img.getImage());
 	}
 
 	/**

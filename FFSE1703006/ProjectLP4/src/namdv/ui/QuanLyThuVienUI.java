@@ -5,6 +5,7 @@ import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Font;
 
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -25,12 +26,14 @@ public class QuanLyThuVienUI extends JFrame {
 	private JLabel lblHeader;
 	private JPanel header;
 	private double rate = 0;
+	private ImageIcon img = new ImageIcon("src/namdv/icons/app-icon.png");
 
 	public void showWindow() {
 		this.setSize(800, 600);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setLocationRelativeTo(null);
 		this.setVisible(true);
+		this.setIconImage(img.getImage());
 
 		// set size tab
 		double wid = (tabbedPaneContent.getSize().width) / (tabbedPaneContent.getTabCount() + rate + 0.685);
