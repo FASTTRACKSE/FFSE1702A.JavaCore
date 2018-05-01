@@ -131,13 +131,14 @@ public class QuanLyKhachHang extends JFrame {
 	};
 	ActionListener eventLogout = new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
-			
+
 			Login();
 		}
 	};
+
 	protected void Login() {
 		Login myUI = new Login("Phần mềm quản lý tiền điện");
-       myUI.showWindow();
+		myUI.showWindow();
 		dispose();
 	}
 
@@ -365,9 +366,8 @@ public class QuanLyKhachHang extends JFrame {
 		gridBagConstraints3.gridy = 6;
 		panelGirBagLayout.add(spList, gridBagConstraints3);
 
-
 		JPanel pnAction4 = new JPanel();
-		
+
 		ImageIcon iconView4 = new ImageIcon("image/logout.png");
 		Image getIconView4 = iconView4.getImage();
 		Image newIconView4 = getIconView4.getScaledInstance(20, 20, java.awt.Image.SCALE_SMOOTH);
@@ -445,7 +445,8 @@ public class QuanLyKhachHang extends JFrame {
 			if (myEx.checkMKH(txtMKH.getText()) && myEx.checkMCT(txtMCT.getText()) && myEx.checkEmpty(txtMKH.getText())
 					&& myEx.checkEmpty(txtMCT.getText()) && myEx.checkEmpty(txtNameKH.getText())
 					&& myEx.checkEmpty(txtDiaChi.getText()) && myEx.checkEmail(txtEmail.getText())
-					&& myEx.checkPhone(txtPhone.getText()) && myEx.checkEmpty(jcPhuong.getSelectedItem().toString())) {
+					&& myEx.checkPhone(txtPhone.getText()) && myEx.checkEmpty(jcPhuong.getSelectedItem().toString())
+					&& myEx.chkEmail(txtEmail.getText())) {
 				ptmt = conn.prepareStatement(sql);
 				ptmt.setString(1, txtMKH.getText());
 				ptmt.setString(2, txtMCT.getText());
@@ -500,7 +501,7 @@ public class QuanLyKhachHang extends JFrame {
 			if (myEx.checkEmpty(txtMKH.getText()) && myEx.checkEmpty(txtMCT.getText())
 					&& myEx.checkEmpty(txtNameKH.getText()) && myEx.checkEmpty(txtDiaChi.getText())
 					&& myEx.checkEmail(txtEmail.getText()) && myEx.checkPhone(txtPhone.getText())
-					&& myEx.checkEmpty(jcPhuong.getSelectedItem().toString())) {
+					&& myEx.checkEmpty(jcPhuong.getSelectedItem().toString()) && myEx.chkEmail(txtEmail.getText())) {
 
 				ptmt = (PreparedStatement) conn.prepareStatement(sql);
 				ptmt.setString(1, txtNameKH.getText());

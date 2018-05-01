@@ -97,10 +97,10 @@ public class KhachHang extends JFrame {
 
 	public void addControls() {
 		this.setResizable(false);
-		String sql = "SELECT * FROM qlkh INNER JOIN qlbl WHERE BINARY Email = ? ";
+		String sql = "SELECT * FROM qlkh  WHERE BINARY Email = ? ";
 		try {
 			ptmt = conn.prepareStatement(sql);
-			ptmt = (PreparedStatement) conn.prepareStatement(sql);
+			//ptmt = (PreparedStatement) conn.prepareStatement(sql);
 			ptmt.setString(1, this.email);
 			ResultSet rs = ptmt.executeQuery();
 			if (rs.next()) {

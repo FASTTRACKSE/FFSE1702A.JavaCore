@@ -39,6 +39,24 @@ public class MyException extends Exception {
 		return true;
 	}
 
+	// Check Email
+	public boolean chkEmail(String str) throws MyException {
+		try {
+			String sql = "select Email from qlkh";
+			Statement statement = conn.createStatement();
+			ResultSet result = statement.executeQuery(sql);
+			while (result.next()) {
+				if (str.equals(result.getString(1))) {
+					JOptionPane.showMessageDialog(null, "Email tồn tại!");
+					return false;
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return true;
+	}
+
 	// Check Meter Code
 	public boolean checkMCT(String str) throws MyException {
 		try {
@@ -174,8 +192,8 @@ public class MyException extends Exception {
 	// Check Same Cycle
 	public boolean chkSameCycle(String month, String year, String MCT) throws MyException {
 		try {
-			String sql = "select MaCT from qlbl where MaCT = '" + MCT
-					+ "' and Chu_Ky_Month = '" + month + "' and Chu_Ky_Year = '" + year + "'";
+			String sql = "select MaCT from qlbl where MaCT = '" + MCT + "' and Chu_Ky_Month = '" + month
+					+ "' and Chu_Ky_Year = '" + year + "'";
 			Statement stm = conn.createStatement();
 			ResultSet rs = stm.executeQuery(sql);
 			while (rs.next()) {
