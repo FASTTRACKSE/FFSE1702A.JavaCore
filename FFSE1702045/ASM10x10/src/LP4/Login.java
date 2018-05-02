@@ -19,14 +19,15 @@ class Login extends JFrame {
 	String dbUsername, dbPassword;
 	int x = 0, y = 0;
 
-	static String levelString,idString,NameString,UserNameString;
+	static String levelString, idString, NameString, UserNameString;
 
 	public Login() {
 		setTitle("Background Color for JFrame");
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setVisible(true);
-
+		setResizable(false);
+		this.setLocation(300, 100);
 		setLayout(new BorderLayout());
 		JPanel Con = new JPanel();
 		Con.setLayout(new BoxLayout(Con, BoxLayout.Y_AXIS));
@@ -96,7 +97,7 @@ class Login extends JFrame {
 		String password = PassWord.getText();
 		try {
 			y = 0;
-			QLSVException.chkHoten(username,password);
+			QLSVException.chkHoten(username, password);
 		} catch (QLSVException e) {
 			System.out.println(e);
 			JOptionPane.showMessageDialog(null, e);
@@ -118,7 +119,7 @@ class Login extends JFrame {
 							NameString = resultUser.getString("name");
 							UserNameString = resultUser.getString("username");
 							levelString = resultUser.getString("level");
-												l1.setText("");
+							l1.setText("");
 							listSV run = new listSV("");
 							run.showWindow();
 							setVisible(false);
@@ -134,5 +135,5 @@ class Login extends JFrame {
 		}
 		return login;
 	}
-	
+
 }
