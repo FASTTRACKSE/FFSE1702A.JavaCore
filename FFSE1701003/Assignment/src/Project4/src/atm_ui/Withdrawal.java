@@ -164,8 +164,10 @@ public class Withdrawal extends JPanel {
 				int result = withdrawal.addNew(temp);
 				if(result != -1) {
 					table();
+					showMessageDialog(result, "Rút tiền");
+				}else {
+					showMessageDialog(result, "Rút tiền");
 				}
-				showMessageDialog(result, "Rút tiền");
 			}
 		}
 	};

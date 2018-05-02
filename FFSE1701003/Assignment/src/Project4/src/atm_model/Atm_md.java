@@ -213,4 +213,24 @@ public class Atm_md {
 			cb.addItem(it);
 		}
 	}
+	
+	public static Atm_md getATMbyCode(String code) {
+		Atm_md atm = new Atm_md();
+		try {
+			String sql = "SELECT * FROM tbl_atm WHERE code = ?";
+			PreparedStatement stm = (PreparedStatement) conn.prepareStatement(sql);
+			stm.setString(1, code);
+			ResultSet rs = stm.executeQuery();
+			while (rs.next()) {
+				atm.setQuan(rs.getInt("quan"));
+				atm.setPhuong(rs.getInt("phuong"));
+				atm.setAddress(rs.getString("phuong"));
+				atm.setCode(rs.getString("address"));
+				atm.setTotal(rs.getDouble("total"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return atm;
+	}
 }

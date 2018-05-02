@@ -1,6 +1,7 @@
 package atm_model;
 
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
@@ -249,5 +250,27 @@ public class Customer_model {
 		return customer;
 	}
 	
-	
+	public static Customer_model getCustomerbyCardSN(int cardSN) {
+		Customer_model ctm = new Customer_model();
+		try {
+			String sql = "SELECT * FROM tbl_customer WHERE sn_card = ?";
+			PreparedStatement stm = (PreparedStatement) conn.prepareStatement(sql);
+			stm.setInt(1, cardSN);
+			ResultSet rs = stm.executeQuery();
+			while (rs.next()) {
+				ctm.setName(rs.getString("name"));
+				ctm.setPhone(rs.getString("phone"));
+				ctm.setEmail(rs.getString("email"));
+				ctm.setQuan(rs.getInt("quan"));
+				ctm.setPhuong(rs.getInt("phuong"));
+				ctm.setCode(rs.getString("code"));
+				ctm.setSn_card(rs.getString("sn_card"));
+				ctm.setSoTKNH(rs.getString("soTKNH"));
+				ctm.setAmount(rs.getDouble("amount"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return ctm;
+	}
 }

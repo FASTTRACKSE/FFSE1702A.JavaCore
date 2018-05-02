@@ -196,10 +196,11 @@ public class Withdrawal_model {
 
 	public static int addNew(Withdrawal_model atm) {
 		try {
+			int x = 1;
 			int atmTotal = kiemTraATM(atm.getAtm_code());
 			int cusAmount = kiemTraTaiKhoan(atm.getSn_card());
-			int percent = atmTotal % (int)atm.getNumber();
-			if(atmTotal > (int)atm.getNumber() && percent !=0 && cusAmount > (int)atm.getNumber()) {
+			int percent = atmTotal % (int) atm.getNumber();
+			if (atmTotal > (int) atm.getNumber() && percent == 0 && cusAmount > (int) atm.getNumber()) {
 				String sql = "insert into tbl_transaction (code, atm_code, sn_card, number) " + " values (?, ?, ?, ?)";
 				PreparedStatement stm = (PreparedStatement) conn.prepareStatement(sql);
 
@@ -208,14 +209,36 @@ public class Withdrawal_model {
 				stm.setInt(3, atm.getSn_card());
 				stm.setDouble(4, atm.getNumber());
 				int i = stm.executeUpdate();
-				if(i > 0) {
-					truTienATM((int)atm.getNumber());
-					truTienCus((int)atm.getNumber());
-					return 1;
-				}else {
-					return -1;
+
+				if (i > 0) {
+					/* Trừ tiền trong thẻ ATM */
+					Customer_model cus = Customer_model.getCustomerbyCardSN(atm.getSn_card());
+					double customerAmount = atmTotal - atm.getNumber();
+
+					String sqlCustomer = "UPDATE tbl_customer SET amount = ? WHERE sn_card = ? ";
+					PreparedStatement stmCustomer = (PreparedStatement) conn.prepareStatement(sqlCustomer);
+					stmCustomer.setDouble(1, customerAmount);
+					stmCustomer.setInt(2, atm.getSn_card());
+					int j = stmCustomer.executeUpdate();
+					if (j <= 0) {
+						x = -1;
+					}
+
+					/* Trừ tiền trong máy ATM */
+					Atm_md atm_md = Atm_md.getATMbyCode(atm.getAtm_code());
+					double atmAmount = atm_md.getTotal();
+					atmAmount = atmAmount - atm.getNumber();
+					String sqlATM = "UPDATE  tbl_atm SET total = ? WHERE code = ?  ";
+					PreparedStatement stmATM = (PreparedStatement) conn.prepareStatement(sqlATM);
+					stmATM.setDouble(1, atmAmount);
+					stmATM.setString(2, atm.getAtm_code());
+					int k = stmATM.executeUpdate();
+					if (k <= 0) {
+						x = -1;
+					}
 				}
-			}else {
+				return x;
+			} else {
 				return -1;
 			}
 		} catch (Exception e) {
@@ -223,15 +246,15 @@ public class Withdrawal_model {
 			return -1;
 		}
 	}
-	
+
 	public static int kiemTraATM(String amtCode) {
 		try {
 			String sql = "SELECT total FROM  tbl_atm WHERE code = '" + amtCode + "'";
 			Statement statement = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
 			ResultSet result = statement.executeQuery(sql);
-			if(result.next()) {
+			if (result.next()) {
 				return result.getInt("total");
-			}else {
+			} else {
 				return -1;
 			}
 		} catch (Exception e) {
@@ -239,26 +262,28 @@ public class Withdrawal_model {
 			return -1;
 		}
 	}
-	
-	public static int truTienATM(int number) {
+
+	public static int truTienATM(int total, int number) {
 		try {
-			String sql = "UPDATE tbl_atm SET VALUES total = total - " + number;
+			int result = total - number;
+			String sql = "UPDATE tbl_atm SET VALUES total = " + result;
 			PreparedStatement stm = (PreparedStatement) conn.prepareStatement(sql);
-			return stm.executeUpdate();
+			int i = stm.executeUpdate();
+			return i;
 		} catch (Exception e) {
 			e.printStackTrace();
 			return -1;
 		}
 	}
-	
+
 	public static int kiemTraTaiKhoan(int snCard) {
 		try {
 			String sql = "SELECT amount FROM  tbl_customer WHERE sn_card = " + snCard;
 			Statement statement = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
 			ResultSet result = statement.executeQuery(sql);
-			if(result.next()) {
+			if (result.next()) {
 				return result.getInt("amount");
-			}else {
+			} else {
 				return -1;
 			}
 		} catch (Exception e) {
@@ -266,11 +291,13 @@ public class Withdrawal_model {
 			return -1;
 		}
 	}
-	
-	public static int truTienCus(int number) {
+
+	public static int truTienCus(int amount, int number) {
 		try {
-			String sql = "UPDATE tbl_customer SET VALUES amount = amount - " + number;
+			int result = amount - number;
+			String sql = "UPDATE tbl_customer SET VALUES amount = " + result;
 			PreparedStatement stm = (PreparedStatement) conn.prepareStatement(sql);
+			System.out.println(sql);
 			return stm.executeUpdate();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -287,7 +314,7 @@ public class Withdrawal_model {
 		cal.set(Calendar.MILLISECOND, 0);
 		return cal.getTime();
 	}
-	
+
 	public static int getLastID() {
 		try {
 			String sql = "SELECT MAX(id) as MAXID FROM tbl_transaction ";

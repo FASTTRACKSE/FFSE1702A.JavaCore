@@ -19,7 +19,7 @@ import atm_model.Customer_model;
 public class ListAtm_ui extends JPanel {
 	private JTextField txtCode, txtAddress;
 	private JComboBox<Item> cbDistrict, cbWard;
-	private JButton btnAdd, btnEdit, btnDelete;
+	private JButton btnAdd, btnEdit, btnDelete, btnReset;
 	private JTable listAtm;
 	Atm_md atm = new Atm_md();
 	AddressDB addressDB = new AddressDB();
@@ -83,9 +83,11 @@ public class ListAtm_ui extends JPanel {
 		btnAdd = new JButton("Thêm mới");
 		btnEdit = new JButton("Sửa");
 		btnDelete = new JButton("Xóa");
+		btnReset = new JButton("Reset");
 		pn_Button.add(btnAdd);
 		pn_Button.add(btnEdit);
 		pn_Button.add(btnDelete);
+		pn_Button.add(btnReset);
 
 		pn_form.add(pn1);
 		pn_form.add(pn2);
@@ -145,6 +147,7 @@ public class ListAtm_ui extends JPanel {
 		btnAdd.addActionListener(AddNew);
 		btnEdit.addActionListener(Edit);
 		btnDelete.addActionListener(Delete);
+		btnReset.addActionListener(Reset);
 		tbl.addMouseListener(eventSelectedRow);
 		cbDistrict.addActionListener((ActionListener) eventSelectedDistrict);
 	}
@@ -233,6 +236,14 @@ public class ListAtm_ui extends JPanel {
 				showMessageDialog(result, "Delete");
 			}
 
+		}
+	};
+	
+	ActionListener Reset = new ActionListener() {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			resetInput();
 		}
 	};
 
