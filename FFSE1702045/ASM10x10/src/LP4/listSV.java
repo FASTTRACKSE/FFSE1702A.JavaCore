@@ -344,22 +344,22 @@ public class listSV extends JFrame {
 		user user = new user();
 		int i = Integer.parseInt(Login.levelString);
 		if (i == 3) {
-			tabbedPane.addTab("Quản lí sinh viên", img4, PanelMain, "");
-			tabbedPane.addTab("Lớp Học", img1, LopHoc.con, "");
-			tabbedPane.addTab("Môn Học", img2, MonHoc.con, "");
-			tabbedPane.addTab("Thống kê", img3, BaoCao.con, "");
-			tabbedPane.addTab("User", img5, user.con, "User");
+			tabbedPane.addTab("Quản lí sinh viên", img1, PanelMain, "");
+			tabbedPane.addTab("Lớp Học", img2, LopHoc.con, "");
+			tabbedPane.addTab("Môn Học", img3, MonHoc.con, "");
+			tabbedPane.addTab("Thống kê", img4, BaoCao.con, "");
+			tabbedPane.addTab("User", img5, user.con, "");
 
 		} else if (i == 2) {
-			tabbedPane.addTab("Lớp Học", img1, LopHoc.con, "");
-			tabbedPane.addTab("Môn Học", img2, MonHoc.con, "");
-			tabbedPane.addTab("Thống kê", img3, BaoCao.con, "");
+			tabbedPane.addTab("Lớp Học", img2, LopHoc.con, "");
+			tabbedPane.addTab("Môn Học", img3, MonHoc.con, "");
+			tabbedPane.addTab("Thống kê", img4, BaoCao.con, "");
 			tabbedPane.addTab("User", img5, user.con, "");
 
 		} else if (i == 1) {
-			tabbedPane.addTab("Lớp Học", img1, LopHoc.con, "");
-			tabbedPane.addTab("Môn Học", img2, MonHoc.con, "");
-			tabbedPane.addTab("Thống kê", img3, BaoCao.con, "");
+			tabbedPane.addTab("Lớp Học", img2, LopHoc.con, "");
+			tabbedPane.addTab("Môn Học", img3, MonHoc.con, "");
+			tabbedPane.addTab("Thống kê", img4, BaoCao.con, "");
 			tabbedPane.addTab("User", img5, user.con, "");
 
 		}

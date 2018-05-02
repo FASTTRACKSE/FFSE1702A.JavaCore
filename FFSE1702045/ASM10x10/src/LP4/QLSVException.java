@@ -2,12 +2,14 @@ package LP4;
 
 import LP4.connect;
 import java.awt.Image;
+import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
 public class QLSVException extends Exception {
@@ -37,6 +39,7 @@ public class QLSVException extends Exception {
 
 		return;
 	}
+	
 
 	public static boolean checkAdd(String mssv11,String email1,String sdt2,String sdt, String cls, String tinh, String quan, String phuong, String mssv,
 			String adress, String name, String mail, String pass) throws QLSVException {
@@ -214,4 +217,11 @@ public class QLSVException extends Exception {
 		return false;
 	}
 	}
+
+	public static void checkConn(Connection conn) throws QLSVException {
+		if(conn == null) {
+			throw new QLSVException("Không kết nối được với database !!!");
+		
+	}
+}
 }
