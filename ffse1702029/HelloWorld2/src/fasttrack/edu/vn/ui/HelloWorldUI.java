@@ -93,6 +93,12 @@ public class HelloWorldUI extends JFrame {
 			}
 		});
 		JButton btnExit = new JButton("Exit");
+		btnExit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				System.exit(0);
+			
+			}
+		});
 		pnAction.add(btnCalc);
 		pnAction.add(btnExit);
 
