@@ -3,7 +3,7 @@ package assignment5;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import lab3.Khachhang;
+
 import java.util.Collections;
 import java.util.Comparator;
 import java.io.*;

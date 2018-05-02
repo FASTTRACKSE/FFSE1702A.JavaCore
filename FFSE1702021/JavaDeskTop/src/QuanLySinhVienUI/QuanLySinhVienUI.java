@@ -162,7 +162,7 @@ public class QuanLySinhVienUI extends JFrame {
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		addControls();
 		addEvents();
-		addShowWindow();
+		//addShowWindow();
 	}
 
 	public void addControls() {

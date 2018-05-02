@@ -4,11 +4,8 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Scanner;
-<<<<<<< HEAD
 import com.google.gson.*;
 import com.google.gson.reflect.TypeToken;
-=======
->>>>>>> parent of 7aeaedb... ASM 1 vs 2 JavaSwing
 
 public class Menu {
 	static ArrayList<CanBo> arrCanBo = new ArrayList<>();
@@ -20,7 +17,6 @@ public class Menu {
 	}
 
 	public void dataWrite() throws IOException {
-<<<<<<< HEAD
 		/*
 		 * // Luồng byte FileOutputStream fos = new FileOutputStream("CanBo.txt");
 		 * ObjectOutputStream oos = new ObjectOutputStream(fos);
@@ -76,29 +72,6 @@ public class Menu {
 			}
 		}
 		br.close();
-=======
-		FileOutputStream fos = new FileOutputStream("CanBo.txt");
-		ObjectOutputStream oos = new ObjectOutputStream(fos);
-		oos.writeObject(arrCanBo);
-		oos.close();
-	}
-
-	public void dataRead() {
-		FileInputStream fis = null;
-		ObjectInputStream ois = null;
-		try {
-			fis = new FileInputStream("CanBo.txt");
-			ois = new ObjectInputStream(fis);
-			arrCanBo = (ArrayList<CanBo>) ois.readObject();
-			// for (CanBo cb : arrCanBo) {
-			// System.out.print(cb);
-			// }
-			ois.close();
-			fis.close();
-		} catch (Exception e) {
-			System.out.println("Có lỗi: " + e);
-		}
->>>>>>> parent of 7aeaedb... ASM 1 vs 2 JavaSwing
 	}
 
 	public void giaTriMacDinh() throws IOException {
@@ -111,11 +84,7 @@ public class Menu {
 		arrCanBo.add(new GiangVien("Huỳnh Thị G", "IT", "Tiến sĩ", 15, 3.3));
 		arrCanBo.add(new GiangVien("Phạm Văn H", "IT", "Tiến sĩ", 15, 3.3));
 		// dataRead();
-<<<<<<< HEAD
 		dataWrite();
-=======
-		// dataWrite();
->>>>>>> parent of 7aeaedb... ASM 1 vs 2 JavaSwing
 	}
 
 	public void themCanBo() {
