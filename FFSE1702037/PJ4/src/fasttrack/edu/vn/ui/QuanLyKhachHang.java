@@ -501,7 +501,7 @@ public class QuanLyKhachHang extends JFrame {
 			if (myEx.checkEmpty(txtMKH.getText()) && myEx.checkEmpty(txtMCT.getText())
 					&& myEx.checkEmpty(txtNameKH.getText()) && myEx.checkEmpty(txtDiaChi.getText())
 					&& myEx.checkEmail(txtEmail.getText()) && myEx.checkPhone(txtPhone.getText())
-					&& myEx.checkEmpty(jcPhuong.getSelectedItem().toString()) && myEx.chkEmail(txtEmail.getText())) {
+					&& myEx.checkEmpty(jcPhuong.getSelectedItem().toString())) {
 
 				ptmt = (PreparedStatement) conn.prepareStatement(sql);
 				ptmt.setString(1, txtNameKH.getText());
@@ -518,6 +518,7 @@ public class QuanLyKhachHang extends JFrame {
 				if (k != 0) {
 					JOptionPane.showMessageDialog(null, "Sửa thành công");
 					mdTable.setRowCount(0);
+					ViewKH();
 					setText();
 				} else
 					JOptionPane.showMessageDialog(null, "Sửa không thành công");

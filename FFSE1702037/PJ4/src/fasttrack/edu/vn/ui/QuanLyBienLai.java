@@ -143,7 +143,12 @@ public class QuanLyBienLai extends JFrame {
 	ActionListener eventDelete = new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
 			if (mdTable.getRowCount() != 0) {
-			deleteBL(id.toString());
+			try {
+				deleteBL(id.toString());
+			} catch (MyException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 			} else {
 				JOptionPane.showMessageDialog(null, "Không có giá trị ");
 			}
@@ -551,6 +556,7 @@ JPanel pnAction4 = new JPanel();
 			if (k != 0) {
 				JOptionPane.showMessageDialog(null, "Sửa thành công");
 				mdTable.setRowCount(0);
+				ViewCT();
 				setText();
 			} else
 				JOptionPane.showMessageDialog(null, "Sửa không thành công");
@@ -561,21 +567,23 @@ JPanel pnAction4 = new JPanel();
 		}
 	}
 
-	public void deleteBL(String id) {
-		String sql = "delete from qlbl where Id_BL = ?";
+	public void deleteBL(String id) throws MyException {
+		String sql =" DELETE from qlbl WHERE Id_BL = (SELECT ID_MAX FROM (SELECT MAX(Id_BL) ID_MAX FROM qlbl ) as qlbl_max) AND MaCT = '"+txtMCT.getText()+"' AND `Id_BL`="+id;
 		try {
 			PreparedStatement ptmt = conn.prepareStatement(sql);
 			ptmt = conn.prepareStatement(sql);
 			ptmt = (PreparedStatement) conn.prepareStatement(sql);
 
-			ptmt.setString(1, id);
+			
 			int k = ptmt.executeUpdate();
 			if (k != 0) {
 				JOptionPane.showMessageDialog(null, "Xóa thành công");
 				mdTable.setRowCount(0);
+				ViewCT();
 				setText();
+				
 			} else
-				JOptionPane.showMessageDialog(null, "Xóa không thành công");
+				JOptionPane.showMessageDialog(null, "Không thể xóa");
 		} catch (SQLException e1) {
 			// TODO Auto-generated catch block
 			System.out.println("Loi " + e1.getMessage());
