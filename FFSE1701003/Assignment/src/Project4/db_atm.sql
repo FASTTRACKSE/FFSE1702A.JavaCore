@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50505
 File Encoding         : 65001
 
-Date: 2018-05-02 11:38:53
+Date: 2018-05-03 01:30:46
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -115,8 +115,8 @@ CREATE TABLE `tbl_atm` (
 INSERT INTO `tbl_atm` VALUES ('1', 'ATM0001', '48', '3', '21', '115 Nguyễn Tri Phương 123', '50000000', '1');
 INSERT INTO `tbl_atm` VALUES ('2', 'ATM0002', '48', '2', '10', '28 Duy Tân', '50000000', '1');
 INSERT INTO `tbl_atm` VALUES ('3', 'ATM0003', '48', '2', '10', '300 Duy Tân', '100000000', '1');
-INSERT INTO `tbl_atm` VALUES ('4', 'ATM0004', '48', '1', '3', '10 Nguyễn Nhàn', '20000000', '1');
-INSERT INTO `tbl_atm` VALUES ('5', 'ATM0005', '48', '4', '28', '300 Ngũ Hành Sơn', '100000000', '1');
+INSERT INTO `tbl_atm` VALUES ('4', 'ATM0004', '48', '1', '3', '10 Nguyễn Nhàn', '19000000', '1');
+INSERT INTO `tbl_atm` VALUES ('5', 'ATM0005', '48', '4', '28', '300 Ngũ Hành Sơn', '98000000', '1');
 INSERT INTO `tbl_atm` VALUES ('6', 'ATM0006', '48', '4', '28', '200 Ngũ Hành Sơn', '60000000', '1');
 
 -- ----------------------------
@@ -147,8 +147,8 @@ INSERT INTO `tbl_customer` VALUES ('1', '123456', 'Trần Viết Hiệp', '48', 
 INSERT INTO `tbl_customer` VALUES ('2', '78945613', 'Nguyễn Văn A', '48', '2', '7', '30 Hà Huy Tập', '0123456789', 'tradaviahe2017@gmail.com', '111111', '111111', '5000000', '1');
 INSERT INTO `tbl_customer` VALUES ('3', '056677456', 'Trần Xuân Kỳ', '48', '1', '1', '28 Nguyễn Trọng Nghĩa', '0969549903', 'kybody@gmail.com', '222222', '222222', '1000000', '1');
 INSERT INTO `tbl_customer` VALUES ('5', '051522246', 'Đặng Văn Quân', '48', '4', '28', '30 Hà Thị Thân', '0123456789', 'dangvanquan@gmail.com', '333333', '333333', '50000000', '1');
-INSERT INTO `tbl_customer` VALUES ('7', '444444', 'Thái Gia Bảo', '48', '1', '1', '4 Lê Duẩn', '0966866668', 'daigiadn@gmail.com', '666666', '666666', '100000000', '1');
-INSERT INTO `tbl_customer` VALUES ('8', '051151186', 'Nguyễn Quốc Khánh', '48', '6', '42', '28 Thanh Khê', '0125555555', 'khanhnq@gmail.com', '555555', '555555', '20000000', '1');
+INSERT INTO `tbl_customer` VALUES ('7', '444444', 'Thái Gia Bảo', '48', '1', '1', '4 Lê Duẩn', '0966866668', 'daigiadn@gmail.com', '666666', '666666', '98000000', '1');
+INSERT INTO `tbl_customer` VALUES ('8', '051151186', 'Nguyễn Quốc Khánh', '48', '6', '42', '28 Thanh Khê', '0125555555', 'khanhnq@gmail.com', '555555', '555555', '19000000', '1');
 
 -- ----------------------------
 -- Table structure for tbl_district
@@ -188,7 +188,7 @@ CREATE TABLE `tbl_transaction` (
   `number` int(50) DEFAULT NULL,
   `isactive` tinyint(2) DEFAULT '1',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- ----------------------------
 -- Records of tbl_transaction
@@ -197,6 +197,14 @@ INSERT INTO `tbl_transaction` VALUES ('4', '6fabd3d8-a2d7-462c-9937-573ae68a2d2e
 INSERT INTO `tbl_transaction` VALUES ('5', '0d49698d-c3d0-4811-9d52-f21d43d473a7', 'ATM0001', '444444', '2018-04-27 11:44:21', '2000000', '1');
 INSERT INTO `tbl_transaction` VALUES ('6', '4161988d-881a-4ab4-a176-0cb47f30aad1', 'ATM0001', '123456', '2018-04-27 11:46:06', '2000000', '1');
 INSERT INTO `tbl_transaction` VALUES ('7', 'bbe60dc7-44cb-422f-9939-783c519d1ac1', 'ATM0001', '123456', '2018-04-27 11:48:42', '3000000', '1');
+INSERT INTO `tbl_transaction` VALUES ('8', '98c2578a-3189-4b9f-9bfe-acebe4a99677', 'ATM0002', '555555', '2018-05-03 00:00:54', '500000', '1');
+INSERT INTO `tbl_transaction` VALUES ('9', '7e4c8d44-4b01-4456-97d7-7ca770b5f4e8', 'ATM0003', '555555', '2018-05-03 00:08:28', '1000000', '1');
+INSERT INTO `tbl_transaction` VALUES ('10', '47d01ca7-1a63-4c34-8635-bea2836e0c46', 'ATM0003', '555555', '2018-05-03 00:20:53', '1000000', '1');
+INSERT INTO `tbl_transaction` VALUES ('11', '8a35b33d-a334-413e-bab5-d4130fd8fbd8', 'ATM0004', '555555', '2018-05-03 00:28:23', '1000000', '1');
+INSERT INTO `tbl_transaction` VALUES ('12', '8571f788-c178-40cb-9533-22773edf038b', 'ATM0003', '555555', '2018-05-03 00:38:09', '1000000', '1');
+INSERT INTO `tbl_transaction` VALUES ('13', '89dc4ec5-8758-426c-824c-0cf9a2f84006', 'ATM0003', '555555', '2018-05-03 01:18:41', '1000000', '1');
+INSERT INTO `tbl_transaction` VALUES ('14', '94ac8af4-6260-497e-a1dd-781d4917c5a8', 'ATM0004', '555555', '2018-05-03 01:21:49', '1000000', '1');
+INSERT INTO `tbl_transaction` VALUES ('15', '9a15cae6-d37e-4ac6-a6be-5be3536cf21e', 'ATM0005', '666666', '2018-05-03 01:26:23', '2000000', '1');
 
 -- ----------------------------
 -- Table structure for tbl_user
