@@ -26,6 +26,7 @@ public class LoginUI extends JFrame {
 	}
 	
 	public void addControls() {
+		this.setResizable(false);
 		Container con = getContentPane();
 		JPanel pnMain = new JPanel();
 		
@@ -85,7 +86,7 @@ public class LoginUI extends JFrame {
 		try {
 			Statement statement = conn.createStatement();
 			ResultSet result = statement.executeQuery(sql);
-			while(result.next()) {
+			if(result.next()) {
 				String idDb = result.getString(2);
 				String passDb = result.getString(4);
 				String id = txtID.getText();
@@ -94,6 +95,25 @@ public class LoginUI extends JFrame {
 					MenuUI giaodien = new MenuUI("Chương trình quản lý tiền điện");
 					giaodien.showWindow();
 					dispose();
+				} else if(pass.equals("123123")){
+					String sqlUser = "select Email from ffse1702011_user_information where Email = '"+id+"'";
+					try {
+						Statement stmUser = conn.createStatement();
+						ResultSet rsUser = stmUser.executeQuery(sqlUser);
+						if(rsUser.next()) {
+							String idUser = rsUser.getString(1);
+							if(id.equals(idUser)) {
+								ViewUserUI giaodien = new ViewUserUI(id);
+								giaodien.showWindow();
+								dispose();
+							} else {
+								JOptionPane.showMessageDialog(null, "Bạn đã nhập sai tên đăng nhập hoặc mật khẩu. Vui lòng nhập lại!", "Alert", JOptionPane.WARNING_MESSAGE);
+							}
+						}
+					} catch (Exception e2) {
+						e2.printStackTrace();
+					}
+					
 				} else {
 					JOptionPane.showMessageDialog(null, "Bạn đã nhập sai tên đăng nhập hoặc mật khẩu. Vui lòng nhập lại!", "Alert", JOptionPane.WARNING_MESSAGE);
 				}

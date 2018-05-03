@@ -3,21 +3,14 @@ package test;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
-import java.sql.*;
-
+import javax.swing.JComboBox;
 import java.awt.event.ActionEvent;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.Properties;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.*;
-
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
 
 public class QuanLySV extends JFrame {
 	public QuanLySV(String tieude) {
@@ -30,6 +23,7 @@ public class QuanLySV extends JFrame {
 	private JTextField ma;
 	private JTextField ten;
 	private JTextField tuoi;
+	private JComboBox cb;
 	private JButton luu;
 	private JButton thoat;
 	private JButton xoa;
@@ -46,24 +40,25 @@ public class QuanLySV extends JFrame {
 
 		JPanel pnFlow = new JPanel();
 		pnFlow.setLayout(new FlowLayout());
+		
 		luu = new JButton("Lưu");
-		luu.setFont(new Font("Times New Roman", Font.PLAIN, 15));
+		luu.setFont(new Font("Times New Roman", Font.BOLD, 15));
 		pnFlow.add(luu);
 
 		moi = new JButton("Thêm");
-		moi.setFont(new Font("Times New Roman", Font.PLAIN, 15));
+		moi.setFont(new Font("Times New Roman", Font.BOLD, 15));
 		pnFlow.add(moi);
 
 		xoa = new JButton("Xóa");
-		xoa.setFont(new Font("Times New Roman", Font.PLAIN, 15));
+		xoa.setFont(new Font("Times New Roman", Font.BOLD, 15));
 		pnFlow.add(xoa);
-		
+
 		tai = new JButton("Tải");
-		tai.setFont(new Font("Times New Roman", Font.PLAIN, 15));
+		tai.setFont(new Font("Times New Roman", Font.BOLD, 15));
 		pnFlow.add(tai);
 
 		thoat = new JButton("Thoát");
-		thoat.setFont(new Font("Times New Roman", Font.PLAIN, 15));
+		thoat.setFont(new Font("Times New Roman", Font.BOLD, 15));
 		pnFlow.add(thoat);
 
 		JPanel trong = new JPanel();
@@ -84,6 +79,14 @@ public class QuanLySV extends JFrame {
 		pt.setFont(new Font("Times New Roman", Font.BOLD, 33));
 		pt.setHorizontalAlignment(SwingConstants.CENTER);
 		de.add(pt);
+
+		JPanel lopSV = new JPanel();
+		JLabel lop1 = new JLabel("Lớp:  ");
+		lop1.setFont(new Font("Times New Roman", Font.PLAIN, 20));
+	    String lop[] = {"FFSE1701", "FFSE1702", "FFSE1703", "FFSE1704", "FFSE1705"};
+	    cb = new JComboBox(lop);
+		lopSV.add(lop1);
+		lopSV.add(cb);
 
 		JPanel maSV = new JPanel();
 		JLabel nhap = new JLabel("Mã sinh viên:  ");
@@ -114,11 +117,12 @@ public class QuanLySV extends JFrame {
 		bang.addColumn("Mã");
 		bang.addColumn("Tên");
 		bang.addColumn("Tuổi");
+		bang.addColumn("Lớp");
 
 		tbl = new JTable(bang);
-//		bang.addRow(new String[] { "112", "Ngô Văn Bắp", "21" });
-//		bang.addRow(new String[] { "113", "Nguyễn Thị Tý", "18" });
-//		bang.addRow(new String[] { "114", "Trần Văn Tèo", "22" });
+		// bang.addRow(new String[] { "112", "Ngô Văn Bắp", "21" });
+		// bang.addRow(new String[] { "113", "Nguyễn Thị Tý", "18" });
+		// bang.addRow(new String[] { "114", "Trần Văn Tèo", "22" });
 		tbl.setModel(bang);
 		tbl.setRowHeight(30);
 
@@ -128,6 +132,7 @@ public class QuanLySV extends JFrame {
 
 		pnMain.add(de);
 		pnMain.add(trong);
+		pnMain.add(lopSV);
 		pnMain.add(maSV);
 		pnMain.add(tenSV);
 		pnMain.add(age);
@@ -143,13 +148,14 @@ public class QuanLySV extends JFrame {
 	MouseAdapter eventSelect = new MouseAdapter() {
 		public void mouseClicked(MouseEvent e) {
 			int i = tbl.getSelectedRow();
-			String[] row = new String[3];
-			for (int j = 0; j < 3; j++) {
+			String[] row = new String[4];
+			for (int j = 0; j < 4; j++) {
 				row[j] = (String) tbl.getValueAt(i, j);
 			}
 			ma.setText(row[0]);
 			ten.setText(row[1]);
 			tuoi.setText(row[2]);
+			cb.setSelectedItem(row[3]);
 		}
 	};
 
@@ -177,16 +183,18 @@ public class QuanLySV extends JFrame {
 				String id = ma.getText();
 				String name = ten.getText();
 				String age = tuoi.getText();
-				SinhVien st = new SinhVien(id, name, age);
+				String cls = (String) cb.getSelectedItem(); 
+				SinhVien st = new SinhVien(id, name, age, cls);
 				if (id.equals("") && name.equals("") && age.equals("")) {
 					JOptionPane.showMessageDialog(null, "Nhập đầy đủ ba cột mã SV, tên SV và tuổi SV");
 				} else {
 					arrStd.add(st);
-					String[] row = { id, name, age };
+					String[] row = { id, name, age ,cls};
 					bang.addRow(row);
 					ma.setText("");
 					ten.setText("");
 					tuoi.setText("");
+					cb.setSelectedItem("");
 				}
 			}
 		});
@@ -202,59 +210,60 @@ public class QuanLySV extends JFrame {
 					ma.setText("");
 					ten.setText("");
 					tuoi.setText("");
+					cb.setSelectedItem("");
 				}
 
 			}
 		});
-		
+
 		tai.addActionListener(new ActionListener() {
-			
+
 			public void actionPerformed(ActionEvent e) {
 				try {
-				FileInputStream	fis	=	new FileInputStream("test.txt");
-				ObjectInputStream ois=	new ObjectInputStream(fis);
-				arrStd	=	(ArrayList<SinhVien>) ois.readObject();
-				ois.close();
-				fis.close();
-				bang.setRowCount(0);
-				for(SinhVien st: arrStd) {
-					String[] row = {st.getId(), st.getName(), st.getAge()};
-					bang.addRow(row);
-				}
-				JOptionPane.showMessageDialog(null, "Đã tải dữ liệu");
+					FileInputStream fis = new FileInputStream("test.txt");
+					ObjectInputStream ois = new ObjectInputStream(fis);
+					arrStd = (ArrayList<SinhVien>) ois.readObject();
+					ois.close();
+					fis.close();
+					bang.setRowCount(0);
+					for (SinhVien st : arrStd) {
+						String[] row = { st.getId(), st.getName(), st.getAge() ,st.getLop()};
+						bang.addRow(row);
+					}
+					JOptionPane.showMessageDialog(null, "Đã tải dữ liệu");
 
-			} catch (Exception ex) {
-				System.out.println(ex);
-				JOptionPane.showMessageDialog(null, "Lỗi khi tải.");
-			}
+				} catch (Exception ex) {
+					System.out.println(ex);
+					JOptionPane.showMessageDialog(null, "Lỗi khi tải.");
 				}
+			}
 		});
-		
+
 		thoat.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent evt) {
 				System.exit(0);
-				
+
 			}
 		});
 	}
-	
-//	public static Connection getConnect(String strServer, String strDatabase, String strUser, String strPwd) {
-//        Connection conn = null;
-//        String strConnect = "jdbc:mysql://" + strServer + "/" + strDatabase + "?useUnicode=true&characterEncoding=utf-8";
-//        Properties pro = new Properties();
-//        pro.put("user", strUser);
-//        pro.put("password", strPwd);
-//        try {
-//               Driver driver = new Driver();
-//               conn = (Connection) driver.connect(strConnect, pro);
-//        } catch (SQLException ex) {
-//               ex.printStackTrace();
-//        }
-//        return conn;
-// }
-	
-	
+
+	// public static Connection getConnect(String strServer, String strDatabase,
+	// String strUser, String strPwd) {
+	// Connection conn = null;
+	// String strConnect = "jdbc:mysql://" + strServer + "/" + strDatabase +
+	// "?useUnicode=true&characterEncoding=utf-8";
+	// Properties pro = new Properties();
+	// pro.put("user", strUser);
+	// pro.put("password", strPwd);
+	// try {
+	// Driver driver = new Driver();
+	// conn = (Connection) driver.connect(strConnect, pro);
+	// } catch (SQLException ex) {
+	// ex.printStackTrace();
+	// }
+	// return conn;
+	// }
 
 	public void showWindow() {
 		this.setSize(650, 500);

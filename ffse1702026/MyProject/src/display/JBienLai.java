@@ -68,18 +68,18 @@ public class JBienLai extends JFrame {
 	/**
 	 * Launch the application.
 	 */
-//	public static void main(String[] args) {
-//		EventQueue.invokeLater(new Runnable() {
-//			public void run() {
-//				try {
-//					JBienLai frame = new JBienLai();
-//					frame.setVisible(true);
-//				} catch (Exception e) {
-//					e.printStackTrace();
-//				}
-//			}
-//		});
-//	}
+	// public static void main(String[] args) {
+	// EventQueue.invokeLater(new Runnable() {
+	// public void run() {
+	// try {
+	// JBienLai frame = new JBienLai();
+	// frame.setVisible(true);
+	// } catch (Exception e) {
+	// e.printStackTrace();
+	// }
+	// }
+	// });
+	// }
 
 	/**
 	 * Create the frame.
@@ -542,7 +542,7 @@ public class JBienLai extends JFrame {
 
 					if (monthT != 12) {
 						monthTo = String.valueOf((monthT + 1));
-						 yearTo=year;
+						yearTo = year;
 					} else {
 						monthTo = "1";
 						yearTo = String.valueOf((yearT + 1));
@@ -597,28 +597,39 @@ public class JBienLai extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				int rowsl = tablebienlai.getSelectedRow();
 				if (rowsl > 0) {
-				int output = JOptionPane.showConfirmDialog(pnmain, "Bạn có muốn xóa khách hàng", "Delete",
-						JOptionPane.YES_NO_OPTION);
+					int output = JOptionPane.showConfirmDialog(pnmain, "Bạn có muốn xóa biên lai", "Delete",
+							JOptionPane.YES_NO_OPTION);
 
-				if (output == JOptionPane.YES_OPTION) {
-					String macongto = (String) tablebienlai.getValueAt(rowsl, 0);
-					String ckyTable = (String) tablebienlai.getValueAt(rowsl, 4);
-					String[] split = ckyTable.split("-");
-					String monthsp = split[0];
-					String yearsp = split[1];
+					if (output == JOptionPane.YES_OPTION) {
+						String macongto = (String) tablebienlai.getValueAt(rowsl, 0);
+						String ckyTable = (String) tablebienlai.getValueAt(rowsl, 4);
+						String[] split = ckyTable.split("-");
+						String monthsp = split[0];
+						String yearsp = split[1];
 
-					try {
-						DBBienLai.del(macongto, monthsp, yearsp);
-						modelTable.removeRow(rowsl);
-						JOptionPane.showMessageDialog(pnmain, "Xóa dữ liệu thành công", "Đã xóa",
-								JOptionPane.INFORMATION_MESSAGE);
-					} catch (SQLException e1) {
-						// TODO Auto-generated catch block
-						JOptionPane.showMessageDialog(pnmain, e1, "Thông báo lỗi", JOptionPane.ERROR_MESSAGE);
+						try {
+							ArrayList<BienLai> bl = DBBienLai.getList(macongto);
+							int i = bl.size() - 1;
+							if (bl.get(i).getMonth() == Integer.parseInt(monthsp)
+									&& bl.get(i).getYear() == Integer.parseInt(yearsp)) {
+								DBBienLai.del(macongto, monthsp, yearsp);
+
+								modelTable.removeRow(rowsl);
+								JOptionPane.showMessageDialog(pnmain, "Xóa dữ liệu thành công", "Đã xóa",
+										JOptionPane.INFORMATION_MESSAGE);
+							} else {
+								JOptionPane.showMessageDialog(pnmain,
+										"Không thể xóa dữ liệu tháng " + monthsp + " năm " + yearsp, "Thông báo",
+										JOptionPane.ERROR_MESSAGE);
+							}
+
+						} catch (SQLException e1) {
+							// TODO Auto-generated catch block
+							JOptionPane.showMessageDialog(pnmain, e1, "Thông báo lỗi", JOptionPane.ERROR_MESSAGE);
+						}
+
 					}
-
 				}
-			}
 			}
 		});
 		btnDel.setBackground(SystemColor.activeCaption);
@@ -628,7 +639,7 @@ public class JBienLai extends JFrame {
 		btnback.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				setVisible(false);
-				JMain main=new JMain();
+				JMain main = new JMain();
 				main.setVisible(true);
 			}
 		});

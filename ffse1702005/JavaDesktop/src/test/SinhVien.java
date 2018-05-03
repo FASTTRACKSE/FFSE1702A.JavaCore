@@ -6,12 +6,20 @@ public class SinhVien implements Serializable {
 	private String id;
 	private String name;
 	private String age;
+	private String lop;
 	
-	public SinhVien(String id, String name, String age) {
+	public String getLop() {
+		return lop;
+	}
+	public void setLop(String lop) {
+		this.lop = lop;
+	}
+	public SinhVien(String id, String name, String age, String lop) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.age = age;
+		this.lop = lop;
 	}
 	public String getId() {
 		return id;
