@@ -17,9 +17,10 @@ public class CustomerReportDB {
 		ArrayList<CustomerReport> arr = new ArrayList<>();
 		try {
 			String sql = "SELECT cus.name, cus.code, cus.amount, cus.phone, sum(tran.amount) "
-					+ "FROM tbl_customer cus LEFT JOIN tbl_transaction tran " + "ON cus.card_sn = tran.card_sn "
-					+ "WHERE cus.districtid = ? AND cus.wardid ";
-			sql += (wardID > 0) ? "= ? " : "> ? ";
+					+ "FROM tbl_customer cus LEFT JOIN tbl_transaction tran " 
+					+ "ON cus.card_sn = tran.card_sn "
+					+ "WHERE cus.districtid = ? ";
+			sql += (wardID > 0) ? "AND cus.wardid = ? " : "AND cus.wardid > ? ";
 			sql += "GROUP BY cus.name ORDER BY cus.code";
 			PreparedStatement stm = conn.prepareStatement(sql);
 			stm.setInt(1, districtID);
@@ -48,8 +49,11 @@ public class CustomerReportDB {
 		try {
 			code = replaceString(code);
 			String sql = "SELECT cus.code, cus.name, tran.atm_code, tran.time, tran.code, tran.amount "
-					+ "FROM tbl_customer cus INNER JOIN tbl_transaction tran " + "ON cus.card_sn = tran.card_sn "
-					+ "WHERE cus.code LIKE ? ESCAPE '!' " + "AND (tran.time BETWEEN ? AND ? ) " + "GROUP BY tran.code ";
+					+ "FROM tbl_customer cus INNER JOIN tbl_transaction tran " 
+					+ "ON cus.card_sn = tran.card_sn "
+					+ "WHERE cus.code LIKE ? ESCAPE '!' " 
+					+ "AND (tran.time BETWEEN ? AND ? ) " 
+					+ "GROUP BY tran.code ";
 			PreparedStatement stm = conn.prepareStatement(sql);
 			stm.setString(1, "%" + code + "%");
 			stm.setDate(2, sqlDateFrom);

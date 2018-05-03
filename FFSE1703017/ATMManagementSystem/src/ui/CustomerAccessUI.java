@@ -14,6 +14,7 @@ import java.util.regex.Pattern;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.ComboBoxModel;
 import javax.swing.GroupLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -64,13 +65,15 @@ public class CustomerAccessUI extends JPanel {
 		@Override
 		public void valueChanged(ListSelectionEvent e) {
 				int i = tblCustomerList.getSelectedRow();
-				if (i >= 0 && !e.getValueIsAdjusting()) {
-					String code = (String) tblCustomerList.getValueAt(i, 0);
-					setTextToInput(code);
-					btnEdit.setEnabled(true);
-					btnDelete.setEnabled(true);
-					btnReset.setEnabled(true);
-					btnAdd.setEnabled(false);
+				if (i >= 0) {
+					if (!e.getValueIsAdjusting()) {
+						String code = tblCustomerList.getValueAt(i, 0).toString();
+						setTextToInput(code);
+						btnEdit.setEnabled(true);
+						btnDelete.setEnabled(true);
+						btnReset.setEnabled(true);
+						btnAdd.setEnabled(false);
+					}
 				} else {
 					resetInput();
 				}
@@ -207,7 +210,6 @@ public class CustomerAccessUI extends JPanel {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			tblCustomerList.clearSelection();
-			resetInput();
 		}
 	};
 	
@@ -518,8 +520,8 @@ public class CustomerAccessUI extends JPanel {
 		txtPhone.setEditable(false);
 		txtEmail.setEditable(false);
 		txtAmount.setEditable(false);
-		cbDistrict.setEditable(false);
-		cbWard.setEditable(false);
+		cbDistrict.setEnabled(false);
+		cbWard.setEnabled(false);
 		txtStreet.setEditable(false);
 		
 		btnEdit.setText("Đổi mật khẩu");
@@ -569,21 +571,19 @@ public class CustomerAccessUI extends JPanel {
 		txtAccSN.setEditable(false);
 		/* Quận */
 		int districtID = ctm.getDistrictID();
-		ArrayList<ComboItem> arrDistrict = AddressDB.getDistricts();
-		for (ComboItem itemD : arrDistrict) {
-			if (itemD.getKey() == districtID) {
-				int indexD = arrDistrict.indexOf(itemD) + 1;
-				cbDistrict.setSelectedIndex(indexD);
-				break;
+		ComboBoxModel<ComboItem> listDistrict =  cbDistrict.getModel();
+		for (int j = 0; j < listDistrict.getSize(); j++) {
+			if (listDistrict.getElementAt(j).getKey() == districtID) {
+				cbDistrict.setSelectedIndex(j);
 			}
 		}
+
 		/* Phường */
 		int wardID = ctm.getWardID();
-		ArrayList<ComboItem> arrWard = AddressDB.getWards(districtID);
-		for (ComboItem itemW : arrWard) {
-			if (itemW.getKey() == wardID) {
-				int indexW = arrWard.indexOf(itemW) + 1;
-				cbWard.setSelectedIndex(indexW);
+		ComboBoxModel<ComboItem> listWard = cbWard.getModel();
+		for (int j = 0; j < listWard.getSize(); j++) {
+			if (listWard.getElementAt(j).getKey() == wardID) {
+				cbWard.setSelectedIndex(j);
 				break;
 			}
 		}

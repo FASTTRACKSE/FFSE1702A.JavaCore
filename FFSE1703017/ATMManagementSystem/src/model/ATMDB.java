@@ -110,7 +110,8 @@ public class ATMDB {
 
 	public static int setATM(ATM atm) {
 		try {
-			String sql = "update tbl_atm set districtid = ?, wardid = ?, street = ?, " + "amount = ? where code = ?";
+			String sql = "update tbl_atm set districtid = ?, wardid = ?, street = ?, "
+					+ "amount = ? where code = ?";
 			PreparedStatement stm = conn.prepareStatement(sql);
 			stm.setInt(1, atm.getDistrictID());
 			stm.setInt(2, atm.getWardID());
@@ -126,7 +127,8 @@ public class ATMDB {
 
 	public static int addATM(ATM atm) {
 		try {
-			String sql = "insert into tbl_atm (districtid, wardid, street, code, amount)" + " values (?, ?, ?, ?, ?)";
+			String sql = "insert into tbl_atm (districtid, wardid, street, code, amount) "
+					+ "values (?, ?, ?, ?, ?)";
 			PreparedStatement stm = conn.prepareStatement(sql);
 			stm.setInt(1, atm.getDistrictID());
 			stm.setInt(2, atm.getWardID());

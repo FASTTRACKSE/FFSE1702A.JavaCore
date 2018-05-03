@@ -19,9 +19,11 @@ public class ATMReportDB {
 		try {
 
 			street = replaceString(street);
-			String sql = "SELECT atm.code, dis.name, w.name, atm.street, atm.amount " + "FROM tbl_atm atm "
+			String sql = "SELECT atm.code, dis.name, w.name, atm.street, atm.amount "
+					+ "FROM tbl_atm atm "
 					+ "INNER JOIN district dis ON dis.districtid = atm.districtid "
-					+ "INNER JOIN ward w ON w.wardid = atm.wardid " + "WHERE atm.street LIKE ? ESCAPE '!' ";
+					+ "INNER JOIN ward w ON w.wardid = atm.wardid " 
+					+ "WHERE atm.street LIKE ? ESCAPE '!' ";
 					
 			sql += (districtID > 0) ? "AND atm.districtid = ? " : "AND atm.districtid > ? ";
 			sql += (wardID > 0) ? "AND atm.wardid = ? " : "AND atm.wardid > ? ";
@@ -53,9 +55,11 @@ public class ATMReportDB {
 		try {
 
 			code = replaceString(code);
-			String sql = "SELECT atm.code, dis.name, w.name, atm.street, atm.amount " + "FROM tbl_atm atm "
+			String sql = "SELECT atm.code, dis.name, w.name, atm.street, atm.amount "
+					+ "FROM tbl_atm atm "
 					+ "INNER JOIN district dis ON dis.districtid = atm.districtid  "
-					+ "INNER JOIN ward w ON w.wardid = atm.wardid " + "WHERE atm.code LIKE ? ESCAPE '!' "
+					+ "INNER JOIN ward w ON w.wardid = atm.wardid "
+					+ "WHERE atm.code LIKE ? ESCAPE '!' "
 					+ "ORDER BY atm.code";
 			PreparedStatement stm = conn.prepareStatement(sql);
 			stm.setString(1, "%" + code + "%");
@@ -86,7 +90,9 @@ public class ATMReportDB {
 					+ "FROM tbl_atm atm " + "INNER JOIN district dis ON dis.districtid = atm.districtid  "
 					+ "INNER JOIN ward w ON w.wardid = atm.wardid "
 					+ "INNER JOIN tbl_transaction tran ON tran.atm_code = atm.code "
-					+ "WHERE atm.code LIKE ? ESCAPE '!' " + "AND ( tran.time BETWEEN ? AND ? ) " + "ORDER BY tran.time";
+					+ "WHERE atm.code LIKE ? ESCAPE '!' " 
+					+ "AND ( tran.time BETWEEN ? AND ? ) " 
+					+ "ORDER BY tran.time";
 
 			PreparedStatement stm = conn.prepareStatement(sql);
 			stm.setString(1, "%" + code + "%");

@@ -8,10 +8,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.NumberFormat;
 import java.util.ArrayList;
-
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.ComboBoxModel;
 import javax.swing.GroupLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -55,12 +55,14 @@ public class AtmAccessUI extends JPanel {
 		@Override
 		public void valueChanged(ListSelectionEvent e) {
 			int i = tblAtmList.getSelectedRow();
-			if (i >= 0 && !e.getValueIsAdjusting()) {
-				setTextToInput(i);
-				btnEdit.setEnabled(true);
-				btnDelete.setEnabled(true);
-				btnReset.setEnabled(true);
-				btnAdd.setEnabled(false);
+			if (i >= 0) {
+				if (!e.getValueIsAdjusting()) {
+					setTextToInput(i);
+					btnEdit.setEnabled(true);
+					btnDelete.setEnabled(true);
+					btnReset.setEnabled(true);
+					btnAdd.setEnabled(false);
+				}
 			} else {
 				resetInput();
 			}
@@ -169,21 +171,20 @@ public class AtmAccessUI extends JPanel {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			tblAtmList.clearSelection();
-			resetInput();
 		}
 	};
 	
 	private DocumentListener evtSearch = new DocumentListener() {
 		@Override
-		public void removeUpdate(DocumentEvent arg0) {
+		public void removeUpdate(DocumentEvent e) {
 			search();
 		}
 		@Override
-		public void insertUpdate(DocumentEvent arg0) {
+		public void insertUpdate(DocumentEvent e) {
 			search();
 		}
 		@Override
-		public void changedUpdate(DocumentEvent arg0) {
+		public void changedUpdate(DocumentEvent e) {
 			search();
 		}
 	};
@@ -379,7 +380,7 @@ public class AtmAccessUI extends JPanel {
 	}
 
 	private void setTextToInput(int i) {
-		String code = (String) tblAtmList.getValueAt(i, 0);
+		String code = tblAtmList.getValueAt(i, 0).toString();
 		ATM atm = ATMDB.getATMbyCode(code);
 		txtStreet.setText(atm.getStreet());
 		txtCode.setText(atm.getCode());
@@ -388,21 +389,19 @@ public class AtmAccessUI extends JPanel {
 		txtCode.setEditable(false);
 		/* Quận */
 		int districtID = atm.getDistrictID();
-		ArrayList<ComboItem> arrDistrict = AddressDB.getDistricts();
-		for (ComboItem itemD : arrDistrict) {
-			if (itemD.getKey() == districtID) {
-				int indexD = arrDistrict.indexOf(itemD) + 1;
-				cbDistrict.setSelectedIndex(indexD);
-				break;
+		ComboBoxModel<ComboItem> listDistrict =  cbDistrict.getModel();
+		for (int j = 0; j < listDistrict.getSize(); j++) {
+			if (listDistrict.getElementAt(j).getKey() == districtID) {
+				cbDistrict.setSelectedIndex(j);
 			}
 		}
+
 		/* Phường */
 		int wardID = atm.getWardID();
-		ArrayList<ComboItem> arrWard = AddressDB.getWards(districtID);
-		for (ComboItem itemW : arrWard) {
-			if (itemW.getKey() == wardID) {
-				int indexW = arrWard.indexOf(itemW) + 1;
-				cbWard.setSelectedIndex(indexW);
+		ComboBoxModel<ComboItem> listWard = cbWard.getModel();
+		for (int j = 0; j < listWard.getSize(); j++) {
+			if (listWard.getElementAt(j).getKey() == wardID) {
+				cbWard.setSelectedIndex(j);
 				break;
 			}
 		}

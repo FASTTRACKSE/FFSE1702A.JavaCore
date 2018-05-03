@@ -148,7 +148,8 @@ public class CustomerDB {
 	public static int setCustomer(Customer ctm) {
 		try {
 			String sql = "update tbl_customer set name = ?, phone = ?, email = ?, "
-					+ "districtid = ?, wardid = ?, street = ?, " + "amount = ? where code = ?";
+					+ "districtid = ?, wardid = ?, street = ?, "
+					+ "amount = ? where code = ?";
 			PreparedStatement stm = conn.prepareStatement(sql);
 			stm.setString(1, ctm.getName());
 			stm.setString(2, ctm.getPhone());
