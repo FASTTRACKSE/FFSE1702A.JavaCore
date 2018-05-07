@@ -112,7 +112,7 @@ public class ReportATMStatus extends JPanel{
 			row[2] = (String) AddressDB.getNameDistrictById(dataTable.get(i).getQuan());
 			row[3] = (String) AddressDB.getNameWardById(dataTable.get(i).getPhuong());
 			row[4] = dataTable.get(i).getAddress();
-			row[5] = dataTable.get(i).getTotal();
+			row[5] = String.format("%,d", (long) dataTable.get(i).getTotal());
 			dm.addRow(row);
 		}
 	}

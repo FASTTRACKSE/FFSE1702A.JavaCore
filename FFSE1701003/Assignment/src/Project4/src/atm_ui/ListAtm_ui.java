@@ -174,7 +174,7 @@ public class ListAtm_ui extends JPanel {
 			AddressDB.setSelectedDistrict(cbDistrict, tempAtm.getQuan());
 			AddressDB.setSelectedWard(cbWard, tempAtm.getPhuong(), tempAtm.getQuan());
 			txtAddress.setText(tempAtm.getAddress());
-			txtTotal.setText(String.valueOf(tempAtm.getTotal()));
+			txtTotal.setValue(new Double(tempAtm.getTotal()));
 			txtCode.setEditable(false);
 			txtTotal.setEditable(false);
 			

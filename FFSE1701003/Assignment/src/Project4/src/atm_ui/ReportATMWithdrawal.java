@@ -137,7 +137,7 @@ public class ReportATMWithdrawal extends JPanel{
 			row[6] = (String) AddressDB.getNameWardById(dataTable.get(i).getPhuong());
 			row[7] = dataTable.get(i).getAtmAddress();
 			row[8] = dataTable.get(i).get_time();
-			row[9] = dataTable.get(i).getNumber();
+			row[9] = String.format("%,d", (long) dataTable.get(i).getNumber());
 			dm.addRow(row);
 		}
 	}

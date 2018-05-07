@@ -108,14 +108,6 @@ public class Atm_md {
 			Atm_md atm;
 			while (result.next()) {
 				atm = new Atm_md();
-				// atm.setCusName(result.getString("name"));
-				// atm.setSn_card(result.getInt("cus.sn_card"));
-				// atm.setQuan(result.getInt("quan"));
-				// atm.setPhuong(result.getInt("phuong"));
-				// atm.setCusAddress(result.getString("address"));
-				// atm.setCode(result.getString("transCode"));
-				// atm.set_time(result.getString("time"));
-				// atm.setNumber(result.getInt("number"));
 				data.add(atm);
 			}
 		} catch (Exception e) {

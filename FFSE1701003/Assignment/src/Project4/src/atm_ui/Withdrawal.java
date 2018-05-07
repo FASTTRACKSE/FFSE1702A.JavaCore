@@ -136,7 +136,7 @@ public class Withdrawal extends JPanel {
 			row[1] = dataTable.get(i).getCode();
 			row[2] = dataTable.get(i).getSn_card();
 			row[3] = dataTable.get(i).getAtm_code();
-			row[4] = dataTable.get(i).getNumber();
+			row[4] = String.format("%,d", (long) dataTable.get(i).getNumber());
 			row[5] = dataTable.get(i).get_time();
 			dm.addRow(row);
 		}

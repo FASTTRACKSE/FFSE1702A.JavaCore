@@ -9,7 +9,7 @@ import com.mysql.jdbc.Connection;
 
 public class atm_connection {
 	private final static String strServer = "localhost";
-	private final static String strDatabase = "db_atm";
+	private final static String strDatabase = "db_atm1";
 	private final static String strUser = "root";
 	private final static String strPwd = "";
 	

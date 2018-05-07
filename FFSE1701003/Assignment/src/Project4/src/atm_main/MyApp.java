@@ -30,7 +30,6 @@ public class MyApp extends JFrame {
 	}
 
 	public static void main(String[] args) {
-		//new MyApp();
 		new Login_ui("Đăng nhập");
 	}
 

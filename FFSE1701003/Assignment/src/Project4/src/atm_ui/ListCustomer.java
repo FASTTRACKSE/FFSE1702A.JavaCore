@@ -213,7 +213,7 @@ public class ListCustomer extends JPanel // JPanel
 			txtEmail.setText(cus.getEmail());
 			txtSn_Card.setText(cus.getSn_card());
 			txtSoTKNH.setText(cus.getSoTKNH());
-			txtAmount.setText(String.valueOf(cus.getAmount()));
+			txtAmount.setValue(new Double(cus.getAmount()));
 
 			txtCode.setEditable(false);
 			txtSn_Card.setEditable(false);

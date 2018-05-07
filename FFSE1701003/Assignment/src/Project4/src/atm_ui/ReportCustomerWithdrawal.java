@@ -118,7 +118,7 @@ public class ReportCustomerWithdrawal extends JPanel {
 			row[5] = dataTable.get(i).getCusAddress();
 			row[6] = dataTable.get(i).getCode();
 			row[7] = dataTable.get(i).get_time();
-			row[8] = dataTable.get(i).getNumber();
+			row[8] = String.format("%,d", (long) dataTable.get(i).getNumber());
 			dm.addRow(row);
 		}
 	}
