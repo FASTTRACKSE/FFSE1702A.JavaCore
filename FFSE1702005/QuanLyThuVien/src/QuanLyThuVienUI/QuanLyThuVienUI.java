@@ -120,22 +120,22 @@ public class QuanLyThuVienUI extends JFrame {
 		}
 		tbltk.setModel(bangtk);
 	}
-	
+
 	// Làm mới dữ liệu thống kê, báo cáo đọc giả
-		private void loadDataTK1() {
-			bangtkdg.setRowCount(0);
-			ResultSet rs = docGia();
-			try {
-				while (rs.next()) {
-					bangtkdg.addRow(new String[] { rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4),
-							rs.getString(5), rs.getString(6), rs.getString(7), rs.getString(8), rs.getString(9) });
-				}
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+	private void loadDataTK1() {
+		bangtkdg.setRowCount(0);
+		ResultSet rs = docGia();
+		try {
+			while (rs.next()) {
+				bangtkdg.addRow(new String[] { rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4),
+						rs.getString(5), rs.getString(6), rs.getString(7), rs.getString(8), rs.getString(9) });
 			}
-			tbltk.setModel(bangtk);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
+		tbltk.setModel(bangtk);
+	}
 
 	// Lấy data nhà xuất bản(combobox)
 	private ResultSet nXB() {
