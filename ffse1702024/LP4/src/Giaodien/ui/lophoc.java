@@ -263,7 +263,7 @@ public class lophoc extends JFrame {
 			int x = statement.executeUpdate(sql);
 
 			if (x > 0) {
-				JOptionPane.showMessageDialog(null, "Lưu OK");
+				
 			}
 		} catch (Exception ex) {
 			ex.printStackTrace();
