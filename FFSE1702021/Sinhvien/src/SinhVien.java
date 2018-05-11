@@ -1,147 +1,112 @@
+import java.awt.EventQueue;
 
-
-import java.util.ArrayList;
-
-import java.util.Scanner;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import java.awt.GridLayout;
+import java.awt.GridBagLayout;
+import java.awt.GridBagConstraints;
+import java.awt.Insets;
+import java.awt.CardLayout;
+import java.awt.FlowLayout;
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import java.awt.Color;
+import javax.swing.JLabel;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import javax.swing.border.EtchedBorder;
 
 public class SinhVien {
 
-	 
-	    private String hoten;
-	    private int tuoi;
-	    private int diem1;
-	    private int diem2;
-	    private float tb;
-	    private String loai;
+	private JFrame frame;
 
-	    public SinhVien() {
-	    }
-
-	    public SinhVien(String hoten, int tuoi, 
-	    		int diem1, int diem2,float tb,String loai) {
-	        super();
-	        this.hoten = hoten;
-	        this.tuoi = tuoi;
-	        this.diem1 = diem1;
-	        this.diem2 = diem2;
-	        this.tb = tb;
-	        this.loai = loai;
-	    }
-
-
-		public String getHoten() {
-			return hoten;
-		}
-
-		public void setHoten(String hoten) {
-			this.hoten = hoten;
-		}
-
-		public int getTuoi() {
-			return tuoi;
-		}
-
-		public void setTuoi(int tuoi) {
-			this.tuoi = tuoi;
-		}
-
-		public int getDiem1() {
-			return diem1;
-		}
-
-		public void setDiem1(int diem1) {
-			this.diem1 = diem1;
-		}
-
-		public int getDiem2() {
-			return diem2;
-		}
-
-		public void setDiem2(int diem2) {
-			this.diem2 = diem2;
-		}
-
-		public float getTb() {
-			return tb;
-		}
-
-		public void setTb(float tb) {
-			this.tb = tb;
-		}
-
-		public String getLoai() {
-			return loai;
-		}
-
-		public void setLoai(String loai) {
-			this.loai=loai;
-		}
-		  public static void main(String[] args) {
-		    	
-		    	ArrayList<SinhVien> SV = new ArrayList<>();
-				String kt = "yes";
-				while(kt == "yes") {
-					System.out.println("*******************************");
-					System.out.println("1.Nhap sinh viên");
-					System.out.println("2.Hiện danh sách sinh viên ");
-					System.out.println("3.Hiện danh sách theo thứ tự Họ tên sinh viên từ A-Z");
-					System.out.println("4.Hiện danh sách theo thứ tự điểm trung bình từ cao đến thấp");
-					
-					System.out.println("*******************************");
-					System.out.print("Chọn chức năng số: ");
-					Scanner Input1= new Scanner(System.in);
-					int n = Input1.nextInt();
-					
-				Scanner input2= new Scanner(System.in);
-				if(n==1) {
-					System.out.print("Nhập số sinh viên: ");
-				
-					int number = Integer.parseInt(input2.nextLine());
-					for(int i=0; i < number; i++) {
-						int dem =i+1;
-					System.out.println("Sinh vien "+ dem);
-					
-					SinhVien sv = new SinhVien();
-					
-					System.out.println("nhap ten");
-					String hoten = input2.nextLine();
-					sv.setHoten(hoten);
-					
-					System.out.println("tuoi");
-					int tuoi = input2.nextInt();
-					sv.setTuoi(tuoi);
-					
-					System.out.println("diem1");
-					int diem1 = input2.nextInt();
-					sv.setDiem1(diem1);
-					
-					System.out.println("diem2");
-					int diem2 = input2.nextInt();
-					sv.setDiem2(diem2);
-					
-					sv.setTb((float) ((sv.getDiem1() +sv.getDiem2()) / 2.0));
-					if(sv.getTb() >= 8.5 ) {
-						sv.setLoai("A");
-					}else if(sv.getTb() >= 7.0 ) {
-						sv.setLoai("B");
-					}else if(sv.getTb() >= 5 ) {
-						sv.setLoai("C");
-					}else {
-						sv.setLoai("D");
-					}
-					SV.add(sv);
-					}
-					
-					
-				  }
-				if (n == 2) {
-					for (int i = 0; i < SV.size(); i++) {
-						System.out.println("Ten: " + SV.get(i).getHoten() + "|" + "Tuoi: " + SV.get(i).getTuoi()
-								+ "|" + "Diem1: " + SV.get(i).getDiem1() + "|" + "Diem2 "
-								+ SV.get(i).getDiem2() + "|" + "TB " + SV.get(i).getTb()+"Loại " + SV.get(i).getLoai());
-					}
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					SinhVien window = new SinhVien();
+					window.frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
 				}
-				
-				}
-}
+			}
+		});
+	}
+
+	/**
+	 * Create the application.
+	 */
+	public SinhVien() {
+		initialize();
+	}
+
+	/**
+	 * Initialize the contents of the frame.
+	 */
+	private void initialize() {
+		frame = new JFrame();
+		frame.setBounds(100, 100, 659, 425);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.getContentPane().setLayout(null);
+		
+		JPanel panel = new JPanel();
+		panel.setBackground(Color.CYAN);
+		panel.setBounds(0, 97, 643, 289);
+		frame.getContentPane().add(panel);
+		panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
+		
+		JButton btnNewButton = new JButton("New button");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				JPanel panel_3 = new JPanel();
+				panel.add(panel_3);
+				panel_3.setBounds(20, 40, 100, 100);
+				panel_3.setBackground(Color.red);
+			}
+		});
+		btnNewButton.setBounds(20, 38, 89, 23);
+		frame.getContentPane().add(btnNewButton);
+		
+		JButton btnNewButton_1 = new JButton("New button");
+		btnNewButton_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				JPanel panel_4 = new JPanel();
+				panel.add(panel_4);
+				panel_4.setBounds(120, 40, 100, 100);
+				panel_4.setBackground(Color.green);
+			}
+		});
+		btnNewButton_1.setBounds(138, 38, 89, 23);
+		frame.getContentPane().add(btnNewButton_1);
+		
+		JButton btnNewButton_2 = new JButton("New button");
+		btnNewButton_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				JPanel panel_5 = new JPanel();
+				panel.add(panel_5);
+				panel_5.setBounds(220, 40, 100, 100);
+				panel_5.setBackground(Color.yellow);
+			}
+		});
+		btnNewButton_2.setBounds(253, 38, 89, 23);
+		frame.getContentPane().add(btnNewButton_2);
+		
+		JPanel panel_1 = new JPanel();
+		panel_1.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
+		panel_1.setBackground(Color.YELLOW);
+		
+		
+		JPanel panel_2 = new JPanel();
+		panel_2.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
+		panel_2.setBackground(Color.GREEN);
+		
+		
+	//	btnNewButton_2.setBounds(276, 21, 89, 23);
+		
+	}
 }

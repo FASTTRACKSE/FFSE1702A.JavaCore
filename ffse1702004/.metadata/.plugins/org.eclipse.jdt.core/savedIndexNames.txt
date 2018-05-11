@@ -1,9 +1,0 @@
-INDEX VERSION 1.130+/Users/macbook/Documents/GitHub/FFSE1702A.JavaCore/ffse1702004/.metadata/.plugins/org.eclipse.jdt.core
-2478738062.index
-713972383.index
-2061316027.index
-3665656385.index
-3837377048.index
-3959680294.index
-1963637916.index
-179821364.index

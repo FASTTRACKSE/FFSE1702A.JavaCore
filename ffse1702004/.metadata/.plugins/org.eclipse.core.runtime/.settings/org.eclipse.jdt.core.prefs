@@ -1,7 +1,0 @@
-eclipse.preferences.version=1
-org.eclipse.jdt.core.classpathVariable.JRE_LIB=/Library/Java/JavaVirtualMachines/jdk-9.0.1.jdk/Contents/Home/lib/jrt-fs.jar
-org.eclipse.jdt.core.classpathVariable.JRE_SRC=/Library/Java/JavaVirtualMachines/jdk-9.0.1.jdk/Contents/Home/lib/src.zip
-org.eclipse.jdt.core.classpathVariable.JRE_SRCROOT=src
-org.eclipse.jdt.core.classpathVariable.JUNIT_HOME=/Users/macbook/.p2/pool/plugins/org.junit_4.12.0.v201504281640/
-org.eclipse.jdt.core.classpathVariable.M2_REPO=/Users/macbook/.m2/repository
-org.eclipse.jdt.core.codeComplete.visibilityCheck=enabled

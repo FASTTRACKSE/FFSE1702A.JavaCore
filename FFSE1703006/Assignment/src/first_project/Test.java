@@ -1,60 +1,80 @@
 package first_project;
 
-import javax.swing.*;
-import java.awt.event.*;
-import java.io.*;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
 
-public class Test extends JFrame implements ActionListener {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	JMenuBar mb;
-	JMenu file;
-	JMenuItem open;
-	JTextArea ta;
+import com.jgoodies.forms.layout.ColumnSpec;
+import com.jgoodies.forms.layout.FormLayout;
+import com.jgoodies.forms.layout.FormSpecs;
+import com.jgoodies.forms.layout.RowSpec;
 
-	Test() {
-		open = new JMenuItem("Open File");
-		open.addActionListener(this);
-		file = new JMenu("File");
-		file.add(open);
-		mb = new JMenuBar();
-		mb.setBounds(0, 0, 800, 20);
-		mb.add(file);
-		ta = new JTextArea(800, 800);
-		ta.setBounds(0, 20, 800, 800);
-		add(mb);
-		add(ta);
+public class Test extends JPanel {
+	private JTextField textField;
+	private JTextField textField_1;
+
+	public Test() {
+		setLayout(new FormLayout(
+				new ColumnSpec[] { FormSpecs.RELATED_GAP_COLSPEC, FormSpecs.DEFAULT_COLSPEC,
+						FormSpecs.RELATED_GAP_COLSPEC, FormSpecs.DEFAULT_COLSPEC, FormSpecs.RELATED_GAP_COLSPEC,
+						ColumnSpec.decode("default:grow"), FormSpecs.RELATED_GAP_COLSPEC, FormSpecs.DEFAULT_COLSPEC,
+						FormSpecs.RELATED_GAP_COLSPEC, FormSpecs.DEFAULT_COLSPEC, },
+				new RowSpec[] { FormSpecs.RELATED_GAP_ROWSPEC, FormSpecs.DEFAULT_ROWSPEC, FormSpecs.RELATED_GAP_ROWSPEC,
+						FormSpecs.DEFAULT_ROWSPEC, FormSpecs.RELATED_GAP_ROWSPEC, FormSpecs.DEFAULT_ROWSPEC, }));
+
+		JLabel lblNewLabel = new JLabel("New label");
+		add(lblNewLabel, "2, 2");
+
+		textField = new JTextField();
+		add(textField, "6, 2, fill, default");
+		textField.setColumns(10);
+
+		JLabel lblNewLabel_1 = new JLabel("New label");
+		add(lblNewLabel_1, "10, 2");
+
+		JLabel lblNewLabel_2 = new JLabel("New label");
+		add(lblNewLabel_2, "2, 6");
+
+		textField_1 = new JTextField();
+		add(textField_1, "6, 6, fill, default");
+		textField_1.setColumns(10);
+
+		String[] columnNames = { "First Name", "Last Name", "Sport", "# of Years", "Vegetarian" };
+
+		Object[][] data = { { "Kathy", "Smith", "Snowboarding", new Integer(5), new Boolean(false) },
+				{ "John", "Doe", "Rowing", new Integer(3), new Boolean(true) },
+				{ "Sue", "Black", "Knitting", new Integer(2), new Boolean(false) },
+				{ "Jane", "White", "Speed reading", new Integer(20), new Boolean(true) },
+				{ "Joe", "Brown", "Pool", new Integer(10), new Boolean(false) } };
 	}
 
-	public void actionPerformed(ActionEvent e) {
-		if (e.getSource() == open) {
-			JFileChooser fc = new JFileChooser();
-			int i = fc.showOpenDialog(this);
-			if (i == JFileChooser.APPROVE_OPTION) {
-				File f = fc.getSelectedFile();
-				String filepath = f.getPath();
-				try {
-					BufferedReader br = new BufferedReader(new FileReader(filepath));
-					String s1 = "", s2 = "";
-					while ((s1 = br.readLine()) != null) {
-						s2 += s1 + "\n";
-					}
-					ta.setText(s2);
-					br.close();
-				} catch (Exception ex) {
-					ex.printStackTrace();
-				}
-			}
-		}
+	/**
+	 * Create the GUI and show it. For thread safety, this method should be invoked
+	 * from the event-dispatching thread.
+	 */
+	private static void createAndShowGUI() {
+		//Create and set up the window.
+		JFrame frame = new JFrame("SimpleTableDemo");
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+		//Create and set up the content pane.
+		Test newContentPane = new Test();
+		newContentPane.setOpaque(true); //content panes must be opaque
+		frame.setContentPane(newContentPane);
+
+		//Display the window.
+		frame.setSize(600, 200);
+		frame.setVisible(true);
 	}
 
 	public static void main(String[] args) {
-		Test om = new Test();
-		om.setSize(500, 500);
-		om.setLayout(null);
-		om.setVisible(true);
-		om.setDefaultCloseOperation(EXIT_ON_CLOSE);
+		//Schedule a job for the event-dispatching thread:
+		//creating and showing this application's GUI.
+		javax.swing.SwingUtilities.invokeLater(new Runnable() {
+			public void run() {
+				createAndShowGUI();
+			}
+		});
 	}
 }

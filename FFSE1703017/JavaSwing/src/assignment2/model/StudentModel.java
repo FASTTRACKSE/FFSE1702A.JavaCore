@@ -1,5 +1,6 @@
 package assignment2.model;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 
@@ -34,10 +35,13 @@ public class StudentModel {
 		String name = st.getName();
 		String age = st.getAge();
 		try {
-			String sql = "insert into ffse17 (code, course, name, age) values( '" + code
-					+ "','" + course + "','" + name + "','"	+ age + "')";
-			Statement statement = (Statement) conn.createStatement();
-			return statement.executeUpdate(sql);
+			String sql = "insert into ffse17 (code, course, name, age) values (?, ?, ?, ?)";
+			PreparedStatement stm = conn.prepareStatement(sql);
+			stm.setString(1, code);
+			stm.setString(2, course);
+			stm.setString(3, name);
+			stm.setString(4, age);
+			return stm.executeUpdate();
 		} catch (Exception ex) {
 			ex.printStackTrace();
 			return -1;
@@ -49,10 +53,13 @@ public class StudentModel {
 		String name = st.getName();
 		String age = st.getAge();
 		try {
-			String sql = "update ffse17 set code = '" + code 
-					+"', name = '" + name + "',age = '"+ age + "' where code = '"+ oldCode +"'";
-			Statement statement = (Statement) conn.createStatement();
-			return statement.executeUpdate(sql);
+			String sql = "update ffse17 set code = ?, name = ?, age = ? where code = ?"; 
+			PreparedStatement stm = conn.prepareStatement(sql);
+			stm.setString(1, code);
+			stm.setString(2, name);
+			stm.setString(3, age);
+			stm.setString(4, oldCode);
+			return stm.executeUpdate();
 		} catch (Exception ex) {
 			ex.printStackTrace();
 			return -1;
@@ -61,9 +68,10 @@ public class StudentModel {
 	
 	public static int deleteStudent(String code) {
 		try {
-			String sql = "delete from ffse17 where code ='" + code +  "'";
-			Statement statement = (Statement) conn.createStatement();
-			return statement.executeUpdate(sql);
+			String sql = "delete from ffse17 where code = ?";
+			PreparedStatement stm = conn.prepareStatement(sql);
+			stm.setString(1, code);
+			return stm.executeUpdate();
 		} catch (Exception ex) {
 			ex.printStackTrace();
 			return -1;

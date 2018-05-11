@@ -33,7 +33,6 @@ public class StudenManagementUI extends JFrame {
 	private static final long serialVersionUID = 1L;
 	String[] items = {"FFSE1701", "FFSE1702", "FFSE1703", "FFSE1704"};
 	JComboBox<String> cbClass = new JComboBox<>(items);
-    int c;
 	JButton btnNew = new JButton("Thêm");
     JButton btnUpdate = new JButton("Sửa");
     JButton btnDel = new JButton("Xóa");
@@ -41,7 +40,6 @@ public class StudenManagementUI extends JFrame {
     JTextField txtCode = new JTextField(15);
     JTextField txtName = new JTextField(15);
     JTextField txtAge = new JTextField(15);
-//    JTextField[] txt = new JTextField[] {txtID, txtName, txtAge};
     JScrollPane spList = new JScrollPane();
     JTable tblList = new JTable();
     String[] col = {"Mã","Tên","Tuổi"};
@@ -80,9 +78,9 @@ public class StudenManagementUI extends JFrame {
 			String name = txtName.getText();
 			String age = txtAge.getText();
 			if (isEmpty(code) || isEmpty(name) || isEmpty(age)) {
-				JOptionPane.showMessageDialog(null,"Trường nhập không được để trống.","Alert",JOptionPane.WARNING_MESSAGE);
+				JOptionPane.showMessageDialog(null,"Thông tin phải được nhập đầy đủ.","Alert",JOptionPane.WARNING_MESSAGE);
 			} else if (!(checkAge(age))) {
-				JOptionPane.showMessageDialog(null,"Tuổi phải nhập số","Alert",JOptionPane.WARNING_MESSAGE);
+				JOptionPane.showMessageDialog(null,"Tuổi phải nhập dạng số","Alert",JOptionPane.WARNING_MESSAGE);
 			} else if (!(checkCode(code))) {
 				JOptionPane.showMessageDialog(null,"Mã sinh viên đã tồn tại.","Alert",JOptionPane.WARNING_MESSAGE);
 			} else {
@@ -101,8 +99,8 @@ public class StudenManagementUI extends JFrame {
 	};
 	ActionListener eventUpdate = new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
-			try {
-				int i = tblList.getSelectedRow();
+			int i = tblList.getSelectedRow();
+			if (i != -1) {
 				String oldCode = (String) modelList.getValueAt(i, 0);
 				String code = txtCode.getText();
 				String name = txtName.getText();
@@ -112,9 +110,9 @@ public class StudenManagementUI extends JFrame {
 					isCode = checkCode(code);
 				}
 				if (isEmpty(code) || isEmpty(name) || isEmpty(age)) {
-					JOptionPane.showMessageDialog(null,"Trường nhập không được để trống.","Alert",JOptionPane.WARNING_MESSAGE);
+					JOptionPane.showMessageDialog(null,"Thông tin phải được nhập đầy đủ.","Alert",JOptionPane.WARNING_MESSAGE);
 				} else if (!(checkAge(age))) {
-					JOptionPane.showMessageDialog(null,"Tuổi phải nhập số.","Alert",JOptionPane.WARNING_MESSAGE);
+					JOptionPane.showMessageDialog(null,"Tuổi phải nhập dạng số.","Alert",JOptionPane.WARNING_MESSAGE);
 				} else if (!(isCode)) {
 					JOptionPane.showMessageDialog(null,"Mã sinh viên đã tồn tại.","Alert",JOptionPane.WARNING_MESSAGE);
 				} else {
@@ -127,12 +125,12 @@ public class StudenManagementUI extends JFrame {
 							tblList.setValueAt(row[j], i, j);
 						}
 						txtCode.setText("");txtName.setText("");txtAge.setText("");
-						JOptionPane.showMessageDialog(null,"Sửa thành công.","Alert",JOptionPane.WARNING_MESSAGE);
+						JOptionPane.showMessageDialog(null,"Sửa sinh viên thành công.","Alert",JOptionPane.WARNING_MESSAGE);
 					} else {
-						JOptionPane.showMessageDialog(null,"Sửa thất bại.","Alert",JOptionPane.WARNING_MESSAGE);
+						JOptionPane.showMessageDialog(null,"Sửa sinh viên thất bại.","Alert",JOptionPane.WARNING_MESSAGE);
 					}
 				}
-			} catch(Exception ex) {
+			} else {
 				JOptionPane.showMessageDialog(null,"Không dòng nào được chọn.","Alert",JOptionPane.WARNING_MESSAGE);
 			}
 		}
@@ -140,8 +138,8 @@ public class StudenManagementUI extends JFrame {
 	
 	ActionListener eventDel = new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
-			try {
-				int i = tblList.getSelectedRow();
+			int i = tblList.getSelectedRow();
+			if (i != -1) {
 				String code = (String) modelList.getValueAt(i, 0);
 				int x = StudentModel.deleteStudent(code);
 				if (x > 0) {
@@ -152,7 +150,7 @@ public class StudenManagementUI extends JFrame {
 					JOptionPane.showMessageDialog(null,"Xóa sinh viên thất bại.","Alert",JOptionPane.WARNING_MESSAGE);
 				}
 				
-			} catch (Exception ex) {
+			} else {
 				JOptionPane.showMessageDialog(null,"Không dòng nào được chọn.","Alert",JOptionPane.WARNING_MESSAGE);
 			}
 		}
@@ -212,7 +210,6 @@ public class StudenManagementUI extends JFrame {
         pnAction.add(btnNew);
         pnAction.add(btnUpdate);
         pnAction.add(btnDel);
-//        pnAction.add(btnSave);
         pnAction.add(btnExit);
         
         Border border = BorderFactory.createLineBorder(Color.RED);
@@ -239,7 +236,6 @@ public class StudenManagementUI extends JFrame {
 		btnNew.addActionListener(eventNew);
 		btnUpdate.addActionListener(eventUpdate);
 		btnDel.addActionListener(eventDel);
-//		btnSave.addActionListener(eventSave);
 		btnExit.addActionListener(eventExit);
 	}
 	

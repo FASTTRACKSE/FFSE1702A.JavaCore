@@ -3,10 +3,17 @@ package canBo;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Properties;
 import java.util.Scanner;
+
+import com.mysql.jdbc.Connection;
+import com.mysql.jdbc.Driver;
+
+
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
+import java.sql.SQLException;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.ObjectInputStream;
@@ -186,7 +193,35 @@ public class Main {
 			}
 		} while (menu != 0);
 	}
-
+	public void getConnect( String strServer, String strDatabase, String strUser, String strPwd) {
+		java.sql.Connection conn	=	null;
+		String strConnect=	"jdbc: mysql://"+ strServer+ "/"+ strDatabase;
+		Properties pro = new Properties();
+		pro.put("user", strUser);
+		pro.put("password", strPwd);
+		try
+		{
+		com.mysql.jdbc.Driver driver=new Driver();
+		conn=driver.connect(strConnect, pro);
+		}
+		catch(SQLException ex)
+		{
+		ex.printStackTrace();
+		}
+		return;
+		}
+	Connection conn= getConnect("localhost", ”database", ”user",
+			”password");
+			if(conn!=null)
+			{
+			System.out.println("Kết nối MYSQL thành công");
+			}
+			else
+			{
+			System.out.println("Kết nối MYSQL thất bại");
+			}
 	
 
-}
+}	
+
+
