@@ -7,7 +7,6 @@ public class assignment7 {
 	public static void main(String[] args) {
 		for (;;) {
 			Scanner scanner = new Scanner(System.in);
-			// TODO code application logic here
 			System.out.print("Nhập số phần tử của mảng: ");
 			int n = scanner.nextInt();
 			SinhVien a[] = new SinhVien[n];
@@ -32,16 +31,11 @@ public class assignment7 {
 				System.out.println("Mời bạn nhập điểm 2 của sinh viên");
 				diem2 = sc.nextInt();
 				a[i].setDiem2(diem2);
-				a[i].setDtb((float) ((a[i].getDiem1() + a[i].getDiem2()) / 2.0));
-				if (a[i].getDtb() >= 8.5) {
-					a[i].setXeploai("A");
-				} else if (a[i].getDtb() >= 7.0) {
-					a[i].setXeploai("B");
-				} else if (a[i].getDtb() >= 5.0) {
-					a[i].setXeploai("C");
-				} else {
-					a[i].setXeploai("D");
-				}
+				
+				//a[i].setDtb(diem1,diem2);
+			a[i].setDtb((float) ((a[i].getDiem1() + a[i].getDiem2()) / 2.0));
+				
+				
 				sc.nextLine();
 
 			}
@@ -75,10 +69,9 @@ public class assignment7 {
 						for (int i = 0; i < n; i++) {
 
 							for (int j = i + 1; j < n; j++) {
-								// Nếu actors[j] < actors[i]
-								// Thì thực hiện việc tráo đổi vị trí với nhau.
+								
 								if (a[i].getTen().compareTo(a[j].getTen()) < 0) {
-									// Sử dụng một biến tạm thời.
+									
 									SinhVien temp = new SinhVien();
 									temp = a[j];
 									a[j] = a[i];
@@ -144,6 +137,7 @@ class SinhVien {
 	private int diem2;
 	private float dtb;
 	private String xeploai;
+	
 
 	public void setTen(String ten) {
 		this.ten = ten;
@@ -153,11 +147,22 @@ class SinhVien {
 		return ten;
 	}
 
-	public void setXeploai(String xeploai) {
+	public void setXeploai(float dtb) {
 		this.xeploai = xeploai;
+		if (dtb >= 8.5) {
+			//a[i].setXeploai("A");
+			this.xeploai="A";
+		} else if (dtb >= 7.0) {
+			this.xeploai="B";
+		} else if (dtb >= 5.0) {
+			this.xeploai="C";
+		} else {
+			this.xeploai="D";
+		}
 	}
 
 	public String getXeploai() {
+		
 		return xeploai;
 	}
 
@@ -166,6 +171,7 @@ class SinhVien {
 	}
 
 	public float getDtb() {
+		
 		return dtb;
 	}
 
@@ -192,5 +198,5 @@ class SinhVien {
 	public int getDiem2() {
 		return diem2;
 	}
-
+	
 }

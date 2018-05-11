@@ -6,10 +6,15 @@ import java.util.Scanner;
 /**
  * Giải phương trình bậc 2
  * 
+ * @author viettuts.vn
  */
 public class Gptb2 {
     private static Scanner scanner = new Scanner(System.in);
-
+    /**
+     * main
+     * 
+     * @param args
+     */
     public static void main(String[] args) {
         System.out.print("Nhập hệ số bậc 2, a = ");
         float a = Gptb2.scanner.nextFloat();

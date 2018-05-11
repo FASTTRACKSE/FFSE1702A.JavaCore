@@ -1,0 +1,14 @@
+package QLcanbo;
+
+public class canboinfoexception {
+	public static void main(String[] args) {
+		try {
+			SinhVien sv= new SinhVien(0, "", 0, 0); 
+			System.out.println(sv);
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		}
+
+	}
+
+}

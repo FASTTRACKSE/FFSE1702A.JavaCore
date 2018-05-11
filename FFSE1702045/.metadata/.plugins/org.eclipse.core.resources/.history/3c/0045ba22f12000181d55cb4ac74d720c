@@ -1,0 +1,90 @@
+package QuanLySinhVien;
+import java.util.Scanner;
+import java.util.ArrayList;
+
+public class QuanLySV {
+	ArrayList<SinhVien> arrSV= new ArrayList<>();
+	public void dockingSV(ArrayList<SinhVien>arrSV) {
+		for(int i=0; i<arrSV.size()	;i++) {
+			for(int j=0; j<arrSV.size();j++) {
+				if(arrSV.get(i).getAvgSV()<arrSV.get(j).getAvgSV()) {
+					SinhVien sv = new SinhVien();
+					sv= arrSV.get(i);
+					arrSV.set(i, arrSV.get(i));
+					arrSV.set(j, sv);
+				}
+			}
+		}
+	}
+	public void showlistSV(ArrayList<SinhVien> arr){
+				for(int i=0;i<arr.size();i++) {
+					arr.get(i).outputinfSV();
+				}
+	}
+	public void inputlistSV(int n) {
+		for (int i = 0; i <n; i++) {
+			System.out.println("Moi ban nhap Sinh Vien thu" + (i+1));
+			SinhVien sv=new SinhVien();
+			sv.inputinfSV();
+		arrSV.add(sv);
+		}
+		
+	}
+	public void searchSV(ArrayList<SinhVien> arr,String name) {
+		int j=0;
+		for(int i=0;i<arr.size();i++) {
+			if(arr.get(i).getNameSV().lastIndexOf(name)>=0) {
+				arr.get(i).outputinfSV();
+				j=1;
+			}
+		}
+		if(j==0) {
+			System.out.println("Khong co sinh vien nay");
+		}
+	}
+public static void main(String[] args) {
+	QuanLySV q= new QuanLySV();
+	Scanner input = new Scanner(System.in); 
+	int lc,i=0;
+	while (i==0) {
+
+	System.out.println("---------------MENU---------------");
+	System.out.println("Moi ban nhap lua chon");
+	System.out.println("1...lap danh sach Sinh Vien");
+	System.out.println("2...hien thi thong tin Sinh Vien");
+	System.out.println("3...Sap xep danh sach Sinh Vien");
+	System.out.println("4...Tim kiem Sinh Vien");
+	System.out.println("5...Thoat");
+	lc=input.nextInt();
+	switch(lc) {
+	case 1:
+		System.out.println("Nhap so luong Sinh Vien co trong danh sach");
+		int n=input.nextInt();
+		q.inputlistSV(n);
+		
+		break;
+	case 2:
+		q.showlistSV(q.arrSV);
+		break;
+	case 3:
+		q.dockingSV(q.arrSV);
+		q.showlistSV(q.arrSV);
+		break;
+	case 4:
+		input.NextLine();
+		System.out.println("Nhap ten Sinh Vien can tim");
+		String a=input.nextLine();
+		q.searchSV(q.arrSV, a);
+		break;
+	case 5:
+		i=1;
+		System.out.println("Bai bai");
+		break;
+	}
+	
+}
+SinhVien sv = new SinhVien();
+sv.inputinfSV();
+sv.outputinfSV();
+}
+}
