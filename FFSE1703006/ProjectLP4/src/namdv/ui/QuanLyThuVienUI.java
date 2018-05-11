@@ -28,7 +28,7 @@ public class QuanLyThuVienUI extends JFrame {
 	private double rate = 0;
 	private ImageIcon img = new ImageIcon("src/namdv/icons/app-icon.png");
 
-	public void showWindow() {
+	private void showWindow() {
 		this.setSize(800, 600);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setLocationRelativeTo(null);

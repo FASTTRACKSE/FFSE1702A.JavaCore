@@ -530,7 +530,6 @@ public class BanDocUI extends JPanel {
 		boolean checkDienThoai = myEx.checkDienThoai(txtFldDienThoai);
 
 		int row = tblResult.getSelectedRow();
-		System.out.println("get data input: 	" + row);
 		if (row != -1) {
 			String emailCu = tblResultModel.getValueAt(row, 3).toString();
 			if (txtFldEmail.getText().equals(emailCu)) {

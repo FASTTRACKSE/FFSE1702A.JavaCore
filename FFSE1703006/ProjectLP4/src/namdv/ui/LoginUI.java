@@ -39,7 +39,7 @@ public class LoginUI extends JFrame {
 	private AccountModel accountModel = new AccountModel();
 	private ImageIcon img = new ImageIcon("src/namdv/icons/app-icon.png");
 
-	public void showWindow() {
+	private void showWindow() {
 		this.setSize(400, 300);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setLocationRelativeTo(null);

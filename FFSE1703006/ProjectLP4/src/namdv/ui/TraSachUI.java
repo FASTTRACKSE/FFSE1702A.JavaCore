@@ -46,7 +46,7 @@ public class TraSachUI extends JPanel {
 	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public void addControls() {
+	private void addControls() {
 		// Search
 		JPanel panelSearch = new JPanel();
 		FlowLayout fl_panelSearch = (FlowLayout) panelSearch.getLayout();

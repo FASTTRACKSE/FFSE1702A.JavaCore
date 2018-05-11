@@ -22,7 +22,6 @@ public class MyApp {
 			public void run() {
 				try {
 					loginFrame = new LoginUI("Đăng nhập hệ thống");
-					loginFrame.showWindow();
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

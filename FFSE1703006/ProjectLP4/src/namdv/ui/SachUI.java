@@ -484,13 +484,14 @@ public class SachUI extends JPanel {
 			int slTong = Integer.parseInt(txtFldSLTong.getText());
 			int slHienCo;
 			if (btnSua.isEnabled()) {
-				if (slTong < Integer.parseInt(tblResultModel.getValueAt(row, 4).toString())) {
-					JOptionPane.showMessageDialog(null, "Số lượng sách mới phải lớn hơn hoặc bằng số lượng hiện có!");
-					return null;
-				}
 				slHienCo = Integer.parseInt(txtFldSLTong.getText())
 						- Integer.parseInt(tblResultModel.getValueAt(row, 3).toString())
 						+ Integer.parseInt(tblResultModel.getValueAt(row, 4).toString());
+				if (slHienCo < 0) {
+					JOptionPane.showMessageDialog(null,
+							"Số lượng sách mới phải lớn hơn hoặc bằng số lượng sách đang được!");
+					return null;
+				}
 			} else {
 				slHienCo = slTong;
 			}

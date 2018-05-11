@@ -92,7 +92,7 @@ public class MuonTraSachUI extends JPanel {
 	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public void addControls() {
+	private void addControls() {
 		// Search
 		JPanel pnlSearch = new JPanel();
 		FlowLayout fl_pnlSearch = (FlowLayout) pnlSearch.getLayout();
