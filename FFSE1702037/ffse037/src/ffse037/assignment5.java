@@ -35,7 +35,9 @@ public class assignment5 {
     			sortDESC(arr);
     	        System.out.println("Dãy số được sắp xếp giảm dần: ");
     	        show(arr);
-    		}	
+    		}else if(answer==3) {
+    			continue;
+    		}		
     		else if(answer==4) {
     			System.exit(0);
     		}		

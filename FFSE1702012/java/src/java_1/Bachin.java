@@ -24,9 +24,6 @@ public class Bachin {
                  if(ht!=0) {
                      System.out.print(' ' + ht1[ht-1] + ' ');
                  }
-                 if(ht==0) {
-                     System.out.print("Không trăm");
-                 }
                  if(hc!=0) {
                      System.out.print(' ' + hc1[hc-1] + ' ');
                  }
@@ -39,7 +36,6 @@ public class Bachin {
                  for(int b=0; b<text.length();b++) {
                      if(text.charAt(b) == 'N') {
                          text = "No";
-          
                          System.out.println("\n"+"Xin cám ơn!!");
                      }
                      if(text.charAt(b) == 'Y') {

@@ -2,14 +2,12 @@ import java.util.Scanner;
 public class doiso {
 public static void main(String[] args) {
 	Scanner input = new Scanner(System.in);
-	for(;;) {
-    System.out.println("Nhập vào một số từ 1 đến 9999: ");
+    System.out.print("Nhập vào một số từ 1 đến 9999: ");
     int n=input.nextInt();
     int ng=n/1000;
     int tr=(n-ng*1000)/100;
     int ch=(n-ng*1000-tr*100)/10;
     int dv=(n-ng*1000-tr*100-ch*10);
-    if(n==0) {break;}
     if(n < 1 || n > 9999) { System.out.print("Mời nhập lại");}
     else {
     if (n==11) {
@@ -18,7 +16,7 @@ public static void main(String[] args) {
     else {
     	  switch(ng) {
          
-         case 1:System.out.println("Một nghìn  ");break;
+         case 1:System.out.print("Một nghìn  ");break;
          case 2:System.out.print("Hai nghìn ");break;
          case 3:System.out.print("Ba nghìn  ");break;
          case 4:System.out.print("Bốn nghìn  ");break;
@@ -54,18 +52,18 @@ public static void main(String[] args) {
         }
               switch(dv) {
 
-            case 1:System.out.println("mốt ");break;
-            case 2:System.out.println("hai ");break;
-            case 3:System.out.println("ba ");break;
-            case 4:System.out.println("bốn ");break;
-            case 5:System.out.println("lăm ");break;
-            case 6:System.out.println("sáu ");break;
-            case 7:System.out.println("bảy ");break;
-            case 8:System.out.println("tám ");break;
-            case 9:System.out.println("chín");break;
+            case 1:System.out.print("mốt ");break;
+            case 2:System.out.print("hai ");break;
+            case 3:System.out.print("ba ");break;
+            case 4:System.out.print("bốn ");break;
+            case 5:System.out.print("lăm ");break;
+            case 6:System.out.print("sáu ");break;
+            case 7:System.out.print("bảy ");break;
+            case 8:System.out.print("tám ");break;
+            case 9:System.out.print("chín");break;
         }
     } 
     }
-    System.out.println("Nhập 0 sẽ dừng lại");
-}}
+ 
+}
 }
