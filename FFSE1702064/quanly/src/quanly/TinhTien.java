@@ -105,7 +105,7 @@ public class TinhTien extends JFrame {
 			e1.printStackTrace();
 		}
 	}
-	//Tìm kiếm
+	//TÃ¬m kiáº¿m
 	ActionListener eventtimkiem = new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
 			Timkiem();
@@ -119,7 +119,7 @@ public class TinhTien extends JFrame {
 				Statement sttm = (Statement) con.createStatement();
 //				System.out.println("SELECT Quan, Phuong,MaCT,NgayNhap,Nam,Thang,Chiso,Sotien FROM BienLai WHERE MaKH ='"+tx1.getText()+"' ORDER BY  Nam   DESC");
 				res = con.createStatement().executeQuery(
-						"SELECT Quan, Phuong,MaCT,NgayNhap,Nam,Thang,Chiso,Sotien FROM BienLai WHERE MaKH ='"+tx1.getText()+"' ORDER BY  Nam   DESC ");
+						"SELECT Quan, Phuong,MaCT,NgayNhap,Nam,Thang,Chiso,Sotien FROM BienLai WHERE MaKH ='"+tx1.getText()+"' ORDER BY Nam  DESC ");
 				
 				while (res.next()) {
 					table.addRow(new String[] { res.getString("Quan"), res.getString("Phuong"),
@@ -133,7 +133,7 @@ public class TinhTien extends JFrame {
 			}
 		}
 	};
-	// Thêm
+	// ThÃªm
 	ActionListener eventThem = new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
 			Them();
@@ -143,7 +143,17 @@ public class TinhTien extends JFrame {
 			try {
 				csmoi = Integer.parseInt(tx6.getText()); 
 				cscu= Integer.parseInt(tx4.getText());
-				sotien = (csmoi-cscu);
+				if(sotien<50) {
+					sotien=(csmoi-cscu)*1549;
+				}
+				else if(sotien<100) {
+					sotien=((csmoi-cscu-50)*1600+50*1549);
+				}
+				else if(sotien<200) {
+					sotien=((csmoi-cscu-100)*1858+50*1549+50*1600);
+				}else {
+					sotien=((csmoi-cscu-200)*2340+50*1549+50*1600+100*1858);
+				}
 				
 				boolean res;
 				db = new database();
@@ -174,13 +184,13 @@ public void addControls() {
 			box.setLayout(new BoxLayout(box, BoxLayout.Y_AXIS));
 			// tieu de
 			JPanel Title = new JPanel();
-	        JLabel LTitle = new JLabel("Hóa đơn thu tiền điện");
+	        JLabel LTitle = new JLabel("Hóa đơn thu ti�?n điện");
 			Font fonttitle = new Font("Arial", Font.BOLD, 20);
 			LTitle.setFont(fonttitle);
 			Title.add(LTitle);
 			// ket thuc tieu de
 			JPanel makh = new JPanel();
-			ma = new JLabel("Mã Khách Hàng");
+			ma = new JLabel("Mã khách hàng");
 			tx1 = new JTextField(15);
 			buttontimkiem = new JButton("Tìm kiếm");
 			JPanel tenkh = new JPanel();
@@ -209,14 +219,14 @@ public void addControls() {
 			makh.add(comboboxquan);
 	
 			
-			//phường và chu kỳ
+			//phÆ°á»�ng vÃ  chu ká»³
 			JPanel map = new JPanel();
-			 phuong = new JLabel("             Phường");
+			 phuong = new JLabel("             Phư�?ng");
 			 updatePhuong();
 			chuki = new JLabel("Chu kỳ  ");
 			month = new JLabel("  Tháng ");
 			String[] nam = new String[] {"2008","2009","2010","2011","2012","2013","2014","2015","2016","2017","2018","2019","2020"};
-			String [] thang = new String[] {"1","2","3","4","5","6","7","8","9","10","11","12"};
+			String [] thang = new String[] {"01","02","03","04","05","06","07","08","09","10","11","12"};
 			 year = new JComboBox(nam);
 			 sothang = new JComboBox(thang);
 			map.add(chuki);
@@ -225,11 +235,11 @@ public void addControls() {
 			map.add(sothang);
 			map.add(phuong);
 			map.add(comboboxphuong);
-			//Mã công tơ
+			//mã cong to
 			JPanel mact =new JPanel();
 			mact1 = new JLabel("Mã Công Tơ");
 		    tx3 = new JTextField(13);
-		    csc = new JLabel("Chỉ Số cũ");
+		    csc = new JLabel("Chỉ số cũ");
 		    tx4 = new JTextField(13);
 			mact.add(mact1);
 			mact.add(tx3);
@@ -239,43 +249,43 @@ public void addControls() {
 			JPanel ngaynhap =new JPanel();
 			maKH1 = new JLabel("Ngày nhập");
 		    tx5 = new JTextField(10);
-		    csm = new JLabel("Chỉ Số mới");
+		    csm = new JLabel("Chỉ số mới");
 		    tx6 = new JTextField(13);
 		    ngaynhap.add(maKH1);
 		    ngaynhap.add(tx5);
 		    ngaynhap.add(csm);
 		    ngaynhap.add(tx6);
-			// Thêm Button
+			// Thêm button
 			JPanel but = new JPanel();
 			 buttonGhi = new JButton("Ghi");
 			 buttonBack = new JButton("Back");
 			but.add(buttonGhi);
 			but.add(buttonBack);
-			// Thêm bảng
+			// Thên bảng
 			//Bảng
 			JPanel boxtb = new JPanel();
 			table.addColumn("Quận");
-			table.addColumn("Phường");
+			table.addColumn("Phư�?ng");
 			table.addColumn("Mã CT");
 			table.addColumn("Ngày nhập");
 			table.addColumn("Năm");
 			table.addColumn("Tháng");
-			table.addColumn("Chỉ số ");
-			table.addColumn("Số tiền");		
+			table.addColumn("Chỉ số");
+			table.addColumn("Số ti�?n");		
 		    tb = new JTable(table);
 		    sc = new JScrollPane(tb);
 			Container con1 = getContentPane();
 			con1.setLayout(new BorderLayout());
 			con1.add(sc, BorderLayout.CENTER);
 			boxtb.add(sc);
-			//Thêm vào hộp chính
+			//ThÃªm vÃ o há»™p chÃ­nh
 			box.add(makh);
 			box.add(map);
 			box.add(mact);
 			box.add(ngaynhap);
 			box.add(but);
 			box.add(sc);
-			//Thêm vào container
+			//ThÃªm vÃ o container
 			con.add(box);
 }
 ActionListener eventback = new ActionListener() {
@@ -288,7 +298,7 @@ ActionListener eventback = new ActionListener() {
 };
 
 public void menu_back() {
-	Home myUI = new Home("Khách Hàng");
+	Home myUI = new Home("Khách hàng");
 	myUI.showWindow();
 	if (con != null) {
         try {

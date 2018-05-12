@@ -1,0 +1,130 @@
+package quanly;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Container;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.Vector;
+import quanly.KhachHang;
+import quanly.model.database;
+
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextField;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.JTable;
+public class Login extends JFrame{
+	Connection con;
+	JLabel lableUser,lablePassword;
+	JTextField JtextUser,JtextPassword;
+	JButton login,thoat;
+	public Login() {
+		db = new database();
+		con = db.connectSQL();
+	}
+	public Login(String tieude) {
+		super(tieude);
+		addControls();
+		addEvents();
+		
+	}
+	public void addControls() {
+		Container con = getContentPane();
+		// main chinh hien thi noi dung
+		JPanel Panelchinh = new JPanel();
+		Panelchinh.setLayout(new BoxLayout(Panelchinh, BoxLayout.Y_AXIS));
+		JPanel title =new JPanel();
+		JLabel Title=new JLabel("Quản lý tiền điện");
+		Font fonttitle=new Font("Arial",Font.BOLD,30);
+		Title.setFont(fonttitle);
+		title.add(Title);
+		//Username
+		JPanel username = new JPanel();
+		lableUser= new JLabel("Username");
+		JtextUser = new JTextField(15);
+		username.add(lableUser);
+		username.add(JtextUser);
+		//Password
+		JPanel password = new JPanel();
+		lablePassword= new JLabel("Username");
+		JtextPassword = new JTextField(15);
+		password.add(lablePassword);
+		password.add(JtextPassword);
+		//Button
+		JPanel button = new JPanel();
+		login= new JButton("Login");
+		thoat= new JButton("Thoát");
+		button.add(login);
+		button.add(thoat);
+		//Thêm vào panel chính
+		Panelchinh.add(title);
+		Panelchinh.add(username);
+		Panelchinh.add(password);
+		Panelchinh.add(button);
+		//Thêm vào container
+		con.add(Panelchinh);
+	}
+	ActionListener Login = new ActionListener() {
+		@SuppressWarnings("deprecation")
+		@Override
+		public void actionPerformed(ActionEvent arg0) {
+			if (conn != null) {
+				String sql = "SELECT * FROM admin WHERE admin=? and Password=?";
+
+				try {
+					PreparedStatement ptmt = (PreparedStatement) conn.prepareStatement(sql);
+
+					ptmt.setString(1, txtTK.getText());
+					ptmt.setString(2, jPassword.getText());
+
+					ResultSet rs = ptmt.executeQuery();
+
+					if (rs.next()) {
+
+						if (rs.getString("admin").equals("manhdung") && rs.getString("Password").equals("123456")) {
+							Home myUI = new Home("Khách Hàng");
+							myUI.showWindow();
+							if (con != null) {
+						        try {
+						            con.close();
+						        } catch (SQLException e) { /* ignored */}
+						    }
+							dispose();
+							JOptionPane.showMessageDialog(null, "Đăng nhập thành công!");
+
+						}
+					} else {
+						JOptionPane.showMessageDialog(null, "Tài khoản hoặc mật khẩu chưa đúng!");
+					}
+				} catch (SQLException e) {
+					System.out.println("loi  " + e.getMessage());
+
+				}
+			} else {
+				System.out.println("Kết nối MYSQL thất bại");
+			}
+		}
+
+	};
+	public void addEvents() {
+		login.addActionListener(Login);
+	}
+	public void showWindow() {
+		this.setSize(300, 300);
+		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+		this.setLocationRelativeTo(null);
+		this.setVisible(true);
+
+	}
+}

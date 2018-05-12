@@ -1,0 +1,345 @@
+package quanly;
+
+import java.awt.BorderLayout;
+import java.awt.Container;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.table.DefaultTableModel;
+
+import com.mysql.jdbc.Statement;
+
+import quanly.KhachHang.Item;
+import quanly.model.database;
+
+public class TinhTien extends JFrame {
+	database db, db1;
+	int mqu,sotien,csmoi,cscu;
+	String tenquan,tenphuong,nam,thang;
+	JButton buttonGhi,buttonBack,buttontimkiem;
+	Connection con;
+	JComboBox year,sothang;
+	DefaultTableModel table = new DefaultTableModel();
+	JScrollPane sc = new JScrollPane();
+	JLabel ma,quan,phuong,chuki,mact1,csc,maKH1,csm,month;
+	JTextField tx1,tx2,tx3,tx4,tx5,tx6;
+	JTable tb;
+	JComboBox comboboxquan = new JComboBox(), comboboxphuong = new JComboBox();
+	public TinhTien() {
+		db = new database();
+		con = db.connectSQL();
+	}
+	public TinhTien(String tieude) {
+		super(tieude);
+		addControls();
+		addEvents();
+	}
+	MouseAdapter eventClick = new MouseAdapter() {
+		public void mouseClicked(MouseEvent e) {
+			int i = tb.getSelectedRow();
+			String[] row = new String[8];
+			for (int j = 0; j < row.length; j++) {
+				row[j] = (String) tb.getValueAt(i, j);
+			}
+			comboboxquan.setSelectedItem(row[0]);
+			comboboxphuong.setSelectedItem(row[1]);
+			tx3.setText(row[2]);
+			tx5.setText(row[3]);
+			year.setSelectedItem(row[4]);
+			sothang.setSelectedItem(row[5]);
+			tx4.setText(row[6]);
+		}
+	};
+	ActionListener cboQuanChange = new ActionListener() {
+		public void actionPerformed(ActionEvent e) {
+			updatePhuong();
+		}
+	};
+
+	public void updatePhuong() {
+		comboboxphuong.removeAllItems();
+		try {
+			ResultSet res;
+			db1 = new database();
+			Connection conn = db.connectSQL();
+			// System.out.println(conn);
+			Statement sttm = (Statement) conn.createStatement();
+			mqu = ((Item) comboboxquan.getSelectedItem()).getId();
+
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		// System.out.println(mqu);
+		try {
+			ResultSet res;
+			db = new database();
+			Connection conn = db1.connectSQL();
+			Statement sttm = (Statement) conn.createStatement();
+			res = sttm.executeQuery("SELECT TenPhuong FROM `Phuong` INNER JOIN Quan ON Phuong.MaQuan = '" + mqu
+					+ "'  AND Quan.MaQuan = '" + mqu + "'");
+			while (res.next()) {
+				comboboxphuong.addItem(res.getString("TenPhuong"));
+
+			}
+			tenquan = ((Item) comboboxquan.getSelectedItem()).getDescription();
+			tenphuong = (String) comboboxphuong.getSelectedItem();
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+	}
+	//TÃ¬m kiáº¿m
+	ActionListener eventtimkiem = new ActionListener() {
+		public void actionPerformed(ActionEvent e) {
+			Timkiem();
+		}
+		public void Timkiem() {
+			try {
+				table.setRowCount(0);
+				ResultSet res;
+				db = new database();
+				con = db1.connectSQL();
+				Statement sttm = (Statement) con.createStatement();
+//				System.out.println("SELECT Quan, Phuong,MaCT,NgayNhap,Nam,Thang,Chiso,Sotien FROM BienLai WHERE MaKH ='"+tx1.getText()+"' ORDER BY  Nam   DESC");
+				res = con.createStatement().executeQuery(
+						"SELECT Quan, Phuong,MaCT,NgayNhap,Nam,Thang,Chiso,Sotien FROM BienLai WHERE MaKH ='"+tx1.getText()+"' ORDER BY  Nam   ASC ");
+				
+				while (res.next()) {
+					table.addRow(new String[] { res.getString("Quan"), res.getString("Phuong"),
+							res.getString("MaCT"), res.getString("NgayNhap"), res.getString("Nam"),
+							res.getString("Thang"), res.getString("Chiso"), res.getString("Sotien") });
+				}
+				
+			} catch (SQLException e1) {
+
+				e1.printStackTrace();
+			}
+		}
+	};
+	// ThÃªm
+	ActionListener eventThem = new ActionListener() {
+		public void actionPerformed(ActionEvent e) {
+			Them();
+		}
+
+		public void Them() {
+			try {
+				csmoi = Integer.parseInt(tx6.getText()); 
+				cscu= Integer.parseInt(tx4.getText());
+				if(sotien<50) {
+					sotien=(csmoi-cscu)*1549;
+				}
+				else if(sotien<100) {
+					sotien=((csmoi-cscu-50)*1600+50*1549);
+				}
+				else if(sotien<200) {
+					sotien=((csmoi-cscu-100)*1858+50*1549+50*1600);
+				}else {
+					sotien=((csmoi-cscu-200)*2340+50*1549+50*1600+100*1858);
+				}
+				
+				boolean res;
+				db = new database();
+				con = db1.connectSQL();
+				Statement sttm = (Statement) con.createStatement();
+//				System.out.println("INSERT INTO BienLai( Quan, Phuong, MaCT, MaKH, NgayNhap, Nam,Thang, Chiso,Sotien,ChuKy) VALUES ('"
+//								+ comboboxquan.getSelectedItem() + " ','" + comboboxphuong.getSelectedItem() + "','" + tx3.getText() + "','"
+//								+ tx1.getText() + "','" + tx5.getText() + "','" +year.getSelectedItem()+"','"+ sothang.getSelectedItem() + "','"
+//							    + tx6.getText() + "','" + sotien+"', concat('"+year.getSelectedItem()+"',LPAD('"+sothang.getSelectedItem()+"', 2, '0') ))");
+				res = con.createStatement().execute(
+						"INSERT INTO BienLai( Quan, Phuong, MaCT, MaKH, NgayNhap, Nam,Thang, Chiso,Sotien,ChuKy) VALUES ('"
+								+ comboboxquan.getSelectedItem() + " ','" + comboboxphuong.getSelectedItem() + "','" + tx3.getText() + "','"
+								+ tx1.getText() + "','" + tx5.getText() + "','" +year.getSelectedItem()+"','"+ sothang.getSelectedItem() + "','"
+							    + tx6.getText() + "','" + sotien+"', concat('"+year.getSelectedItem()+"',LPAD('"+sothang.getSelectedItem()+"', 2, '0') ))");
+			} catch (SQLException e1) {
+
+				e1.printStackTrace();
+			}
+		}
+	};
+public void addControls() {
+	// container
+			Container con = getContentPane();
+			// main chinh hien thi noi dung
+			JPanel box = new JPanel();
+
+			// cai dat cach sap xep
+			box.setLayout(new BoxLayout(box, BoxLayout.Y_AXIS));
+			// tieu de
+			JPanel Title = new JPanel();
+	        JLabel LTitle = new JLabel("Hóa đơn thu tiền điện");
+			Font fonttitle = new Font("Arial", Font.BOLD, 20);
+			LTitle.setFont(fonttitle);
+			Title.add(LTitle);
+			// ket thuc tieu de
+			JPanel makh = new JPanel();
+			ma = new JLabel("Mã khách hàng");
+			tx1 = new JTextField(15);
+			buttontimkiem = new JButton("Tìm kiếm");
+			JPanel tenkh = new JPanel();
+			quan = new JLabel("Quận");
+			comboboxquan.addActionListener(cboQuanChange);
+
+			try {
+
+				ResultSet res;
+				db = new database();
+				Connection conn = db.connectSQL();
+				Statement sttm = (Statement) conn.createStatement();
+				res = sttm.executeQuery("SELECT * FROM `Quan`");
+				while (res.next()) {
+					comboboxquan.addItem(new Item(res.getInt("MaQuan"), res.getString("TenQuan")));
+
+				}
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			makh.add(ma);
+			makh.add(tx1);
+			makh.add(buttontimkiem);
+			makh.add(quan);
+			makh.add(comboboxquan);
+	
+			
+			//phÆ°á»�ng vÃ  chu ká»³
+			JPanel map = new JPanel();
+			 phuong = new JLabel("             Phường");
+			 updatePhuong();
+			chuki = new JLabel("Chu kỳ  ");
+			month = new JLabel("  Tháng ");
+			String[] nam = new String[] {"2008","2009","2010","2011","2012","2013","2014","2015","2016","2017","2018","2019","2020"};
+			String [] thang = new String[] {"1","2","3","4","5","6","7","8","9","10","11","12"};
+			 year = new JComboBox(nam);
+			 sothang = new JComboBox(thang);
+			map.add(chuki);
+			map.add(year);
+			map.add(month);
+			map.add(sothang);
+			map.add(phuong);
+			map.add(comboboxphuong);
+			//mã cong to
+			JPanel mact =new JPanel();
+			mact1 = new JLabel("Mã Công Tơ");
+		    tx3 = new JTextField(13);
+		    csc = new JLabel("Chỉ số cũ");
+		    tx4 = new JTextField(13);
+			mact.add(mact1);
+			mact.add(tx3);
+			mact.add(csc);
+			mact.add(tx4);
+			// Ngày nhập
+			JPanel ngaynhap =new JPanel();
+			maKH1 = new JLabel("Ngày nhập");
+		    tx5 = new JTextField(10);
+		    csm = new JLabel("Chỉ số mới");
+		    tx6 = new JTextField(13);
+		    ngaynhap.add(maKH1);
+		    ngaynhap.add(tx5);
+		    ngaynhap.add(csm);
+		    ngaynhap.add(tx6);
+			// Thêm button
+			JPanel but = new JPanel();
+			 buttonGhi = new JButton("Ghi");
+			 buttonBack = new JButton("Back");
+			but.add(buttonGhi);
+			but.add(buttonBack);
+			// Thên bảng
+			//Bảng
+			JPanel boxtb = new JPanel();
+			table.addColumn("Quận");
+			table.addColumn("Phường");
+			table.addColumn("Mã CT");
+			table.addColumn("Ngày nhập");
+			table.addColumn("Năm");
+			table.addColumn("Tháng");
+			table.addColumn("Chỉ số");
+			table.addColumn("Số tiền");		
+		    tb = new JTable(table);
+		    sc = new JScrollPane(tb);
+			Container con1 = getContentPane();
+			con1.setLayout(new BorderLayout());
+			con1.add(sc, BorderLayout.CENTER);
+			boxtb.add(sc);
+			//ThÃªm vÃ o há»™p chÃ­nh
+			box.add(makh);
+			box.add(map);
+			box.add(mact);
+			box.add(ngaynhap);
+			box.add(but);
+			box.add(sc);
+			//ThÃªm vÃ o container
+			con.add(box);
+}
+ActionListener eventback = new ActionListener() {
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		menu_back();
+	}
+};
+
+public void menu_back() {
+	Home myUI = new Home("Khách hàng");
+	myUI.showWindow();
+	if (con != null) {
+        try {
+            con.close();
+        } catch (SQLException e) { /* ignored */}
+    }
+	dispose();
+}
+public void addEvents() {
+	tb.addMouseListener(eventClick);
+	buttonGhi.addActionListener(eventThem);
+	buttonBack.addActionListener(eventback);
+	buttontimkiem.addActionListener(eventtimkiem);
+}
+public void showWindow() {
+	this.setSize(600, 500);
+	this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+	this.setLocationRelativeTo(null);
+	this.setVisible(true);
+}
+class Item {
+
+	private int id;
+	private String description;
+
+	public Item(int id, String description) {
+		this.id = id;
+		this.description = description;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	@Override
+	public String toString() {
+		return description;
+	}
+}
+}

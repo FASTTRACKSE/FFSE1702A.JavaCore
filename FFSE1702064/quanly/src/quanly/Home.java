@@ -35,7 +35,7 @@ public class Home extends JFrame{
 		JPanel box = new JPanel();
 		box.setLayout(new BoxLayout(box, BoxLayout.Y_AXIS));
 		JPanel title =new JPanel();
-		JLabel Title=new JLabel("Quản lý tiền điện");
+		JLabel Title=new JLabel("Quản lý ti�?n điện");
 		Font fonttitle=new Font("Arial",Font.BOLD,30);
 		Title.setFont(fonttitle);
 		title.add(Title);
@@ -46,7 +46,7 @@ public class Home extends JFrame{
 		JPanel box3= new JPanel();
 		tk=new JButton("Thống kê");
 		JPanel box4= new JPanel();
-		dx=new JButton("Đăng Xuất");
+		dx=new JButton("�?ăng xuất");
 		box1.add(kh);
 		box2.add(bl);
 		box3.add(tk);
@@ -70,7 +70,7 @@ public class Home extends JFrame{
 		this.dispose();
 	}
 	
-	//Thống kê
+	//Thá»‘ng kÃª
 	ActionListener thongke = new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
 			thongke1();		
@@ -97,7 +97,7 @@ public class Home extends JFrame{
 		}
 	};
 	    public void dangxuat1() {
-	    	Login myUI = new Login("Đăng nhập");
+	    	Login myUI = new Login("�?ăng nhập");
 			myUI.showWindow();
 			this.dispose();
 	    }

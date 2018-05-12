@@ -1,0 +1,250 @@
+// list window 2
+	ActionListener ds_btWd2_1 = new ActionListener() {
+		public void actionPerformed(ActionEvent e) {
+			bt_dsWd2_1();
+		}
+	};
+
+	protected void bt_dsWd2_1() {
+		// xoa table:
+		int row = tb.getRowCount();
+		if (row > 0) {
+			tb.setRowCount(0);
+		}
+		// all
+		if (customer.getSelection() == null) {
+			JOptionPane.showMessageDialog(null, "vui lòng chọn đối tượng cần xem !");
+		} else {
+			try {
+
+				// nếu chọn vào tất cả khách hàng
+				if (All_Customer.isSelected()) {
+					// nếu chọn all thì .....
+					
+
+					if (time.getSelection() == null) {
+						JOptionPane.showMessageDialog(null, "vui lòng chọn khoảng thời gian cần xem !");
+					} else {
+
+						// nếu chọn theo năm thì ....
+						if (year_time.isSelected()) {
+							// xoa table:
+							row = tb1.getRowCount();
+							if (row > 0) {
+								tb1.setRowCount(0);
+							}
+							String key_y = (String) year_cb.getSelectedItem();
+							res = conn.createStatement().executeQuery(
+									"SELECT customer.maKH,customer.macongto,customer.hoten,customer.diachi,bienlai.chuky ,bienlai.chisocongto,bienlai.tinh_tien FROM customer INNER JOIN bienlai ON customer.macongto = bienlai.macongto WHERE year = '"
+											+ key_y + "' ORDER BY  macongto ,year , month  ASC");
+							while (res.next()) {
+								tb1.addRow(new String[] { res.getString("maKH"), res.getString("macongto"),
+										res.getString("hoten"), res.getString("diachi"), res.getString("chuky"),
+										res.getString("chisocongto"), res.getString("tinh_tien") });
+							}
+						}
+
+						// theo chu kỳ
+						if (chuky_time.isSelected()) {
+							// xoa table:
+							row = tb1.getRowCount();
+							if (row > 0) {
+								tb1.setRowCount(0);
+							}
+
+							String key_m = (String) month_cb.getSelectedItem();
+							String key_y = (String) year_kh_cb.getSelectedItem();
+
+							res = conn.createStatement().executeQuery(
+									"SELECT customer.maKH,customer.macongto,customer.hoten,customer.diachi,bienlai.chuky ,bienlai.chisocongto,bienlai.tinh_tien FROM customer INNER JOIN bienlai ON customer.macongto = bienlai.macongto WHERE month = '"
+											+ key_m + "' and year = '" + key_y + "' ORDER BY  year , month  ASC");
+							while (res.next()) {
+								tb1.addRow(new String[] { res.getString("maKH"), res.getString("macongto"),
+										res.getString("hoten"), res.getString("diachi"), res.getString("chuky"),
+										res.getString("chisocongto"), res.getString("tinh_tien") });
+							}
+						}
+
+						// theo khoảng thời gian
+
+						if (theothoigian_time.isSelected()) {
+							// xoa table:
+							row = tb1.getRowCount();
+							if (row > 0) {
+								tb1.setRowCount(0);
+							}
+							String th = (String) cb_inMonth.getSelectedItem();
+							String na = (String) cb_inYear.getSelectedItem();
+							String dth =  (String) cb_toMonth.getSelectedItem();
+							String dna = (String) cb_toYear.getSelectedItem();
+							
+							res = conn.createStatement().executeQuery(
+									"SELECT customer.maKH,customer.macongto,customer.hoten,customer.diachi,bienlai.chuky ,bienlai.chisocongto,bienlai.tinh_tien FROM customer INNER JOIN bienlai ON customer.macongto = bienlai.macongto WHERE bienlai.chuky BETWEEN '"+na+""+th+" '  AND '"+dna+""+dth+" '  ORDER BY  year , month  ASC");
+							while (res.next()) {
+								tb1.addRow(new String[] { res.getString("maKH"), res.getString("macongto"),
+										res.getString("hoten"), res.getString("diachi"), res.getString("chuky"),
+										res.getString("chisocongto"), res.getString("tinh_tien") });
+							}
+						}
+
+					}
+				}
+
+				// nếu chọn vào quận huyện
+				if (quanphuong_Customer.isSelected()) {	
+					if (time.getSelection() == null) {
+						JOptionPane.showMessageDialog(null, "vui lòng chọn khoảng thời gian cần xem !");
+					} else {
+
+						// nếu chọn theo năm thì ....
+						if (year_time.isSelected()) {
+							// xoa table:
+							row = tb1.getRowCount();
+							if (row > 0) {
+								tb1.setRowCount(0);
+							}
+							String key_quan = (String) quan_cb2.getSelectedItem();
+							String key_huyen = (String) phuong_cb2.getSelectedItem();
+							String key_y = (String) year_cb.getSelectedItem();
+							res = conn.createStatement().executeQuery(
+									"SELECT customer.maKH,customer.macongto,customer.hoten,customer.diachi,bienlai.chuky ,bienlai.chisocongto,bienlai.tinh_tien FROM customer INNER JOIN bienlai ON customer.macongto = bienlai.macongto WHERE quan = '"+key_quan+"' and phuong = '"+key_huyen + "' and year = '"
+											+ key_y + "'  ORDER BY  macongto ,year , month  ASC");
+							while (res.next()) {
+								tb1.addRow(new String[] { res.getString("maKH"), res.getString("macongto"),
+										res.getString("hoten"), res.getString("diachi"), res.getString("chuky"),
+										res.getString("chisocongto"), res.getString("tinh_tien") });
+							}
+						}
+
+						// theo chu kỳ
+						if (chuky_time.isSelected()) {
+							// xoa table:
+							row = tb1.getRowCount();
+							if (row > 0) {
+								tb1.setRowCount(0);
+							}
+							String key_quan = (String) quan_cb2.getSelectedItem();
+							String key_huyen = (String) phuong_cb2.getSelectedItem();
+							
+							String key_m = (String) month_cb.getSelectedItem();
+							String key_y = (String) year_kh_cb.getSelectedItem();
+
+							res = conn.createStatement().executeQuery(
+									"SELECT customer.maKH,customer.macongto,customer.hoten,customer.diachi,bienlai.chuky ,bienlai.chisocongto,bienlai.tinh_tien FROM customer INNER JOIN bienlai ON customer.macongto = bienlai.macongto WHERE quan = '"+key_quan+"' and phuong = '"+key_huyen + "' and month = '"
+											+ key_m + "' and year = '" + key_y + "' ORDER BY  year , month  ASC");
+							while (res.next()) {
+								tb1.addRow(new String[] { res.getString("maKH"), res.getString("macongto"),
+										res.getString("hoten"), res.getString("diachi"), res.getString("chuky"),
+										res.getString("chisocongto"), res.getString("tinh_tien") });
+							}
+						}
+
+						// theo khoảng thời gian
+
+						if (theothoigian_time.isSelected()) {
+							// xoa table:
+							row = tb1.getRowCount();
+							if (row > 0) {
+								tb1.setRowCount(0);
+							}
+							String key_quan = (String) quan_cb2.getSelectedItem();
+							String key_huyen = (String) phuong_cb2.getSelectedItem();
+							
+							String th = (String) cb_inMonth.getSelectedItem();
+							String na = (String) cb_inYear.getSelectedItem();
+							String dth =  (String) cb_toMonth.getSelectedItem();
+							String dna = (String) cb_toYear.getSelectedItem();							
+							res = conn.createStatement().executeQuery(
+									"SELECT customer.maKH,customer.macongto,customer.hoten,customer.diachi,bienlai.chuky ,bienlai.chisocongto,bienlai.tinh_tien FROM customer INNER JOIN bienlai ON customer.macongto = bienlai.macongto WHERE quan = '"+key_quan+"' and phuong = '"+key_huyen + "' AND bienlai.chuky BETWEEN '"+na+""+th+" '  AND '"+dna+""+dth+" '  ORDER BY  year , month  ASC");
+							while (res.next()) {
+								tb1.addRow(new String[] { res.getString("maKH"), res.getString("macongto"),
+										res.getString("hoten"), res.getString("diachi"), res.getString("chuky"),
+										res.getString("chisocongto"), res.getString("tinh_tien") });
+							}
+						}
+
+					}
+				}
+
+				// nếu chọn vào khách hàng cụ thể
+				if (only_Customer.isSelected()) {	
+					if (time.getSelection() == null) {
+						JOptionPane.showMessageDialog(null, "vui lòng chọn khoảng thời gian cần xem !");
+					} else {
+						String key_mct="" ;
+						res = conn.createStatement().executeQuery(
+								"SELECT macongto FROM customer WHERE macongto = '"+search_text.getText()+"' ");
+						if (res.next()) {
+							key_mct = res.getString("macongto");
+						}else {
+							JOptionPane.showMessageDialog(null, "Mã Công Tơ Không Tồn Tại . Vui Lòng Kiểm Tra Lại !");
+						}
+						// nếu chọn theo năm thì ....
+						if (year_time.isSelected()) {
+							// xoa table:
+							row = tb1.getRowCount();
+							if (row > 0) {
+								tb1.setRowCount(0);
+							}
+						
+							String key_y = (String) year_cb.getSelectedItem();
+							res = conn.createStatement().executeQuery(
+									"SELECT customer.maKH,customer.macongto,customer.hoten,customer.diachi,bienlai.chuky ,bienlai.chisocongto,bienlai.tinh_tien FROM customer INNER JOIN bienlai ON customer.macongto = bienlai.macongto WHERE customer.macongto = '"+key_mct+"' and  year = '" + key_y + "'  ORDER BY  macongto ,year , month  ASC");
+							while (res.next()) {
+								tb1.addRow(new String[] { res.getString("maKH"), res.getString("macongto"),
+										res.getString("hoten"), res.getString("diachi"), res.getString("chuky"),
+										res.getString("chisocongto"), res.getString("tinh_tien") });
+							}
+						}
+
+						// theo chu kỳ
+						if (chuky_time.isSelected()) {
+							// xoa table:
+							row = tb1.getRowCount();
+							if (row > 0) {
+								tb1.setRowCount(0);
+							}
+							
+							String key_m = (String) month_cb.getSelectedItem();
+							String key_y = (String) year_kh_cb.getSelectedItem();
+
+							res = conn.createStatement().executeQuery(
+									"SELECT customer.maKH,customer.macongto,customer.hoten,customer.diachi,bienlai.chuky ,bienlai.chisocongto,bienlai.tinh_tien FROM customer INNER JOIN bienlai ON customer.macongto = bienlai.macongto WHERE customer.macongto = '"+key_mct+"' and  month = '"+ key_m + "' and year = '" + key_y + "' ORDER BY  year , month  ASC");
+							while (res.next()) {
+								tb1.addRow(new String[] { res.getString("maKH"), res.getString("macongto"),
+										res.getString("hoten"), res.getString("diachi"), res.getString("chuky"),
+										res.getString("chisocongto"), res.getString("tinh_tien") });
+							}
+						}
+
+						// theo khoảng thời gian
+
+						if (theothoigian_time.isSelected()) {
+							// xoa table:
+							row = tb1.getRowCount();
+							if (row > 0) {
+								tb1.setRowCount(0);
+							}							
+							String th = (String) cb_inMonth.getSelectedItem();
+							String na = (String) cb_inYear.getSelectedItem();
+							String dth =  (String) cb_toMonth.getSelectedItem();
+							String dna = (String) cb_toYear.getSelectedItem();							
+							res = conn.createStatement().executeQuery(
+									"SELECT customer.maKH,customer.macongto,customer.hoten,customer.diachi,bienlai.chuky ,bienlai.chisocongto,bienlai.tinh_tien FROM customer INNER JOIN bienlai ON customer.macongto = bienlai.macongto WHERE customer.macongto = '"+key_mct+"' and bienlai.chuky BETWEEN '"+na+""+th+" '  AND '"+dna+""+dth+" '  ORDER BY  year , month  ASC");
+							while (res.next()) {
+								tb1.addRow(new String[] { res.getString("maKH"), res.getString("macongto"),
+										res.getString("hoten"), res.getString("diachi"), res.getString("chuky"),
+										res.getString("chisocongto"), res.getString("tinh_tien") });
+							}
+						}
+
+					}
+				}
+				
+
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		}
+	}

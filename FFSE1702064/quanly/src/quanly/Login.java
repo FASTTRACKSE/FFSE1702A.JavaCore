@@ -22,6 +22,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
@@ -33,7 +34,8 @@ public class Login extends JFrame{
 	database db;
 	Connection con;
 	JLabel lableUser,lablePassword;
-	JTextField JtextUser,JtextPassword;
+	JTextField JtextUser;
+	JPasswordField JtextPassword;
 	JButton login,thoat;
 //	public Login() {
 //		db = new database();
@@ -55,7 +57,7 @@ public class Login extends JFrame{
 		JPanel Panelchinh = new JPanel();
 		Panelchinh.setLayout(new BoxLayout(Panelchinh, BoxLayout.Y_AXIS));
 		JPanel title =new JPanel();
-		JLabel Title=new JLabel("Quản lý tiền điện");
+		JLabel Title=new JLabel("Quản lý ti�?n điện");
 		Font fonttitle=new Font("Arial",Font.BOLD,30);
 		Title.setFont(fonttitle);
 		title.add(Title);
@@ -68,7 +70,7 @@ public class Login extends JFrame{
 		//Password
 		JPanel password = new JPanel();
 		lablePassword= new JLabel("Username");
-		JtextPassword = new JTextField(15);
+		JtextPassword = new JPasswordField(15);
 		password.add(lablePassword);
 		password.add(JtextPassword);
 		//Button
@@ -77,12 +79,12 @@ public class Login extends JFrame{
 		thoat= new JButton("Thoát");
 		button.add(login);
 		button.add(thoat);
-		//Thêm vào panel chính
+		//ThÃªm vÃ o panel chÃ­nh
 		Panelchinh.add(title);
 		Panelchinh.add(username);
 		Panelchinh.add(password);
 		Panelchinh.add(button);
-		//Thêm vào container
+		//ThÃªm vÃ o container
 		con.add(Panelchinh);
 	}
 	ActionListener Login = new ActionListener() {
@@ -103,7 +105,7 @@ public class Login extends JFrame{
 					if (rs.next()) {
 
 						if (rs.getString("Username").equals("manhdung") && rs.getString("Password").equals("123456")) {
-							Home myUI = new Home("Khách Hàng");
+							Home myUI = new Home("Khách hàng");
 							myUI.showWindow();
 							myUI.setVisible(true);
 //							if (con != null) {
@@ -112,7 +114,7 @@ public class Login extends JFrame{
 //						        } catch (SQLException e) { /* ignored */}
 //						    }
 							dispose();
-							JOptionPane.showMessageDialog(null, "Đăng nhập thành công!");
+							JOptionPane.showMessageDialog(null, "�?ăng nhập thành công!");
 
 						}
 					} else {
@@ -123,7 +125,7 @@ public class Login extends JFrame{
 
 				}
 			} else {
-				System.out.println("Kết nối MYSQL thất bại");
+				System.out.println("Kết nối thất bại");
 			}
 		}
 

@@ -1,0 +1,57 @@
+package quanly;
+
+import java.awt.Container;
+import java.awt.Font;
+
+import javax.swing.BoxLayout;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JRadioButton;
+
+public class TieuThuDien extends JFrame {
+	JRadioButton r1,r2,r3,r4,r5,r6;
+public TieuThuDien(String tieude) {
+	super(tieude);
+	addControls();
+	addEvents();
+}
+public void addControls() {
+	Container con = getContentPane();
+	JPanel box = new JPanel();
+	box.setLayout(new BoxLayout(box, BoxLayout.Y_AXIS));
+	JPanel title =new JPanel();
+	JLabel Title=new JLabel("Tình hình tiêu thụ điện");
+	Font fonttitle=new Font("Arial",Font.BOLD,30);
+	Title.setFont(fonttitle);
+	title.add(Title);
+	//Hàng thứ 1
+	JPanel box2 = new JPanel();
+    r1=new JRadioButton("Tất cả khách hàng");  
+	r2=new JRadioButton("Theo năm");  
+	r1.setBounds(50,100,70,30);  
+	r2.setBounds(50,150,70,30); 
+	box2.add(r1);
+	box2.add(r2);
+	// Hàng thứ 2
+	JPanel box3 = new JPanel();
+    r3=new JRadioButton("Theo quận và phường");  
+	r4=new JRadioButton("Theo khoảng thời gian");  
+	r3.setBounds(50,100,70,30);  
+	r4.setBounds(50,150,70,30); 
+	box3.add(r3);
+	box3.add(r4);
+	box.add(box2);
+	box.add(box3);
+	con.add(box);
+}
+public void addEvents() {
+	
+}
+public void showWindow() {
+	this.setSize(600, 300);
+	this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+	this.setLocationRelativeTo(null);
+	this.setVisible(true);
+}
+}

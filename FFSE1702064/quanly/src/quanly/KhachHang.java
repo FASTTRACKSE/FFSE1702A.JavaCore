@@ -75,7 +75,6 @@ public class KhachHang extends JFrame {
 						.executeQuery("SELECT ID FROM KhachHang WHERE MaCT = '" + mc1.getText() + "'");
 				if (res.next()) {
 					id = res.getString("ID");
-					System.out.println(id);
 				}
 			} catch (SQLException e1) {
 				// TODO Auto-generated catch block
@@ -97,11 +96,6 @@ public class KhachHang extends JFrame {
 				db = new database();
 				con = db1.connectSQL();
 				Statement sttm = (Statement) con.createStatement();
-				// System.out.println("INSERT INTO KhachHang( MaKH, TenKH, Phone, Email, Quan,
-				// Phuong, DiaChi, MaCT) VALUES (' "+ tx1.getText() + "
-				// ','"+tx2.getText()+"','"+txt1.getText()+"','"+mail.getText()+"','"+comboboxquan.getSelectedItem()+"','"+comboboxphuong.getSelectedItem()+"','"+txt2.getText()+"','"+mc1.getText()+"')");
-				// System.out.println("SELECT MaKH, TenKH,Phone,Email,Quan,Phuong,DiaChi,MaCT
-				// FROM KhachHang ORDER BY ID ASC");
 				res = con.createStatement().executeQuery(
 						"SELECT MaKH, TenKH,Phone,Email,Quan,Phuong,DiaChi,MaCT FROM KhachHang ORDER BY ID DESC");
 				while (res.next()) {
@@ -127,23 +121,12 @@ public class KhachHang extends JFrame {
 				db = new database();
 				con = db1.connectSQL();
 				Statement sttm = (Statement) con.createStatement();
-				// System.out.println("INSERT INTO KhachHang( MaKH, TenKH, Phone, Email, Quan,
-				// Phuong, DiaChi, MaCT) VALUES (' "+ tx1.getText() + "
-				// ','"+tx2.getText()+"','"+txt1.getText()+"','"+mail.getText()+"','"+comboboxquan.getSelectedItem()+"','"+comboboxphuong.getSelectedItem()+"','"+txt2.getText()+"','"+mc1.getText()+"')");
-				// System.out.println("SELECT MaKH, TenKH,Phone,Email,Quan,Phuong,DiaChi,MaCT
-				// FROM KhachHang ORDER BY ID ASC");
 				res = con.createStatement().execute(
 						"INSERT INTO KhachHang( MaKH, TenKH, Phone, Email, Quan, Phuong, DiaChi, MaCT) VALUES ('"
 								+ tx1.getText() + " ','" + tx2.getText() + "','" + txt1.getText() + "','"
 								+ mail.getText() + "','" + comboboxquan.getSelectedItem() + "','"
 								+ comboboxphuong.getSelectedItem() + "','" + txt2.getText() + "','" + mc1.getText()
 								+ "')");
-				// while (res.next()) {
-				// demotable.addRow(new String[] { res.getString("MaKH"),
-				// res.getString("TenKH"),res.getString("Phone"),res.getString("Email"),
-				// res.getString("Quan"),
-				// res.getString("Phuong"), res.getString("DiaChi"), res.getString("MaCT") });
-				// }
 			} catch (SQLException e1) {
 
 				e1.printStackTrace();
@@ -165,6 +148,7 @@ public class KhachHang extends JFrame {
 
 		}
 	};
+	//Sửa
 	ActionListener eventSua = new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
 			Sua();
@@ -178,26 +162,11 @@ public class KhachHang extends JFrame {
 				db = new database();
 				con = db1.connectSQL();
 				Statement sttm = (Statement) con.createStatement();
-				// System.out.println("INSERT INTO KhachHang( MaKH, TenKH, Phone, Email, Quan,
-				// Phuong, DiaChi, MaCT) VALUES (' "+ tx1.getText() + "
-				// ','"+tx2.getText()+"','"+txt1.getText()+"','"+mail.getText()+"','"+comboboxquan.getSelectedItem()+"','"+comboboxphuong.getSelectedItem()+"','"+txt2.getText()+"','"+mc1.getText()+"')");
-				// System.out.println("SELECT MaKH, TenKH,Phone,Email,Quan,Phuong,DiaChi,MaCT
-				// FROM KhachHang ORDER BY ID ASC");
-//				System.out.println("UPDATE KhachHang SET MaKH='" + tx1.getText() + "',TenKH='" + tx2.getText()
-//								+ "',Phone='" + txt1.getText() + "',Email='" + mail.getText() + "',Quan='"
-//								+ comboboxquan.getSelectedItem() + "',Phuong='" + comboboxphuong.getSelectedItem()
-//								+ "',Diachi='" + txt2.getText() + "',MaCT='" + mc1.getText() + "'WHERE ID =" +id+"'");
 				res = con.createStatement()
 						.execute("UPDATE KhachHang SET MaKH='" + tx1.getText() + "',TenKH='" + tx2.getText()
 								+ "',Phone='" + txt1.getText() + "',Email='" + mail.getText() + "',Quan='"
 								+ comboboxquan.getSelectedItem() + "',Phuong='" + comboboxphuong.getSelectedItem()
 								+ "',Diachi='" + txt2.getText() + "',MaCT='" + mc1.getText() + "'WHERE ID =" +id+"");
-				// while (res.next()) {
-				// demotable.addRow(new String[] { res.getString("MaKH"),
-				// res.getString("TenKH"),res.getString("Phone"),res.getString("Email"),
-				// res.getString("Quan"),
-				// res.getString("Phuong"), res.getString("DiaChi"), res.getString("MaCT") });
-				// }
 			} catch (SQLException e1) {
 
 				e1.printStackTrace();
@@ -263,9 +232,9 @@ public class KhachHang extends JFrame {
 		Font fonttitle = new Font("Arial", Font.BOLD, 30);
 		Title.setFont(fonttitle);
 		title.add(Title);
-		// Mã và quận
+		// MÃ£ vÃ  quáº­n
 		JPanel makh = new JPanel();
-		ma = new JLabel("Mã Khách Hàng");
+		ma = new JLabel("Mã khách hàng");
 		tx1 = new JTextField(20);
 		JPanel tenkh = new JPanel();
 		quan = new JLabel("Quận");
@@ -290,27 +259,27 @@ public class KhachHang extends JFrame {
 		makh.add(tx1);
 		makh.add(quan);
 		makh.add(comboboxquan);
-		// Tên và phường
+		// Tên Và Phư�?ng
 		JPanel makh1 = new JPanel();
-		ma1 = new JLabel("Tên Khách Hàng");
+		ma1 = new JLabel("Tên khách hàng");
 		tx2 = new JTextField(20);
-		phuong = new JLabel("Phường");
+		phuong = new JLabel("Phư�?ng");
 		updatePhuong();
 		makh1.add(ma1);
 		makh1.add(tx2);
 		makh1.add(phuong);
 		makh1.add(comboboxphuong);
-		// Điện thoại và địa chỉ
+		// �?iện thoại và địa chỉ
 		JPanel dt = new JPanel();
-		dt1 = new JLabel("Điện thoại");
+		dt1 = new JLabel("�?iện thoại");
 		txt1 = new JTextField(15);
-		dc = new JLabel("Địa chỉ");
+		dc = new JLabel("�?ịa chỉ");
 		txt2 = new JTextField(15);
 		dt.add(dt1);
 		dt.add(txt1);
 		dt.add(dc);
 		dt.add(txt2);
-		// Email và Mã công tơ
+		// Email và mã công tơ
 		JPanel em = new JPanel();
 		em1 = new JLabel("Email");
 		mail = new JTextField(15);
@@ -338,7 +307,7 @@ public class KhachHang extends JFrame {
 		demotable.addColumn("Email");
 		demotable.addColumn("Quận");
 		demotable.addColumn("Phường");
-		demotable.addColumn("Địa chỉ");
+		demotable.addColumn("�?ịa chỉ");
 		demotable.addColumn("Mã công tơ");
 		tbl = new JTable(demotable);
 		//tbl.setPreferredSize(new Dimension(1000,200));
@@ -389,14 +358,6 @@ public class KhachHang extends JFrame {
 
 		b4.addActionListener(eventback);
 
-		// b4.addActionListener(new ActionListener() {
-		//
-		// public void actionPerformed(ActionEvent e) {
-		// Home myUI = new Home("Khách Hàng");
-		// myUI.showWindow();
-		// this.dispose();
-		// }
-		// });
 	}
 
 	public void showWindow() {

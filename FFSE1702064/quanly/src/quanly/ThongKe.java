@@ -46,7 +46,6 @@ public class ThongKe extends JFrame {
 			ResultSet res;
 			db1 = new database();
 			Connection conn = db.connectSQL();
-			// System.out.println(conn);
 			Statement sttm = (Statement) conn.createStatement();
 			mqu = ((Item) comboboxquan.getSelectedItem()).getId();
 
@@ -54,7 +53,6 @@ public class ThongKe extends JFrame {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		// System.out.println(mqu);
 		try {
 			ResultSet res;
 			db = new database();
@@ -85,15 +83,12 @@ public class ThongKe extends JFrame {
 			ResultSet res;
 			db2 = new database();
 			Connection conn = db.connectSQL();
-			// System.out.println(conn);
 			Statement sttm = (Statement) conn.createStatement();
 			mquan = ((Item) comboboxquan2.getSelectedItem()).getId();
 
 		} catch (SQLException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		// System.out.println(mqu);
 		try {
 			ResultSet res;
 			db = new database();
@@ -105,7 +100,6 @@ public class ThongKe extends JFrame {
 				comboboxphuong2.addItem(res.getString("TenPhuong"));
 
 			}
-//			tenquan = ((Item) comboboxquan2.getSelectedItem()).getDescription();
 
 		} catch (SQLException e1) {
 			// TODO Auto-generated catch block
@@ -121,8 +115,6 @@ public class ThongKe extends JFrame {
 		public void In() {
 			try {
 				ResultSet res;
-//				System.out.println("SELECT MaKH, TenKH,Quan,Phuong,DiaChi,Phone FROM KhachHang where Quan= '" + tenquan
-//						+ "' AND Phuong='" + comboboxphuong.getSelectedItem() + "'");
 				res = con.createStatement()
 						.executeQuery("SELECT MaKH, TenKH,Quan,Phuong,DiaChi,Phone FROM KhachHang where Quan= '"
 								+ tenquan + "' AND Phuong='" + comboboxphuong.getSelectedItem() + "'");
@@ -147,20 +139,20 @@ public class ThongKe extends JFrame {
 				table1.setRowCount(0);
 			}
 			if (buttongroupanelChinhTrang2.getSelection() == null) {
-				JOptionPane.showMessageDialog(null, "vui lòng chọn đối tượng cần xem !");
+				JOptionPane.showMessageDialog(null, "vui lÃ²ng chá»�n Ä‘á»‘i tÆ°á»£ng cáº§n xem !");
 			} else {
 				try {
 
-					// nếu chọn vào tất cả khách hàng
+					// Nếu ch�?n tất cả khách hàng
 					if (allcustomer.isSelected()) {
-						// nếu chọn all thì .....
+						
 						
 
 						if (buttongroupanelChinhTrang1.getSelection() == null) {
-							JOptionPane.showMessageDialog(null, "vui lòng chọn khoảng thời gian cần xem !");
+							JOptionPane.showMessageDialog(null, "Vui lòng ch�?n khoảng th�?i gian cần xem !");
 						} else {
 
-							// nếu chọn theo năm thì ....
+							// Nếu ch�?n theo năm
 							if (year.isSelected()) {
 								// xoa table:
 								row = table1.getRowCount();
@@ -206,7 +198,7 @@ public class ThongKe extends JFrame {
 								}
 							}
 
-							// theo khoảng thời gian
+							// theo khoảng th�?i gian
 
 							if (khoangthoigian.isSelected()) {
 								// xoa table:
@@ -222,7 +214,7 @@ public class ThongKe extends JFrame {
 								db = new database();
 								Connection conn = db.connectSQL();
 								Statement sttm = (Statement) conn.createStatement();
-								System.out.println("SELECT KhachHang.MaKH,KhachHang.TenKH,KhachHang.DiaChi,BienLai.Sotien FROM KhachHang INNER JOIN BienLai ON KhachHang.MaCT = BienLai.MaCT WHERE BienLai.ChuKy BETWEEN '"+na+""+th+" '  AND '"+dna+""+dth+" '  ORDER BY  Nam , Thang  ASC");
+//								System.out.println("SELECT KhachHang.MaKH,KhachHang.TenKH,KhachHang.DiaChi,BienLai.Sotien FROM KhachHang INNER JOIN BienLai ON KhachHang.MaCT = BienLai.MaCT WHERE BienLai.ChuKy BETWEEN '"+na+""+th+" '  AND '"+dna+""+dth+" '  ORDER BY  Nam , Thang  ASC");
 								res = conn.createStatement().executeQuery(
 										"SELECT KhachHang.MaKH,KhachHang.TenKH,KhachHang.DiaChi,BienLai.Sotien FROM KhachHang INNER JOIN BienLai ON KhachHang.MaCT = BienLai.MaCT WHERE BienLai.ChuKy BETWEEN '"+na+""+th+" '  AND '"+dna+""+dth+" '  ORDER BY  Nam , Thang  ASC");
 								while (res.next()) {
@@ -235,13 +227,13 @@ public class ThongKe extends JFrame {
 						}
 					}
 
-					// nếu chọn vào quận huyện
+					// nếu ch�?n quận huyện
 					if (quanphuong.isSelected()) {	
 						if (buttongroupanelChinhTrang1.getSelection() == null) {
-							JOptionPane.showMessageDialog(null, "vui lòng chọn khoảng thời gian cần xem !");
+							JOptionPane.showMessageDialog(null, "Vui lòng ch�?n khoảng th�?i gian cần xem !");
 						} else {
 
-							// nếu chọn theo năm thì ....
+							// nếu ch�?n năm tháng
 							if (year.isSelected()) {
 								// xoa table:
 								row = table1.getRowCount();
@@ -255,8 +247,6 @@ public class ThongKe extends JFrame {
 								db = new database();
 								Connection conn = db.connectSQL();
 								Statement sttm = (Statement) conn.createStatement();
-//								System.out.println("SELECT KhachHang.MaKH,KhachHang.TenKH,KhachHang.DiaChi,BienLai.Sotien FROM KhachHang INNER JOIN BienLai ON KhachHang.MaCT = BienLai.MaCT WHERE KhachHang.Quan = '"+key_quan+"' and KhachHang.Phuong = '"+key_huyen + "' and BienLai.Nam = '"
-//												+ key_y + "' ");
 								res = conn.createStatement().executeQuery(
 										"SELECT KhachHang.MaKH,KhachHang.TenKH,KhachHang.DiaChi,BienLai.Sotien FROM KhachHang INNER JOIN BienLai ON KhachHang.MaCT = BienLai.MaCT WHERE KhachHang.Quan = '"+key_quan+"' and KhachHang.Phuong = '"+key_huyen + "' and BienLai.Nam = '"
 												+ key_y + "'ORDER BY  Nam   ASC " );
@@ -283,8 +273,6 @@ public class ThongKe extends JFrame {
 								db = new database();
 								Connection conn = db.connectSQL();
 								Statement sttm = (Statement) conn.createStatement();
-								System.out.println("SELECT KhachHang.MaKH,KhachHang.TenKH,KhachHang.DiaChi,BienLai.Sotien FROM KhachHang INNER JOIN BienLai ON KhachHang.MaCT = BienLai.MaCT WHERE KhachHang.Quan = '"+key_quan+"' and KhachHang.Phuong = '"+key_huyen + "' and BienLai.Thang = '"
-												+ key_m + "' and BienLai.Nam = '" + key_y + "' ORDER BY  Nam , Thang  ASC");
 								res = conn.createStatement().executeQuery(
 										"SELECT KhachHang.MaKH,KhachHang.TenKH,KhachHang.DiaChi,BienLai.Sotien FROM KhachHang INNER JOIN BienLai ON KhachHang.MaCT = BienLai.MaCT WHERE KhachHang.Quan = '"+key_quan+"' and KhachHang.Phuong = '"+key_huyen + "' and BienLai.Thang = '"
 												+ key_m + "' and BienLai.Nam = '" + key_y + "' ORDER BY  Nam , Thang  ASC");
@@ -295,7 +283,7 @@ public class ThongKe extends JFrame {
 								}
 							}
 
-							// theo khoảng thời gian
+							// theo khoảng th�?i gian
 
 							if (khoangthoigian.isSelected()) {
 								// xoa table:
@@ -313,9 +301,7 @@ public class ThongKe extends JFrame {
 								ResultSet res;
 								db = new database();
 								Connection conn = db.connectSQL();
-								Statement sttm = (Statement) conn.createStatement();
-//								System.out.print("SELECT KhachHang.MaKH,KhachHang.TenKH,KhachHang.DiaChi,BienLai.Sotien FROM KhachHang INNER JOIN BienLai ON KhachHang.MaCT = BienLai.MaCT WHERE Quan = '"+key_quan+"' and Phuong = '"+key_huyen + "' AND BienLai.ChuKy BETWEEN '"+na+""+th+" '  AND '"+dna+""+dth+" '  ORDER BY  Nam   ASC");
-								res = conn.createStatement().executeQuery(
+								Statement sttm = (Statement) conn.createStatement();								res = conn.createStatement().executeQuery(
 										"SELECT KhachHang.MaKH,KhachHang.TenKH,KhachHang.DiaChi,BienLai.Sotien FROM KhachHang INNER JOIN BienLai ON KhachHang.MaCT = BienLai.MaCT WHERE KhachHang.Quan = '"+key_quan+"' and KhachHang.Phuong = '"+key_huyen + "' AND BienLai.ChuKy BETWEEN '"+na+""+th+" '  AND '"+dna+""+dth+" '  ORDER BY  Nam   ASC");
 								while (res.next()) {
 									table1.addRow(new String[] { res.getString("MaKH"), res.getString("TenKH"),
@@ -327,10 +313,10 @@ public class ThongKe extends JFrame {
 						}
 					}
 
-					// nếu chọn vào khách hàng cụ thể
+					//Nếu ch�?n khách hàng cụ thể
 					if (selectcustomer.isSelected()) {	
 						if (buttongroupanelChinhTrang1.getSelection() == null) {
-							JOptionPane.showMessageDialog(null, "vui lòng chọn khoảng thời gian cần xem !");
+							JOptionPane.showMessageDialog(null, "Vui lòng ch�?n khoảng th�?i gian cần xem !");
 						} else {
 							String key_mct="" ;
 							ResultSet res;
@@ -342,9 +328,9 @@ public class ThongKe extends JFrame {
 							if (res.next()) {
 								key_mct = res.getString("MaCT");
 							}else {
-								JOptionPane.showMessageDialog(null, "Mã Công Tơ Không Tồn Tại . Vui Lòng Kiểm Tra Lại !");
+								JOptionPane.showMessageDialog(null, "Mã công tơ không tồn tại vui lòng kiểm tra lại !");
 							}
-							// nếu chọn theo năm thì ....
+							// Nếu ch�?n theo nămm tháng
 							if (year.isSelected()) {
 								// xoa table:
 								row = table1.getRowCount();
@@ -382,7 +368,7 @@ public class ThongKe extends JFrame {
 								}
 							}
 
-							// theo khoảng thời gian
+							// Theo khoảng th�?i gian
 
 							if (khoangthoigian.isSelected()) {
 								// xoa table:
@@ -393,9 +379,7 @@ public class ThongKe extends JFrame {
 								String th = (String) cbthangbd.getSelectedItem();
 								String na = (String) cbnamdau.getSelectedItem();
 								String dth =  (String) cbthangkt.getSelectedItem();
-								String dna = (String) cbnamhet.getSelectedItem();	
-//								System.out.println("SELECT KhachHang.MaKH,KhachHang.TenKH,KhachHang.DiaChi,BienLai.Sotien FROM KhachHang INNER JOIN BienLai ON KhachHang.MaCT = BienLai.MaCT WHERE KhachHang.MaCT = '"+key_mct+"' and BienLai.ChuKy BETWEEN '"+na+""+th+" '  AND '"+dna+""+dth+" '  ORDER BY  Nam  ASC");
-								res = conn.createStatement().executeQuery(
+								String dna = (String) cbnamhet.getSelectedItem();									res = conn.createStatement().executeQuery(
 										"SELECT KhachHang.MaKH,KhachHang.TenKH,KhachHang.DiaChi,BienLai.Sotien FROM KhachHang INNER JOIN BienLai ON KhachHang.MaCT = BienLai.MaCT WHERE KhachHang.MaCT = '"+key_mct+"' and BienLai.ChuKy BETWEEN '"+na+""+th+" '  AND '"+dna+""+dth+" '  ORDER BY  Nam  ASC");
 								while (res.next()) {
 									table1.addRow(new String[] { res.getString("MaKH"), res.getString("TenKH"),
@@ -457,11 +441,11 @@ public class ThongKe extends JFrame {
 		Font fonttitle = new Font("Arial", Font.BOLD, 30);
 		Title.setFont(fonttitle);
 		title.add(Title);
-		// Group đầu tiên
+		// Group Ä‘áº§u tiÃªn
 		JPanel groupDoiTuong = new JPanel();
 		groupDoiTuong.setLayout(new BoxLayout(groupDoiTuong, BoxLayout.Y_AXIS));
 		allcustomer = new JRadioButton("Tất cả khách hàng");
-		quanphuong = new JRadioButton("Theo quận và phường");
+		quanphuong = new JRadioButton("Theo quận và phư�?ng");
 		selectcustomer = new JRadioButton("Theo khách hàng cụ thể");
 		buttongroupanelChinhTrang2 = new ButtonGroup();
 		buttongroupanelChinhTrang2.add(allcustomer);
@@ -470,9 +454,9 @@ public class ThongKe extends JFrame {
 		groupDoiTuong.add(allcustomer);
 		groupDoiTuong.add(quanphuong);
 		groupDoiTuong.add(selectcustomer);
-		// Quận và phường trang thứ 2
+		//Quận và phư�?ng trang thứ 2
 		JPanel quanandphuong = new JPanel();
-		maKH = new JLabel("Mã Công Tơ");
+		maKH = new JLabel("Mã công tơ");
 		JTFmaKH = new JTextField(15);
 		quan = new JLabel("Quận");
 		comboboxquan2.addActionListener(cboQuan);
@@ -493,7 +477,7 @@ public class ThongKe extends JFrame {
 			e1.printStackTrace();
 		}
 
-		phuong = new JLabel("Phường");
+		phuong = new JLabel("Phư�?ng");
 		updatePhuong2();
         quanandphuong.add(maKH);
         quanandphuong.add(JTFmaKH);
@@ -501,7 +485,7 @@ public class ThongKe extends JFrame {
 		quanandphuong.add(comboboxquan2);
 		quanandphuong.add(phuong);
 		quanandphuong.add(comboboxphuong2);
-		// Tùy chọn ẩn hiện group thứ 1
+		// Tùy ch�?n ẩn hiện group thứ 1
 		maKH.setVisible(false);
 		JTFmaKH.setVisible(false);
 		quan.setVisible(false);
@@ -543,7 +527,7 @@ public class ThongKe extends JFrame {
 		JPanel panelThoiGian = new JPanel();
 		panelThoiGian.setLayout(new BoxLayout(panelThoiGian, BoxLayout.Y_AXIS));
 		year = new JRadioButton("Theo năm");
-		khoangthoigian = new JRadioButton("Theo khoảng thời gian");
+		khoangthoigian = new JRadioButton("Theo khoảng th�?i gian");
 		theochuky = new JRadioButton("Chu kỳ");
 		buttongroupanelChinhTrang1 = new ButtonGroup();
 		buttongroupanelChinhTrang1.add(year);
@@ -552,8 +536,8 @@ public class ThongKe extends JFrame {
 		panelThoiGian.add(year);
 		panelThoiGian.add(khoangthoigian);
 		panelThoiGian.add(theochuky);
-		// Thêm vào
-		//Cho hiển thị theo năm
+		// ThÃªm vÃ o
+		//Cho hiá»ƒn thá»‹ theo nÄƒm
 		String namketthuc[] = { "2008", "2009", "2010", "2011", "2012", "2013", "2014", "2015", "2016", "2017", "2018", "2019",
 				"2020" };
 		String nambatdau[] = { "2008", "2009", "2010", "2011", "2012", "2013", "2014", "2015", "2016", "2017", "2018", "2019",
@@ -567,7 +551,7 @@ public class ThongKe extends JFrame {
 		JLabel text = new JLabel("Từ");
 		JLabel thangg = new JLabel("Tháng");
 		JLabel thanggg = new JLabel("Tháng");
-		JLabel den = new JLabel("Đến");
+		JLabel den = new JLabel("�?ến");
 		JLabel namm=new JLabel("Năm");
 		JLabel nammm=new JLabel("Năm");
 
@@ -584,7 +568,7 @@ public class ThongKe extends JFrame {
 		pnanhien.add(cbnamhet);
 		
 		
-		// tuỳ chọn ẩn hiện group thứ 2
+		// Tùy ch�?n ẩn hiên group thứ 2
 		cbnamhet.setVisible(false);
 		text.setVisible(false);
 		thangg.setVisible(false);
@@ -666,22 +650,22 @@ public class ThongKe extends JFrame {
 			}
 		}
 		});
-		//Cho hiển thị theo khoảng thời gian
-		//Thêm các Button
+		//Cho hiá»ƒn thá»‹ theo khoáº£ng thá»�i gian
+		//Thêm Các button
 		JPanel thembutton = new JPanel();
-		indanhsach = new JButton("In dữ liệu");
+		indanhsach = new JButton("In danh sách");
 		back = new JButton("Back");
 		thembutton.add(indanhsach);
 		thembutton.add(back);
-		// Box thứ 3
+		// Thống kê
 		JPanel tableThongKe = new JPanel();
 		ds1 = new JLabel("Tình hình tiêu thụ");
 		Font fontds = new Font("Arial", Font.BOLD, 30);
 		ds1.setFont(fontds);
 		JPanel boxtb = new JPanel();
-		table1.addColumn("Mã Khách hàng");
-		table1.addColumn("Tên Khách hàng");
-		table1.addColumn("Địa chỉ");
+		table1.addColumn("Mã khách hàng");
+		table1.addColumn("Tên khách hàng");
+		table1.addColumn("�?ịa chỉ");
 		table1.addColumn("Tình hình tiêu thụ");
 		tb1 = new JTable(table1);
 		sc = new JScrollPane(tb1);
@@ -710,13 +694,13 @@ public class ThongKe extends JFrame {
 		Panelchinh.setLayout(new BoxLayout(Panelchinh, BoxLayout.Y_AXIS));
 		// tieu de
 		JPanel Title1 = new JPanel();
-		JLabel LTitle = new JLabel("Tình hinh tiêu thụ");
+		JLabel LTitle = new JLabel("Tình hình tiêu thụ");
 		Font fonttitle1 = new Font("Arial", Font.BOLD, 20);
 		LTitle.setFont(fonttitle1);
 		Title1.add(LTitle);
 		// ket thuc tieu de
 
-		// Quận và phường
+		// Quận và phư�?ng
 		JPanel panelQuanandPhuong = new JPanel();
 		quan = new JLabel("Quận");
 		comboboxquan.addActionListener(cboQuanChange);
@@ -737,7 +721,7 @@ public class ThongKe extends JFrame {
 			e1.printStackTrace();
 		}
 
-		phuong = new JLabel("Phường");
+		phuong = new JLabel("Phư�?ng");
 		updatePhuong();
 
 		panelQuanandPhuong.add(quan);
@@ -756,11 +740,11 @@ public class ThongKe extends JFrame {
 		Font fonttitle2 = new Font("Arial", Font.BOLD, 20);
 		ds1.setFont(fonttitle2);
 		JPanel boxtb1 = new JPanel();
-		table2.addColumn("Mã Khách hàng");
-		table2.addColumn("Tên Khách hàng");
+		table2.addColumn("Mã khách hàng");
+		table2.addColumn("Tên khách hàng");
 		table2.addColumn("Quận");
-		table2.addColumn("Phường");
-		table2.addColumn("Địa chỉ");
+		table2.addColumn("Phư�?ng");
+		table2.addColumn("�?ịa chỉ");
 		table2.addColumn("Số điện thoại");
 		tbt_back = new JTable(table2);
 		// tbt_back.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
@@ -806,7 +790,7 @@ public class ThongKe extends JFrame {
 		}
 		// this.setVisible(false); //you can't see me!
 		this.dispose();
-		Home myUI = new Home("Khách Hàng");
+		Home myUI = new Home("Home");
 		myUI.showWindow();
 	}
 
