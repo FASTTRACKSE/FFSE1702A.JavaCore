@@ -64,7 +64,7 @@ public class Login extends JFrame {
 
 		JPanel Button = new JPanel();
 		ImageIcon imglg = new ImageIcon(
-				new ImageIcon("a.png").getImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH));
+				new ImageIcon("logout.png").getImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH));
 		jButtonLogin = new JButton("  Đăng nhập", imglg);
 		jButtonLogin.setFont(new Font("Times New Roman", Font.PLAIN, 18));
 		jButtonLogin.setFocusPainted(false);

@@ -566,42 +566,6 @@ public class QuanLyThuVienUI extends JFrame {
 		}
 	}
 
-	public void ttDG1(String ID) {
-		String sqlCommand = "UPDATE BanDoc SET `SachDangMuon` = `SachDangMuon` - 1 WHERE ID = ?";
-		PreparedStatement pst = null;
-		try {
-			pst = (PreparedStatement) connection.prepareStatement(sqlCommand);
-			pst.setString(1, ID);
-			if (pst.executeUpdate() > 0) {
-				// JOptionPane.showMessageDialog(null, "Cho mượn thành công", "Add Button",
-				// JOptionPane.PLAIN_MESSAGE,
-				// icon);
-			} else {
-				JOptionPane.showMessageDialog(null, "Lỗi khi mượn", "Add Button", JOptionPane.PLAIN_MESSAGE, icon);
-			}
-		} catch (SQLException e) {
-			System.out.println("error \n" + e.toString());
-		}
-	}
-
-	public void ttSach1(String ID) {
-		String sqlCommand = "UPDATE Sach SET `TinhTrang` = `TinhTrang` + 1 WHERE ID_Sach = ?";
-		PreparedStatement pst = null;
-		try {
-			pst = (PreparedStatement) connection.prepareStatement(sqlCommand);
-			pst.setString(1, ID);
-			if (pst.executeUpdate() > 0) {
-				// JOptionPane.showMessageDialog(null, "Cho mượn thành công", "Add Button",
-				// JOptionPane.PLAIN_MESSAGE,
-				// icon);
-			} else {
-				JOptionPane.showMessageDialog(null, "Lỗi khi mượn", "Add Button", JOptionPane.PLAIN_MESSAGE, icon);
-			}
-		} catch (SQLException e) {
-			System.out.println("error \n" + e.toString());
-		}
-	}
-
 	// Tổng sách
 	public ResultSet tongSach() {
 		ResultSet rs = null;
@@ -677,7 +641,7 @@ public class QuanLyThuVienUI extends JFrame {
 		return rs;
 	}
 
-	// Tình trạng sách
+	// Sách cho mượn
 	public void ttSach(String ID_Sach) {
 		String sqlCommand = "UPDATE Sach SET `TinhTrang` = `TinhTrang` - 1 WHERE ID_Sach = ?";
 		PreparedStatement pst = null;
@@ -696,9 +660,47 @@ public class QuanLyThuVienUI extends JFrame {
 		}
 	}
 
-	// Tình trạng bạn đọc
+	// Bạn đọc cho mượn
 	public void ttDG(String ID) {
 		String sqlCommand = "UPDATE BanDoc SET `SachDangMuon` = `SachDangMuon` + 1 WHERE ID = ?";
+		PreparedStatement pst = null;
+		try {
+			pst = (PreparedStatement) connection.prepareStatement(sqlCommand);
+			pst.setString(1, ID);
+			if (pst.executeUpdate() > 0) {
+				// JOptionPane.showMessageDialog(null, "Cho mượn thành công", "Add Button",
+				// JOptionPane.PLAIN_MESSAGE,
+				// icon);
+			} else {
+				JOptionPane.showMessageDialog(null, "Lỗi khi mượn", "Add Button", JOptionPane.PLAIN_MESSAGE, icon);
+			}
+		} catch (SQLException e) {
+			System.out.println("error \n" + e.toString());
+		}
+	}
+
+	// Bạn đọc trả sách
+	public void ttDG1(String ID) {
+		String sqlCommand = "UPDATE BanDoc SET `SachDangMuon` = `SachDangMuon` - 1 WHERE ID = ?";
+		PreparedStatement pst = null;
+		try {
+			pst = (PreparedStatement) connection.prepareStatement(sqlCommand);
+			pst.setString(1, ID);
+			if (pst.executeUpdate() > 0) {
+				// JOptionPane.showMessageDialog(null, "Cho mượn thành công", "Add Button",
+				// JOptionPane.PLAIN_MESSAGE,
+				// icon);
+			} else {
+				JOptionPane.showMessageDialog(null, "Lỗi khi mượn", "Add Button", JOptionPane.PLAIN_MESSAGE, icon);
+			}
+		} catch (SQLException e) {
+			System.out.println("error \n" + e.toString());
+		}
+	}
+
+	// Sách trả sách
+	public void ttSach1(String ID) {
+		String sqlCommand = "UPDATE Sach SET `TinhTrang` = `TinhTrang` + 1 WHERE ID_Sach = ?";
 		PreparedStatement pst = null;
 		try {
 			pst = (PreparedStatement) connection.prepareStatement(sqlCommand);
@@ -761,7 +763,8 @@ public class QuanLyThuVienUI extends JFrame {
 					+ " OR Sach.Ten_Sach LIKE'" + jtfind.getText().trim() + "%'" + " OR Sach.The_Loai LIKE'"
 					+ jtfind.getText().trim() + "%'" + " OR Sach.Ten_Tac_Gia LIKE'" + jtfind.getText().trim() + "%'"
 					+ " OR Sach.Nha_Xuat_Ban LIKE'" + jtfind.getText().trim() + "%'" + " OR Sach.Nam_Xuat_Ban LIKE'"
-					+ jtfind.getText().trim() + "%'";
+					+ jtfind.getText().trim() + "%'" + " OR Sach.ID"
+							+ " LIKE'" + jtfind.getText().trim() + "%'";
 			Statement stm = (Statement) connection.createStatement();
 			ResultSet rs = stm.executeQuery(sqlCommand);
 			// bang.getDataVector().removeAllElements();
