@@ -1,0 +1,8 @@
+NhanVien|[{"phongBan":"Phòng Đào tạo","chucVu":"Trưởng phòng","soNgayCong":5,"choose":0,"hoTen":"Nguyễn Văn A","phuCap":2000,"heSoLuong":3.3,"luong":4559.0}]
+NhanVien|[{"phongBan":"Phòng Đào tạo","chucVu":"Phó phòng","soNgayCong":10,"choose":0,"hoTen":"Bành Thị B","phuCap":1000,"heSoLuong":2.2,"luong":2906.0}]
+NhanVien|[{"phongBan":"Phòng Đào tạo","chucVu":"Nhân viên","soNgayCong":15,"choose":0,"hoTen":"Trương Văn C","phuCap":500,"heSoLuong":1.1,"luong":1753.0}]
+GiangVien|[{"khoa":"IT","trinhDo":"Cử nhân","soTiet":5,"choose":0,"hoTen":"Dương Thị D","phuCap":300,"heSoLuong":1.1,"luong":1328.0}]
+GiangVien|[{"khoa":"IT","trinhDo":"Thạc sĩ","soTiet":10,"choose":0,"hoTen":"Trần Văn E","phuCap":500,"heSoLuong":2.2,"luong":2556.0}]
+GiangVien|[{"khoa":"IT","trinhDo":"Tiến sĩ","soTiet":15,"choose":0,"hoTen":"Cao Văn F","phuCap":1000,"heSoLuong":3.3,"luong":4084.0}]
+GiangVien|[{"khoa":"IT","trinhDo":"Tiến sĩ","soTiet":15,"choose":0,"hoTen":"Huỳnh Thị G","phuCap":1000,"heSoLuong":3.3,"luong":4084.0}]
+GiangVien|[{"khoa":"IT","trinhDo":"Tiến sĩ","soTiet":15,"choose":0,"hoTen":"Phạm Văn H","phuCap":1000,"heSoLuong":3.3,"luong":4084.0}]
